@@ -1,0 +1,563 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		28359A4D201C41E3005AAFF4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28359A4C201C41E3005AAFF4 /* AppDelegate.swift */; };
+		28359A4F201C41E3005AAFF4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28359A4E201C41E3005AAFF4 /* ViewController.swift */; };
+		28359A52201C41E3005AAFF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28359A50201C41E3005AAFF4 /* Main.storyboard */; };
+		28359A54201C41E3005AAFF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28359A53201C41E3005AAFF4 /* Assets.xcassets */; };
+		28359A57201C41E3005AAFF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28359A55201C41E3005AAFF4 /* LaunchScreen.storyboard */; };
+		28359A62201C41E3005AAFF4 /* Rain_CheckTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28359A61201C41E3005AAFF4 /* Rain_CheckTests.swift */; };
+		28359A6D201C41E3005AAFF4 /* Rain_CheckUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28359A6C201C41E3005AAFF4 /* Rain_CheckUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		28359A5E201C41E3005AAFF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28359A41201C41E3005AAFF4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 28359A48201C41E3005AAFF4;
+			remoteInfo = "Rain Check";
+		};
+		28359A69201C41E3005AAFF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28359A41201C41E3005AAFF4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 28359A48201C41E3005AAFF4;
+			remoteInfo = "Rain Check";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		28359A49201C41E3005AAFF4 /* Rain Check.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rain Check.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		28359A4C201C41E3005AAFF4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		28359A4E201C41E3005AAFF4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		28359A51201C41E3005AAFF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		28359A53201C41E3005AAFF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		28359A56201C41E3005AAFF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		28359A58201C41E3005AAFF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28359A5D201C41E3005AAFF4 /* Rain CheckTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Rain CheckTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		28359A61201C41E3005AAFF4 /* Rain_CheckTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rain_CheckTests.swift; sourceTree = "<group>"; };
+		28359A63201C41E3005AAFF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28359A68201C41E3005AAFF4 /* Rain CheckUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Rain CheckUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		28359A6C201C41E3005AAFF4 /* Rain_CheckUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rain_CheckUITests.swift; sourceTree = "<group>"; };
+		28359A6E201C41E3005AAFF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		28359A46201C41E3005AAFF4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28359A5A201C41E3005AAFF4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28359A65201C41E3005AAFF4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		28359A40201C41E3005AAFF4 = {
+			isa = PBXGroup;
+			children = (
+				28359A4B201C41E3005AAFF4 /* Rain Check */,
+				28359A60201C41E3005AAFF4 /* Rain CheckTests */,
+				28359A6B201C41E3005AAFF4 /* Rain CheckUITests */,
+				28359A4A201C41E3005AAFF4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		28359A4A201C41E3005AAFF4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				28359A49201C41E3005AAFF4 /* Rain Check.app */,
+				28359A5D201C41E3005AAFF4 /* Rain CheckTests.xctest */,
+				28359A68201C41E3005AAFF4 /* Rain CheckUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		28359A4B201C41E3005AAFF4 /* Rain Check */ = {
+			isa = PBXGroup;
+			children = (
+				28359A4C201C41E3005AAFF4 /* AppDelegate.swift */,
+				28359A4E201C41E3005AAFF4 /* ViewController.swift */,
+				28359A50201C41E3005AAFF4 /* Main.storyboard */,
+				28359A53201C41E3005AAFF4 /* Assets.xcassets */,
+				28359A55201C41E3005AAFF4 /* LaunchScreen.storyboard */,
+				28359A58201C41E3005AAFF4 /* Info.plist */,
+			);
+			path = "Rain Check";
+			sourceTree = "<group>";
+		};
+		28359A60201C41E3005AAFF4 /* Rain CheckTests */ = {
+			isa = PBXGroup;
+			children = (
+				28359A61201C41E3005AAFF4 /* Rain_CheckTests.swift */,
+				28359A63201C41E3005AAFF4 /* Info.plist */,
+			);
+			path = "Rain CheckTests";
+			sourceTree = "<group>";
+		};
+		28359A6B201C41E3005AAFF4 /* Rain CheckUITests */ = {
+			isa = PBXGroup;
+			children = (
+				28359A6C201C41E3005AAFF4 /* Rain_CheckUITests.swift */,
+				28359A6E201C41E3005AAFF4 /* Info.plist */,
+			);
+			path = "Rain CheckUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		28359A48201C41E3005AAFF4 /* Rain Check */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28359A71201C41E3005AAFF4 /* Build configuration list for PBXNativeTarget "Rain Check" */;
+			buildPhases = (
+				28359A45201C41E3005AAFF4 /* Sources */,
+				28359A46201C41E3005AAFF4 /* Frameworks */,
+				28359A47201C41E3005AAFF4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Rain Check";
+			productName = "Rain Check";
+			productReference = 28359A49201C41E3005AAFF4 /* Rain Check.app */;
+			productType = "com.apple.product-type.application";
+		};
+		28359A5C201C41E3005AAFF4 /* Rain CheckTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28359A74201C41E3005AAFF4 /* Build configuration list for PBXNativeTarget "Rain CheckTests" */;
+			buildPhases = (
+				28359A59201C41E3005AAFF4 /* Sources */,
+				28359A5A201C41E3005AAFF4 /* Frameworks */,
+				28359A5B201C41E3005AAFF4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				28359A5F201C41E3005AAFF4 /* PBXTargetDependency */,
+			);
+			name = "Rain CheckTests";
+			productName = "Rain CheckTests";
+			productReference = 28359A5D201C41E3005AAFF4 /* Rain CheckTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		28359A67201C41E3005AAFF4 /* Rain CheckUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28359A77201C41E3005AAFF4 /* Build configuration list for PBXNativeTarget "Rain CheckUITests" */;
+			buildPhases = (
+				28359A64201C41E3005AAFF4 /* Sources */,
+				28359A65201C41E3005AAFF4 /* Frameworks */,
+				28359A66201C41E3005AAFF4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				28359A6A201C41E3005AAFF4 /* PBXTargetDependency */,
+			);
+			name = "Rain CheckUITests";
+			productName = "Rain CheckUITests";
+			productReference = 28359A68201C41E3005AAFF4 /* Rain CheckUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		28359A41201C41E3005AAFF4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = "Besher Al Maleh";
+				TargetAttributes = {
+					28359A48201C41E3005AAFF4 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					28359A5C201C41E3005AAFF4 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 28359A48201C41E3005AAFF4;
+					};
+					28359A67201C41E3005AAFF4 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 28359A48201C41E3005AAFF4;
+					};
+				};
+			};
+			buildConfigurationList = 28359A44201C41E3005AAFF4 /* Build configuration list for PBXProject "Rain Check" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 28359A40201C41E3005AAFF4;
+			productRefGroup = 28359A4A201C41E3005AAFF4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				28359A48201C41E3005AAFF4 /* Rain Check */,
+				28359A5C201C41E3005AAFF4 /* Rain CheckTests */,
+				28359A67201C41E3005AAFF4 /* Rain CheckUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		28359A47201C41E3005AAFF4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28359A57201C41E3005AAFF4 /* LaunchScreen.storyboard in Resources */,
+				28359A54201C41E3005AAFF4 /* Assets.xcassets in Resources */,
+				28359A52201C41E3005AAFF4 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28359A5B201C41E3005AAFF4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28359A66201C41E3005AAFF4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		28359A45201C41E3005AAFF4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28359A4F201C41E3005AAFF4 /* ViewController.swift in Sources */,
+				28359A4D201C41E3005AAFF4 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28359A59201C41E3005AAFF4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28359A62201C41E3005AAFF4 /* Rain_CheckTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28359A64201C41E3005AAFF4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28359A6D201C41E3005AAFF4 /* Rain_CheckUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		28359A5F201C41E3005AAFF4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 28359A48201C41E3005AAFF4 /* Rain Check */;
+			targetProxy = 28359A5E201C41E3005AAFF4 /* PBXContainerItemProxy */;
+		};
+		28359A6A201C41E3005AAFF4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 28359A48201C41E3005AAFF4 /* Rain Check */;
+			targetProxy = 28359A69201C41E3005AAFF4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		28359A50201C41E3005AAFF4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				28359A51201C41E3005AAFF4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		28359A55201C41E3005AAFF4 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				28359A56201C41E3005AAFF4 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		28359A6F201C41E3005AAFF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		28359A70201C41E3005AAFF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		28359A72201C41E3005AAFF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S9M2AHXJQE;
+				INFOPLIST_FILE = "Rain Check/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.BesherAlMaleh.Rain-Check";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		28359A73201C41E3005AAFF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S9M2AHXJQE;
+				INFOPLIST_FILE = "Rain Check/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.BesherAlMaleh.Rain-Check";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		28359A75201C41E3005AAFF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S9M2AHXJQE;
+				INFOPLIST_FILE = "Rain CheckTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.BesherAlMaleh.Rain-CheckTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rain Check.app/Rain Check";
+			};
+			name = Debug;
+		};
+		28359A76201C41E3005AAFF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S9M2AHXJQE;
+				INFOPLIST_FILE = "Rain CheckTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.BesherAlMaleh.Rain-CheckTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rain Check.app/Rain Check";
+			};
+			name = Release;
+		};
+		28359A78201C41E3005AAFF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S9M2AHXJQE;
+				INFOPLIST_FILE = "Rain CheckUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.BesherAlMaleh.Rain-CheckUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Rain Check";
+			};
+			name = Debug;
+		};
+		28359A79201C41E3005AAFF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S9M2AHXJQE;
+				INFOPLIST_FILE = "Rain CheckUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.BesherAlMaleh.Rain-CheckUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Rain Check";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		28359A44201C41E3005AAFF4 /* Build configuration list for PBXProject "Rain Check" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28359A6F201C41E3005AAFF4 /* Debug */,
+				28359A70201C41E3005AAFF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		28359A71201C41E3005AAFF4 /* Build configuration list for PBXNativeTarget "Rain Check" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28359A72201C41E3005AAFF4 /* Debug */,
+				28359A73201C41E3005AAFF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		28359A74201C41E3005AAFF4 /* Build configuration list for PBXNativeTarget "Rain CheckTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28359A75201C41E3005AAFF4 /* Debug */,
+				28359A76201C41E3005AAFF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		28359A77201C41E3005AAFF4 /* Build configuration list for PBXNativeTarget "Rain CheckUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28359A78201C41E3005AAFF4 /* Debug */,
+				28359A79201C41E3005AAFF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 28359A41201C41E3005AAFF4 /* Project object */;
+}
