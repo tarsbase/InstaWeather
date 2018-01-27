@@ -18,6 +18,7 @@
 		28EEB911201C44300090D0D3 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EEB910201C44300090D0D3 /* Secrets.swift */; };
 		28EEB917201C44CD0090D0D3 /* WeatherDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EEB916201C44CD0090D0D3 /* WeatherDataModel.swift */; };
 		28EEB919201C45700090D0D3 /* ChangeCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EEB918201C45700090D0D3 /* ChangeCityViewController.swift */; };
+		28EEB91B201C50EC0090D0D3 /* LocationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EEB91A201C50EC0090D0D3 /* LocationExtension.swift */; };
 		3C8A0FC9701C1C3BDDE31D21 /* Pods_Rain_Check.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7582FAA52E056204AE9B291A /* Pods_Rain_Check.framework */; };
 		DAC4CA192E9F541BB5CDB8A9 /* Pods_Rain_CheckUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B19BA210355C158D8DE3108 /* Pods_Rain_CheckUITests.framework */; };
 /* End PBXBuildFile section */
@@ -57,6 +58,7 @@
 		28EEB910201C44300090D0D3 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		28EEB916201C44CD0090D0D3 /* WeatherDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataModel.swift; sourceTree = "<group>"; };
 		28EEB918201C45700090D0D3 /* ChangeCityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChangeCityViewController.swift; path = "Rain Check/Controller/ChangeCityViewController.swift"; sourceTree = SOURCE_ROOT; };
+		28EEB91A201C50EC0090D0D3 /* LocationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationExtension.swift; sourceTree = "<group>"; };
 		3A44A84B11C229DFAD588F71 /* Pods-Rain Check.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rain Check.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Rain Check/Pods-Rain Check.debug.xcconfig"; sourceTree = "<group>"; };
 		3D02423079516D7CAA84FCCC /* Pods-Rain CheckTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rain CheckTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Rain CheckTests/Pods-Rain CheckTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DE0CABBAA95C061C20C7448 /* Pods_Rain_CheckTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rain_CheckTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,9 +133,9 @@
 			isa = PBXGroup;
 			children = (
 				28EEB915201C44AC0090D0D3 /* Supporting Files */,
-				28EEB913201C448F0090D0D3 /* View */,
-				28EEB914201C44940090D0D3 /* Model */,
 				28EEB912201C44850090D0D3 /* Controller */,
+				28EEB914201C44940090D0D3 /* Model */,
+				28EEB913201C448F0090D0D3 /* View */,
 				28359A53201C41E3005AAFF4 /* Assets.xcassets */,
 				28359A55201C41E3005AAFF4 /* LaunchScreen.storyboard */,
 			);
@@ -162,6 +164,8 @@
 			isa = PBXGroup;
 			children = (
 				28359A4E201C41E3005AAFF4 /* WeatherViewController.swift */,
+				28EEB91A201C50EC0090D0D3 /* LocationExtension.swift */,
+				28EEB918201C45700090D0D3 /* ChangeCityViewController.swift */,
 				28359A4C201C41E3005AAFF4 /* AppDelegate.swift */,
 			);
 			path = Controller;
@@ -179,7 +183,6 @@
 			isa = PBXGroup;
 			children = (
 				28EEB916201C44CD0090D0D3 /* WeatherDataModel.swift */,
-				28EEB918201C45700090D0D3 /* ChangeCityViewController.swift */,
 				28EEB910201C44300090D0D3 /* Secrets.swift */,
 			);
 			path = Model;
@@ -517,6 +520,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28EEB91B201C50EC0090D0D3 /* LocationExtension.swift in Sources */,
 				28EEB917201C44CD0090D0D3 /* WeatherDataModel.swift in Sources */,
 				28359A4F201C41E3005AAFF4 /* WeatherViewController.swift in Sources */,
 				28EEB911201C44300090D0D3 /* Secrets.swift in Sources */,
