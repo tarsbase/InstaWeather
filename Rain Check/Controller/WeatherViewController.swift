@@ -8,8 +8,10 @@
 
 import UIKit
 import CoreLocation
+import Alamofire
+import SwiftyJSON
 
-class ViewController: UIViewController, CLLocationManagerDelegate {
+class WeatherViewController: UIViewController, CLLocationManagerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
