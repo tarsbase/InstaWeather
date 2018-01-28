@@ -34,9 +34,7 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
                 evaluateSegment()
         }
         
-        addShadow(view: segmentedControl)
-        addShadow(view: conditionImage)
-        addShadow(view: changeCityButton)
+        addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel)
     }
     
     
@@ -65,11 +63,13 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
         }
     }
     
-    func addShadow(view: UIView) {
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 2)
-        view.layer.shadowOpacity = 0.5
-        view.layer.shadowRadius = 1.0
+    func addShadow(_ views: UIView...) {
+        for view in views {
+            view.layer.shadowColor = UIColor.black.cgColor
+            view.layer.shadowOffset = CGSize(width: 0, height: 2)
+            view.layer.shadowOpacity = 0.5
+            view.layer.shadowRadius = 1.0
+        }
     }
     
 }
