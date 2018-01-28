@@ -2,11 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "bgfog2.jpg",
+      "filename" : "bg2fog.jpg",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "bg2fog@2x.jpg",
       "scale" : "2x"
     },
     {

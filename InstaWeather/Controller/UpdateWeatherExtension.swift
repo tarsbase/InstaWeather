@@ -37,7 +37,6 @@ extension WeatherViewController {
             weatherDataModel.weatherIconName = weatherDataModel.updateWeatherIcon(condition: weatherDataModel.condition)
             updateUIWithWeatherData()
         } else {
-//            cityLabel.text = "Weather unavailable"
             let ac = UIAlertController(title: "Invalid city", message: "You have entered an invalid city name", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Ok", style: .default))
             present(ac, animated: true)
