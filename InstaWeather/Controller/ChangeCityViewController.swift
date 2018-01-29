@@ -8,15 +8,26 @@
 
 import UIKit
 import SVProgressHUD
+import CoreLocation
 
 protocol ChangeCityDelegate {
     func userEnteredNewCity (city: String)
+    var locationManager: CLLocationManager { get }
 }
 
-class ChangeCityViewController: UIViewController {
+class ChangeCityViewController: UIViewController, RecentPicksDelegate {
+    
+    @IBOutlet weak var tableContainer: UIView!
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var cityField: UITextField!
     var delegate: ChangeCityDelegate?
+    var picksTable: RecentPicksTable?
+    var recentPicks = [String]() {
+        didSet {
+            UserDefaults.standard.set(recentPicks, forKey: "recentPicks")
+        }
+    }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -26,25 +37,63 @@ class ChangeCityViewController: UIViewController {
         SVProgressHUD.setBackgroundColor(UIColor.white)
         SVProgressHUD.setDefaultMaskType(.gradient)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if let loadObjet = UserDefaults.standard.array(forKey: "recentPicks") as? [String] {
+            recentPicks = loadObjet
+        }
+        picksTable = storyboard?.instantiateViewController(withIdentifier: "picks") as? RecentPicksTable
+        picksTable?.delegate = self
+        picksTable?.tableView.reloadData()
+        add(picksTable!, frame: tableContainer.frame)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        picksTable?.remove()
+    }
    
     
-    @IBAction func checkWeather(_ sender: Any) {
-        
+    @IBAction func checkWeatherButton(_ sender: Any) {
         let cityName = cityField.text!
-        if cityName != "" {
-            delegate?.userEnteredNewCity(city: cityName)
-            SVProgressHUD.show()
-        }
-        dismiss(animated: true) {
-            SVProgressHUD.dismiss()
-        }
-        
-        
+        checkWeather(city: cityName)
     }
     
     
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true)
+    }
+    
+    func checkWeather(city: String) {
+        if city != "" {
+            delegate?.userEnteredNewCity(city: city)
+            let name = city.lowercased().capitalized
+            if !recentPicks.contains(name) {
+                recentPicks.insert(name, at: 0)
+            } else {
+                if let index = recentPicks.index(of: name) {
+                    recentPicks.insert(recentPicks.remove(at: index), at: 0)
+                }
+            }
+            SVProgressHUD.show()
+        }
+        dismiss(animated: true) {
+            SVProgressHUD.dismiss()
+        }
+    }
+    
+    @IBAction func currentLocationButton(_ sender: Any) {
+        delegate?.locationManager.startUpdatingLocation()
+        SVProgressHUD.show()
+        dismiss(animated: true) {
+            SVProgressHUD.dismiss()
+        }
+    }
+    
+    func deleteCity(_ city: String) {
+        let cityToDelete = city.lowercased().capitalized
+        if let index = recentPicks.index(of: cityToDelete) {
+            recentPicks.remove(at: index)
+        }
     }
 
 }
