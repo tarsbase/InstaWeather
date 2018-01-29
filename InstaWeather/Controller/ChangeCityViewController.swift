@@ -39,16 +39,25 @@ class ChangeCityViewController: UIViewController, RecentPicksDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if let loadObjet = UserDefaults.standard.array(forKey: "recentPicks") as? [String] {
             recentPicks = loadObjet
         }
-        picksTable = storyboard?.instantiateViewController(withIdentifier: "picks") as? RecentPicksTable
-        picksTable?.delegate = self
-        picksTable?.tableView.reloadData()
-        add(picksTable!, frame: tableContainer.frame)
+        if !recentPicks.isEmpty {
+            picksTable = storyboard?.instantiateViewController(withIdentifier: "picks") as? RecentPicksTable
+            picksTable?.delegate = self
+            picksTable?.tableView.reloadData()
+            add(picksTable!, frame: tableContainer.frame)
+        }
     }
     
+    override func viewDidLayoutSubviews() {
+        picksTable?.view.frame = tableContainer.frame
+    }
+    
+        
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         picksTable?.remove()
     }
    

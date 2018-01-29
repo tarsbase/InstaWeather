@@ -11,13 +11,14 @@ import Foundation
 struct WeatherDataModel {
     
     var temperature = 0
+    var maxTemp = 0
+    var minTemp = 0
     var condition = 0
     var city = ""
     var weatherIconName = "" {
         didSet {
             switch weatherIconName {
-            case "cloudy2": backgroundName = "bg\(arc4random_uniform(3) + 1)\(weatherIconName)"
-            case "snow", "fog": backgroundName = "bg\(arc4random_uniform(2) + 1)\(weatherIconName)"
+            case "snow", "fog", "cloudy2": backgroundName = "bg\(arc4random_uniform(2) + 1)\(weatherIconName)"
             case "tstorm1", "tstorm2": backgroundName = "bgtstorm"
             case "light_rain", "shower3": backgroundName = "bglight_rain"
             default: backgroundName = "bg\(weatherIconName)"

@@ -16,8 +16,11 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
     @IBOutlet weak var tempLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var conditionImage: UIImageView!
+    @IBOutlet weak var maxTempLabel: UILabel!
+    @IBOutlet weak var minTempLabel: UILabel!
     
     let WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather"
+    let WEATHERFC_URL = "http://api.openweathermap.org/data/2.5/forecast"
     let locationManager = CLLocationManager()
     var weatherDataModel = WeatherDataModel()
     
@@ -33,13 +36,9 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
                 segmentedControl.selectedSegmentIndex = loadObject
                 evaluateSegment()
         }
-        
-        addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel)
+        addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel)
     }
-    
-    
-    
-    
+        
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "changeCity" {
             if let destination = segue.destination as? ChangeCityViewController {
@@ -55,12 +54,16 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
     
     func evaluateSegment() {
         var temp = weatherDataModel.temperature
-        if segmentedControl.selectedSegmentIndex == 0 {
-            tempLabel.text = "\(temp)°"
-        } else {
-            temp = Int((Double(temp) * 1.8) + 32)
-            tempLabel.text = "\(temp)°"
+        var minTemp = weatherDataModel.minTemp
+        var maxTemp = weatherDataModel.maxTemp
+        if segmentedControl.selectedSegmentIndex == 1 {
+            temp = celsiusToFahrenheit(temp)
+            minTemp = celsiusToFahrenheit(minTemp)
+            maxTemp = celsiusToFahrenheit(maxTemp)
         }
+        tempLabel.text = "\(temp)°"
+        minTempLabel.text = "↓\(minTemp)"
+        maxTempLabel.text = "↑\(maxTemp)"
     }
     
     func addShadow(_ views: UIView...) {
@@ -70,6 +73,18 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
             view.layer.shadowOpacity = 0.5
             view.layer.shadowRadius = 1.0
         }
+    }
+    
+    func loadWhiteBackground() {
+        
+        // start with white background
+        let rect = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
+        UIGraphicsBeginImageContextWithOptions(view.frame.size, false, 0)
+        UIColor.white.setFill()
+        UIRectFill(rect)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        backgroundImage.image = image
     }
     
 }
