@@ -20,7 +20,8 @@ struct WeatherDataModel {
     var weatherIconName = "" {
         didSet {
             switch weatherIconName {
-            case "snow", "fog", "cloudy2": backgroundName = "bg\(arc4random_uniform(2) + 1)\(weatherIconName)"
+            case "cloudy2": backgroundName = "bg\(arc4random_uniform(3) + 1)\(weatherIconName)"
+            case "snow", "fog": backgroundName = "bg\(arc4random_uniform(2) + 1)\(weatherIconName)"
             case "tstorm1", "tstorm2": backgroundName = "bgtstorm"
             case "light_rain", "shower3": backgroundName = "bglight_rain"
             default: backgroundName = "bg\(weatherIconName)"
@@ -88,7 +89,6 @@ struct WeatherDataModel {
         currentDay = forecast.first?.currentDay ?? 0
         
         for day in forecast {
-            print(day.description)
             if day.dayOfWeek == currentDay {
                 today.append(day)
             } else if day.dayOfWeek == currentDay + 1 || day.dayOfWeek == currentDay - 6 {
@@ -108,11 +108,13 @@ struct WeatherDataModel {
         threeDaysObject = getDailyForecastFor(threeDays)
         fourDaysObject = getDailyForecastFor(fourDays)
         fiveDaysObject = getDailyForecastFor(fiveDays)
+        
     }
     
     func getDailyForecastFor(_ day: [ForecastObject]) -> ForecastObject {
-        var minTemp = day.first?.minTemp ?? 0
-        var maxTemp = day.first?.maxTemp ?? 0
+        
+        var minTemp = day.first?.minTemp ?? 99
+        var maxTemp = day.first?.maxTemp ?? 99
         for object in day {
             minTemp = min(minTemp, object.minTemp)
             maxTemp = max(maxTemp, object.maxTemp)

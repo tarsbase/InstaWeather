@@ -21,7 +21,11 @@ class ForecastViewController: UIViewController {
         for case let stack as UIStackView in mainStack.arrangedSubviews {
             subStacks.append(stack)
         }
-        
+        for stack in subStacks {
+            for view in stack.arrangedSubviews {
+                addShadow(view)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,7 +56,12 @@ class ForecastViewController: UIViewController {
             case 6: dayOfWeek = "FRI"
             default: dayOfWeek = "SAT"
             }
-            let temp = "↓ \(minTemp) ↑ \(maxTemp)"
+            var temp = ""
+            if minTemp == 99 {
+                temp = "N/A"
+            } else {
+                temp = "↓ \(minTemp) ↑ \(maxTemp)"
+            }
             populateStack(tag: tag, day: dayOfWeek, icon: icon, temperature: temp)
             tag += 1
         }
@@ -74,6 +83,15 @@ class ForecastViewController: UIViewController {
                     }
                 }
             }
+        }
+    }
+    
+    func addShadow(_ views: UIView...) {
+        for view in views {
+            view.layer.shadowColor = UIColor.black.cgColor
+            view.layer.shadowOffset = CGSize(width: 0, height: 2)
+            view.layer.shadowOpacity = 0.5
+            view.layer.shadowRadius = 1.0
         }
     }
 

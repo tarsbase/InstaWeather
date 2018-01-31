@@ -20,6 +20,7 @@ struct ForecastObject: CustomStringConvertible {
         return getDayOfWeek(today: (currentDate)) ?? 0
     }
     var dayOfWeek: Int {
+        guard date != "" else { return 0 }
         let start = date.startIndex
         let end = date.index(start, offsetBy: 9)
         let range = date[start...end]
