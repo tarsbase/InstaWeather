@@ -19,8 +19,7 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
     @IBOutlet weak var maxTempLabel: UILabel!
     @IBOutlet weak var minTempLabel: UILabel!
     
-    let WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather"
-    let WEATHERFC_URL = "http://api.openweathermap.org/data/2.5/forecast"
+
     let locationManager = CLLocationManager()
     var weatherDataModel = WeatherDataModel()
     

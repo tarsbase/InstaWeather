@@ -18,7 +18,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
             let latitude = String(location.coordinate.latitude)
             let longitude = String(location.coordinate.longitude)
             let params = ["lat": latitude, "lon": longitude, "appid": APP_ID]
-            getWeatherData(url: WEATHER_URL, parameters: params)
+            getWeatherData(url: weatherDataModel.WEATHER_URL, parameters: params)
         }
     }
     

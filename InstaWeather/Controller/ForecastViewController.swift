@@ -12,27 +12,69 @@ class ForecastViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+    @IBOutlet weak var mainStack: UIStackView!
+    var subStacks = [UIStackView]()
+    var model: WeatherDataModel?
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
-
+       super.viewDidLoad()
+        for case let stack as UIStackView in mainStack.arrangedSubviews {
+            subStacks.append(stack)
+        }
         
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let parent = self.parent as? PageViewController {
+            if let weatherVC = parent.orderedViewControllers.first as? WeatherViewController {
+                model = weatherVC.weatherDataModel
+            }
+        }
+        parseForecast()
     }
-    */
+    
+    func parseForecast() {
+        parseDay(model?.tomorrowObject, model?.twoDaysObject, model?.threeDaysObject, model?.fourDaysObject, model?.fiveDaysObject)
+    }
+
+    func parseDay(_ dayObjects: ForecastObject?...) {
+        var tag = 0
+        for dayObject in dayObjects {
+            guard let day = dayObject?.dayOfWeek, let icon = dayObject?.condition, let minTemp = dayObject?.minTemp, let maxTemp = dayObject?.maxTemp else { return }
+            var dayOfWeek = ""
+            switch day {
+            case 1: dayOfWeek = "SUN"
+            case 2: dayOfWeek = "MON"
+            case 3: dayOfWeek = "TUE"
+            case 4: dayOfWeek = "WED"
+            case 5: dayOfWeek = "THU"
+            case 6: dayOfWeek = "FRI"
+            default: dayOfWeek = "SAT"
+            }
+            let temp = "↓ \(minTemp) ↑ \(maxTemp)"
+            populateStack(tag: tag, day: dayOfWeek, icon: icon, temperature: temp)
+            tag += 1
+        }
+    }
+    
+    func populateStack(tag: Int, day: String, icon: Int, temperature: String) {
+        
+        for stack in subStacks {
+            if stack.tag == tag {
+                for case let imageView as UIImageView in stack.arrangedSubviews {
+                    let iconName = model?.updateWeatherIcon(condition: icon) ?? ""
+                    imageView.image = UIImage(named: iconName)
+                }
+                for case let label as UILabel in stack.arrangedSubviews {
+                    if label.tag == 0 {
+                        label.text = day
+                    } else {
+                        label.text = temperature
+                    }
+                }
+            }
+        }
+    }
 
 }

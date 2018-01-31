@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		10CC05B995BFB228A004446F /* Pods_Rain_CheckTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DE0CABBAA95C061C20C7448 /* Pods_Rain_CheckTests.framework */; };
+		2822A03A2021485F0007D9E9 /* ForecastObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822A0392021485F0007D9E9 /* ForecastObject.swift */; };
 		28359A4D201C41E3005AAFF4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28359A4C201C41E3005AAFF4 /* AppDelegate.swift */; };
 		28359A4F201C41E3005AAFF4 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28359A4E201C41E3005AAFF4 /* WeatherViewController.swift */; };
 		28359A52201C41E3005AAFF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28359A50201C41E3005AAFF4 /* Main.storyboard */; };
@@ -47,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		0B19BA210355C158D8DE3108 /* Pods_Rain_CheckUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rain_CheckUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2822A0392021485F0007D9E9 /* ForecastObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastObject.swift; sourceTree = "<group>"; };
 		28359A49201C41E3005AAFF4 /* InstaWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28359A4C201C41E3005AAFF4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28359A4E201C41E3005AAFF4 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				28EEB916201C44CD0090D0D3 /* WeatherDataModel.swift */,
+				2822A0392021485F0007D9E9 /* ForecastObject.swift */,
 				28EEB910201C44300090D0D3 /* Secrets.swift */,
 			);
 			path = Model;
@@ -544,6 +547,7 @@
 				287A5DD1201D62D1008E71CF /* ChangeCityViewController.swift in Sources */,
 				28EEB911201C44300090D0D3 /* Secrets.swift in Sources */,
 				28BB175E201D589D006E14A0 /* UpdateWeatherExtension.swift in Sources */,
+				2822A03A2021485F0007D9E9 /* ForecastObject.swift in Sources */,
 				28359A4D201C41E3005AAFF4 /* AppDelegate.swift in Sources */,
 				2882D6892020116F00B40082 /* ForecastViewController.swift in Sources */,
 			);

@@ -9,20 +9,27 @@
 import UIKit
 
 class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
+    
+    var deviceFrame: CGRect?
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     private(set) lazy var orderedViewControllers: [UIViewController] = {
-        guard let first = storyboard?.instantiateViewController(withIdentifier: "first"), let second =  storyboard?.instantiateViewController(withIdentifier: "second") else { fatalError() }
+        guard let first = storyboard?.instantiateViewController(withIdentifier: "first"), let second = storyboard?.instantiateViewController(withIdentifier: "second") else { fatalError() }
         return [first, second]
     }()
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         dataSource = self
         if let first = orderedViewControllers.first {
             setViewControllers([first], direction: .forward, animated: true)
+            
         }
+        
+        
         
         // Do any additional setup after loading the view.
     }

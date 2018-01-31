@@ -26,7 +26,8 @@ extension WeatherViewController {
                 self.cityLabel.text = "Connection issues"
             }
         }
-        getWeatherForecast(url: WEATHERFC_URL, parameters: parameters)
+        weatherDataModel = WeatherDataModel()
+        getWeatherForecast(url: weatherDataModel.WEATHERFC_URL, parameters: parameters)
     }
     
     func getWeatherForecast(url: String, parameters: [String: String]) {
@@ -34,7 +35,8 @@ extension WeatherViewController {
             [unowned self] response in
             if response.result.isSuccess {
                 let weatherJSON = JSON(response.result.value!)
-                self.updateWeatherForecast(json: weatherJSON)
+                self.updateMinMaxTemp(json: weatherJSON)
+                self.updateForecast(json: weatherJSON)
             } else {
                 let ac = UIAlertController(title: "Error", message: response.result.error?.localizedDescription, preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "Dismiss", style: .default))
@@ -58,7 +60,21 @@ extension WeatherViewController {
         }
     }
     
-    func updateWeatherForecast(json: JSON) {
+    func updateForecast(json: JSON) {
+        
+        for (_, value) in json["list"] {
+            let date = value["dt_txt"].stringValue
+            let condition = value["weather"][0]["id"].intValue
+            let max = kelvinToCelsius(value["main"]["temp_max"].double ?? 0)
+            let min = kelvinToCelsius(value["main"]["temp_min"].double ?? 0)
+            let forecastObject = ForecastObject(date: date, condition: condition, maxTemp: max, minTemp: min)
+            weatherDataModel.forecast.append(forecastObject)
+        }
+        weatherDataModel.filterDays()
+        
+    }
+    
+    func updateMinMaxTemp(json: JSON) {
         var minTemp = celsiusToKelvin(weatherDataModel.temperature)
         var maxTemp = celsiusToKelvin(weatherDataModel.temperature)
         for i in 0...7 {
@@ -89,7 +105,12 @@ extension WeatherViewController {
     
     func userEnteredNewCity(city: String) {
         let params: [String: String] = ["q": city, "appid": APP_ID]
-        getWeatherData(url: WEATHER_URL, parameters: params)
+        getWeatherData(url: weatherDataModel.WEATHER_URL, parameters: params)
+        if let parent = self.parent as? PageViewController {
+            if let forecastVC = parent.orderedViewControllers.last as? ForecastViewController {
+                forecastVC.parseForecast()
+            }
+        }
     }
     
     func celsiusToKelvin(_ temp: Int) -> Double {
