@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 
 class WeatherViewController: UIViewController, ChangeCityDelegate {
+
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var changeCityButton: UIButton!
     @IBOutlet weak var backgroundImage: UIImageView!
@@ -23,13 +24,15 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
     let locationManager = CLLocationManager()
     var weatherDataModel = WeatherDataModel()
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.delegate = self
+        assignDelegate()
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-        
+
         let defaults = UserDefaults.standard
         if let loadObject = defaults.object(forKey: "tempScale") as? Int {
                 segmentedControl.selectedSegmentIndex = loadObject
@@ -85,6 +88,10 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
         UIGraphicsEndImageContext()
         backgroundImage.image = image
     }
+    func assignDelegate() {
+        locationManager.delegate = self
+    }
+    
     
 }
 

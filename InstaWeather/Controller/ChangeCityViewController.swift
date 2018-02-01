@@ -12,6 +12,7 @@ import CoreLocation
 
 protocol ChangeCityDelegate {
     func userEnteredNewCity (city: String)
+    func assignDelegate()
     var locationManager: CLLocationManager { get }
 }
 
@@ -91,6 +92,7 @@ class ChangeCityViewController: UIViewController, RecentPicksDelegate {
     }
     
     @IBAction func currentLocationButton(_ sender: Any) {
+        delegate?.assignDelegate()
         delegate?.locationManager.startUpdatingLocation()
         SVProgressHUD.show()
         dismiss(animated: true) {

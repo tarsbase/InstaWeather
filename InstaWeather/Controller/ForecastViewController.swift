@@ -22,7 +22,7 @@ class ForecastViewController: UIViewController {
             subStacks.append(stack)
         }
         for stack in subStacks {
-            for view in stack.arrangedSubviews {
+            for view in stack.arrangedSubviews where view.tag == 1 {
                 addShadow(view)
             }
         }
