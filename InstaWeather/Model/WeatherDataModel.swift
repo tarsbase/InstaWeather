@@ -29,6 +29,7 @@ struct WeatherDataModel {
         }
     } 
     var backgroundName = ""
+
     var forecast = [ForecastObject]()
     var currentDay = 0
     var today = [ForecastObject]()
@@ -43,6 +44,56 @@ struct WeatherDataModel {
     var threeDaysObject: ForecastObject?
     var fourDaysObject: ForecastObject?
     var fiveDaysObject: ForecastObject?
+    
+    struct ForecastSection {
+        var forecastDay: String
+        var forecastChunks: [ForecastObject]
+    }
+    
+    lazy var forecastDayTitles: [String] = {
+        var forecastDays = [String]()
+        let formatter  = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        for day in forecast {
+            if let date = formatter.date(from: day.date) {
+                let newFormatter = DateFormatter()
+                newFormatter.dateFormat = "E MMM dd, yyyy"
+                let newDay = String(newFormatter.string(from: date))
+                if !forecastDays.contains(newDay) {
+                    forecastDays.append(newDay)
+                }
+            } else {
+                print(day.date)
+            }
+        }
+        return forecastDays
+    }()
+    
+    lazy var forecastSections: [ForecastSection] = {
+        var forecastSections = [ForecastSection]()
+        for sectionDay in forecastDayTitles {
+            var dailyChunks = [ForecastObject]()
+            let firstFormatter = DateFormatter()
+            firstFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            for chunk in forecast {
+                if let date = firstFormatter.date(from: chunk.date) {
+                    let secondFormatter = DateFormatter()
+                    secondFormatter.dateFormat = "E MMM dd, yyyy"
+                    let thirdFormatter = DateFormatter()
+                    thirdFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                    let chunkDay = String(secondFormatter.string(from: date))
+                    if chunkDay.prefix(3) == sectionDay.prefix(3) {
+                        dailyChunks.append(chunk)
+                    }
+                }
+            }
+            forecastSections.append(ForecastSection(forecastDay: sectionDay, forecastChunks: dailyChunks))
+        }
+        return forecastSections
+    }()
+    
+    
+    
     
     func updateWeatherIcon(condition: Int) -> String {
         
@@ -85,6 +136,7 @@ struct WeatherDataModel {
         }
     }
     
+    
     mutating func filterDays() {
         currentDay = forecast.first?.currentDay ?? 0
         
@@ -108,6 +160,15 @@ struct WeatherDataModel {
         threeDaysObject = getDailyForecastFor(threeDays)
         fourDaysObject = getDailyForecastFor(fourDays)
         fiveDaysObject = getDailyForecastFor(fiveDays)
+        
+    }
+    
+    func detailedForecast() {
+        
+        
+        
+        
+        
         
     }
     

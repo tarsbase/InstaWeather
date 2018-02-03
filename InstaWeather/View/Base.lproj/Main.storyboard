@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -162,6 +163,72 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="114.40000000000001" y="117.39130434782609"/>
+        </scene>
+        <!--Detailed Forecast Table-->
+        <scene sceneID="CFs-6b-flL">
+            <objects>
+                <tableViewController storyboardIdentifier="third" id="FmF-fA-znt" customClass="DetailedForecastTable" customModule="InstaWeather" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" contentInsetAdjustmentBehavior="always" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="87" estimatedRowHeight="-1" sectionHeaderHeight="60" sectionFooterHeight="28" id="Glp-jd-vq9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <inset key="scrollIndicatorInsets" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="headerCell" id="anF-zC-2yh">
+                                <rect key="frame" x="0.0" y="60" width="375" height="87"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="anF-zC-2yh" id="Uqb-ax-oUk">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="87"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="cell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="rgc-bY-V4F">
+                                <rect key="frame" x="0.0" y="147" width="375" height="87"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rgc-bY-V4F" id="2f0-Kw-gV3">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="87"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tstorm1" translatesAutoresizingMaskIntoConstraints="NO" id="3O6-yV-Yqg">
+                                            <rect key="frame" x="157.5" y="5" width="60" height="76.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="60" id="5pT-xn-ecS"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ijo-Uf-RYv">
+                                            <rect key="frame" x="16" y="30" width="53" height="27.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" -7" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aFd-yj-xhg">
+                                            <rect key="frame" x="321.5" y="29" width="31" height="30"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="ijo-Uf-RYv" firstAttribute="leading" secondItem="2f0-Kw-gV3" secondAttribute="leadingMargin" id="2pT-nn-HAp"/>
+                                        <constraint firstItem="ijo-Uf-RYv" firstAttribute="centerY" secondItem="2f0-Kw-gV3" secondAttribute="centerY" id="6zB-fe-WVh"/>
+                                        <constraint firstItem="3O6-yV-Yqg" firstAttribute="centerX" secondItem="2f0-Kw-gV3" secondAttribute="centerX" id="E5u-Ur-91w"/>
+                                        <constraint firstItem="aFd-yj-xhg" firstAttribute="centerY" secondItem="2f0-Kw-gV3" secondAttribute="centerY" id="LzW-xG-pui"/>
+                                        <constraint firstItem="3O6-yV-Yqg" firstAttribute="top" secondItem="2f0-Kw-gV3" secondAttribute="top" constant="5" id="k0z-lb-asS"/>
+                                        <constraint firstAttribute="bottom" secondItem="3O6-yV-Yqg" secondAttribute="bottom" constant="5" id="mGa-0v-9GI"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="aFd-yj-xhg" secondAttribute="trailing" constant="6.5" id="xU6-Zq-7rG"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="FmF-fA-znt" id="295-RG-e1D"/>
+                            <outlet property="delegate" destination="FmF-fA-znt" id="56e-Fb-X9d"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dN2-79-rDS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="112.8" y="808.24587706146929"/>
         </scene>
         <!--Forecast View Controller-->
         <scene sceneID="JjL-nG-YfW">
@@ -483,7 +550,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1J7-uy-4DI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="492" y="850.52473763118451"/>
+            <point key="canvasLocation" x="1615" y="116"/>
         </scene>
     </scenes>
     <resources>

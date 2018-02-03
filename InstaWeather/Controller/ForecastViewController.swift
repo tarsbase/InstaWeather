@@ -31,7 +31,7 @@ class ForecastViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let parent = self.parent as? PageViewController {
-            if let weatherVC = parent.orderedViewControllers.first as? WeatherViewController {
+            for case let weatherVC as WeatherViewController in parent.orderedViewControllers {
                 model = weatherVC.weatherDataModel
             }
         }

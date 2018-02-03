@@ -38,6 +38,13 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
                 segmentedControl.selectedSegmentIndex = loadObject
                 evaluateSegment()
         }
+        
+        NotificationCenter.default.addObserver(forName: .UIApplicationWillEnterForeground, object: nil, queue: .main) {
+            [unowned self] _ in
+            self.assignDelegate()
+            self.locationManager.startUpdatingLocation()
+        }
+        
         addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel)
     }
         

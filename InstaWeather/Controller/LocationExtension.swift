@@ -15,7 +15,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
         let location = locations[locations.count - 1]
         if location.horizontalAccuracy > 0 {
             locationManager.stopUpdatingLocation()
-            locationManager.delegate = nil
+            locationManager.delegate = nil // prevents multiple refreshes
             let latitude = String(location.coordinate.latitude)
             let longitude = String(location.coordinate.longitude)
             let params = ["lat": latitude, "lon": longitude, "appid": APP_ID]

@@ -13,8 +13,8 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
     var deviceFrame: CGRect?
     
     private(set) lazy var orderedViewControllers: [UIViewController] = {
-        guard let first = storyboard?.instantiateViewController(withIdentifier: "first"), let second = storyboard?.instantiateViewController(withIdentifier: "second") else { fatalError() }
-        return [first, second]
+        guard let first = storyboard?.instantiateViewController(withIdentifier: "first"), let second = storyboard?.instantiateViewController(withIdentifier: "second"), let third = storyboard?.instantiateViewController(withIdentifier: "third") else { fatalError() }
+        return [third, first, second]
     }()
 
     override func viewDidLayoutSubviews() {
@@ -28,10 +28,15 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
         }
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+            return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         dataSource = self
-        if let first = orderedViewControllers.first {
+        if orderedViewControllers.count > 0 {
+            let first = orderedViewControllers[1]
             setViewControllers([first], direction: .forward, animated: true)
         }
         
