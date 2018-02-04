@@ -17,11 +17,13 @@ struct WeatherDataModel {
     var minTemp = 0
     var condition = 0
     var city = ""
+    var currentTime = ""
+    var sunriseTime = ""
+    var sunsetTime = ""
     var weatherIconName = "" {
         didSet {
             switch weatherIconName {
-            case "cloudy2": backgroundName = "bg\(arc4random_uniform(3) + 1)\(weatherIconName)"
-            case "snow", "fog", "sunny" : backgroundName = "bg\(arc4random_uniform(2) + 1)\(weatherIconName)"
+            case "snow", "fog", "clear", "clearnight", "cloudy2", "cloudy2night" : backgroundName = "bg\(arc4random_uniform(2) + 1)\(weatherIconName)"
             case "tstorm1", "tstorm2": backgroundName = "bgtstorm"
             case "light_rain", "shower3": backgroundName = "bglight_rain"
             default: backgroundName = "bg\(weatherIconName)"
@@ -93,47 +95,53 @@ struct WeatherDataModel {
     }()
     
     
-    
-    
-    func updateWeatherIcon(condition: Int) -> String {
-        
-        switch condition {
-        case 0...300 :
-            return "tstorm1"
-            
-        case 301...500 :
-            return "light_rain"
-            
-        case 501...599 :
-            return "shower3"
-            
-        case 600...700 :
-            return "snow"
-            
-        case 701...771 :
-            return "fog"
-            
-        case 772...799 :
-            return "tstorm3"
-            
-        case 800 :
-            return "sunny"
-            
-        case 801...804 :
-            return "cloudy2"
-            
-        case 900...902, 905, 957...1000 :
-            return "tstorm3"
-            
-        case 903 :
-            return "snow"
-            
-        case 904 :
-            return "sunny"
-            
-        default :
-            return "sunny"
+    func updateWeatherIcon(condition: Int, objectTime: String, objectSunrise: String = "0", objectSunset: String = "0") -> String {
+        if let objectTime = Int(objectTime), let objectSunrise = Int(objectSunrise), let objectSunset = Int(objectSunset) {
+            switch condition {
+            case 0...300 :
+                return "tstorm1"
+                
+            case 301...500 :
+                return "light_rain"
+                
+            case 501...599 :
+                return "shower3"
+                
+            case 600...700 :
+                return "snow"
+                
+            case 701...771 :
+                return "fog"
+                
+            case 772...799 :
+                return "tstorm3"
+                
+            case 800, 904 :
+                if (objectTime > objectSunrise && objectTime < objectSunset) || objectSunrise == 0 {
+                    return "clear"
+                } else {
+                    return "clearnight"
+                }
+            case 801...804 :
+                if (objectTime > objectSunrise && objectTime < objectSunset) || objectSunrise == 0 {
+                    return "cloudy2"
+                } else {
+                    return "cloudy2night"
+                }
+            case 900...902, 905, 957...1000 :
+                return "tstorm3"
+                
+            case 903 :
+                return "snow"
+            default :
+                if (objectTime > objectSunrise && objectTime < objectSunset) || objectSunrise == 0 {
+                    return "clear"
+                } else {
+                    return "clearnight"
+                }
+            }
         }
+        return "clear"
     }
     
     
@@ -163,17 +171,7 @@ struct WeatherDataModel {
         
     }
     
-    func detailedForecast() {
-        
-        
-        
-        
-        
-        
-    }
-    
     func getDailyForecastFor(_ day: [ForecastObject]) -> ForecastObject {
-        
         var minTemp = day.first?.minTemp ?? 99
         var maxTemp = day.first?.maxTemp ?? 99
         for object in day {

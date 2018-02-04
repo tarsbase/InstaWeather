@@ -51,7 +51,10 @@ extension WeatherViewController {
             weatherDataModel.temperature = kelvinToCelsius(tempResult)
             weatherDataModel.city = json["name"].stringValue
             weatherDataModel.condition = json["weather"][0]["id"].intValue
-            weatherDataModel.weatherIconName = weatherDataModel.updateWeatherIcon(condition: weatherDataModel.condition)
+            weatherDataModel.currentTime = json["dt"].stringValue
+            weatherDataModel.sunriseTime = json["sys"]["sunrise"].stringValue
+            weatherDataModel.sunsetTime = json["sys"]["sunset"].stringValue
+            weatherDataModel.weatherIconName = weatherDataModel.updateWeatherIcon(condition: weatherDataModel.condition, objectTime: weatherDataModel.currentTime, objectSunrise: weatherDataModel.sunriseTime, objectSunset: weatherDataModel.sunsetTime)
             updateUIWithWeatherData()
         } else {
             let ac = UIAlertController(title: "Invalid city", message: "You have entered an invalid city name", preferredStyle: .alert)
@@ -61,18 +64,19 @@ extension WeatherViewController {
     }
     
     func updateForecast(json: JSON) {
-        
         for (_, value) in json["list"] {
             let date = value["dt_txt"].stringValue
             let condition = value["weather"][0]["id"].intValue
             let max = kelvinToCelsius(value["main"]["temp_max"].double ?? 0)
             let min = kelvinToCelsius(value["main"]["temp_min"].double ?? 0)
             let forecastObject = ForecastObject(date: date, condition: condition, maxTemp: max, minTemp: min)
+            
             weatherDataModel.forecast.append(forecastObject)
         }
         weatherDataModel.filterDays()
-        
     }
+    
+    
     
     func updateMinMaxTemp(json: JSON) {
         var minTemp = celsiusToKelvin(weatherDataModel.temperature)

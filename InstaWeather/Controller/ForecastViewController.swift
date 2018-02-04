@@ -45,7 +45,7 @@ class ForecastViewController: UIViewController {
     func parseDay(_ dayObjects: ForecastObject?...) {
         var tag = 0
         for dayObject in dayObjects {
-            guard let day = dayObject?.dayOfWeek, let icon = dayObject?.condition, let minTemp = dayObject?.minTemp, let maxTemp = dayObject?.maxTemp else { return }
+            guard let day = dayObject?.dayOfWeek, let icon = dayObject?.condition, let minTemp = dayObject?.minTemp, let maxTemp = dayObject?.maxTemp, let time = dayObject?.time else { return }
             var dayOfWeek = ""
             switch day {
             case 1: dayOfWeek = "SUN"
@@ -62,17 +62,17 @@ class ForecastViewController: UIViewController {
             } else {
                 temp = "↓ \(minTemp) ↑ \(maxTemp)"
             }
-            populateStack(tag: tag, day: dayOfWeek, icon: icon, temperature: temp)
+            populateStack(tag: tag, day: dayOfWeek, icon: icon, temperature: temp, time: time)
             tag += 1
         }
     }
     
-    func populateStack(tag: Int, day: String, icon: Int, temperature: String) {
+    func populateStack(tag: Int, day: String, icon: Int, temperature: String, time: String) {
         
         for stack in subStacks {
             if stack.tag == tag {
                 for case let imageView as UIImageView in stack.arrangedSubviews {
-                    let iconName = model?.updateWeatherIcon(condition: icon) ?? ""
+                    let iconName = model?.updateWeatherIcon(condition: icon, objectTime: time) ?? ""
                     imageView.image = UIImage(named: iconName)
                 }
                 for case let label as UILabel in stack.arrangedSubviews {

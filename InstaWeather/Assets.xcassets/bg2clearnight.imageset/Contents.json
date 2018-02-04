@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Night.png",
+      "filename" : "bg2clearnight.jpeg",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Night@2x.png",
+      "filename" : "bg2clearnight@2x.jpeg",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Night@3x.png",
+      "filename" : "bg2clearnight@3x.jpeg",
       "scale" : "3x"
     }
   ],

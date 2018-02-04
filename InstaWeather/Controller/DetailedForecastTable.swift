@@ -16,6 +16,7 @@ class DetailedForecastTable: UITableViewController {
         super.viewWillAppear(animated)
         refreshModel()
         tableView.reloadData()
+        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: true)
     }
     
     override func viewDidLoad() {
@@ -32,6 +33,12 @@ class DetailedForecastTable: UITableViewController {
                 model = weatherVC.weatherDataModel
             }
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 40, right: 0)
+        
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -57,12 +64,6 @@ class DetailedForecastTable: UITableViewController {
         return nil
     }
     
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-//        let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
-//        header.textLabel?.textAlignment = NSTextAlignment.center
-//        header.textLabel?.textColor = UIColor.white
-        
-    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let daySections = model?.forecastSections else { return 0 }
@@ -74,11 +75,14 @@ class DetailedForecastTable: UITableViewController {
         guard let icon = model?.forecastSections[indexPath.section].forecastChunks[indexPath.row].condition else { fatalError() }
         guard let minTemp = model?.forecastSections[indexPath.section].forecastChunks[indexPath.row].minTemp else { fatalError() }
         guard let maxTemp = model?.forecastSections[indexPath.section].forecastChunks[indexPath.row].maxTemp else { fatalError() }
+        guard let timeDigits = model?.forecastSections[indexPath.section].forecastChunks[indexPath.row].timeDigits else { fatalError() }
+        guard let sunrise = model?.forecastSections[indexPath.section].forecastChunks[indexPath.row].sunrise else { fatalError() }
+        guard let sunset = model?.forecastSections[indexPath.section].forecastChunks[indexPath.row].sunset else { fatalError() }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.backgroundColor = UIColor.clear
         for case let imageView as UIImageView in cell.contentView.subviews {
-            let iconName = model?.updateWeatherIcon(condition: icon) ?? ""
+            let iconName = model?.updateWeatherIcon(condition: icon, objectTime: String(timeDigits), objectSunrise: String(sunrise), objectSunset: String(sunset)) ?? ""
             imageView.image = UIImage(named: iconName)
         }
         for case let label as UILabel in cell.contentView.subviews {
@@ -95,6 +99,6 @@ class DetailedForecastTable: UITableViewController {
         }
         return cell
     }
-
+    
 
 }
