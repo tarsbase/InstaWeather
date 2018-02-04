@@ -16,7 +16,11 @@ class DetailedForecastTable: UITableViewController {
         super.viewWillAppear(animated)
         refreshModel()
         tableView.reloadData()
-        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
+            [unowned self] in
+            self.tableView.flashScrollIndicators()
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -24,7 +28,7 @@ class DetailedForecastTable: UITableViewController {
         let imageView = UIImageView(image: UIImage(named: "forecast"))
         imageView.contentMode = .scaleAspectFill
         tableView.backgroundView = imageView
-        
+        tableView.showsVerticalScrollIndicator = true
     }
     
     func refreshModel() {
@@ -37,7 +41,7 @@ class DetailedForecastTable: UITableViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 40, right: 0)
+        self.tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 40, right: 0)
         
     }
 
@@ -82,7 +86,7 @@ class DetailedForecastTable: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.backgroundColor = UIColor.clear
         for case let imageView as UIImageView in cell.contentView.subviews {
-            let iconName = model?.updateWeatherIcon(condition: icon, objectTime: String(timeDigits), objectSunrise: String(sunrise), objectSunset: String(sunset)) ?? ""
+            let iconName = model?.updateWeatherIcon(condition: icon, objectTime: timeDigits, objectSunrise: sunrise, objectSunset: sunset) ?? ""
             imageView.image = UIImage(named: iconName)
         }
         for case let label as UILabel in cell.contentView.subviews {
@@ -99,6 +103,4 @@ class DetailedForecastTable: UITableViewController {
         }
         return cell
     }
-    
-
 }

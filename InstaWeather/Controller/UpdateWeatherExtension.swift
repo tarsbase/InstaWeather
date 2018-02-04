@@ -27,6 +27,7 @@ extension WeatherViewController {
             }
         }
         weatherDataModel = WeatherDataModel()
+        weatherDataModel.toggleScale(to: segmentedControl.selectedSegmentIndex)
         getWeatherForecast(url: weatherDataModel.WEATHERFC_URL, parameters: parameters)
     }
     
@@ -51,9 +52,9 @@ extension WeatherViewController {
             weatherDataModel.temperature = kelvinToCelsius(tempResult)
             weatherDataModel.city = json["name"].stringValue
             weatherDataModel.condition = json["weather"][0]["id"].intValue
-            weatherDataModel.currentTime = json["dt"].stringValue
-            weatherDataModel.sunriseTime = json["sys"]["sunrise"].stringValue
-            weatherDataModel.sunsetTime = json["sys"]["sunset"].stringValue
+            weatherDataModel.currentTime = json["dt"].intValue
+            weatherDataModel.sunriseTime = json["sys"]["sunrise"].intValue
+            weatherDataModel.sunsetTime = json["sys"]["sunset"].intValue
             weatherDataModel.weatherIconName = weatherDataModel.updateWeatherIcon(condition: weatherDataModel.condition, objectTime: weatherDataModel.currentTime, objectSunrise: weatherDataModel.sunriseTime, objectSunset: weatherDataModel.sunsetTime)
             updateUIWithWeatherData()
         } else {
@@ -64,13 +65,15 @@ extension WeatherViewController {
     }
     
     func updateForecast(json: JSON) {
+        var scaleIsCelsius = true
+        if segmentedControl.selectedSegmentIndex == 1 { scaleIsCelsius = false }
         for (_, value) in json["list"] {
             let date = value["dt_txt"].stringValue
             let condition = value["weather"][0]["id"].intValue
             let max = kelvinToCelsius(value["main"]["temp_max"].double ?? 0)
             let min = kelvinToCelsius(value["main"]["temp_min"].double ?? 0)
-            let forecastObject = ForecastObject(date: date, condition: condition, maxTemp: max, minTemp: min)
-            
+            let forecastObject = ForecastObject(date: date, condition: condition, maxTemp: max, minTemp: min, scaleIsCelsius: scaleIsCelsius)
+
             weatherDataModel.forecast.append(forecastObject)
         }
         weatherDataModel.filterDays()
@@ -79,8 +82,8 @@ extension WeatherViewController {
     
     
     func updateMinMaxTemp(json: JSON) {
-        var minTemp = celsiusToKelvin(weatherDataModel.temperature)
-        var maxTemp = celsiusToKelvin(weatherDataModel.temperature)
+        var minTemp = celsiusToKelvin(weatherDataModel.temperatureCelsius)
+        var maxTemp = celsiusToKelvin(weatherDataModel.temperatureCelsius)
         for i in 0...7 {
             minTemp = min(minTemp, json["list"][i]["main"]["temp"].double ?? 0)
             maxTemp = max(maxTemp, json["list"][i]["main"]["temp"].double ?? 0)
@@ -92,17 +95,9 @@ extension WeatherViewController {
     
     func updateUIWithWeatherData() {
         cityLabel.text = weatherDataModel.city
-        var temp = weatherDataModel.temperature
-        var minTemp = weatherDataModel.minTemp
-        var maxTemp = weatherDataModel.maxTemp
-        if segmentedControl.selectedSegmentIndex == 1 {
-            temp = celsiusToFahrenheit(temp)
-            minTemp = celsiusToFahrenheit(minTemp)
-            maxTemp = celsiusToFahrenheit(maxTemp)
-        }
-        tempLabel.text = "\(temp)°"
-        minTempLabel.text = "↓\(minTemp)"
-        maxTempLabel.text = "↑\(maxTemp)"
+        tempLabel.text = "\(weatherDataModel.temperature)°"
+        minTempLabel.text = "↓\(weatherDataModel.minTemp)"
+        maxTempLabel.text = "↑\(weatherDataModel.maxTemp)"
         conditionImage.image = UIImage(named: weatherDataModel.weatherIconName)
         backgroundImage.image = UIImage(named: weatherDataModel.backgroundName)
     }
@@ -124,9 +119,4 @@ extension WeatherViewController {
     func kelvinToCelsius(_ temp: Double) -> Int {
         return Int(temp - 273.15)
     }
-    
-    func celsiusToFahrenheit(_ temp: Int) -> Int {
-        return Int((Double(temp) * 1.8) + 32)
-    }
-    
 }

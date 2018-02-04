@@ -7,23 +7,17 @@
 //
 
 import Foundation
-struct ForecastObject: CustomStringConvertible {
+struct ForecastObject: ConvertibleToFahrenheit {
+    
+    var scaleIsCelsius: Bool
+    var temperatureCelsius = 0
+    var minTempCelsius = 0
+    var maxTempCelsius = 0
 
     let date: String
     let condition: Int
-    let maxTemp: Int
-    let minTemp: Int
     var sunrise = 5
     var sunset = 19
-    
-    init(date: String, condition: Int, maxTemp: Int, minTemp: Int) {
-        self.date = date
-        self.condition = condition
-        self.maxTemp = maxTemp
-        self.minTemp = minTemp
-        
-        
-    }
     
     var currentDay: Int {
         let formatter = DateFormatter()
@@ -42,6 +36,14 @@ struct ForecastObject: CustomStringConvertible {
     
     var time: String {
         return formatAmPm(date: date)
+    }
+    
+    init(date: String, condition: Int, maxTemp: Int, minTemp: Int, scaleIsCelsius: Bool) {
+        self.date = date
+        self.condition = condition
+        self.scaleIsCelsius = scaleIsCelsius
+        self.maxTemp = maxTemp
+        self.minTemp = minTemp
     }
     
     func formatAmPm(date: String) -> String {
@@ -69,9 +71,6 @@ struct ForecastObject: CustomStringConvertible {
         return "\(formattedDate) \(AMPM)"
     }
     
-    var description : String {
-        return "Date: \(date)\n Condition: \(condition)\n maxTemp: \(maxTemp)\n minTemp: \(minTemp)"
-    }
     
     var timeDigits: Int {
         let digits = Int(time.filter { Int(String($0)) != nil }) ?? 0
@@ -90,5 +89,13 @@ struct ForecastObject: CustomStringConvertible {
         let myCalendar = Calendar(identifier: .gregorian)
         let weekDay = myCalendar.component(.weekday, from: todayDate)
         return weekDay
+    }
+    
+    mutating func toggleScale(to: Int) {
+        if to == 1 {
+            scaleIsCelsius = false
+        } else {
+            scaleIsCelsius = true
+        }
     }
 }

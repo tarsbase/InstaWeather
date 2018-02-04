@@ -8,18 +8,17 @@
 
 import Foundation
 
-struct WeatherDataModel {
+struct WeatherDataModel: ConvertibleToFahrenheit {
     
     let WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather"
     let WEATHERFC_URL = "http://api.openweathermap.org/data/2.5/forecast"
-    var temperature = 0
-    var maxTemp = 0
-    var minTemp = 0
+
     var condition = 0
     var city = ""
-    var currentTime = ""
-    var sunriseTime = ""
-    var sunsetTime = ""
+    var currentTime = 0
+    var sunriseTime = 0
+    var sunsetTime = 0
+    
     var weatherIconName = "" {
         didSet {
             switch weatherIconName {
@@ -46,6 +45,12 @@ struct WeatherDataModel {
     var threeDaysObject: ForecastObject?
     var fourDaysObject: ForecastObject?
     var fiveDaysObject: ForecastObject?
+    var weekdayObjects = [ForecastObject]()
+    
+    var scaleIsCelsius = true
+    var temperatureCelsius = 0
+    var maxTempCelsius = 0
+    var minTempCelsius = 0
     
     struct ForecastSection {
         var forecastDay: String
@@ -95,8 +100,7 @@ struct WeatherDataModel {
     }()
     
     
-    func updateWeatherIcon(condition: Int, objectTime: String, objectSunrise: String = "0", objectSunset: String = "0") -> String {
-        if let objectTime = Int(objectTime), let objectSunrise = Int(objectSunrise), let objectSunset = Int(objectSunset) {
+    func updateWeatherIcon(condition: Int, objectTime: Int, objectSunrise: Int = 0, objectSunset: Int = 0) -> String {
             switch condition {
             case 0...300 :
                 return "tstorm1"
@@ -140,8 +144,6 @@ struct WeatherDataModel {
                     return "clearnight"
                 }
             }
-        }
-        return "clear"
     }
     
     
@@ -163,20 +165,21 @@ struct WeatherDataModel {
                 fiveDays.append(day)
             }
         }
-        tomorrowObject = getDailyForecastFor(tomorrow)
-        twoDaysObject = getDailyForecastFor(twoDays)
-        threeDaysObject = getDailyForecastFor(threeDays)
-        fourDaysObject = getDailyForecastFor(fourDays)
-        fiveDaysObject = getDailyForecastFor(fiveDays)
-        
+                
+        weekdayObjects.append(getDailyForecastFor(tomorrow))
+        weekdayObjects.append(getDailyForecastFor(twoDays))
+        weekdayObjects.append(getDailyForecastFor(threeDays))
+        weekdayObjects.append(getDailyForecastFor(fourDays))
+        weekdayObjects.append(getDailyForecastFor(fiveDays))
     }
     
     func getDailyForecastFor(_ day: [ForecastObject]) -> ForecastObject {
-        var minTemp = day.first?.minTemp ?? 99
-        var maxTemp = day.first?.maxTemp ?? 99
+        let first = day.first
+        var minTemp = first?.minTempCelsius ?? 99
+        var maxTemp = first?.maxTempCelsius ?? 99
         for object in day {
-            minTemp = min(minTemp, object.minTemp)
-            maxTemp = max(maxTemp, object.maxTemp)
+            minTemp = min(minTemp, object.minTempCelsius)
+            maxTemp = max(maxTemp, object.maxTempCelsius)
         }
         let set = NSCountedSet()
         day.forEach { set.add($0.condition) }
@@ -188,7 +191,28 @@ struct WeatherDataModel {
         }
         let condition = common.condition
         let date = day.first?.date ?? ""
-        return ForecastObject(date: date, condition: condition, maxTemp: maxTemp, minTemp: minTemp)
+        return ForecastObject(date: date, condition: condition, maxTemp: maxTemp, minTemp: minTemp, scaleIsCelsius: scaleIsCelsius)
     }
+    
+    mutating func toggleScale(to: Int) {
+        if to == 1 {
+            scaleIsCelsius = false
+            for (index, _) in forecast.enumerated() {
+                forecast[index].scaleIsCelsius = false
+            }
+            for (index, _) in weekdayObjects.enumerated() {
+                weekdayObjects[index].scaleIsCelsius = false
+            }
+        } else {
+            scaleIsCelsius = true
+            for (index, _) in forecast.enumerated() {
+                forecast[index].scaleIsCelsius = true
+            }
+            for (index, _) in weekdayObjects.enumerated() {
+                weekdayObjects[index].scaleIsCelsius = true
+            }
+        }
+    }
+
     
 }

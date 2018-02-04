@@ -39,40 +39,41 @@ class ForecastViewController: UIViewController {
     }
     
     func parseForecast() {
-        parseDay(model?.tomorrowObject, model?.twoDaysObject, model?.threeDaysObject, model?.fourDaysObject, model?.fiveDaysObject)
-    }
-
-    func parseDay(_ dayObjects: ForecastObject?...) {
         var tag = 0
-        for dayObject in dayObjects {
-            guard let day = dayObject?.dayOfWeek, let icon = dayObject?.condition, let minTemp = dayObject?.minTemp, let maxTemp = dayObject?.maxTemp, let time = dayObject?.time else { return }
-            var dayOfWeek = ""
-            switch day {
-            case 1: dayOfWeek = "SUN"
-            case 2: dayOfWeek = "MON"
-            case 3: dayOfWeek = "TUE"
-            case 4: dayOfWeek = "WED"
-            case 5: dayOfWeek = "THU"
-            case 6: dayOfWeek = "FRI"
-            default: dayOfWeek = "SAT"
-            }
-            var temp = ""
-            if minTemp == 99 {
-                temp = "N/A"
-            } else {
-                temp = "↓ \(minTemp) ↑ \(maxTemp)"
-            }
-            populateStack(tag: tag, day: dayOfWeek, icon: icon, temperature: temp, time: time)
+        guard let weekdayObjects = model?.weekdayObjects else { return }
+        for dayObject in weekdayObjects {
+            parseDay(dayObject, tag: tag)
             tag += 1
         }
     }
+
+    func parseDay(_ object: ForecastObject, tag: Int) {
+        var dayObject = object
+        var dayOfWeek = ""
+        switch dayObject.dayOfWeek {
+        case 1: dayOfWeek = "SUN"
+        case 2: dayOfWeek = "MON"
+        case 3: dayOfWeek = "TUE"
+        case 4: dayOfWeek = "WED"
+        case 5: dayOfWeek = "THU"
+        case 6: dayOfWeek = "FRI"
+        default: dayOfWeek = "SAT"
+        }
+        var temp = ""
+        if dayObject.minTemp == 99 {
+            temp = "N/A"
+        } else {
+            temp = "↓ \(dayObject.minTemp) ↑ \(dayObject.maxTemp)"
+        }
+        populateStack(tag: tag, day: dayOfWeek, icon: dayObject.condition, temperature: temp)
+    }
     
-    func populateStack(tag: Int, day: String, icon: Int, temperature: String, time: String) {
+    func populateStack(tag: Int, day: String, icon: Int, temperature: String) {
         
         for stack in subStacks {
             if stack.tag == tag {
                 for case let imageView as UIImageView in stack.arrangedSubviews {
-                    let iconName = model?.updateWeatherIcon(condition: icon, objectTime: time) ?? ""
+                    let iconName = model?.updateWeatherIcon(condition: icon, objectTime: 0) ?? ""
                     imageView.image = UIImage(named: iconName)
                 }
                 for case let label as UILabel in stack.arrangedSubviews {

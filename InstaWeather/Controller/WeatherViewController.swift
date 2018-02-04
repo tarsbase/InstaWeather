@@ -19,11 +19,10 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
     @IBOutlet weak var conditionImage: UIImageView!
     @IBOutlet weak var maxTempLabel: UILabel!
     @IBOutlet weak var minTempLabel: UILabel!
-    
+
 
     let locationManager = CLLocationManager()
     var weatherDataModel = WeatherDataModel()
-    
     
     
     override func viewDidLoad() {
@@ -62,17 +61,10 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
     }
     
     func evaluateSegment() {
-        var temp = weatherDataModel.temperature
-        var minTemp = weatherDataModel.minTemp
-        var maxTemp = weatherDataModel.maxTemp
-        if segmentedControl.selectedSegmentIndex == 1 {
-            temp = celsiusToFahrenheit(temp)
-            minTemp = celsiusToFahrenheit(minTemp)
-            maxTemp = celsiusToFahrenheit(maxTemp)
-        }
-        tempLabel.text = "\(temp)°"
-        minTempLabel.text = "↓\(minTemp)"
-        maxTempLabel.text = "↑\(maxTemp)"
+        weatherDataModel.toggleScale(to: segmentedControl.selectedSegmentIndex)
+        tempLabel.text = "\(weatherDataModel.temperature)°"
+        minTempLabel.text = "↓\(weatherDataModel.minTemp)"
+        maxTempLabel.text = "↑\(weatherDataModel.maxTemp)"
     }
     
     func addShadow(_ views: UIView...) {
