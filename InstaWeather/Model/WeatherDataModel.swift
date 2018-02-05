@@ -33,12 +33,12 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
 
     var forecast = [ForecastObject]()
     var currentDay = 0
-    var today = [ForecastObject]()
-    var tomorrow = [ForecastObject]()
-    var twoDays = [ForecastObject]()
-    var threeDays = [ForecastObject]()
-    var fourDays = [ForecastObject]()
-    var fiveDays = [ForecastObject]()
+    var todayBucket = [ForecastObject]()
+    var tomorrowBucket = [ForecastObject]()
+    var twoDaysBucket = [ForecastObject]()
+    var threeDaysBucket = [ForecastObject]()
+    var fourDaysBucket = [ForecastObject]()
+    var fiveDaysBucket = [ForecastObject]()
     
     var tomorrowObject: ForecastObject?
     var twoDaysObject: ForecastObject?
@@ -152,25 +152,25 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
         
         for day in forecast {
             if day.dayOfWeek == currentDay {
-                today.append(day)
+                todayBucket.append(day)
             } else if day.dayOfWeek == currentDay + 1 || day.dayOfWeek == currentDay - 6 {
-                tomorrow.append(day)
+                tomorrowBucket.append(day)
             } else if day.dayOfWeek == currentDay + 2 || day.dayOfWeek == currentDay - 5 {
-                twoDays.append(day)
+                twoDaysBucket.append(day)
             } else if day.dayOfWeek == currentDay + 3 || day.dayOfWeek == currentDay - 4 {
-                threeDays.append(day)
+                threeDaysBucket.append(day)
             } else if day.dayOfWeek == currentDay + 4 || day.dayOfWeek == currentDay - 3 {
-                fourDays.append(day)
+                fourDaysBucket.append(day)
             } else if day.dayOfWeek == currentDay + 5 || day.dayOfWeek == currentDay - 2 {
-                fiveDays.append(day)
+                fiveDaysBucket.append(day)
             }
         }
                 
-        weekdayObjects.append(getDailyForecastFor(tomorrow))
-        weekdayObjects.append(getDailyForecastFor(twoDays))
-        weekdayObjects.append(getDailyForecastFor(threeDays))
-        weekdayObjects.append(getDailyForecastFor(fourDays))
-        weekdayObjects.append(getDailyForecastFor(fiveDays))
+        weekdayObjects.append(getDailyForecastFor(tomorrowBucket))
+        weekdayObjects.append(getDailyForecastFor(twoDaysBucket))
+        weekdayObjects.append(getDailyForecastFor(threeDaysBucket))
+        weekdayObjects.append(getDailyForecastFor(fourDaysBucket))
+        weekdayObjects.append(getDailyForecastFor(fiveDaysBucket))
     }
     
     func getDailyForecastFor(_ day: [ForecastObject]) -> ForecastObject {

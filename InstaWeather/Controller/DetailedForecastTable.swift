@@ -97,9 +97,8 @@ class DetailedForecastTable: UITableViewController {
                 if (minTemp + maxTemp) != 0 {
                     temp = Int((minTemp + maxTemp) / 2)
                 }
-                label.text = String(temp)
+                label.text = "\(String(temp))°"
             }
-            
         }
         return cell
     }

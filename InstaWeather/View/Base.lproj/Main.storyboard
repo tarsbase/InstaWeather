@@ -27,14 +27,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgtstorm" translatesAutoresizingMaskIntoConstraints="NO" id="rZl-dt-4Fg" userLabel="Background Image View">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bglight_rain" translatesAutoresizingMaskIntoConstraints="NO" id="rZl-dt-4Fg" userLabel="Background Image View">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="light gradient" translatesAutoresizingMaskIntoConstraints="NO" id="WnI-Iz-KeK">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tstorm1" translatesAutoresizingMaskIntoConstraints="NO" id="Lmb-yW-zjc">
-                                <rect key="frame" x="69" y="445.5" width="147" height="133"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shower3" translatesAutoresizingMaskIntoConstraints="NO" id="Lmb-yW-zjc">
+                                <rect key="frame" x="68.5" y="445.5" width="148" height="133"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="159" id="ZYa-dF-Bin"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="192" id="gRK-vW-fdU"/>
@@ -674,11 +674,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="bglight_rain" width="640" height="400"/>
         <image name="bgselect1" width="1536" height="1024"/>
         <image name="bgselect3" width="1271" height="715"/>
-        <image name="bgtstorm" width="1319" height="879"/>
         <image name="light gradient" width="1242" height="2208"/>
         <image name="overcast" width="222" height="133"/>
+        <image name="shower3" width="148" height="133"/>
         <image name="snow" width="159" height="133"/>
         <image name="tstorm1" width="147" height="133"/>
         <image name="tstorm3" width="147" height="133"/>

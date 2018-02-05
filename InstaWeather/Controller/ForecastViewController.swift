@@ -95,5 +95,4 @@ class ForecastViewController: UIViewController {
             view.layer.shadowRadius = 1.0
         }
     }
-
 }

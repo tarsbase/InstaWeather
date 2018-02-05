@@ -69,7 +69,6 @@ extension ConvertibleToFahrenheit {
     }
     
     func celsiusToFahrenheit(_ temp: Int) -> Int {
-//        print("Converting: \(temp) to \(Int((Double(temp) * 1.8) + 32))")
         return Int((Double(temp) * 1.8) + 32)
     }
     
