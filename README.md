@@ -2,6 +2,8 @@
 
 ## Download the live app here: https://itunes.apple.com/us/app/instaweather/id1341392811?ls=1&mt=8
 
+<img src="https://github.com/almaleh/InstaWeather/blob/master/InstaWeather%20demo.gif" width="450">
+
 This is a simple weather app that uses the OpenWeatherAPI to get weather data. 
 
 I am using 3 Cocoapods in this project: Alamofire, SwiftyJSON, and SVProgressBar.
