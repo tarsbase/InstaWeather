@@ -20,10 +20,14 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
     @IBOutlet weak var maxTempLabel: UILabel!
     @IBOutlet weak var minTempLabel: UILabel!
 
-
     let locationManager = CLLocationManager()
     var weatherDataModel = WeatherDataModel()
-    
+    var recentPicksDataSource: RecentPicksDataSource?
+    var recentPicks = [String]() {
+        didSet {
+            UserDefaults.standard.set(recentPicks, forKey: "recentPicks")
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +55,7 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
         if segue.identifier == "changeCity" {
             if let destination = segue.destination as? ChangeCityViewController {
                 destination.delegate = self
+                recentPicksDataSource = destination
             }
         }
     }

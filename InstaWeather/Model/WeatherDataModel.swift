@@ -22,7 +22,8 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
     var weatherIconName = "" {
         didSet {
             switch weatherIconName {
-            case "snow", "fog", "clear", "clearnight", "cloudy2", "cloudy2night" : backgroundName = "bg\(arc4random_uniform(2) + 1)\(weatherIconName)"
+            case "clear": backgroundName = "bg\(arc4random_uniform(3) + 1)\(weatherIconName)"
+            case "snow", "fog", "clearnight", "cloudy2", "cloudy2night" : backgroundName = "bg\(arc4random_uniform(2) + 1)\(weatherIconName)"
             case "tstorm1", "tstorm2": backgroundName = "bgtstorm"
             case "light_rain", "shower3": backgroundName = "bglight_rain"
             default: backgroundName = "bg\(weatherIconName)"

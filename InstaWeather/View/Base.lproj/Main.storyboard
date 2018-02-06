@@ -22,7 +22,7 @@
         <!--Weather View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="first" id="BYZ-38-t0r" customClass="WeatherViewController" customModule="InstaWeather" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="second" id="BYZ-38-t0r" customClass="WeatherViewController" customModule="InstaWeather" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -168,7 +168,7 @@
         <!--Detailed Forecast Table-->
         <scene sceneID="CFs-6b-flL">
             <objects>
-                <tableViewController storyboardIdentifier="third" id="FmF-fA-znt" customClass="DetailedForecastTable" customModule="InstaWeather" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="first" id="FmF-fA-znt" customClass="DetailedForecastTable" customModule="InstaWeather" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" contentInsetAdjustmentBehavior="always" indicatorStyle="white" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="87" estimatedRowHeight="-1" sectionHeaderHeight="64" sectionFooterHeight="28" id="Glp-jd-vq9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -235,7 +235,7 @@
         <!--Forecast View Controller-->
         <scene sceneID="JjL-nG-YfW">
             <objects>
-                <viewController storyboardIdentifier="second" id="dnM-H8-qVz" customClass="ForecastViewController" customModule="InstaWeather" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="third" id="dnM-H8-qVz" customClass="ForecastViewController" customModule="InstaWeather" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WJd-8k-slr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

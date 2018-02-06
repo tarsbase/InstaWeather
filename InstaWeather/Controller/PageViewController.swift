@@ -14,7 +14,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
     
     private(set) lazy var orderedViewControllers: [UIViewController] = {
         guard let first = storyboard?.instantiateViewController(withIdentifier: "first"), let second = storyboard?.instantiateViewController(withIdentifier: "second"), let third = storyboard?.instantiateViewController(withIdentifier: "third") else { fatalError() }
-        return [third, first, second]
+        return [first, second, third]
     }()
 
     override func viewDidLayoutSubviews() {

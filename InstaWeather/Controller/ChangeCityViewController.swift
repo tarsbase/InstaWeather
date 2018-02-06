@@ -16,7 +16,11 @@ protocol ChangeCityDelegate {
     var locationManager: CLLocationManager { get }
 }
 
-class ChangeCityViewController: UIViewController, RecentPicksDelegate {
+protocol RecentPicksDataSource {
+    func removeLastRecentPick()
+}
+
+class ChangeCityViewController: UIViewController, RecentPicksDelegate, RecentPicksDataSource {
     
     @IBOutlet weak var tableContainer: UIView!
     @IBOutlet weak var backgroundImage: UIImageView!
@@ -105,6 +109,11 @@ class ChangeCityViewController: UIViewController, RecentPicksDelegate {
         if let index = recentPicks.index(of: cityToDelete) {
             recentPicks.remove(at: index)
         }
+    }
+    
+    func removeLastRecentPick() {
+        recentPicks.removeFirst()
+        UserDefaults.standard.set(recentPicks, forKey: "recentPicks")
     }
 
 }

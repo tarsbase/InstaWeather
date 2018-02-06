@@ -13,12 +13,14 @@ import SwiftyJSON
 extension WeatherViewController {
     
     func getWeatherData(url: String, parameters: [String: String]) {
-        
+        let oldModel = weatherDataModel
+        weatherDataModel = WeatherDataModel()
         Alamofire.request(url, method: .get, parameters: parameters).responseJSON {
             [unowned self] response in
             if response.result.isSuccess {
                 let weatherJSON = JSON(response.result.value!)
-                self.updateWeatherData(json: weatherJSON)
+                if self.updateWeatherData(json: weatherJSON) { self.cityIsValid(parameters: parameters) }
+                else { self.cityIsNotValid(restore: oldModel) }
             } else {
                 let ac = UIAlertController(title: "Error", message: response.result.error?.localizedDescription, preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "Dismiss", style: .default))
@@ -26,9 +28,16 @@ extension WeatherViewController {
                 self.cityLabel.text = "Connection issues"
             }
         }
-        weatherDataModel = WeatherDataModel()
+    }
+    
+    func cityIsValid(parameters: [String: String]) {
         weatherDataModel.toggleScale(to: segmentedControl.selectedSegmentIndex)
         getWeatherForecast(url: weatherDataModel.WEATHERFC_URL, parameters: parameters)
+    }
+    
+    func cityIsNotValid(restore model: WeatherDataModel) {
+        weatherDataModel = model
+        recentPicksDataSource?.removeLastRecentPick()
     }
     
     func getWeatherForecast(url: String, parameters: [String: String]) {
@@ -47,7 +56,7 @@ extension WeatherViewController {
         }
     }
     
-    func updateWeatherData(json: JSON) {
+    func updateWeatherData(json: JSON) -> Bool {
         if let tempResult = json["main"]["temp"].double {
             weatherDataModel.temperature = kelvinToCelsius(tempResult)
             weatherDataModel.city = json["name"].stringValue
@@ -57,10 +66,12 @@ extension WeatherViewController {
             weatherDataModel.sunsetTime = json["sys"]["sunset"].intValue
             weatherDataModel.weatherIconName = weatherDataModel.updateWeatherIcon(condition: weatherDataModel.condition, objectTime: weatherDataModel.currentTime, objectSunrise: weatherDataModel.sunriseTime, objectSunset: weatherDataModel.sunsetTime)
             updateUIWithWeatherData()
+            return true
         } else {
             let ac = UIAlertController(title: "Invalid city", message: "You have entered an invalid city name", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Ok", style: .default))
             present(ac, animated: true)
+            return false
         }
     }
     
