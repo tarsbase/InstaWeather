@@ -20,7 +20,7 @@ protocol RecentPicksDataSource {
     func removeLastRecentPick()
 }
 
-class ChangeCityViewController: UIViewController, RecentPicksDelegate, RecentPicksDataSource {
+class ChangeCityViewController: UIViewController, RecentPicksDataSource {
     
     @IBOutlet weak var tableContainer: UIView!
     @IBOutlet weak var backgroundImage: UIImageView!
@@ -43,6 +43,7 @@ class ChangeCityViewController: UIViewController, RecentPicksDelegate, RecentPic
         SVProgressHUD.setDefaultMaskType(.gradient)
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let loadObjet = UserDefaults.standard.array(forKey: "recentPicks") as? [String] {
@@ -50,9 +51,8 @@ class ChangeCityViewController: UIViewController, RecentPicksDelegate, RecentPic
         }
         if !recentPicks.isEmpty {
             picksTable = storyboard?.instantiateViewController(withIdentifier: "picks") as? RecentPicksTable
-            picksTable?.delegate = self
-            picksTable?.tableView.reloadData()
             add(picksTable!, frame: tableContainer.frame)
+            picksTable?.tableView.reloadData()
         }
     }
     

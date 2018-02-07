@@ -8,15 +8,12 @@
 
 import UIKit
 
-protocol RecentPicksDelegate {
-    func deleteCity(_ city: String)
-    func checkWeather(city: String)
-    var recentPicks: [String] { get set }
-}
-
 class RecentPicksTable: UITableViewController {
-
-    var delegate: RecentPicksDelegate?
+    
+    lazy var changeCityVC: ChangeCityViewController = {
+        guard let changeCityVC = parent as? ChangeCityViewController else { fatalError() }
+        return changeCityVC
+    }()
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Recent Picks"
@@ -27,12 +24,12 @@ class RecentPicksTable: UITableViewController {
         header.textLabel?.textColor = UIColor.white
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return delegate?.recentPicks.count ?? 0
+        return changeCityVC.recentPicks.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = delegate?.recentPicks[indexPath.row]
+        cell.textLabel?.text = changeCityVC.recentPicks[indexPath.row]
         cell.textLabel?.textColor = UIColor.white
         cell.backgroundColor = UIColor.clear
         return cell
@@ -40,15 +37,13 @@ class RecentPicksTable: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if let pick = delegate?.recentPicks[indexPath.row] {
-            delegate?.checkWeather(city: pick)
-        }
+        changeCityVC.checkWeather(city: changeCityVC.recentPicks[indexPath.row])
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") {
             [unowned self] action, index in
-            self.delegate?.recentPicks.remove(at: index.row)
+            self.changeCityVC.recentPicks.remove(at: index.row)
             tableView.deleteRows(at: [index], with: .automatic)
         }
         return [delete]
