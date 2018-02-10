@@ -23,11 +23,6 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
     let locationManager = CLLocationManager()
     var weatherDataModel = WeatherDataModel()
     var recentPicksDataSource: RecentPicksDataSource?
-    var recentPicks = [String]() {
-        didSet {
-            UserDefaults.standard.set(recentPicks, forKey: "recentPicks")
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

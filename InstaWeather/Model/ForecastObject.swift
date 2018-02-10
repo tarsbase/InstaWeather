@@ -18,10 +18,9 @@ struct ForecastObject: ConvertibleToFahrenheit {
     let condition: Int
     var sunrise = 5
     var sunset = 19
+    let formatter: DateFormatter
     
     var currentDay: Int {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
         let currentDate = formatter.string(from: Date())
         return getDayOfWeek(day: (currentDate)) ?? 0
     }
@@ -38,10 +37,11 @@ struct ForecastObject: ConvertibleToFahrenheit {
         return formatAmPm(date: date)
     }
     
-    init(date: String, condition: Int, maxTemp: Int, minTemp: Int, scaleIsCelsius: Bool) {
+    init(date: String, condition: Int, maxTemp: Int, minTemp: Int, scaleIsCelsius: Bool, formatter: DateFormatter) {
         self.date = date
         self.condition = condition
         self.scaleIsCelsius = scaleIsCelsius
+        self.formatter = formatter
         self.maxTemp = maxTemp
         self.minTemp = minTemp
     }
@@ -83,8 +83,6 @@ struct ForecastObject: ConvertibleToFahrenheit {
     }
     
     func getDayOfWeek(day: String) -> Int? {
-        let formatter  = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
         guard let todayDate = formatter.date(from: day) else { return nil }
         let myCalendar = Calendar(identifier: .gregorian)
         let weekDay = myCalendar.component(.weekday, from: todayDate)

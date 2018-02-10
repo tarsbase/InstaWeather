@@ -58,15 +58,31 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
         var forecastChunks: [ForecastObject]
     }
     
-    lazy var forecastDayTitles: [String] = {
-        var forecastDays = [String]()
+    lazy var firstFormatter: DateFormatter = {
         let formatter  = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return formatter
+    }()
+    
+    
+    lazy var secondFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "E MMM dd, yyyy"
+        return formatter
+    }()
+    
+    lazy var objectFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
+    
+    lazy var forecastDayTitles: [String] = {
+        var forecastDays = [String]()
         for day in forecast {
-            if let date = formatter.date(from: day.date) {
-                let newFormatter = DateFormatter()
-                newFormatter.dateFormat = "E MMM dd, yyyy"
-                let newDay = String(newFormatter.string(from: date))
+            if let date = firstFormatter.date(from: day.date) {
+                let newDay = String(secondFormatter.string(from: date))
                 if !forecastDays.contains(newDay) {
                     forecastDays.append(newDay)
                 }
@@ -79,21 +95,21 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
     
     lazy var forecastSections: [ForecastSection] = {
         var forecastSections = [ForecastSection]()
+        var forecastObjects = forecast
         for sectionDay in forecastDayTitles {
             var dailyChunks = [ForecastObject]()
-            let firstFormatter = DateFormatter()
-            firstFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            for chunk in forecast {
+            var indicesToRemove = [Int]()
+            for (index, chunk) in forecastObjects.enumerated() {
                 if let date = firstFormatter.date(from: chunk.date) {
-                    let secondFormatter = DateFormatter()
-                    secondFormatter.dateFormat = "E MMM dd, yyyy"
-                    let thirdFormatter = DateFormatter()
-                    thirdFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
                     let chunkDay = String(secondFormatter.string(from: date))
                     if chunkDay.prefix(3) == sectionDay.prefix(3) {
                         dailyChunks.append(chunk)
+                        indicesToRemove.append(index)
                     }
                 }
+            }
+            for index in indicesToRemove.sorted().reversed() {
+                forecastObjects.remove(at: index)
             }
             forecastSections.append(ForecastSection(forecastDay: sectionDay, forecastChunks: dailyChunks))
         }
@@ -174,7 +190,7 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
         weekdayObjects.append(getDailyForecastFor(fiveDaysBucket))
     }
     
-    func getDailyForecastFor(_ day: [ForecastObject]) -> ForecastObject {
+    mutating func getDailyForecastFor(_ day: [ForecastObject]) -> ForecastObject {
         let first = day.first
         var minTemp = first?.minTempCelsius ?? 99
         var maxTemp = first?.maxTempCelsius ?? 99
@@ -192,7 +208,7 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
         }
         let condition = common.condition
         let date = day.first?.date ?? ""
-        return ForecastObject(date: date, condition: condition, maxTemp: maxTemp, minTemp: minTemp, scaleIsCelsius: scaleIsCelsius)
+        return ForecastObject(date: date, condition: condition, maxTemp: maxTemp, minTemp: minTemp, scaleIsCelsius: scaleIsCelsius, formatter: objectFormatter)
     }
     
     mutating func toggleScale(to: Int) {

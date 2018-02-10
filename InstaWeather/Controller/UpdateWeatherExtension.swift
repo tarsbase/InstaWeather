@@ -65,7 +65,7 @@ extension WeatherViewController {
             weatherDataModel.sunriseTime = json["sys"]["sunrise"].intValue
             weatherDataModel.sunsetTime = json["sys"]["sunset"].intValue
             weatherDataModel.weatherIconName = weatherDataModel.updateWeatherIcon(condition: weatherDataModel.condition, objectTime: weatherDataModel.currentTime, objectSunrise: weatherDataModel.sunriseTime, objectSunset: weatherDataModel.sunsetTime)
-            updateUIWithWeatherData()
+//            updateUIWithWeatherData()
             return true
         } else {
             let ac = UIAlertController(title: "Invalid city", message: "You have entered an invalid city name", preferredStyle: .alert)
@@ -83,11 +83,14 @@ extension WeatherViewController {
             let condition = value["weather"][0]["id"].intValue
             let max = kelvinToCelsius(value["main"]["temp_max"].double ?? 0)
             let min = kelvinToCelsius(value["main"]["temp_min"].double ?? 0)
-            let forecastObject = ForecastObject(date: date, condition: condition, maxTemp: max, minTemp: min, scaleIsCelsius: scaleIsCelsius)
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            let forecastObject = ForecastObject(date: date, condition: condition, maxTemp: max, minTemp: min, scaleIsCelsius: scaleIsCelsius, formatter: formatter)
 
             weatherDataModel.forecast.append(forecastObject)
         }
         weatherDataModel.filterDays()
+//        print(weatherDataModel.forecastSections.count)
     }
     
     

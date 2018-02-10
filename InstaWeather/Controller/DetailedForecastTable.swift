@@ -75,13 +75,15 @@ class DetailedForecastTable: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let time = model?.forecastSections[indexPath.section].forecastChunks[indexPath.row].time else { fatalError() }
-        guard let icon = model?.forecastSections[indexPath.section].forecastChunks[indexPath.row].condition else { fatalError() }
-        guard let minTemp = model?.forecastSections[indexPath.section].forecastChunks[indexPath.row].minTemp else { fatalError() }
-        guard let maxTemp = model?.forecastSections[indexPath.section].forecastChunks[indexPath.row].maxTemp else { fatalError() }
-        guard let timeDigits = model?.forecastSections[indexPath.section].forecastChunks[indexPath.row].timeDigits else { fatalError() }
-        guard let sunrise = model?.forecastSections[indexPath.section].forecastChunks[indexPath.row].sunrise else { fatalError() }
-        guard let sunset = model?.forecastSections[indexPath.section].forecastChunks[indexPath.row].sunset else { fatalError() }
+        guard var section = model?.forecastSections[indexPath.section] else { fatalError() }
+        
+        let time = section.forecastChunks[indexPath.row].time
+        let icon = section.forecastChunks[indexPath.row].condition
+        let minTemp = section.forecastChunks[indexPath.row].minTemp
+        let maxTemp = section.forecastChunks[indexPath.row].maxTemp
+        let timeDigits = section.forecastChunks[indexPath.row].timeDigits
+        let sunrise = section.forecastChunks[indexPath.row].sunrise
+        let sunset = section.forecastChunks[indexPath.row].sunset
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.backgroundColor = UIColor.clear
