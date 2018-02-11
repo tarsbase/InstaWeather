@@ -14,8 +14,8 @@
 		28359A52201C41E3005AAFF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28359A50201C41E3005AAFF4 /* Main.storyboard */; };
 		28359A54201C41E3005AAFF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28359A53201C41E3005AAFF4 /* Assets.xcassets */; };
 		28359A57201C41E3005AAFF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28359A55201C41E3005AAFF4 /* LaunchScreen.storyboard */; };
-		28359A62201C41E3005AAFF4 /* Rain_CheckTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28359A61201C41E3005AAFF4 /* Rain_CheckTests.swift */; };
-		28359A6D201C41E3005AAFF4 /* Rain_CheckUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28359A6C201C41E3005AAFF4 /* Rain_CheckUITests.swift */; };
+		28359A62201C41E3005AAFF4 /* InstaWeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28359A61201C41E3005AAFF4 /* InstaWeatherTests.swift */; };
+		28359A6D201C41E3005AAFF4 /* InstaWeatherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28359A6C201C41E3005AAFF4 /* InstaWeatherUITests.swift */; };
 		28481F16201E8FA3004A89B6 /* ContainmentExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28481F15201E8FA3004A89B6 /* ContainmentExtension.swift */; };
 		28481F18201E9199004A89B6 /* PicksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28481F17201E9199004A89B6 /* PicksTableViewController.swift */; };
 		2873AED12027A55C00C3ABCE /* FahrenheitProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2873AED02027A55C00C3ABCE /* FahrenheitProtocol.swift */; };
@@ -59,10 +59,10 @@
 		28359A56201C41E3005AAFF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		28359A58201C41E3005AAFF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28359A5D201C41E3005AAFF4 /* InstaWeatherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InstaWeatherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		28359A61201C41E3005AAFF4 /* Rain_CheckTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rain_CheckTests.swift; sourceTree = "<group>"; };
+		28359A61201C41E3005AAFF4 /* InstaWeatherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstaWeatherTests.swift; sourceTree = "<group>"; };
 		28359A63201C41E3005AAFF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28359A68201C41E3005AAFF4 /* InstaWeatherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InstaWeatherUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		28359A6C201C41E3005AAFF4 /* Rain_CheckUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rain_CheckUITests.swift; sourceTree = "<group>"; };
+		28359A6C201C41E3005AAFF4 /* InstaWeatherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstaWeatherUITests.swift; sourceTree = "<group>"; };
 		28359A6E201C41E3005AAFF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28481F15201E8FA3004A89B6 /* ContainmentExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainmentExtension.swift; sourceTree = "<group>"; };
 		28481F17201E9199004A89B6 /* PicksTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicksTableViewController.swift; sourceTree = "<group>"; };
@@ -161,7 +161,7 @@
 		28359A60201C41E3005AAFF4 /* InstaWeatherTests */ = {
 			isa = PBXGroup;
 			children = (
-				28359A61201C41E3005AAFF4 /* Rain_CheckTests.swift */,
+				28359A61201C41E3005AAFF4 /* InstaWeatherTests.swift */,
 				28359A63201C41E3005AAFF4 /* Info.plist */,
 			);
 			path = InstaWeatherTests;
@@ -170,7 +170,7 @@
 		28359A6B201C41E3005AAFF4 /* InstaWeatherUITests */ = {
 			isa = PBXGroup;
 			children = (
-				28359A6C201C41E3005AAFF4 /* Rain_CheckUITests.swift */,
+				28359A6C201C41E3005AAFF4 /* InstaWeatherUITests.swift */,
 				28359A6E201C41E3005AAFF4 /* Info.plist */,
 			);
 			path = InstaWeatherUITests;
@@ -565,7 +565,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28359A62201C41E3005AAFF4 /* Rain_CheckTests.swift in Sources */,
+				28359A62201C41E3005AAFF4 /* InstaWeatherTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -573,7 +573,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28359A6D201C41E3005AAFF4 /* Rain_CheckUITests.swift in Sources */,
+				28359A6D201C41E3005AAFF4 /* InstaWeatherUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -761,13 +761,13 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S9M2AHXJQE;
-				INFOPLIST_FILE = "Rain CheckTests/Info.plist";
+				INFOPLIST_FILE = InstaWeatherTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.BesherAlMaleh.Rain-CheckTests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.BesherAlMaleh.InstaWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rain Check.app/Rain Check";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/InstaWeather.app/InstaWeather";
 			};
 			name = Debug;
 		};
@@ -779,13 +779,13 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S9M2AHXJQE;
-				INFOPLIST_FILE = "Rain CheckTests/Info.plist";
+				INFOPLIST_FILE = InstaWeatherTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.BesherAlMaleh.Rain-CheckTests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.BesherAlMaleh.InstaWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rain Check.app/Rain Check";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/InstaWeather.app/InstaWeather";
 			};
 			name = Release;
 		};
@@ -796,9 +796,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S9M2AHXJQE;
-				INFOPLIST_FILE = "Rain CheckUITests/Info.plist";
+				INFOPLIST_FILE = InstaWeatherUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.BesherAlMaleh.Rain-CheckUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.BesherAlMaleh.InstaWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -813,9 +813,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S9M2AHXJQE;
-				INFOPLIST_FILE = "Rain CheckUITests/Info.plist";
+				INFOPLIST_FILE = InstaWeatherUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.BesherAlMaleh.Rain-CheckUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.BesherAlMaleh.InstaWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

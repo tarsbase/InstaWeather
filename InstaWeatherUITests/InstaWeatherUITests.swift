@@ -8,7 +8,7 @@
 
 import XCTest
 
-class Rain_CheckUITests: XCTestCase {
+class InstaWeatherUITests: XCTestCase {
         
     override func setUp() {
         super.setUp()

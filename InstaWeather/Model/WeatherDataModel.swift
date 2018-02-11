@@ -230,6 +230,4 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
             }
         }
     }
-
-    
 }
