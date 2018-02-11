@@ -802,7 +802,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Rain Check";
+				TEST_TARGET_NAME = InstaWeather;
 			};
 			name = Debug;
 		};
@@ -819,7 +819,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Rain Check";
+				TEST_TARGET_NAME = InstaWeather;
 			};
 			name = Release;
 		};

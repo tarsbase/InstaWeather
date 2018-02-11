@@ -28,9 +28,18 @@ class InstaWeatherUITests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testInitialState() {
+        let element = XCUIApplication().otherElements.containing(.pageIndicator, identifier:"page 2 of 3").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
+        element.swipeRight()
+        let table = XCUIApplication().tables
+        XCTAssertTrue(table.otherElements.cells.count >= 5, "There should be at least 5 sections, for five days of forecast")
+    }
+    
+    func testForecastTableCells() {
+        let element = XCUIApplication().otherElements.containing(.pageIndicator, identifier:"page 2 of 3").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
+        element.swipeRight()
+        let table = XCUIApplication().tables
+        XCTAssertTrue(table.cells.count >= 38, "There should be at least 38 cells")
     }
     
 }
