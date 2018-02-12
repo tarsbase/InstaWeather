@@ -37,6 +37,21 @@ class InstaWeatherTests: XCTestCase {
         }
     }
     
+    func testScale() {
+        var objectArray = [ForecastObject]()
+        for _ in 1...38 {
+            let object = ForecastObject(date: String(describing: Date()), condition: 500, maxTemp: 16, minTemp: 6, scaleIsCelsius: true, formatter: DateFormatter())
+            objectArray.append(object)
+        }
+        var model = WeatherDataModel()
+        model.forecast = objectArray
+        let allObjectsAreCelsius = model.forecast.reduce(true) { $0 && $1.scaleIsCelsius }
+        XCTAssert(allObjectsAreCelsius && model.scaleIsCelsius, "Default scale should be Ceslius")
+        model.toggleScale(to: 1)
+        let allObjectsAreFahrenheit = model.forecast.reduce(true) { !$0 && !$1.scaleIsCelsius }
+        XCTAssert(allObjectsAreFahrenheit && !model.scaleIsCelsius, "Scale should be Fahrenheit")
+    }
+    
     func testPerformanceForecastObject() {
         measure {
             for i in 1...40 {

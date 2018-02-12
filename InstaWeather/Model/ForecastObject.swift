@@ -88,12 +88,4 @@ struct ForecastObject: ConvertibleToFahrenheit {
         let weekDay = myCalendar.component(.weekday, from: todayDate)
         return weekDay
     }
-    
-    mutating func toggleScale(to: Int) {
-        if to == 1 {
-            scaleIsCelsius = false
-        } else {
-            scaleIsCelsius = true
-        }
-    }
 }

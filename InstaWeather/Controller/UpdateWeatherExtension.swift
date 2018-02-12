@@ -32,7 +32,7 @@ extension WeatherViewController {
     
     func cityIsValid(parameters: [String: String]) {
         weatherDataModel.toggleScale(to: segmentedControl.selectedSegmentIndex)
-        getWeatherForecast(url: weatherDataModel.WEATHERFC_URL, parameters: parameters)
+        getWeatherForecast(url: weatherDataModel.forecastURL, parameters: parameters)
     }
     
     func cityIsNotValid(restore model: WeatherDataModel) {
@@ -118,7 +118,7 @@ extension WeatherViewController {
     
     func userEnteredNewCity(city: String) {
         let params: [String: String] = ["q": city, "appid": APP_ID]
-        getWeatherData(url: weatherDataModel.WEATHER_URL, parameters: params)
+        getWeatherData(url: weatherDataModel.weatherURL, parameters: params)
         if let parent = self.parent as? PageViewController {
             if let forecastVC = parent.orderedViewControllers.last as? ForecastViewController {
                 forecastVC.parseForecast()

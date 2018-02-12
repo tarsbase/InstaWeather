@@ -10,8 +10,8 @@ import Foundation
 
 struct WeatherDataModel: ConvertibleToFahrenheit {
     
-    let WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather"
-    let WEATHERFC_URL = "http://api.openweathermap.org/data/2.5/forecast"
+    let weatherURL = "http://api.openweathermap.org/data/2.5/weather"
+    let forecastURL = "http://api.openweathermap.org/data/2.5/forecast"
 
     var condition = 0
     var city = ""
@@ -48,7 +48,7 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
     var fiveDaysObject: ForecastObject?
     var weekdayObjects = [ForecastObject]()
     
-    var scaleIsCelsius = true
+    private(set) var scaleIsCelsius = true
     var temperatureCelsius = 0
     var maxTempCelsius = 0
     var minTempCelsius = 0

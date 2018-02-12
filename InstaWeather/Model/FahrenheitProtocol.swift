@@ -15,8 +15,6 @@ protocol ConvertibleToFahrenheit {
     var temperatureCelsius: Int { get set }
     var minTempCelsius: Int { get set }
     var maxTempCelsius: Int { get set }
-    
-    func celsiusToFahrenheit(_ temp: Int) -> Int 
 }
 
 extension ConvertibleToFahrenheit {
