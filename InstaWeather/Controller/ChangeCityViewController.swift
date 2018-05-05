@@ -20,7 +20,7 @@ protocol RecentPicksDataSource {
     func removeLastRecentPick()
 }
 
-class ChangeCityViewController: UIViewController, RecentPicksDataSource {
+class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextFieldDelegate {
     
     @IBOutlet weak var tableContainer: UIView!
     @IBOutlet weak var backgroundImage: UIImageView!
@@ -39,6 +39,7 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.cityField.delegate = self
         SVProgressHUD.setBackgroundColor(UIColor.white)
         SVProgressHUD.setDefaultMaskType(.gradient)
     }
@@ -93,6 +94,12 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource {
         dismiss(animated: true) {
             SVProgressHUD.dismiss()
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        checkWeather(city: cityField.text!)
+        return true
     }
     
     @IBAction func currentLocationButton(_ sender: Any) {

@@ -30,7 +30,7 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-
+        
         let defaults = UserDefaults.standard
         if let loadObject = defaults.object(forKey: "tempScale") as? Int {
                 segmentedControl.selectedSegmentIndex = loadObject
