@@ -26,17 +26,24 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let defaults = UserDefaults.standard
         assignDelegate()
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
         
-        let defaults = UserDefaults.standard
+        if let loadObject = defaults.object(forKey: "cityChosen") as? String {
+            userEnteredNewCity(city: loadObject)
+        } else {
+            locationManager.startUpdatingLocation()
+        }
+        
         if let loadObject = defaults.object(forKey: "tempScale") as? Int {
                 segmentedControl.selectedSegmentIndex = loadObject
                 evaluateSegment()
         }
         
+        
+        // updates location when app goes to foreground
         NotificationCenter.default.addObserver(forName: .UIApplicationWillEnterForeground, object: nil, queue: .main) {
             [unowned self] _ in
             self.assignDelegate()

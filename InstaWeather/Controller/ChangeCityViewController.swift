@@ -90,6 +90,7 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextF
                 }
             }
             SVProgressHUD.show()
+            UserDefaults.standard.set(name, forKey: "cityChosen")
         }
         dismiss(animated: true) {
             SVProgressHUD.dismiss()
@@ -105,6 +106,7 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextF
     @IBAction func currentLocationButton(_ sender: Any) {
         delegate?.assignDelegate()
         delegate?.locationManager.startUpdatingLocation()
+        UserDefaults.standard.removeObject(forKey: "cityChosen")
         SVProgressHUD.show()
         dismiss(animated: true) {
             SVProgressHUD.dismiss()
