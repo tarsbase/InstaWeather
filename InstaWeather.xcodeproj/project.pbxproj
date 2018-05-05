@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		10CC05B995BFB228A004446F /* Pods_Rain_CheckTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DE0CABBAA95C061C20C7448 /* Pods_Rain_CheckTests.framework */; };
 		2822A03A2021485F0007D9E9 /* ForecastObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822A0392021485F0007D9E9 /* ForecastObject.swift */; };
+		28243639209E6BC9002D3142 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28243637209E6BC9002D3142 /* Crashlytics.framework */; };
+		2824363A209E6BC9002D3142 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28243638209E6BC9002D3142 /* Fabric.framework */; };
 		28359A4D201C41E3005AAFF4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28359A4C201C41E3005AAFF4 /* AppDelegate.swift */; };
 		28359A4F201C41E3005AAFF4 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28359A4E201C41E3005AAFF4 /* WeatherViewController.swift */; };
 		28359A52201C41E3005AAFF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28359A50201C41E3005AAFF4 /* Main.storyboard */; };
@@ -51,6 +53,8 @@
 /* Begin PBXFileReference section */
 		0B19BA210355C158D8DE3108 /* Pods_Rain_CheckUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rain_CheckUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2822A0392021485F0007D9E9 /* ForecastObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastObject.swift; sourceTree = "<group>"; };
+		28243637209E6BC9002D3142 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
+		28243638209E6BC9002D3142 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		28359A49201C41E3005AAFF4 /* InstaWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28359A4C201C41E3005AAFF4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28359A4E201C41E3005AAFF4 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
@@ -90,7 +94,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28243639209E6BC9002D3142 /* Crashlytics.framework in Frameworks */,
 				3C8A0FC9701C1C3BDDE31D21 /* Pods_Rain_Check.framework in Frameworks */,
+				2824363A209E6BC9002D3142 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +222,8 @@
 			isa = PBXGroup;
 			children = (
 				28359A58201C41E3005AAFF4 /* Info.plist */,
+				28243637209E6BC9002D3142 /* Crashlytics.framework */,
+				28243638209E6BC9002D3142 /* Fabric.framework */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -246,6 +254,7 @@
 				28359A47201C41E3005AAFF4 /* Resources */,
 				023CC942800E1C647B935501 /* [CP] Embed Pods Frameworks */,
 				D8C1C4BCF3924094E62839C9 /* [CP] Copy Pods Resources */,
+				28243636209E6B9C002D3142 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -415,6 +424,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Rain CheckUITests/Pods-Rain CheckUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		28243636209E6B9C002D3142 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 34eede7be3e1a8b517436c123ab8589249bd3e03 d90c05152655f1e120c0fcf7c7fb9b4cc122f6628a329cb9075e6a447705944f";
 		};
 		3F91AE2812B1371CFC0A5EEC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -730,6 +752,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S9M2AHXJQE;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "InstaWeather/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -747,6 +773,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S9M2AHXJQE;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "InstaWeather/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
