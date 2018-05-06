@@ -40,15 +40,15 @@ class ForecastViewController: UIViewController {
     
     func parseForecast() {
         var tag = 0
-        guard let weekdayObjects = model?.weekdayObjects else { return }
-        for dayObject in weekdayObjects {
-            parseDay(dayObject, tag: tag)
+        guard let weekdayObjects = model?.weekdayObjects, var currentModel = model else { return }
+        for (index, dayObject) in weekdayObjects.enumerated() {
+            parseDay(dayObject, tag: tag, model: &currentModel, index: index)
             tag += 1
         }
     }
 
-    func parseDay(_ object: ForecastObject, tag: Int) {
-        var dayObject = object
+    func parseDay(_ object: ForecastObject, tag: Int, model: inout WeatherDataModel, index: Int) {
+        let dayObject = object
         var dayOfWeek = ""
         switch dayObject.dayOfWeek {
         case 1: dayOfWeek = "SUN"
@@ -60,10 +60,15 @@ class ForecastViewController: UIViewController {
         default: dayOfWeek = "SAT"
         }
         var temp = ""
-        if dayObject.minTemp == 99 {
+        
+        let minTemp = model.minTempForObject(index)
+        let maxTemp = model.maxTempForObject(index)
+        
+        
+        if minTemp == 99 {
             temp = "N/A"
         } else {
-            temp = "↓ \(dayObject.minTemp) ↑ \(dayObject.maxTemp)"
+            temp = "↓ \(minTemp) ↑ \(maxTemp)"
         }
         populateStack(tag: tag, day: dayOfWeek, icon: dayObject.condition, temperature: temp)
     }

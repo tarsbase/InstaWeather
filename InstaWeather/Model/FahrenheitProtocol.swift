@@ -9,9 +9,7 @@
 import Foundation
 
 protocol ConvertibleToFahrenheit {
-    
     var scaleIsCelsius: Bool { mutating get }
-    
     var temperatureCelsius: Int { get set }
     var minTempCelsius: Int { get set }
     var maxTempCelsius: Int { get set }
@@ -68,6 +66,14 @@ extension ConvertibleToFahrenheit {
     
     func celsiusToFahrenheit(_ temp: Int) -> Int {
         return Int((Double(temp) * 1.8) + 32)
+    }
+    
+    mutating func convertTempToCurrentScale(_ temp: Int) -> Int {
+        if scaleIsCelsius {
+            return temp
+        } else {
+            return celsiusToFahrenheit(temp)
+        }
     }
     
 }

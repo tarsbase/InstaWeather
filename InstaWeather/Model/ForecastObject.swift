@@ -7,9 +7,8 @@
 //
 
 import Foundation
-struct ForecastObject: ConvertibleToFahrenheit {
+struct ForecastObject {
     
-    var scaleIsCelsius: Bool
     var temperatureCelsius = 0
     var minTempCelsius = 0
     var maxTempCelsius = 0
@@ -40,10 +39,9 @@ struct ForecastObject: ConvertibleToFahrenheit {
     init(date: String, condition: Int, maxTemp: Int, minTemp: Int, scaleIsCelsius: Bool, formatter: DateFormatter) {
         self.date = date
         self.condition = condition
-        self.scaleIsCelsius = scaleIsCelsius
         self.formatter = formatter
-        self.maxTemp = maxTemp
-        self.minTemp = minTemp
+        self.maxTempCelsius = maxTemp
+        self.minTempCelsius = minTemp
     }
     
     func formatAmPm(date: String) -> String {

@@ -31,7 +31,7 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestWhenInUseAuthorization()
         
-        if let loadObject = defaults.object(forKey: "cityChosen") as? String {
+        if let loadObject = defaults.string(forKey: "cityChosen") {
             userEnteredNewCity(city: loadObject)
         } else {
             locationManager.startUpdatingLocation()
@@ -41,6 +41,7 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
                 segmentedControl.selectedSegmentIndex = loadObject
                 evaluateSegment()
         }
+        
         
         
         // updates location when app goes to foreground

@@ -33,6 +33,9 @@ extension WeatherViewController {
     func cityIsValid(parameters: [String: String]) {
         weatherDataModel.toggleScale(to: segmentedControl.selectedSegmentIndex)
         getWeatherForecast(url: weatherDataModel.forecastURL, parameters: parameters)
+        if let city = parameters["q"] {
+            UserDefaults.standard.set(city, forKey: "cityChosen")
+        }
     }
     
     func cityIsNotValid(restore model: WeatherDataModel) {

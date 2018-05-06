@@ -90,7 +90,6 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextF
                 }
             }
             SVProgressHUD.show()
-            UserDefaults.standard.set(name, forKey: "cityChosen")
         }
         dismiss(animated: true) {
             SVProgressHUD.dismiss()

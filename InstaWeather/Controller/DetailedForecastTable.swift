@@ -75,12 +75,14 @@ class DetailedForecastTable: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard var section = model?.forecastSections[indexPath.section] else { fatalError() }
+        guard let section = model?.forecastSections[indexPath.section], var currentModel = model else { fatalError() }
         
         let time = section.forecastChunks[indexPath.row].time
         let icon = section.forecastChunks[indexPath.row].condition
-        let minTemp = section.forecastChunks[indexPath.row].minTemp
-        let maxTemp = section.forecastChunks[indexPath.row].maxTemp
+//        let minTemp = section.forecastChunks[indexPath.row].minTemp
+//        let maxTemp = section.forecastChunks[indexPath.row].maxTemp
+        let minTemp = currentModel.minTempForSection(indexPath.section, row: indexPath.row)
+        let maxTemp = currentModel.maxTempForSection(indexPath.section, row: indexPath.row)
         let timeDigits = section.forecastChunks[indexPath.row].timeDigits
         let sunrise = section.forecastChunks[indexPath.row].sunrise
         let sunset = section.forecastChunks[indexPath.row].sunset

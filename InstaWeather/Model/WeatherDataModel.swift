@@ -32,7 +32,15 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
     } 
     var backgroundName = ""
 
-    var forecast = [ForecastObject]()
+    private var _forecast = [ForecastObject]()
+    var forecast: [ForecastObject] {
+        get {
+            return _forecast
+        }
+        set {
+            _forecast = newValue
+        }
+    }
     var currentDay = 0
     var todayBucket = [ForecastObject]()
     var tomorrowBucket = [ForecastObject]()
@@ -52,7 +60,7 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
     var temperatureCelsius = 0
     var maxTempCelsius = 0
     var minTempCelsius = 0
-    
+
     struct ForecastSection {
         var forecastDay: String
         var forecastChunks: [ForecastObject]
@@ -116,27 +124,14 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
         return forecastSections
     }()
     
-    
     func updateWeatherIcon(condition: Int, objectTime: Int, objectSunrise: Int = 0, objectSunset: Int = 0) -> String {
             switch condition {
-            case 0...300 :
-                return "tstorm1"
-                
-            case 301...500 :
-                return "light_rain"
-                
-            case 501...599 :
-                return "shower3"
-                
-            case 600...700 :
-                return "snow"
-                
-            case 701...771 :
-                return "fog"
-                
-            case 772...799 :
-                return "tstorm3"
-                
+            case 0...300 : return "tstorm1"
+            case 301...500 : return "light_rain"
+            case 501...599 : return "shower3"
+            case 600...700 : return "snow"
+            case 701...771 : return "fog"
+            case 772...799 : return "tstorm3"
             case 800, 904 :
                 if (objectTime > objectSunrise && objectTime < objectSunset) || objectSunrise == 0 {
                     return "clear"
@@ -149,11 +144,8 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
                 } else {
                     return "cloudy2night"
                 }
-            case 900...902, 905, 957...1000 :
-                return "tstorm3"
-                
-            case 903 :
-                return "snow"
+            case 900...902, 905, 957...1000 : return "tstorm3"
+            case 903 : return "snow"
             default :
                 if (objectTime > objectSunrise && objectTime < objectSunset) || objectSunrise == 0 {
                     return "clear"
@@ -162,8 +154,6 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
                 }
             }
     }
-    
-    
     mutating func filterDays() {
         currentDay = forecast.first?.currentDay ?? 0
         
@@ -182,7 +172,6 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
                 fiveDaysBucket.append(day)
             }
         }
-                
         weekdayObjects.append(getDailyForecastFor(tomorrowBucket))
         weekdayObjects.append(getDailyForecastFor(twoDaysBucket))
         weekdayObjects.append(getDailyForecastFor(threeDaysBucket))
@@ -210,24 +199,28 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
         let date = day.first?.date ?? ""
         return ForecastObject(date: date, condition: condition, maxTemp: maxTemp, minTemp: minTemp, scaleIsCelsius: scaleIsCelsius, formatter: objectFormatter)
     }
-    
+
     mutating func toggleScale(to: Int) {
         if to == 1 {
             scaleIsCelsius = false
-            for (index, _) in forecast.enumerated() {
-                forecast[index].scaleIsCelsius = false
-            }
-            for (index, _) in weekdayObjects.enumerated() {
-                weekdayObjects[index].scaleIsCelsius = false
-            }
         } else {
             scaleIsCelsius = true
-            for (index, _) in forecast.enumerated() {
-                forecast[index].scaleIsCelsius = true
-            }
-            for (index, _) in weekdayObjects.enumerated() {
-                weekdayObjects[index].scaleIsCelsius = true
-            }
         }
+    }
+    
+    mutating func minTempForSection(_ section: Int, row: Int) -> Int {
+        return convertTempToCurrentScale(forecastSections[section].forecastChunks[row].minTempCelsius)
+    }
+    
+    mutating func maxTempForSection(_ section: Int, row: Int) -> Int {
+        return convertTempToCurrentScale(forecastSections[section].forecastChunks[row].maxTempCelsius)
+    }
+    
+    mutating func minTempForObject(_ object: Int) -> Int {
+        return convertTempToCurrentScale(weekdayObjects[object].minTempCelsius)
+    }
+    
+    mutating func maxTempForObject(_ object: Int) -> Int {
+        return convertTempToCurrentScale(weekdayObjects[object].maxTempCelsius)
     }
 }
