@@ -129,6 +129,14 @@ extension WeatherViewController {
         }
     }
     
+    func updateData() {
+        if let loadObject = UserDefaults.standard.string(forKey: "cityChosen") {
+            userEnteredNewCity(city: loadObject)
+        } else {
+            locationManager.startUpdatingLocation()
+        }
+    }
+    
     func celsiusToKelvin(_ temp: Int) -> Double {
         return Double(temp) + 273.15
     }

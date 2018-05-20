@@ -1,15 +1,15 @@
 platform :ios, '10.0'
 
-target 'Rain Check' do
+target 'InstaWeather' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
-  # Pods for Rain Check
+  # Pods for InstaWeather
   pod 'SwiftyJSON'
   pod 'Alamofire'
   pod 'SVProgressHUD'
 
-  target 'Rain CheckTests' do
+  target 'InstaWeatherTests' do
     inherit! :search_paths
     # Pods for testing
 pod 'SwiftyJSON'
@@ -17,12 +17,20 @@ pod 'Alamofire'
 pod 'SVProgressHUD'
   end
 
-  target 'Rain CheckUITests' do
+  target 'InstaWeatherUITests' do
     inherit! :search_paths
     # Pods for testing
 pod 'SwiftyJSON'
 pod 'Alamofire'
 pod 'SVProgressHUD'
+  end
+
+  target 'InstaWeatherToday' do
+inherit! :search_paths
+  pod 'SwiftyJSON'
+  pod 'Alamofire'
+
   end
 
 end
+

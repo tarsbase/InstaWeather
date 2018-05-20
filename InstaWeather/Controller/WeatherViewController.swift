@@ -30,12 +30,8 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
         assignDelegate()
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestWhenInUseAuthorization()
-        
-        if let loadObject = defaults.string(forKey: "cityChosen") {
-            userEnteredNewCity(city: loadObject)
-        } else {
-            locationManager.startUpdatingLocation()
-        }
+        updateData()
+
         
         if let loadObject = defaults.object(forKey: "tempScale") as? Int {
                 segmentedControl.selectedSegmentIndex = loadObject
@@ -48,7 +44,7 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
         NotificationCenter.default.addObserver(forName: .UIApplicationWillEnterForeground, object: nil, queue: .main) {
             [unowned self] _ in
             self.assignDelegate()
-            self.locationManager.startUpdatingLocation()
+            self.updateData()
         }
         
         addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel)

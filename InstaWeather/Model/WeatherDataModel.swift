@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct WeatherDataModel: ConvertibleToFahrenheit {
+public struct WeatherDataModel: ConvertibleToFahrenheit {
     
     let weatherURL = "http://api.openweathermap.org/data/2.5/weather"
     let forecastURL = "http://api.openweathermap.org/data/2.5/forecast"

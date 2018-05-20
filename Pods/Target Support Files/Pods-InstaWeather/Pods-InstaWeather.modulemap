@@ -1,0 +1,6 @@
+framework module Pods_InstaWeather {
+  umbrella header "Pods-InstaWeather-umbrella.h"
+
+  export *
+  module * { export * }
+}
