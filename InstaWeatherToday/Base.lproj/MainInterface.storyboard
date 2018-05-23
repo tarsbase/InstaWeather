@@ -60,7 +60,6 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="↓ 7" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iRH-h8-Ui0" userLabel="Min Temp Label">
                                         <rect key="frame" x="0.0" y="0.0" width="30" height="21.5"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="22" id="9a2-Cn-tkn"/>
                                             <constraint firstAttribute="width" constant="30" id="nBZ-Ha-Xee"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
@@ -71,7 +70,6 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="↑ 33" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L09-Ns-ggU" userLabel="Max Temp Label">
                                         <rect key="frame" x="34" y="0.0" width="41.5" height="21.5"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="21.5" id="N2h-g2-AuN"/>
                                             <constraint firstAttribute="width" constant="41.5" id="uC8-Fl-bm3"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>

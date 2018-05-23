@@ -25,6 +25,7 @@
 		285D413420A133370040F6BE /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 285D413220A133370040F6BE /* MainInterface.storyboard */; };
 		285D413820A133370040F6BE /* InstaWeatherToday.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 285D412C20A133360040F6BE /* InstaWeatherToday.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		285D413E20A136F50040F6BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 285D413D20A136F40040F6BE /* Assets.xcassets */; };
+		2871C19D20B5085900326A4C /* TodayDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2871C19C20B5085900326A4C /* TodayDataModel.swift */; };
 		2873AED12027A55C00C3ABCE /* FahrenheitProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2873AED02027A55C00C3ABCE /* FahrenheitProtocol.swift */; };
 		287A5DD1201D62D1008E71CF /* ChangeCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A5DD0201D62D1008E71CF /* ChangeCityViewController.swift */; };
 		2882D6872020049500B40082 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2882D6862020049500B40082 /* PageViewController.swift */; };
@@ -113,6 +114,7 @@
 		285D413320A133370040F6BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		285D413520A133370040F6BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		285D413D20A136F40040F6BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2871C19C20B5085900326A4C /* TodayDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDataModel.swift; sourceTree = "<group>"; };
 		2873AED02027A55C00C3ABCE /* FahrenheitProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FahrenheitProtocol.swift; sourceTree = "<group>"; };
 		287A5DD0201D62D1008E71CF /* ChangeCityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeCityViewController.swift; sourceTree = "<group>"; };
 		2882D6862020049500B40082 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PageViewController.swift; path = InstaWeather/Controller/PageViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -252,6 +254,7 @@
 			children = (
 				285D413D20A136F40040F6BE /* Assets.xcassets */,
 				285D413020A133370040F6BE /* TodayViewController.swift */,
+				2871C19C20B5085900326A4C /* TodayDataModel.swift */,
 				285D413220A133370040F6BE /* MainInterface.storyboard */,
 				285D413520A133370040F6BE /* Info.plist */,
 			);
@@ -688,6 +691,7 @@
 				285D413120A133370040F6BE /* TodayViewController.swift in Sources */,
 				28CDAE2120B1C2EE003CE837 /* Secrets.swift in Sources */,
 				28CDAE1F20B1C2EE003CE837 /* ForecastObject.swift in Sources */,
+				2871C19D20B5085900326A4C /* TodayDataModel.swift in Sources */,
 				28CDAE1E20B1C2EE003CE837 /* WeatherDataModel.swift in Sources */,
 				28CDAE2020B1C2EE003CE837 /* FahrenheitProtocol.swift in Sources */,
 			);
