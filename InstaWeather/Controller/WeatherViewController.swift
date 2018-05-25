@@ -26,20 +26,12 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let defaults = UserDefaults.standard
+        
         assignDelegate()
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestWhenInUseAuthorization()
         updateData()
-
-        
-        if let loadObject = defaults.object(forKey: "tempScale") as? Int {
-                segmentedControl.selectedSegmentIndex = loadObject
-                evaluateSegment()
-        }
-        
-        
-        
+        loadScale()
         // updates location when app goes to foreground
         NotificationCenter.default.addObserver(forName: .UIApplicationWillEnterForeground, object: nil, queue: .main) {
             [unowned self] _ in
@@ -60,8 +52,10 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
     }
     @IBAction func clickSegment(_ sender: Any) {
         evaluateSegment()
-        let defaults = UserDefaults.standard
-        defaults.set(segmentedControl.selectedSegmentIndex, forKey: "tempScale")
+        if let defaults = UserDefaults(suiteName: "group.com.besher.InstaWeather") {
+            defaults.set(segmentedControl.selectedSegmentIndex, forKey: "tempScale")
+            print("SAVING NEW SCALE")
+        }
     }
     
     func evaluateSegment() {
@@ -95,6 +89,22 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
         locationManager.delegate = self
     }
     
+    func loadScale() { // takes migration into account
+        if let defaults = UserDefaults(suiteName: "group.com.besher.InstaWeather") {
+            var scale: Int = 0
+            if let loadOBject = UserDefaults.standard.object(forKey: "tempScale") as? Int {
+                scale = loadOBject
+                segmentedControl.selectedSegmentIndex = scale
+                clickSegment(self)
+                UserDefaults.standard.removeObject(forKey: "tempScale")
+            }
+            if let loadObject = defaults.object(forKey: "tempScale") as? Int {
+                scale = loadObject
+            }
+            segmentedControl.selectedSegmentIndex = scale
+            evaluateSegment()
+        }
+    }
     
 }
 

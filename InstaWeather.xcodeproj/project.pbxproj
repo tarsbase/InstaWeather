@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		10CC05B995BFB228A004446F /* Pods_Rain_CheckTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DE0CABBAA95C061C20C7448 /* Pods_Rain_CheckTests.framework */; };
 		2822A03A2021485F0007D9E9 /* ForecastObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822A0392021485F0007D9E9 /* ForecastObject.swift */; };
 		28243639209E6BC9002D3142 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28243637209E6BC9002D3142 /* Crashlytics.framework */; };
 		2824363A209E6BC9002D3142 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28243638209E6BC9002D3142 /* Fabric.framework */; };
@@ -39,12 +38,8 @@
 		28EEB911201C44300090D0D3 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EEB910201C44300090D0D3 /* Secrets.swift */; };
 		28EEB917201C44CD0090D0D3 /* WeatherDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EEB916201C44CD0090D0D3 /* WeatherDataModel.swift */; };
 		28EEB91B201C50EC0090D0D3 /* LocationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EEB91A201C50EC0090D0D3 /* LocationExtension.swift */; };
-		3C8A0FC9701C1C3BDDE31D21 /* Pods_Rain_Check.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7582FAA52E056204AE9B291A /* Pods_Rain_Check.framework */; };
-		420D0A7FB952EC3BB6DF9414 /* Pods_InstaWeatherTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A14C34D8E1EEC828E23A7D4E /* Pods_InstaWeatherTests.framework */; };
 		5FC369B7141958CDA2A1F92A /* Pods_InstaWeatherToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712CE70B02265FD71C44FFAA /* Pods_InstaWeatherToday.framework */; };
 		6AB74F83067294B275C7EF51 /* Pods_InstaWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42CB567C9021980F2ECCCB48 /* Pods_InstaWeather.framework */; };
-		74B6A5BA72FACC28E44E7E2F /* Pods_InstaWeatherUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF44C83A961E289A704F093 /* Pods_InstaWeatherUITests.framework */; };
-		DAC4CA192E9F541BB5CDB8A9 /* Pods_Rain_CheckUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B19BA210355C158D8DE3108 /* Pods_Rain_CheckUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,9 +82,10 @@
 
 /* Begin PBXFileReference section */
 		09808961610CA42FB6E0C66E /* Pods-InstaWeatherTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaWeatherTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InstaWeatherTests/Pods-InstaWeatherTests.debug.xcconfig"; sourceTree = "<group>"; };
-		0B19BA210355C158D8DE3108 /* Pods_Rain_CheckUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rain_CheckUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D3016E15023B4D1C7088105 /* Pods-InstaWeatherUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaWeatherUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-InstaWeatherUITests/Pods-InstaWeatherUITests.release.xcconfig"; sourceTree = "<group>"; };
 		237C6CE99104E30C5AA80DF9 /* Pods-InstaWeatherToday.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaWeatherToday.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InstaWeatherToday/Pods-InstaWeatherToday.debug.xcconfig"; sourceTree = "<group>"; };
+		28177AE620B7AB8B009079AD /* InstaWeather.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InstaWeather.entitlements; sourceTree = "<group>"; };
+		28177AE720B7ABE3009079AD /* InstaWeatherToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InstaWeatherToday.entitlements; sourceTree = "<group>"; };
 		2822A0392021485F0007D9E9 /* ForecastObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastObject.swift; sourceTree = "<group>"; };
 		28243637209E6BC9002D3142 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
 		28243638209E6BC9002D3142 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
@@ -125,12 +121,8 @@
 		28EEB916201C44CD0090D0D3 /* WeatherDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataModel.swift; sourceTree = "<group>"; };
 		28EEB91A201C50EC0090D0D3 /* LocationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationExtension.swift; sourceTree = "<group>"; };
 		42CB567C9021980F2ECCCB48 /* Pods_InstaWeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstaWeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5DE0CABBAA95C061C20C7448 /* Pods_Rain_CheckTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rain_CheckTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		712CE70B02265FD71C44FFAA /* Pods_InstaWeatherToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstaWeatherToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7582FAA52E056204AE9B291A /* Pods_Rain_Check.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rain_Check.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A14C34D8E1EEC828E23A7D4E /* Pods_InstaWeatherTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstaWeatherTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A99E77556E0BB73A05A0182E /* Pods-InstaWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaWeather.release.xcconfig"; path = "Pods/Target Support Files/Pods-InstaWeather/Pods-InstaWeather.release.xcconfig"; sourceTree = "<group>"; };
-		ACF44C83A961E289A704F093 /* Pods_InstaWeatherUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstaWeatherUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D11B89BF044BDF033998B7D4 /* Pods-InstaWeatherToday.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaWeatherToday.release.xcconfig"; path = "Pods/Target Support Files/Pods-InstaWeatherToday/Pods-InstaWeatherToday.release.xcconfig"; sourceTree = "<group>"; };
 		EE63692F785078ACE1E15A54 /* Pods-InstaWeatherUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaWeatherUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InstaWeatherUITests/Pods-InstaWeatherUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		EF345E91F9009A3EDD4DB706 /* Pods-InstaWeather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaWeather.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InstaWeather/Pods-InstaWeather.debug.xcconfig"; sourceTree = "<group>"; };
@@ -143,7 +135,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				28243639209E6BC9002D3142 /* Crashlytics.framework in Frameworks */,
-				3C8A0FC9701C1C3BDDE31D21 /* Pods_Rain_Check.framework in Frameworks */,
 				2824363A209E6BC9002D3142 /* Fabric.framework in Frameworks */,
 				6AB74F83067294B275C7EF51 /* Pods_InstaWeather.framework in Frameworks */,
 			);
@@ -153,8 +144,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10CC05B995BFB228A004446F /* Pods_Rain_CheckTests.framework in Frameworks */,
-				420D0A7FB952EC3BB6DF9414 /* Pods_InstaWeatherTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,8 +151,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAC4CA192E9F541BB5CDB8A9 /* Pods_Rain_CheckUITests.framework in Frameworks */,
-				74B6A5BA72FACC28E44E7E2F /* Pods_InstaWeatherUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,13 +169,8 @@
 		202DF2A4EE5C7595DA776AD0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7582FAA52E056204AE9B291A /* Pods_Rain_Check.framework */,
-				5DE0CABBAA95C061C20C7448 /* Pods_Rain_CheckTests.framework */,
-				0B19BA210355C158D8DE3108 /* Pods_Rain_CheckUITests.framework */,
 				285D412D20A133370040F6BE /* NotificationCenter.framework */,
 				42CB567C9021980F2ECCCB48 /* Pods_InstaWeather.framework */,
-				A14C34D8E1EEC828E23A7D4E /* Pods_InstaWeatherTests.framework */,
-				ACF44C83A961E289A704F093 /* Pods_InstaWeatherUITests.framework */,
 				712CE70B02265FD71C44FFAA /* Pods_InstaWeatherToday.framework */,
 			);
 			name = Frameworks;
@@ -221,6 +203,7 @@
 		28359A4B201C41E3005AAFF4 /* InstaWeather */ = {
 			isa = PBXGroup;
 			children = (
+				28177AE620B7AB8B009079AD /* InstaWeather.entitlements */,
 				28EEB915201C44AC0090D0D3 /* Supporting Files */,
 				28EEB912201C44850090D0D3 /* Controller */,
 				28EEB914201C44940090D0D3 /* Model */,
@@ -252,6 +235,7 @@
 		285D412F20A133370040F6BE /* InstaWeatherToday */ = {
 			isa = PBXGroup;
 			children = (
+				28177AE720B7ABE3009079AD /* InstaWeatherToday.entitlements */,
 				285D413D20A136F40040F6BE /* Assets.xcassets */,
 				285D413020A133370040F6BE /* TodayViewController.swift */,
 				2871C19C20B5085900326A4C /* TodayDataModel.swift */,
@@ -418,6 +402,11 @@
 					28359A48201C41E3005AAFF4 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					28359A5C201C41E3005AAFF4 = {
 						CreatedOnToolsVersion = 9.2;
@@ -432,6 +421,11 @@
 					285D412B20A133360040F6BE = {
 						CreatedOnToolsVersion = 9.3;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -862,6 +856,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = InstaWeather/InstaWeather.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S9M2AHXJQE;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -884,6 +879,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = InstaWeather/InstaWeather.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S9M2AHXJQE;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -975,6 +971,7 @@
 			baseConfigurationReference = 237C6CE99104E30C5AA80DF9 /* Pods-InstaWeatherToday.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = InstaWeatherToday/InstaWeatherToday.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S9M2AHXJQE;
 				INFOPLIST_FILE = InstaWeatherToday/Info.plist;
@@ -993,6 +990,7 @@
 			baseConfigurationReference = D11B89BF044BDF033998B7D4 /* Pods-InstaWeatherToday.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = InstaWeatherToday/InstaWeatherToday.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S9M2AHXJQE;
 				INFOPLIST_FILE = InstaWeatherToday/Info.plist;
