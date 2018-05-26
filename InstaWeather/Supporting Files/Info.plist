@@ -27,7 +27,7 @@
 			<string>com.besher.instaweather</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>INSTAWEATHER_URL</string>
+				<string>instaurl</string>
 			</array>
 		</dict>
 	</array>

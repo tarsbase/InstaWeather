@@ -63,7 +63,7 @@
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="999" constant="39.5" id="nBZ-Ha-Xee"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="16"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.70342759683098588" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.60145246478873238" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                                 <size key="shadowOffset" width="2" height="2"/>
                                             </label>
@@ -73,7 +73,7 @@
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="999" constant="39.5" id="uC8-Fl-bm3"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="16"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.70342759683098588" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.60145246478873238" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                                 <size key="shadowOffset" width="2" height="2"/>
                                             </label>
@@ -84,36 +84,44 @@
                                     <constraint firstAttribute="width" constant="93" id="zI0-HY-x9c"/>
                                 </constraints>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="iKr-ww-YwK" userLabel="Summary stack">
-                                <rect key="frame" x="192" y="7" width="123.5" height="74"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="iKr-ww-YwK" userLabel="Summary stack">
+                                <rect key="frame" x="192" y="1.5" width="123.5" height="91.5"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Montreal" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="GcN-lo-r42" userLabel="City">
-                                        <rect key="frame" x="0.0" y="0.0" width="123.5" height="36.5"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="San Francisco" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="GcN-lo-r42" userLabel="City">
+                                        <rect key="frame" x="0.0" y="0.0" width="123.5" height="26.5"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="36.5" id="hzU-HJ-m4V"/>
+                                            <constraint firstAttribute="height" constant="26.5" id="hzU-HJ-m4V"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="22"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="22"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next hour: " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tln-bY-hEu">
-                                        <rect key="frame" x="0.0" y="36.5" width="123.5" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
-                                        <color key="textColor" white="0.0" alpha="0.79351892609999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                        <size key="shadowOffset" width="0.0" height="0.0"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Clear" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bTC-Z2-fJU" userLabel="Summary">
-                                        <rect key="frame" x="0.0" y="57" width="123.5" height="17"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="17" id="vNv-nv-vcc"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
-                                        <color key="textColor" white="0.0" alpha="0.79351892609999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                        <size key="shadowOffset" width="0.0" height="0.0"/>
-                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="y1b-7A-3Jt">
+                                        <rect key="frame" x="0.0" y="26.5" width="123.5" height="65"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next hour: " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tln-bY-hEu">
+                                                <rect key="frame" x="0.0" y="0.0" width="123.5" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                                <color key="textColor" white="0.0" alpha="0.79351892609999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                                <size key="shadowOffset" width="0.0" height="0.0"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Light rain stopping in 25 min., starting again 14 min. later. " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bTC-Z2-fJU" userLabel="Summary">
+                                                <rect key="frame" x="0.0" y="18" width="123.5" height="47"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="47" id="vNv-nv-vcc"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="13"/>
+                                                <color key="textColor" white="0.0" alpha="0.79351892609999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                                <size key="shadowOffset" width="0.0" height="0.0"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="100" id="L45-5c-yy8"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <constraints>
@@ -126,7 +134,7 @@
                             <constraint firstItem="ssy-KU-ocm" firstAttribute="leading" secondItem="vJm-rt-Vqt" secondAttribute="leading" constant="-16" id="dha-Fk-lrS"/>
                             <constraint firstItem="gcm-Xu-Vfz" firstAttribute="centerY" secondItem="vJm-rt-Vqt" secondAttribute="centerY" id="k1j-sk-AjR"/>
                             <constraint firstItem="AbH-HH-k7K" firstAttribute="leading" secondItem="ssy-KU-ocm" secondAttribute="leading" id="ruR-6R-nnv"/>
-                            <constraint firstItem="iKr-ww-YwK" firstAttribute="centerY" secondItem="gcm-Xu-Vfz" secondAttribute="centerY" constant="2" id="uC7-0E-q1J"/>
+                            <constraint firstItem="iKr-ww-YwK" firstAttribute="centerY" secondItem="gcm-Xu-Vfz" secondAttribute="centerY" constant="5" id="uC7-0E-q1J"/>
                             <constraint firstItem="iKr-ww-YwK" firstAttribute="leading" secondItem="gcm-Xu-Vfz" secondAttribute="trailing" constant="3" id="wte-Lh-Qzn"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ssy-KU-ocm"/>

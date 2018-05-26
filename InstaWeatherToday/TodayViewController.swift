@@ -21,80 +21,45 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     @IBOutlet weak var maxTempLabel: UILabel!
     @IBOutlet weak var summaryLabel: UILabel!
     @IBOutlet weak var nextHourLabel: UILabel!
-    lazy var labelArray: [UIView] = {
-        let array: [UIView] = [conditionImage, minTempLabel, maxTempLabel, currentTempLabel, cityLabel, summaryLabel, nextHourLabel]
-        for label in array {
-//            label.alpha = 0
-        }
-        return array
-    }()
     lazy var scale: String = {
         var scale = ""
-        if let defaults = UserDefaults(suiteName: "group.com.besher.InstaWeather") {
-            if let loadObject = defaults.object(forKey: "tempScale") as? Int {
-                if loadObject == 0 {
-                    scale = "ca"
-                } else {
-                    scale = "us"
-                }
+        if let loadObject = defaults?.object(forKey: "tempScale") as? Int {
+            if loadObject == 0 {
+                scale = "ca"
+            } else {
+                scale = "us"
             }
         }
         return scale
     }()
-    
-    
-    
     let locationManager = CLLocationManager()
     var todayModel = TodayDataModel()
-    
-    
+    let defaults = UserDefaults(suiteName: "group.com.besher.InstaWeather")
     
     override func viewWillAppear(_ animated: Bool) {
-        // TODO: Use cached data
-        
-        
-        // TODO : Add fade in animation
-        for case let label as UIView in labelArray {
-//            UIView.animate(withDuration: 1, animations: {
-//                label.alpha = 1
-//                })
-        }
-        
-        extensionContext?.open(URL(string: "INSTAWEATHER_URL:")!, completionHandler: nil)
-        
         assignDelegate()
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestWhenInUseAuthorization()
         updateData()
     }
     
-    // TODO : save weather data for next ViewDidLoad temporarily before connection
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        conditionImage.image = conditionImage.image?.withRenderingMode(.alwaysTemplate)
-        
-        
-        // Do any additional setup after loading the view from its nib.
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        todayModel.loadSavedData()
+        updateUI()
     }
     
     func updateTodayModelWith(longitude: String, latitude: String) {
         let urlBegin = "https://api.darksky.net/forecast/"
         let coords = latitude + "," + longitude
-        let units = "?units=\(scale)" // TODO: Change according to saved settings in main app
+        let units = "?units=\(scale)"
         let url = urlBegin + DARK_SKY + coords + units
-        
         Alamofire.request(url, method: .get, parameters: nil).responseJSON {
             [unowned self] response in
             if response.result.isSuccess {
                 let weatherJSON = JSON(response.result.value!)
-                self.updateLabelsFrom(weatherJSON)
+                self.updateModelWith(weatherJSON)
+                self.updateUI()
             } else {
                 print(response.result.error?.localizedDescription ?? "Error")
             }
@@ -120,8 +85,29 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
             let latitude = String(location.coordinate.latitude)
             let longitude = String(location.coordinate.longitude)
             updateTodayModelWith(longitude: longitude, latitude: latitude)
-//            getWeatherData(url: weatherDataModel.weatherURL, parameters: params)
         }
+    }
+    
+    func updateModelWith(_ json: JSON) {
+        let currentTemp = json["currently"]["temperature"].intValue
+        let maxTemp = json["daily"]["data"][0]["apparentTemperatureHigh"].intValue
+        let minTemp = json["daily"]["data"][0]["apparentTemperatureLow"].intValue
+        let summary = json["minutely"]["summary"].stringValue
+        let icon = json["minutely"]["icon"].stringValue
+        todayModel.updateTemperature(currentTemp: currentTemp, maxTemp: maxTemp, minTemp: minTemp, summary: summary, icon: icon)
+    }
+    
+    func updateUI() {
+        currentTempLabel.text = "\(todayModel.getCurrentTemp())°"
+        maxTempLabel.text = "↑ \(todayModel.getMaxTemp())"
+        minTempLabel.text = "↓ \(todayModel.getMinTemp())"
+        summaryLabel.text = todayModel.getSummary()
+        cityLabel.text = todayModel.getCity()
+        conditionImage.image = UIImage(named: todayModel.getIcon())
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        extensionContext?.open(URL(string: "instaurl:")!, completionHandler: nil)
     }
     
     func updateCityFromLocation(location: CLLocation){
@@ -132,28 +118,13 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
                     print("Reverse geodcode failed: \(error.localizedDescription)")
                 }
                 guard let pm = placemarks, let possibleCity = pm.first, let city = possibleCity.locality else { return }
-                self.cityLabel.text = city
+                self.todayModel.updateCity(to: city)
+                self.updateUI()
         })
     }
     
-    func updateLabelsFrom(_ json: JSON) {
-        // TODO: save data
-        let currentTemp = json["currently"]["temperature"].intValue
-        let maxTemp = json["daily"]["data"][0]["temperatureHigh"].intValue
-        let minTemp = json["daily"]["data"][0]["temperatureLow"].intValue
-        let summary = json["hourly"]["data"][0]["summary"].stringValue
-        
-        currentTempLabel.text = "\(currentTemp)°"
-        maxTempLabel.text = "↑ \(maxTemp)"
-        minTempLabel.text = "↓ \(minTemp)"
-        summaryLabel.text = summary
-    }
-    
-    
-    
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
         // Perform any setup necessary in order to update the view.
-        
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
