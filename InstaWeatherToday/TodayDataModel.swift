@@ -7,25 +7,43 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 struct TodayDataModel {
     let defaults = UserDefaults(suiteName: "group.com.besher.InstaWeather")
-    private var currentTemp = 0, maxTemp = 0, minTemp = 0, summary = "", city = "", icon = "", percipProbability = 0.0
-    mutating func updateTemperature(currentTemp: Int, maxTemp: Int, minTemp: Int, summary: String, icon: String, percipProbability: Double) {
-        self.currentTemp = currentTemp
-        self.maxTemp = maxTemp
-        self.minTemp = minTemp
-        self.summary = summary
-        self.icon = icon
-        self.percipProbability = percipProbability
-        defaults?.setValue(currentTemp, forKey: "todayCurrentTemp")
-        defaults?.setValue(maxTemp, forKey: "todayMaxTemp")
-        defaults?.setValue(minTemp, forKey: "todayMinTemp")
-        defaults?.setValue(summary, forKey: "todaySummary")
-        defaults?.setValue(icon, forKey: "todayIcon")
-        defaults?.setValue(percipProbability, forKey: "todayPercipProbability")
-
+    private var currentTemp = 0, maxTemp = 0, minTemp = 0, summary = "", city = "", icon = "", percipProbability = 0.0, dailySummary = ""
+    
+    struct DailyForecastItem {
+        var time = 0, icon = "", precip = 0.0, temp = 0
     }
+    
+    private var dailyForecastItems: [DailyForecastItem] = [DailyForecastItem]()
+    
+    mutating func updateWith(_ json: JSON, saveData: Bool = true) {
+        currentTemp = json["currently"]["temperature"].intValue
+        maxTemp = json["daily"]["data"][0]["apparentTemperatureHigh"].intValue
+        minTemp = json["daily"]["data"][0]["apparentTemperatureLow"].intValue
+        summary = json["minutely"]["summary"].stringValue
+        icon = convertIcon(from: json["minutely"]["icon"].stringValue)
+        percipProbability = json["daily"]["data"][0]["precipProbability"].doubleValue
+        dailySummary = json["daily"]["data"][0]["summary"].stringValue
+        
+        dailyForecastItems.removeAll()
+        for i in stride(from: 2, through: 10, by: 2) {
+            let time = json["hourly"]["data"][i]["time"].intValue
+            let icon = convertIcon(from: json["hourly"]["data"][i]["icon"].stringValue)
+            let precip = json["hourly"]["data"][i]["precipProbability"].doubleValue
+            let temp = json["hourly"]["data"][i]["apparentTemperature"].intValue
+            let forecastItem = DailyForecastItem(time: time, icon: icon, precip: precip, temp: temp)
+            dailyForecastItems.append(forecastItem)
+        }
+        if saveData {
+            if let jsonString = json.rawString() {
+                defaults?.set(jsonString, forKey: "JASON")
+            }
+        }
+    }
+    
     mutating func updateCity(to city: String) {
         self.city = city
         defaults?.setValue(city, forKey: "todayCity")
@@ -48,7 +66,20 @@ struct TodayDataModel {
     func getPercipProbability() -> Double {
         return percipProbability
     }
+    func getDailySummary() -> String {
+        return dailySummary
+    }
     func getIcon() -> String {
+        return icon
+    }
+    func getForecastItems() -> [DailyForecastItem] {
+        return dailyForecastItems
+    }
+    mutating func loadSavedData() {
+        guard let stringJSON = defaults?.string(forKey: "JASON") else { return }
+        updateWith(JSON.init(parseJSON: stringJSON), saveData: false)
+    }
+    func convertIcon(from icon: String) -> String {
         switch icon {
         case "clear-day": return "clear"
         case "clear-night": return "clearnight"
@@ -62,22 +93,5 @@ struct TodayDataModel {
         case "partly-cloudy-night": return "cloudy2night"
         default: return "clear"
         }
-    }
-    mutating func loadSavedData() {
-        guard let savedCurrentTemp = defaults?.integer(forKey: "todayCurrentTemp"),
-              let savedMaxTemp = defaults?.integer(forKey: "todayMaxTemp"),
-              let savedMinTemp = defaults?.integer(forKey: "todayMinTemp"),
-              let savedSummary = defaults?.string(forKey: "todaySummary"),
-              let savedCity = defaults?.string(forKey: "todayCity"),
-              let savedIcon = defaults?.string(forKey: "todayIcon"),
-              let savedPercip = defaults?.double(forKey: "todayPercipProbability")
-              else { return }
-        currentTemp = savedCurrentTemp
-        maxTemp = savedMaxTemp
-        minTemp = savedMinTemp
-        summary = savedSummary
-        city = savedCity
-        icon = savedIcon
-        percipProbability = savedPercip
     }
 }

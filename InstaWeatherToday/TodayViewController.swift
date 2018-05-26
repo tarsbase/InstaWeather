@@ -20,15 +20,56 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     @IBOutlet weak var minTempLabel: UILabel!
     @IBOutlet weak var maxTempLabel: UILabel!
     @IBOutlet weak var summaryLabel: UILabel!
+    @IBOutlet weak var dailySummaryLabel: UILabel!
     @IBOutlet weak var nextHourLabel: UILabel!
     @IBOutlet weak var umbrellaLabel: UIImageView!
     @IBOutlet weak var percipProbabilityLabel: UILabel!
+    @IBOutlet weak var dailyStack: UIStackView!
+    @IBOutlet weak var divider: UIView!
+    
+    @IBOutlet weak var dailyTime0: UILabel!
+    @IBOutlet weak var dailyTime1: UILabel!
+    @IBOutlet weak var dailyTime2: UILabel!
+    @IBOutlet weak var dailyTime3: UILabel!
+    @IBOutlet weak var dailyTime4: UILabel!
+    
+    @IBOutlet weak var dailyCondition0: UIImageView!
+    @IBOutlet weak var dailyCondition1: UIImageView!
+    @IBOutlet weak var dailyCondition2: UIImageView!
+    @IBOutlet weak var dailyCondition3: UIImageView!
+    @IBOutlet weak var dailyCondition4: UIImageView!
+    
+    @IBOutlet weak var dailyPrecip0: UILabel!
+    @IBOutlet weak var dailyPrecip1: UILabel!
+    @IBOutlet weak var dailyPrecip2: UILabel!
+    @IBOutlet weak var dailyPrecip3: UILabel!
+    @IBOutlet weak var dailyPrecip4: UILabel!
+    
+    @IBOutlet weak var dailyTemp0: UILabel!
+    @IBOutlet weak var dailyTemp1: UILabel!
+    @IBOutlet weak var dailyTemp2: UILabel!
+    @IBOutlet weak var dailyTemp3: UILabel!
+    @IBOutlet weak var dailyTemp4: UILabel!
+    
+    // TODO : change umbrella alpha
+    
+    lazy var dailyTimes: [UILabel] = {
+        return [dailyTime0, dailyTime1, dailyTime2, dailyTime3, dailyTime4]
+    }()
+    lazy var dailyConditions: [UIImageView] = {
+        return [dailyCondition0, dailyCondition1, dailyCondition2, dailyCondition3, dailyCondition4]
+    }()
+    lazy var dailyPrecips: [UILabel] = {
+        return [dailyPrecip0, dailyPrecip1, dailyPrecip2, dailyPrecip3, dailyPrecip4]
+    }()
+    lazy var dailyTemps: [UILabel] = {
+        return [dailyTemp0, dailyTemp1, dailyTemp2, dailyTemp3, dailyTemp4]
+    }()
+    
     lazy var scale: String = {
-        var scale = ""
+        var scale = "ca"
         if let loadObject = defaults?.object(forKey: "tempScale") as? Int {
-            if loadObject == 0 {
-                scale = "ca"
-            } else {
+            if loadObject != 0 {
                 scale = "us"
             }
         }
@@ -55,22 +96,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         updateUI()
     }
     
-    func updateTodayModelWith(longitude: String, latitude: String) {
-        let urlBegin = "https://api.darksky.net/forecast/"
-        let coords = latitude + "," + longitude
-        let units = "?units=\(scale)"
-        let url = urlBegin + DARK_SKY + coords + units
-        Alamofire.request(url, method: .get, parameters: nil).responseJSON {
-            [unowned self] response in
-            if response.result.isSuccess {
-                let weatherJSON = JSON(response.result.value!)
-                self.updateModelWith(weatherJSON)
-                self.updateUI()
-            } else {
-                print(response.result.error?.localizedDescription ?? "Error")
-            }
-        }
-    }
+
 
     
     func assignDelegate() {
@@ -94,14 +120,21 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         }
     }
     
-    func updateModelWith(_ json: JSON) {
-        let currentTemp = json["currently"]["temperature"].intValue
-        let maxTemp = json["daily"]["data"][0]["apparentTemperatureHigh"].intValue
-        let minTemp = json["daily"]["data"][0]["apparentTemperatureLow"].intValue
-        let summary = json["minutely"]["summary"].stringValue
-        let icon = json["minutely"]["icon"].stringValue
-        let percipProbability = json["daily"]["data"][0]["precipProbability"].doubleValue
-        todayModel.updateTemperature(currentTemp: currentTemp, maxTemp: maxTemp, minTemp: minTemp, summary: summary, icon: icon, percipProbability: percipProbability)
+    func updateTodayModelWith(longitude: String, latitude: String) {
+        let urlBegin = "https://api.darksky.net/forecast/"
+        let coords = latitude + "," + longitude
+        let units = "?units=\(scale)"
+        let url = urlBegin + DARK_SKY + coords + units
+        Alamofire.request(url, method: .get, parameters: nil).responseJSON {
+            [unowned self] response in
+            if response.result.isSuccess {
+                let weatherJSON = JSON(response.result.value!)
+                self.todayModel.updateWith(weatherJSON)
+                self.updateUI()
+            } else {
+                print(response.result.error?.localizedDescription ?? "Error")
+            }
+        }
     }
     
     func updateUI() {
@@ -112,6 +145,15 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         cityLabel.text = todayModel.getCity()
         percipProbabilityLabel.text = "\(Int(todayModel.getPercipProbability() * 100))%"
         conditionImage.image = UIImage(named: todayModel.getIcon())
+        dailySummaryLabel.text = todayModel.getDailySummary()
+        let forecastObjects = todayModel.getForecastItems()
+        
+        for i in forecastObjects.indices {
+            dailyTemps[i].text = "\(forecastObjects[i].temp)°"
+            dailyPrecips[i].text = "\(Int(forecastObjects[i].precip * 100))%"
+            dailyConditions[i].image = UIImage(named: forecastObjects[i].icon)
+            dailyTimes[i].text = String(forecastObjects[i].time)
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -143,9 +185,27 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
         if activeDisplayMode == .compact {
             preferredContentSize = CGSize(width: 0, height: 110)
+            hide(views: dailyStack, divider)
         } else {
-            preferredContentSize = CGSize(width: 0, height: 220)
+            preferredContentSize = CGSize(width: 0, height: 260)
+            show(views: dailyStack, divider)
         }
-        
     }
+    
+    func hide(views: UIView...) {
+        UIView.animate(withDuration: 0.4) {
+            for view in views {
+                view.alpha = 0
+            }
+        }
+    }
+    
+    func show(views: UIView...) {
+        UIView.animate(withDuration: 0.4) {
+            for view in views {
+                view.alpha = 1
+            }
+        }
+    }
+    
 }
