@@ -10,18 +10,21 @@ import Foundation
 
 struct TodayDataModel {
     let defaults = UserDefaults(suiteName: "group.com.besher.InstaWeather")
-    private var currentTemp = 0, maxTemp = 0, minTemp = 0, summary = "", city = "", icon = ""
-    mutating func updateTemperature(currentTemp: Int, maxTemp: Int, minTemp: Int, summary: String, icon: String) {
+    private var currentTemp = 0, maxTemp = 0, minTemp = 0, summary = "", city = "", icon = "", percipProbability = 0.0
+    mutating func updateTemperature(currentTemp: Int, maxTemp: Int, minTemp: Int, summary: String, icon: String, percipProbability: Double) {
         self.currentTemp = currentTemp
         self.maxTemp = maxTemp
         self.minTemp = minTemp
         self.summary = summary
         self.icon = icon
+        self.percipProbability = percipProbability
         defaults?.setValue(currentTemp, forKey: "todayCurrentTemp")
         defaults?.setValue(maxTemp, forKey: "todayMaxTemp")
         defaults?.setValue(minTemp, forKey: "todayMinTemp")
         defaults?.setValue(summary, forKey: "todaySummary")
         defaults?.setValue(icon, forKey: "todayIcon")
+        defaults?.setValue(percipProbability, forKey: "todayPercipProbability")
+
     }
     mutating func updateCity(to city: String) {
         self.city = city
@@ -41,6 +44,9 @@ struct TodayDataModel {
     }
     func getSummary() -> String {
         return summary
+    }
+    func getPercipProbability() -> Double {
+        return percipProbability
     }
     func getIcon() -> String {
         switch icon {
@@ -63,7 +69,8 @@ struct TodayDataModel {
               let savedMinTemp = defaults?.integer(forKey: "todayMinTemp"),
               let savedSummary = defaults?.string(forKey: "todaySummary"),
               let savedCity = defaults?.string(forKey: "todayCity"),
-              let savedIcon = defaults?.string(forKey: "todayIcon")
+              let savedIcon = defaults?.string(forKey: "todayIcon"),
+              let savedPercip = defaults?.double(forKey: "todayPercipProbability")
               else { return }
         currentTemp = savedCurrentTemp
         maxTemp = savedMaxTemp
@@ -71,5 +78,6 @@ struct TodayDataModel {
         summary = savedSummary
         city = savedCity
         icon = savedIcon
+        percipProbability = savedPercip
     }
 }

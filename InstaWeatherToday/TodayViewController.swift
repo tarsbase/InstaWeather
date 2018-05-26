@@ -21,6 +21,8 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     @IBOutlet weak var maxTempLabel: UILabel!
     @IBOutlet weak var summaryLabel: UILabel!
     @IBOutlet weak var nextHourLabel: UILabel!
+    @IBOutlet weak var umbrellaLabel: UIImageView!
+    @IBOutlet weak var percipProbabilityLabel: UILabel!
     lazy var scale: String = {
         var scale = ""
         if let loadObject = defaults?.object(forKey: "tempScale") as? Int {
@@ -41,10 +43,14 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestWhenInUseAuthorization()
         updateData()
+        umbrellaLabel.image = umbrellaLabel.image?.withRenderingMode(.alwaysTemplate)
+        umbrellaLabel.tintColor = .black
+        umbrellaLabel.alpha = 0.6
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        extensionContext?.widgetLargestAvailableDisplayMode = .expanded
         todayModel.loadSavedData()
         updateUI()
     }
@@ -94,7 +100,8 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         let minTemp = json["daily"]["data"][0]["apparentTemperatureLow"].intValue
         let summary = json["minutely"]["summary"].stringValue
         let icon = json["minutely"]["icon"].stringValue
-        todayModel.updateTemperature(currentTemp: currentTemp, maxTemp: maxTemp, minTemp: minTemp, summary: summary, icon: icon)
+        let percipProbability = json["daily"]["data"][0]["precipProbability"].doubleValue
+        todayModel.updateTemperature(currentTemp: currentTemp, maxTemp: maxTemp, minTemp: minTemp, summary: summary, icon: icon, percipProbability: percipProbability)
     }
     
     func updateUI() {
@@ -103,6 +110,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         minTempLabel.text = "↓ \(todayModel.getMinTemp())"
         summaryLabel.text = todayModel.getSummary()
         cityLabel.text = todayModel.getCity()
+        percipProbabilityLabel.text = "\(Int(todayModel.getPercipProbability() * 100))%"
         conditionImage.image = UIImage(named: todayModel.getIcon())
     }
     
@@ -130,5 +138,14 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         // If there's an update, use NCUpdateResult.NewData
         
         completionHandler(NCUpdateResult.newData)
+    }
+    
+    func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
+        if activeDisplayMode == .compact {
+            preferredContentSize = CGSize(width: 0, height: 110)
+        } else {
+            preferredContentSize = CGSize(width: 0, height: 220)
+        }
+        
     }
 }
