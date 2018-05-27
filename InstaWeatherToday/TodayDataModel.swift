@@ -26,16 +26,22 @@ struct TodayDataModel {
         summary = json["minutely"]["summary"].stringValue
         icon = convertIcon(from: json["minutely"]["icon"].stringValue)
         percipProbability = json["daily"]["data"][0]["precipProbability"].doubleValue
-        dailySummary = json["daily"]["data"][0]["summary"].stringValue
+        var nextHour = -1
         
         dailyForecastItems.removeAll()
         for i in stride(from: 2, through: 10, by: 2) {
             let time = unixToHours(unix: json["hourly"]["data"][i]["time"].intValue)
+            if nextHour == -1 { nextHour = Int(unixTo24Hours(unix: json["hourly"]["data"][i]["time"].intValue)) ?? -1 } // get current time
             let icon = convertIcon(from: json["hourly"]["data"][i]["icon"].stringValue)
             let precip = json["hourly"]["data"][i]["precipProbability"].doubleValue
             let temp = json["hourly"]["data"][i]["apparentTemperature"].intValue
             let forecastItem = DailyForecastItem(time: time, icon: icon, precip: precip, temp: temp)
             dailyForecastItems.append(forecastItem)
+        }
+        if nextHour == 1 || nextHour == 0 || nextHour > 18 {
+            dailySummary = "Tomorrow: \(json["daily"]["data"][1]["summary"].stringValue)"
+        } else {
+            dailySummary = "Today: \(json["daily"]["data"][0]["summary"].stringValue)"
         }
         if saveData {
             if let jsonString = json.rawString() {
@@ -99,6 +105,14 @@ struct TodayDataModel {
         let formatter = DateFormatter()
         formatter.locale = NSLocale.current
         formatter.dateFormat = "h a"
+        let dateString = formatter.string(from: date)
+        return dateString
+    }
+    func unixTo24Hours(unix: Int) -> String {
+        let date = Date(timeIntervalSince1970: Double(unix))
+        let formatter = DateFormatter()
+        formatter.locale = NSLocale.current
+        formatter.dateFormat = "H"
         let dateString = formatter.string(from: date)
         return dateString
     }

@@ -151,7 +151,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         cityLabel.text = todayModel.getCity()
         percipProbabilityLabel.text = "\(Int(todayModel.getPercipProbability() * 100))%"
         conditionImage.image = UIImage(named: todayModel.getIcon())
-        dailySummaryLabel.text = todayModel.getDailySummary()
+        dailySummaryLabel.text = "\(todayModel.getDailySummary())"
         let forecastObjects = todayModel.getForecastItems()
         
         for i in forecastObjects.indices {
