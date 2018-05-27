@@ -67,7 +67,7 @@
                                     <segue destination="QY7-Dg-NX2" kind="show" identifier="changeCity" id="xBq-QD-SFk"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Montreal" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F5t-8A-yQd">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Montreal" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F5t-8A-yQd">
                                 <rect key="frame" x="80.5" y="584" width="125" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="292" id="GDc-Sw-Qwh"/>
@@ -611,10 +611,17 @@
                                     <action selector="currentLocationButton:" destination="QY7-Dg-NX2" eventType="touchUpInside" id="Xz8-JF-kEU"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Powered by the Dark Sky API" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mfS-IG-cKA">
+                                <rect key="frame" x="194" y="638" width="164" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="wgX-yo-6Ct" firstAttribute="top" secondItem="6ga-Ff-xiW" secondAttribute="top" id="8Cn-Bt-fcU"/>
+                            <constraint firstItem="cuq-et-T6X" firstAttribute="trailing" secondItem="mfS-IG-cKA" secondAttribute="trailing" constant="17" id="GEO-7R-JoO"/>
                             <constraint firstItem="uAM-ds-MuP" firstAttribute="leading" secondItem="cuq-et-T6X" secondAttribute="leading" constant="16" id="Jb1-5b-uEW"/>
                             <constraint firstItem="Dns-ke-Cbg" firstAttribute="centerX" secondItem="6ga-Ff-xiW" secondAttribute="centerX" id="Olb-cV-qZs"/>
                             <constraint firstAttribute="bottom" secondItem="wgX-yo-6Ct" secondAttribute="bottom" id="WUx-qO-jf3"/>
@@ -622,6 +629,7 @@
                             <constraint firstItem="6cx-98-g0U" firstAttribute="top" secondItem="iv7-AE-zym" secondAttribute="bottom" constant="8" id="fHE-34-cWd"/>
                             <constraint firstItem="iv7-AE-zym" firstAttribute="top" secondItem="cuq-et-T6X" secondAttribute="top" constant="74" id="fR4-qv-hXS"/>
                             <constraint firstItem="cuq-et-T6X" firstAttribute="bottom" secondItem="Dns-ke-Cbg" secondAttribute="bottom" constant="39" id="ia6-ju-YNA"/>
+                            <constraint firstItem="cuq-et-T6X" firstAttribute="bottom" secondItem="mfS-IG-cKA" secondAttribute="bottom" constant="14" id="jNe-Tl-FD6"/>
                             <constraint firstAttribute="trailing" secondItem="wgX-yo-6Ct" secondAttribute="trailing" id="kBq-M7-W1G"/>
                             <constraint firstItem="iv7-AE-zym" firstAttribute="centerX" secondItem="6ga-Ff-xiW" secondAttribute="centerX" id="kJ3-bP-BuW"/>
                             <constraint firstItem="wgX-yo-6Ct" firstAttribute="leading" secondItem="6ga-Ff-xiW" secondAttribute="leading" id="krI-tp-EVT"/>

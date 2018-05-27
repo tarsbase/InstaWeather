@@ -64,7 +64,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" spacing="-3" translatesAutoresizingMaskIntoConstraints="NO" id="gcm-Xu-Vfz" userLabel="Temp stack">
-                                <rect key="frame" x="95" y="6" width="93" height="75"/>
+                                <rect key="frame" x="95" y="7.5" width="93" height="75"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="129°" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BB0-UZ-XRg" userLabel="Temp Label">
                                         <rect key="frame" x="0.0" y="0.0" width="93" height="58.5"/>
@@ -107,9 +107,9 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="iKr-ww-YwK" userLabel="Summary stack">
-                                <rect key="frame" x="191" y="3" width="125" height="92"/>
+                                <rect key="frame" x="191" y="4" width="125" height="92"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="San Francisco" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="GcN-lo-r42" userLabel="City">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="San Francisco" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="GcN-lo-r42" userLabel="City">
                                         <rect key="frame" x="0.0" y="0.0" width="125" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="26.5" id="hzU-HJ-m4V"/>
@@ -128,7 +128,7 @@
                                                 <nil key="highlightedColor"/>
                                                 <size key="shadowOffset" width="0.0" height="0.0"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Light rain stopping in 25 min., starting again 14 min. later. " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bTC-Z2-fJU" userLabel="Summary">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Light rain stopping in 25 min., starting again 14 min. later. " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bTC-Z2-fJU" userLabel="Summary">
                                                 <rect key="frame" x="0.0" y="18" width="125" height="47"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="47" id="vNv-nv-vcc"/>
@@ -425,7 +425,7 @@
                                     <constraint firstAttribute="height" constant="118" id="au4-fQ-9Y0"/>
                                 </constraints>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Overcast throughout the day and breezy in the morning." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pgU-Q8-M86" userLabel="DailySummary">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Overcast throughout the day and breezy in the morning." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pgU-Q8-M86" userLabel="DailySummary">
                                 <rect key="frame" x="14" y="221" width="302" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="9wI-Rq-QaJ"/>
@@ -450,7 +450,7 @@
                             <constraint firstItem="fJe-R8-0UV" firstAttribute="leading" secondItem="vJm-rt-Vqt" secondAttribute="leading" id="aV2-az-mlq"/>
                             <constraint firstItem="ssy-KU-ocm" firstAttribute="trailing" secondItem="AbH-HH-k7K" secondAttribute="trailing" id="beq-gg-Zx1"/>
                             <constraint firstItem="ssy-KU-ocm" firstAttribute="leading" secondItem="vJm-rt-Vqt" secondAttribute="leading" constant="-14" id="dha-Fk-lrS"/>
-                            <constraint firstItem="gcm-Xu-Vfz" firstAttribute="centerY" secondItem="vJm-rt-Vqt" secondAttribute="centerY" constant="1" id="k1j-sk-AjR"/>
+                            <constraint firstItem="gcm-Xu-Vfz" firstAttribute="centerY" secondItem="vJm-rt-Vqt" secondAttribute="centerY" constant="3" id="k1j-sk-AjR"/>
                             <constraint firstItem="ssy-KU-ocm" firstAttribute="trailing" secondItem="pjj-HS-vbr" secondAttribute="trailing" constant="11" id="nyD-g0-ela"/>
                             <constraint firstItem="ssy-KU-ocm" firstAttribute="bottom" secondItem="pgU-Q8-M86" secondAttribute="bottom" priority="998" constant="7" id="pTR-aQ-Icn"/>
                             <constraint firstItem="AbH-HH-k7K" firstAttribute="leading" secondItem="ssy-KU-ocm" secondAttribute="leading" id="ruR-6R-nnv"/>
@@ -499,6 +499,11 @@
                         <outlet property="nextHourLabel" destination="tln-bY-hEu" id="nWc-RY-QHN"/>
                         <outlet property="percipProbabilityLabel" destination="OCh-Ca-3hD" id="Plg-aJ-lnY"/>
                         <outlet property="summaryLabel" destination="bTC-Z2-fJU" id="0IJ-ya-US4"/>
+                        <outlet property="umbrella0" destination="pco-xF-geI" id="ooq-QK-pUi"/>
+                        <outlet property="umbrella1" destination="Fk6-FC-0S4" id="rId-1I-nSN"/>
+                        <outlet property="umbrella2" destination="hGj-WU-Wqi" id="3kC-0f-69T"/>
+                        <outlet property="umbrella3" destination="UbM-yL-AON" id="aUl-7X-jNA"/>
+                        <outlet property="umbrella4" destination="jrR-Ou-YsU" id="uIg-C5-dYL"/>
                         <outlet property="umbrellaLabel" destination="Pd8-yD-aMn" id="bQH-XV-Eg0"/>
                     </connections>
                 </viewController>

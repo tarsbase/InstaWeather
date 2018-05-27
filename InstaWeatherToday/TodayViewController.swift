@@ -51,6 +51,12 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     @IBOutlet weak var dailyTemp3: UILabel!
     @IBOutlet weak var dailyTemp4: UILabel!
     
+    @IBOutlet weak var umbrella0: UIImageView!
+    @IBOutlet weak var umbrella1: UIImageView!
+    @IBOutlet weak var umbrella2: UIImageView!
+    @IBOutlet weak var umbrella3: UIImageView!
+    @IBOutlet weak var umbrella4: UIImageView!
+    
     // TODO : change umbrella alpha
     
     lazy var dailyTimes: [UILabel] = {
@@ -64,6 +70,9 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     }()
     lazy var dailyTemps: [UILabel] = {
         return [dailyTemp0, dailyTemp1, dailyTemp2, dailyTemp3, dailyTemp4]
+    }()
+    lazy var umbrellas: [UIImageView] = {
+        return [umbrella0, umbrella1, umbrella2, umbrella3, umbrella4, umbrellaLabel]
     }()
     
     lazy var scale: String = {
@@ -84,9 +93,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestWhenInUseAuthorization()
         updateData()
-        umbrellaLabel.image = umbrellaLabel.image?.withRenderingMode(.alwaysTemplate)
-        umbrellaLabel.tintColor = .black
-        umbrellaLabel.alpha = 0.6
+        updateUmbrellas()
     }
     
     override func viewDidLoad() {
@@ -96,15 +103,11 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         updateUI()
     }
     
-
-
-    
     func assignDelegate() {
         locationManager.delegate = self
     }
     
     func updateData() {
-        
         locationManager.startUpdatingLocation()
     }
     
@@ -142,6 +145,9 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         maxTempLabel.text = "↑ \(todayModel.getMaxTemp())"
         minTempLabel.text = "↓ \(todayModel.getMinTemp())"
         summaryLabel.text = todayModel.getSummary()
+        if todayModel.getSummary() == "" {
+            summaryLabel.text = "Hourly forecast is currently unavailable"
+        }
         cityLabel.text = todayModel.getCity()
         percipProbabilityLabel.text = "\(Int(todayModel.getPercipProbability() * 100))%"
         conditionImage.image = UIImage(named: todayModel.getIcon())
@@ -152,7 +158,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
             dailyTemps[i].text = "\(forecastObjects[i].temp)°"
             dailyPrecips[i].text = "\(Int(forecastObjects[i].precip * 100))%"
             dailyConditions[i].image = UIImage(named: forecastObjects[i].icon)
-            dailyTimes[i].text = String(forecastObjects[i].time)
+            dailyTimes[i].text = forecastObjects[i].time
         }
     }
     
@@ -192,6 +198,10 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         }
     }
     
+    func updateUmbrellas() {
+        umbrellas.forEach { $0.alpha = 0.6 }
+    }
+    
     func hide(views: UIView...) {
         UIView.animate(withDuration: 0.4) {
             for view in views {
@@ -208,4 +218,9 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         }
     }
     
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        nextHourLabel.text = ""
+        cityLabel.text = "Location Unknown"
+        summaryLabel.text = "Please activate location services for InstaWeather in the settings"
+    }
 }

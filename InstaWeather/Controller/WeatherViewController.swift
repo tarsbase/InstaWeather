@@ -54,7 +54,6 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
         evaluateSegment()
         if let defaults = UserDefaults(suiteName: "group.com.besher.InstaWeather") {
             defaults.set(segmentedControl.selectedSegmentIndex, forKey: "tempScale")
-            print("SAVING NEW SCALE")
         }
     }
     

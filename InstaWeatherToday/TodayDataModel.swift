@@ -14,7 +14,7 @@ struct TodayDataModel {
     private var currentTemp = 0, maxTemp = 0, minTemp = 0, summary = "", city = "", icon = "", percipProbability = 0.0, dailySummary = ""
     
     struct DailyForecastItem {
-        var time = 0, icon = "", precip = 0.0, temp = 0
+        var time = "", icon = "", precip = 0.0, temp = 0
     }
     
     private var dailyForecastItems: [DailyForecastItem] = [DailyForecastItem]()
@@ -30,7 +30,7 @@ struct TodayDataModel {
         
         dailyForecastItems.removeAll()
         for i in stride(from: 2, through: 10, by: 2) {
-            let time = json["hourly"]["data"][i]["time"].intValue
+            let time = unixToHours(unix: json["hourly"]["data"][i]["time"].intValue)
             let icon = convertIcon(from: json["hourly"]["data"][i]["icon"].stringValue)
             let precip = json["hourly"]["data"][i]["precipProbability"].doubleValue
             let temp = json["hourly"]["data"][i]["apparentTemperature"].intValue
@@ -93,5 +93,13 @@ struct TodayDataModel {
         case "partly-cloudy-night": return "cloudy2night"
         default: return "clear"
         }
+    }
+    func unixToHours(unix: Int) -> String {
+        let date = Date(timeIntervalSince1970: Double(unix))
+        let formatter = DateFormatter()
+        formatter.locale = NSLocale.current
+        formatter.dateFormat = "h a"
+        let dateString = formatter.string(from: date)
+        return dateString
     }
 }
