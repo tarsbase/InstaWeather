@@ -57,7 +57,6 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     @IBOutlet weak var umbrella3: UIImageView!
     @IBOutlet weak var umbrella4: UIImageView!
     
-    // TODO : change umbrella alpha
     
     lazy var dailyTimes: [UILabel] = {
         return [dailyTime0, dailyTime1, dailyTime2, dailyTime3, dailyTime4]
@@ -74,7 +73,6 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     lazy var umbrellas: [UIImageView] = {
         return [umbrella0, umbrella1, umbrella2, umbrella3, umbrella4, umbrellaLabel]
     }()
-    
     lazy var scale: String = {
         var scale = "ca"
         if let loadObject = defaults?.object(forKey: "tempScale") as? Int {
