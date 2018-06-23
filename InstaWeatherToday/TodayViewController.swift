@@ -99,6 +99,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         extensionContext?.widgetLargestAvailableDisplayMode = .expanded
         todayModel.loadSavedData()
         updateUI()
+        addShadow(conditionImage)
     }
     
     func assignDelegate() {
@@ -161,7 +162,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        extensionContext?.open(URL(string: "instaurl:")!, completionHandler: nil)
+//        extensionContext?.open(URL(string: "instaurl:")!, completionHandler: nil)
     }
     
     func updateCityFromLocation(location: CLLocation){
@@ -169,7 +170,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
             {
                 [unowned self] (placemarks, error) in
                 if let error = error {
-                    print("Reverse geodcode failed: \(error.localizedDescription)")
+                    print("Reverse geocode failed: \(error.localizedDescription)")
                 }
                 guard let pm = placemarks, let possibleCity = pm.first, let city = possibleCity.locality else { return }
                 self.todayModel.updateCity(to: city)
@@ -213,6 +214,16 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
             for view in views {
                 view.alpha = 1
             }
+        }
+    }
+    
+    func addShadow(_ views: UIView...) {
+        for view in views {
+            view.layer.shadowColor = UIColor.black.cgColor
+            view.layer.shadowOffset = CGSize(width: 0, height: 0)
+            view.layer.shadowOpacity = 0.5
+            view.layer.shadowRadius = 1
+            
         }
     }
     

@@ -72,18 +72,17 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
             view.layer.shadowRadius = 1.0
         }
     }
-    
-    func loadWhiteBackground() {
-        
-        // start with white background
-        let rect = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
-        UIGraphicsBeginImageContextWithOptions(view.frame.size, false, 0)
-        UIColor.white.setFill()
-        UIRectFill(rect)
-        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        backgroundImage.image = image
-    }
+//    func loadWhiteBackground() {
+//
+//        // start with white background
+//        let rect = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
+//        UIGraphicsBeginImageContextWithOptions(view.frame.size, false, 0)
+//        UIColor.white.setFill()
+//        UIRectFill(rect)
+//        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+//        UIGraphicsEndImageContext()
+//        backgroundImage.image = image
+//    }
     func assignDelegate() {
         locationManager.delegate = self
     }

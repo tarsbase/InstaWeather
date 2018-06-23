@@ -12,14 +12,17 @@ import SwiftyJSON
 
 extension WeatherViewController {
     
-    func getWeatherData(url: String, parameters: [String: String]) {
+    func getWeatherData(url: String, parameters: [String: String], local:Bool = false) {
         let oldModel = weatherDataModel
         weatherDataModel = WeatherDataModel()
         Alamofire.request(url, method: .get, parameters: parameters).responseJSON {
             [unowned self] response in
             if response.result.isSuccess {
                 let weatherJSON = JSON(response.result.value!)
-                if self.updateWeatherData(json: weatherJSON) { self.cityIsValid(parameters: parameters) }
+                if self.updateWeatherData(json: weatherJSON) {
+                    self.cityIsValid(parameters: parameters)
+                    if !local { self.cityLabel.text = self.weatherDataModel.city }
+                }
                 else { self.cityIsNotValid(restore: oldModel) }
             } else {
                 let ac = UIAlertController(title: "Error", message: response.result.error?.localizedDescription, preferredStyle: .alert)
@@ -111,7 +114,6 @@ extension WeatherViewController {
     }
     
     func updateUIWithWeatherData() {
-        cityLabel.text = weatherDataModel.city
         tempLabel.text = "\(weatherDataModel.temperature)°"
         minTempLabel.text = "↓\(weatherDataModel.minTemp)"
         maxTempLabel.text = "↑\(weatherDataModel.maxTemp)"

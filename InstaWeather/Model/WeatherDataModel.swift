@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 public struct WeatherDataModel: ConvertibleToFahrenheit {
     
@@ -23,13 +24,18 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         didSet {
             switch weatherIconName {
             case "clear": backgroundName = "bg\(arc4random_uniform(3) + 1)\(weatherIconName)"
-            case "snow", "fog", "clearnight", "cloudy2", "cloudy2night" : backgroundName = "bg\(arc4random_uniform(2) + 1)\(weatherIconName)"
+            case "snow", "fog", "clearnight", "cloudy2", "cloudy2night" :
+                backgroundName = "bg\(arc4random_uniform(2) + 1)\(weatherIconName)"
+                if UIDevice.current.userInterfaceIdiom == .phone && backgroundName == "bg2cloudy2" {
+                    backgroundName = "bg2cloudy3"
+                }
             case "tstorm1", "tstorm2": backgroundName = "bgtstorm"
             case "light_rain", "shower3": backgroundName = "bglight_rain"
             default: backgroundName = "bg\(weatherIconName)"
             }
         }
-    } 
+    }
+    
     var backgroundName = ""
 
     private var _forecast = [ForecastObject]()

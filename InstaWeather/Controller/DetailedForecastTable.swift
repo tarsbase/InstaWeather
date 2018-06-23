@@ -11,6 +11,7 @@ import UIKit
 class DetailedForecastTable: UITableViewController {
 
     var model: WeatherDataModel?
+    let backgroundAlpha: CGFloat = 0.5
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -21,6 +22,12 @@ class DetailedForecastTable: UITableViewController {
             self.tableView.flashScrollIndicators()
         }
         
+        // inset parameters
+        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 40, right: 0)
+        
+        UIView.animate(withDuration: 0.2) {
+            (UIApplication.shared.value(forKey: "statusBar") as? UIView)?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: self.backgroundAlpha)
+        }
     }
     
     override func viewDidLoad() {
@@ -39,10 +46,11 @@ class DetailedForecastTable: UITableViewController {
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        self.tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 40, right: 0)
-        
+    override func viewWillDisappear(_ animated: Bool) {
+        UIView.animate(withDuration: 0.4) {
+            (UIApplication.shared.value(forKey: "statusBar") as? UIView)?.backgroundColor = .clear
+        }
+        super.viewWillDisappear(animated)
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -57,8 +65,7 @@ class DetailedForecastTable: UITableViewController {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "headerCell") {
-            cell.backgroundColor = UIColor.clear
-            cell.contentView.backgroundColor = UIColor.clear
+            cell.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: backgroundAlpha)
             cell.textLabel?.text = model?.forecastDayTitles[section]
             cell.textLabel?.textAlignment = NSTextAlignment.center
             cell.textLabel?.textColor = UIColor.white

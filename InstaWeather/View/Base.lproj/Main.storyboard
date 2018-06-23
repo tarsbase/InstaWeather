@@ -243,6 +243,11 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgselect1" translatesAutoresizingMaskIntoConstraints="NO" id="E1Q-BD-cVm">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="loY-C9-acA" userLabel="Tint">
+                                <rect key="frame" x="0.0" y="-30" width="375" height="697"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.17999999999999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <viewLayoutGuide key="safeArea" id="FuW-TI-Nxa"/>
+                            </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Edr-KR-Sei">
                                 <rect key="frame" x="24" y="44" width="327" height="599"/>
                                 <subviews>
@@ -527,7 +532,11 @@
                             <constraint firstItem="2GM-iA-Qek" firstAttribute="centerX" secondItem="PrM-bi-t2r" secondAttribute="centerX" constant="-25" id="5e8-h5-qLZ"/>
                             <constraint firstItem="Edr-KR-Sei" firstAttribute="top" secondItem="PrM-bi-t2r" secondAttribute="top" constant="24" id="RFt-QH-Zsl"/>
                             <constraint firstItem="E1Q-BD-cVm" firstAttribute="leading" secondItem="WJd-8k-slr" secondAttribute="leading" id="S4M-KX-tBm"/>
+                            <constraint firstItem="loY-C9-acA" firstAttribute="top" secondItem="PrM-bi-t2r" secondAttribute="top" constant="-50" id="Sd6-qj-7md"/>
+                            <constraint firstItem="PrM-bi-t2r" firstAttribute="bottom" secondItem="loY-C9-acA" secondAttribute="bottom" id="Shw-dT-Sjj"/>
+                            <constraint firstItem="loY-C9-acA" firstAttribute="leading" secondItem="PrM-bi-t2r" secondAttribute="leading" id="WEQ-0p-8Xe"/>
                             <constraint firstItem="PrM-bi-t2r" firstAttribute="trailing" secondItem="E1Q-BD-cVm" secondAttribute="trailing" id="WTQ-qf-0rv"/>
+                            <constraint firstItem="PrM-bi-t2r" firstAttribute="trailing" secondItem="loY-C9-acA" secondAttribute="trailing" id="ZRa-u5-7MH"/>
                             <constraint firstAttribute="bottom" secondItem="E1Q-BD-cVm" secondAttribute="bottom" id="dE5-ao-Jgq"/>
                             <constraint firstItem="E1Q-BD-cVm" firstAttribute="top" secondItem="WJd-8k-slr" secondAttribute="top" id="g2T-NW-Wsp"/>
                             <constraint firstItem="PrM-bi-t2r" firstAttribute="trailing" secondItem="Edr-KR-Sei" secondAttribute="trailing" constant="24" id="oA6-Hv-vgJ"/>

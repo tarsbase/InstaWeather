@@ -19,10 +19,10 @@ extension WeatherViewController: CLLocationManagerDelegate {
             let latitude = String(location.coordinate.latitude)
             let longitude = String(location.coordinate.longitude)
             let params = ["lat": latitude, "lon": longitude, "appid": APP_ID]
-            getWeatherData(url: weatherDataModel.weatherURL, parameters: params)
+            getWeatherData(url: weatherDataModel.weatherURL, parameters: params, local:true)
+            updateCityFromLocation(location: location)
         }
     }
-    
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         let ac = UIAlertController(title: "Failed to retrieve location", message: "Your location is unkown", preferredStyle: .alert)
@@ -31,6 +31,16 @@ extension WeatherViewController: CLLocationManagerDelegate {
         cityLabel.text = "Location unavailable"
     }
     
-    
+    func updateCityFromLocation(location: CLLocation){
+        CLGeocoder().reverseGeocodeLocation(location, completionHandler:
+            {
+                [unowned self] (placemarks, error) in
+                if let error = error {
+                    print("Reverse geocode failed: \(error.localizedDescription)")
+                }
+                guard let pm = placemarks, let possibleCity = pm.first, let city = possibleCity.locality else { return }
+                self.cityLabel.text = city
+        })
+    }
     
 }
