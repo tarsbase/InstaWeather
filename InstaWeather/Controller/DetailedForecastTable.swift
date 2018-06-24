@@ -18,16 +18,12 @@ class DetailedForecastTable: UITableViewController {
         refreshModel()
         tableView.reloadData()
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
-            [unowned self] in
-            self.tableView.flashScrollIndicators()
+            [weak self] in
+            self?.tableView.flashScrollIndicators()
         }
         
         // inset parameters
         self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 40, right: 0)
-        
-        UIView.animate(withDuration: 0.2) {
-            (UIApplication.shared.value(forKey: "statusBar") as? UIView)?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: self.backgroundAlpha)
-        }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             var counter = 0
@@ -36,11 +32,11 @@ class DetailedForecastTable: UITableViewController {
                 for (index, cell) in self.tableView.visibleCells.enumerated() {
                     if counter == index {
                         counter += 1
-                        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-                            cell.transform = CGAffineTransform(translationX: 10, y: 0)
+                        UIView.animate(withDuration: 0.17, delay: 0, options: .curveEaseInOut, animations: {
+                            cell.transform = CGAffineTransform(translationX: 12, y: 0)
                         }, completion: {
                             boolean in
-                            UIView.animate(withDuration: 0.2) {
+                            UIView.animate(withDuration: 0.17) {
                                 //                                cell.transform = CGAffineTransform(translationX: -10, y: 0)
                                 cell.transform = CGAffineTransform.identity
                             }
@@ -58,31 +54,15 @@ class DetailedForecastTable: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let imageView = UIImageView(image: UIImage(named: "forecast"))
-        imageView.contentMode = .scaleAspectFill
-        tableView.backgroundView = imageView
         tableView.showsVerticalScrollIndicator = true
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-
-
-        super.viewDidAppear(animated)
-    }
-    
     func refreshModel() {
-        if let parent = self.parent as? PageViewController {
+        if let parent = self.parent?.parent as? PageViewController {
             for case let weatherVC as WeatherViewController in parent.orderedViewControllers {
                 model = weatherVC.weatherDataModel
             }
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        UIView.animate(withDuration: 0.4) {
-            (UIApplication.shared.value(forKey: "statusBar") as? UIView)?.backgroundColor = .clear
-        }
-        super.viewWillDisappear(animated)
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -118,8 +98,6 @@ class DetailedForecastTable: UITableViewController {
         
         let time = section.forecastChunks[indexPath.row].time
         let icon = section.forecastChunks[indexPath.row].condition
-//        let minTemp = section.forecastChunks[indexPath.row].minTemp
-//        let maxTemp = section.forecastChunks[indexPath.row].maxTemp
         let minTemp = currentModel.minTempForSection(indexPath.section, row: indexPath.row)
         let maxTemp = currentModel.maxTempForSection(indexPath.section, row: indexPath.row)
         let timeDigits = section.forecastChunks[indexPath.row].timeDigits

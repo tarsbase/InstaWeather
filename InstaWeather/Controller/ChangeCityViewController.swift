@@ -52,19 +52,24 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextF
         }
         if !recentPicks.isEmpty {
             picksTable = storyboard?.instantiateViewController(withIdentifier: "picks") as? RecentPicksTable
-            add(picksTable!, frame: tableContainer.frame)
-            picksTable?.tableView.reloadData()
+            if let picksTable = picksTable {
+                add(picksTable, frame: tableContainer.frame)
+                picksTable.tableView.reloadData()
+            }
         }
     }
     
+    // necessary to line up the tableView properly
     override func viewDidLayoutSubviews() {
         picksTable?.view.frame = tableContainer.frame
+        super.viewDidLayoutSubviews()
     }
     
         
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         picksTable?.remove()
+        super.viewWillDisappear(animated)
     }
    
     

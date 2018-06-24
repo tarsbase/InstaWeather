@@ -9,6 +9,7 @@
 import UIKit
 
 class ForecastViewController: UIViewController {
+    @IBOutlet weak var stackBottomConstraint: NSLayoutConstraint!
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -29,6 +30,7 @@ class ForecastViewController: UIViewController {
         for stack in subStacks {
                 stack.isHidden = true
         }
+        stackBottomConstraint.constant = 500
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,7 +51,12 @@ class ForecastViewController: UIViewController {
                 if stack.tag == tag {
                     tag += 1
                     UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                        [weak self] in
                         stack.isHidden = false
+                        if ((self?.stackBottomConstraint.constant)! - 100) > 24 { self?.stackBottomConstraint.constant -= 100 } else {
+                            self?.stackBottomConstraint.constant = 24
+                        }
+                        self?.view.layoutIfNeeded()
                         }, completion: {
                             boolean in
                             animateStack()
@@ -59,6 +66,7 @@ class ForecastViewController: UIViewController {
             }
         }
         animateStack()
+        
         super.viewDidAppear(animated)
     }
     
