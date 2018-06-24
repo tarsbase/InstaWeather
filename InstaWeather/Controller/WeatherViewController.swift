@@ -38,8 +38,27 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
             self.assignDelegate()
             self.updateData()
         }
-        
         addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            [unowned self] in
+            self.conditionImage.transform = CGAffineTransform(scaleX: 1.06, y: 1.06)
+            }, completion: {
+                [unowned self] boolean in
+                print(boolean)
+                UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
+                    [unowned self] in
+                    self.conditionImage.transform = CGAffineTransform(scaleX: 1, y: 1)
+                    }, completion: nil)
+        })
+        
+
+        
+        
+        
+        super.viewDidAppear(animated)
     }
         
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

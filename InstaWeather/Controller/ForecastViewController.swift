@@ -26,6 +26,9 @@ class ForecastViewController: UIViewController {
                 addShadow(view)
             }
         }
+        for stack in subStacks {
+                stack.isHidden = true
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,6 +39,27 @@ class ForecastViewController: UIViewController {
             }
         }
         parseForecast()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        var tag = 0
+        func animateStack() {
+            guard tag < 5 else { return }
+            for stack in subStacks {
+                if stack.tag == tag {
+                    tag += 1
+                    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                        stack.isHidden = false
+                        }, completion: {
+                            boolean in
+                            animateStack()
+                    })
+                    break
+                }
+            }
+        }
+        animateStack()
+        super.viewDidAppear(animated)
     }
     
     func parseForecast() {

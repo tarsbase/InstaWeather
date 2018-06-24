@@ -28,6 +28,32 @@ class DetailedForecastTable: UITableViewController {
         UIView.animate(withDuration: 0.2) {
             (UIApplication.shared.value(forKey: "statusBar") as? UIView)?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: self.backgroundAlpha)
         }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            var counter = 0
+            func animateRow() {
+                guard counter < self.tableView.visibleCells.count else { return }
+                for (index, cell) in self.tableView.visibleCells.enumerated() {
+                    if counter == index {
+                        counter += 1
+                        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                            cell.transform = CGAffineTransform(translationX: 10, y: 0)
+                        }, completion: {
+                            boolean in
+                            UIView.animate(withDuration: 0.2) {
+                                //                                cell.transform = CGAffineTransform(translationX: -10, y: 0)
+                                cell.transform = CGAffineTransform.identity
+                            }
+                        })
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) {
+                            animateRow()
+                        }
+                        break
+                    }
+                }
+            }
+            animateRow()
+        }
     }
     
     override func viewDidLoad() {
@@ -36,6 +62,12 @@ class DetailedForecastTable: UITableViewController {
         imageView.contentMode = .scaleAspectFill
         tableView.backgroundView = imageView
         tableView.showsVerticalScrollIndicator = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+
+
+        super.viewDidAppear(animated)
     }
     
     func refreshModel() {

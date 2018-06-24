@@ -26,5 +26,3 @@ import UIKit
         removeFromParentViewController()
     }
 }
-
-
