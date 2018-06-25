@@ -46,11 +46,12 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        let scale:CGFloat = 1.06
+        let feelsLikeScale:CGFloat = 1.06
+        let conditionScale:CGFloat = 1.03
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             [unowned self] in
-            self.conditionImage.transform = CGAffineTransform(scaleX: scale, y: scale)
-            self.feelsLikeLabel.transform = CGAffineTransform(scaleX: scale, y: scale)
+            self.conditionImage.transform = CGAffineTransform(scaleX: conditionScale, y: conditionScale)
+            self.feelsLikeLabel.transform = CGAffineTransform(scaleX: feelsLikeScale, y: feelsLikeScale)
             }, completion: {
                 [unowned self] boolean in
                 print(boolean)

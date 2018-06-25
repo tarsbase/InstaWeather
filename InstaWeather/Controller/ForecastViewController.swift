@@ -41,6 +41,33 @@ class ForecastViewController: UIViewController {
             }
         }
         parseForecast()
+        
+        if stackBottomConstraint.constant != 500 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                var counter = 0
+                func animateRow() {
+                    guard counter < self.subStacks.count else { return }
+                    for (index, cell) in self.subStacks.enumerated() {
+                        if counter == index {
+                            counter += 1
+                            UIView.animate(withDuration: 0.17, delay: 0, options: .curveEaseInOut, animations: {
+                                cell.transform = CGAffineTransform(translationX: -12, y: 0)
+                            }, completion: {
+                                boolean in
+                                UIView.animate(withDuration: 0.17) {
+                                    cell.transform = CGAffineTransform.identity
+                                }
+                            })
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.06) {
+                                animateRow()
+                            }
+                            break
+                        }
+                    }
+                }
+                animateRow()
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -40,7 +40,7 @@ class DetailedForecastTable: UITableViewController {
                                 cell.transform = CGAffineTransform.identity
                             }
                         })
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.055) {
                             animateRow()
                         }
                         break
