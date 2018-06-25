@@ -22,9 +22,8 @@ class CoreAnimationObject: NSObject {
     let label: UILabel
     var startValue: Int = 0
     let endValue: Int
-    let animationDuration: Double = 0.3
+    let animationDuration: Double = 0.8
     let animationStartDate: Date
-    var lastAnimationUpdate: Date
     var displayLink: CADisplayLink?
     let labelType: LabelType
     
@@ -32,7 +31,6 @@ class CoreAnimationObject: NSObject {
         self.label = label
         self.endValue = endValue
         self.animationStartDate = Date()
-        self.lastAnimationUpdate = Date()
         self.labelType = labelType
         super.init()
         if let start = label.text {
@@ -48,18 +46,18 @@ class CoreAnimationObject: NSObject {
     @objc private func handleUpdate() {
         let now = Date()
         let elapsedTime = now.timeIntervalSince(animationStartDate)
-        let timeSinceLastAnimation = now.timeIntervalSince(lastAnimationUpdate)
         
         if elapsedTime > animationDuration {
             label.text = getLabelText(forValue: String(endValue))
             displayLink?.invalidate()
             displayLink = nil
         } else {
-            let percentage = elapsedTime / animationDuration
+            var percentage = elapsedTime / animationDuration
+            percentage = 1 - percentage
+            percentage = 1 - (percentage * percentage * percentage)
             let value = startValue + Int(percentage * Double((endValue - startValue)))
             label.text = getLabelText(forValue: String(value))
         }
-        lastAnimationUpdate = Date()
     }
     
     func getOldValue(from start: String) -> Int {

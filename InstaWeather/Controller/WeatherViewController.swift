@@ -42,7 +42,8 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
             self.assignDelegate()
             self.updateData()
         }
-        addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, feelsLikeLabel, windLabel, humidityLabel, windIcon)
+        addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon)
+        addShadow(opacity: 0.5, feelsLikeLabel)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -89,11 +90,11 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
         }
     }
     
-    func addShadow(_ views: UIView...) {
+    func addShadow(opacity: Float = 0.5, _ views: UIView...) {
         for view in views {
             view.layer.shadowColor = UIColor.black.cgColor
             view.layer.shadowOffset = CGSize(width: 0, height: 2)
-            view.layer.shadowOpacity = 0.5
+            view.layer.shadowOpacity = opacity
             view.layer.shadowRadius = 1.0
         }
     }
