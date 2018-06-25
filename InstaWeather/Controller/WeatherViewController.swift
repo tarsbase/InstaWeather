@@ -79,12 +79,14 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
         }
     }
     
-    func evaluateSegment() {
+    func evaluateSegment(onStartup: Bool = false) {
         weatherDataModel.toggleScale(to: segmentedControl.selectedSegmentIndex)
-        tempLabel.text = "\(weatherDataModel.temperature)°"
-        minTempLabel.text = "↓\(weatherDataModel.minTemp)"
-        maxTempLabel.text = "↑\(weatherDataModel.maxTemp)"
-        updateYahooLabels()
+        if !onStartup {
+            updateLabel(tempLabel, toValue: weatherDataModel.temperature, forType: .mainTemperature)
+            updateLabel(minTempLabel, toValue: weatherDataModel.minTemp, forType: .minTemp)
+            updateLabel(maxTempLabel, toValue: weatherDataModel.maxTemp, forType: .maxTemp)
+            updateYahooLabels()
+        }
     }
     
     func addShadow(_ views: UIView...) {
@@ -123,8 +125,13 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
                 scale = loadObject
             }
             segmentedControl.selectedSegmentIndex = scale
-            evaluateSegment()
+            evaluateSegment(onStartup: true)
         }
+    }
+    
+    func updateLabel(_ label: UILabel, toValue value: Int, forType type: LabelType) {
+        let animationObject = CoreAnimationObject(label: label, endValue: value, labelType: type)
+        animationObject.updateLabel()
     }
     
 }

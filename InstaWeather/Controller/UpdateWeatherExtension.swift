@@ -133,9 +133,12 @@ extension WeatherViewController {
     }
     
     func updateUIWithWeatherData() {
-        tempLabel.text = "\(weatherDataModel.temperature)°"
-        minTempLabel.text = "↓\(weatherDataModel.minTemp)"
-        maxTempLabel.text = "↑\(weatherDataModel.maxTemp)"
+//        tempLabel.text = "\(weatherDataModel.temperature)°"
+//        minTempLabel.text = "↓\(weatherDataModel.minTemp)"
+//        maxTempLabel.text = "↑\(weatherDataModel.maxTemp)"
+        updateLabel(tempLabel, toValue: weatherDataModel.temperature, forType: .mainTemperature)
+        updateLabel(minTempLabel, toValue: weatherDataModel.minTemp, forType: .minTemp)
+        updateLabel(maxTempLabel, toValue: weatherDataModel.maxTemp, forType: .maxTemp)
         conditionImage.image = UIImage(named: weatherDataModel.weatherIconName)
         backgroundImage.image = UIImage(named: weatherDataModel.backgroundName)
     }
@@ -154,9 +157,11 @@ extension WeatherViewController {
         let scale = segmentedControl.selectedSegmentIndex == 0 ? "km/h" : "mph"
         let windSpeed = weatherDataModel.windSpeed
         let windDirection = weatherDataModel.windDirection
-        feelsLikeLabel.text = "Feels like \(feelsLikeTemp)°"
+//        feelsLikeLabel.text = "Feels like \(feelsLikeTemp)°"
+//        humidityLabel.text = "Humidity: \(weatherDataModel.humidity)%"
         windLabel.text = "\(windDirection) \(windSpeed) \(scale)"
-        humidityLabel.text = "Humidity: \(weatherDataModel.humidity)%"
+        updateLabel(feelsLikeLabel, toValue: feelsLikeTemp, forType: .feelsLike)
+        updateLabel(humidityLabel, toValue: weatherDataModel.humidity, forType: .humidity)
     }
     
     func userEnteredNewCity(city: String) {
