@@ -50,7 +50,7 @@ class ForecastViewController: UIViewController {
             for stack in subStacks {
                 if stack.tag == tag {
                     tag += 1
-                    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                    UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut, animations: {
                         [weak self] in
                         stack.isHidden = false
                         if ((self?.stackBottomConstraint.constant)! - 100) > 24 { self?.stackBottomConstraint.constant -= 100 } else {
@@ -100,7 +100,7 @@ class ForecastViewController: UIViewController {
         if minTemp == 99 {
             temp = "N/A"
         } else {
-            temp = "↓ \(minTemp) ↑ \(maxTemp)"
+            temp = "↑ \(maxTemp) ↓ \(minTemp)"
         }
         populateStack(tag: tag, day: dayOfWeek, icon: dayObject.condition, temperature: temp)
     }

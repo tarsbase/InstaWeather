@@ -13,7 +13,6 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     
     let weatherURL = "http://api.openweathermap.org/data/2.5/weather"
     let forecastURL = "http://api.openweathermap.org/data/2.5/forecast"
-    let yahooURL = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22Chicago%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys"
 
     var condition = 0
     var city = ""
@@ -64,9 +63,24 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     var weekdayObjects = [ForecastObject]()
     
     private(set) var scaleIsCelsius = true
+    private var _windDirection = 0.0
     var temperatureCelsius = 0
     var maxTempCelsius = 0
     var minTempCelsius = 0
+    var feelsLikeFahrenheit = 0
+    var windSpeedKph = 0
+    var humidity = 0
+    var latitude = 0.0
+    var longitude = 0.0
+    
+    var windDirection: String {
+        get {
+            return windDirectionFromDegrees(degrees: _windDirection)
+        }
+        set {
+            _windDirection = Double(newValue) ?? 0.0
+        }
+    }
 
     struct ForecastSection {
         var forecastDay: String
@@ -230,4 +244,11 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     mutating func maxTempForObject(_ object: Int) -> Int {
         return convertTempToCurrentScale(weekdayObjects[object].maxTempCelsius)
     }
+    
+    func windDirectionFromDegrees(degrees : Double) -> String {
+        let directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
+        let i: Int = Int((degrees + 11.25)/22.5)
+        return directions[i % 16]
+    }
+    
 }

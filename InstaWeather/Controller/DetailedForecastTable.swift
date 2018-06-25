@@ -37,7 +37,6 @@ class DetailedForecastTable: UITableViewController {
                         }, completion: {
                             boolean in
                             UIView.animate(withDuration: 0.17) {
-                                //                                cell.transform = CGAffineTransform(translationX: -10, y: 0)
                                 cell.transform = CGAffineTransform.identity
                             }
                         })

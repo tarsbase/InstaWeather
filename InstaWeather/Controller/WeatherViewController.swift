@@ -19,7 +19,11 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
     @IBOutlet weak var conditionImage: UIImageView!
     @IBOutlet weak var maxTempLabel: UILabel!
     @IBOutlet weak var minTempLabel: UILabel!
-
+    @IBOutlet weak var feelsLikeLabel: UILabel!
+    @IBOutlet weak var windLabel: UILabel!
+    @IBOutlet weak var humidityLabel: UILabel!
+    @IBOutlet weak var windIcon: UIImageView!
+    
     let locationManager = CLLocationManager()
     var weatherDataModel = WeatherDataModel()
     var recentPicksDataSource: RecentPicksDataSource?
@@ -38,26 +42,24 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
             self.assignDelegate()
             self.updateData()
         }
-        addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel)
+        addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, feelsLikeLabel, windLabel, humidityLabel, windIcon)
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        let scale:CGFloat = 1.06
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             [unowned self] in
-            self.conditionImage.transform = CGAffineTransform(scaleX: 1.06, y: 1.06)
+            self.conditionImage.transform = CGAffineTransform(scaleX: scale, y: scale)
+            self.feelsLikeLabel.transform = CGAffineTransform(scaleX: scale, y: scale)
             }, completion: {
                 [unowned self] boolean in
                 print(boolean)
                 UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
                     [unowned self] in
                     self.conditionImage.transform = CGAffineTransform(scaleX: 1, y: 1)
+                    self.feelsLikeLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
                     }, completion: nil)
         })
-        
-
-        
-        
-        
         super.viewDidAppear(animated)
     }
         
@@ -81,6 +83,7 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
         tempLabel.text = "\(weatherDataModel.temperature)°"
         minTempLabel.text = "↓\(weatherDataModel.minTemp)"
         maxTempLabel.text = "↑\(weatherDataModel.maxTemp)"
+        updateYahooLabels()
     }
     
     func addShadow(_ views: UIView...) {

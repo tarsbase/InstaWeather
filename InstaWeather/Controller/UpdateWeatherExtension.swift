@@ -60,6 +60,23 @@ extension WeatherViewController {
                 self.cityLabel.text = "Connection issues"
             }
         }
+        
+        let lat = String(weatherDataModel.latitude)
+        let lon = String(weatherDataModel.longitude)
+        
+        let location = "(" + lat + "," + lon + ")"
+        
+        Alamofire.request(getYahooURL(forLocation: location), method: .get, parameters: nil).responseJSON {
+            [unowned self] response in
+            if response.result.isSuccess {
+                let json = JSON(response.result.value!)
+                self.updateYahooData(with:json)
+            } else {
+                print(response.result.error?.localizedDescription ?? "Error")
+            }
+        }
+        
+        
     }
     
     func updateWeatherData(json: JSON) -> Bool {
@@ -70,6 +87,8 @@ extension WeatherViewController {
             weatherDataModel.currentTime = json["dt"].intValue
             weatherDataModel.sunriseTime = json["sys"]["sunrise"].intValue
             weatherDataModel.sunsetTime = json["sys"]["sunset"].intValue
+            weatherDataModel.latitude = json["coord"]["lat"].doubleValue
+            weatherDataModel.longitude = json["coord"]["lon"].doubleValue
             weatherDataModel.weatherIconName = weatherDataModel.updateWeatherIcon(condition: weatherDataModel.condition, objectTime: weatherDataModel.currentTime, objectSunrise: weatherDataModel.sunriseTime, objectSunset: weatherDataModel.sunsetTime)
 //            updateUIWithWeatherData()
             return true
@@ -119,6 +138,25 @@ extension WeatherViewController {
         maxTempLabel.text = "↑\(weatherDataModel.maxTemp)"
         conditionImage.image = UIImage(named: weatherDataModel.weatherIconName)
         backgroundImage.image = UIImage(named: weatherDataModel.backgroundName)
+    }
+    
+    func updateYahooData(with json: JSON) {
+        weatherDataModel.feelsLike = json["query"]["results"]["channel"]["wind"]["chill"].intValue
+        weatherDataModel.windSpeed = json["query"]["results"]["channel"]["wind"]["speed"].intValue
+        weatherDataModel.windDirection = json["query"]["results"]["channel"]["wind"]["direction"].stringValue
+        weatherDataModel.humidity = json["query"]["results"]["channel"]["atmosphere"]["humidity"].intValue
+        
+        self.updateYahooLabels()
+    }
+    
+    func updateYahooLabels() {
+        let feelsLikeTemp = weatherDataModel.feelsLike
+        let scale = segmentedControl.selectedSegmentIndex == 0 ? "km/h" : "mph"
+        let windSpeed = weatherDataModel.windSpeed
+        let windDirection = weatherDataModel.windDirection
+        feelsLikeLabel.text = "Feels like \(feelsLikeTemp)°"
+        windLabel.text = "\(windDirection) \(windSpeed) \(scale)"
+        humidityLabel.text = "Humidity: \(weatherDataModel.humidity)%"
     }
     
     func userEnteredNewCity(city: String) {

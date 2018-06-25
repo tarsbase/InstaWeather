@@ -67,7 +67,6 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextF
     
         
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
         picksTable?.remove()
         super.viewWillDisappear(animated)
     }
