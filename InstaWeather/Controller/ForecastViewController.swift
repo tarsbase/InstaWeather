@@ -16,6 +16,7 @@ class ForecastViewController: UIViewController {
     @IBOutlet weak var mainStack: UIStackView!
     var subStacks = [UIStackView]()
     var model: WeatherDataModel?
+    var preloading = true // ensures no animation during preloading
     
     override func viewDidLoad() {
        super.viewDidLoad()
@@ -71,30 +72,38 @@ class ForecastViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        var tag = 0
-        func animateStack() {
-            guard tag < 5 else { return }
-            for stack in subStacks {
-                if stack.tag == tag {
-                    tag += 1
-                    UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut, animations: {
-                        [weak self] in
-                        stack.isHidden = false
-                        if ((self?.stackBottomConstraint.constant)! - 100) > 24 { self?.stackBottomConstraint.constant -= 100 } else {
-                            self?.stackBottomConstraint.constant = 24
-                        }
-                        self?.view.layoutIfNeeded()
-                        }, completion: {
-                            boolean in
-                            animateStack()
-                    })
-                    break
+        
+        if !preloading {
+            var tag = 0
+            func animateStack() {
+                guard tag < 5 else { return }
+                for stack in subStacks {
+                    if stack.tag == tag {
+                        tag += 1
+                        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut, animations: {
+                            [weak self] in
+                            stack.isHidden = false
+                            if ((self?.stackBottomConstraint.constant)! - 100) > 24 { self?.stackBottomConstraint.constant -= 100 } else {
+                                self?.stackBottomConstraint.constant = 24
+                            }
+                            self?.view.layoutIfNeeded()
+                            }, completion: {
+                                boolean in
+                                animateStack()
+                        })
+                        break
+                    }
                 }
             }
+            animateStack()
         }
-        animateStack()
         
         super.viewDidAppear(animated)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        preloading = false
+        super.viewDidDisappear(animated)
     }
     
     func parseForecast() {

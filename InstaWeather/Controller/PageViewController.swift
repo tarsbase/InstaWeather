@@ -12,10 +12,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
     
     var deviceFrame: CGRect?
     
-    private(set) lazy var orderedViewControllers: [UIViewController] = {
-        guard let first = storyboard?.instantiateViewController(withIdentifier: "first"), let second = storyboard?.instantiateViewController(withIdentifier: "second"), let third = storyboard?.instantiateViewController(withIdentifier: "third") else { fatalError() }
-        return [first, second, third]
-    }()
+    private(set) var orderedViewControllers = [UIViewController]()
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -33,13 +30,21 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
     }
     
     override func viewDidLoad() {
+        guard let first = storyboard?.instantiateViewController(withIdentifier: "first"), let second = storyboard?.instantiateViewController(withIdentifier: "second"), let third = storyboard?.instantiateViewController(withIdentifier: "third") else { fatalError() }
+        orderedViewControllers = [first, second, third]
+        
+        
         super.viewDidLoad()
         dataSource = self
         if orderedViewControllers.count > 0 {
-            let first = orderedViewControllers[1]
-            setViewControllers([first], direction: .forward, animated: true)
+            // preload all viewControllers upon launch
+            var first = orderedViewControllers[0]
+            setViewControllers([first], direction: .reverse, animated: false)
+            first = orderedViewControllers[2]
+            setViewControllers([first], direction: .reverse, animated: false)
+            first = orderedViewControllers[1]
+            setViewControllers([first], direction: .forward, animated: false)
         }
-        
     }
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
