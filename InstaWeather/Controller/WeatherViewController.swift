@@ -24,9 +24,11 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var windIcon: UIImageView!
     
+    
     let locationManager = CLLocationManager()
     var weatherDataModel = WeatherDataModel()
     var recentPicksDataSource: RecentPicksDataSource?
+    var debugBackgroundCounter = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,17 +100,7 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
             view.layer.shadowRadius = 1.0
         }
     }
-//    func loadWhiteBackground() {
-//
-//        // start with white background
-//        let rect = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
-//        UIGraphicsBeginImageContextWithOptions(view.frame.size, false, 0)
-//        UIColor.white.setFill()
-//        UIRectFill(rect)
-//        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-//        UIGraphicsEndImageContext()
-//        backgroundImage.image = image
-//    }
+    
     func assignDelegate() {
         locationManager.delegate = self
     }
@@ -133,6 +125,21 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
     func updateLabel(_ label: UILabel, toValue value: Int, forType type: LabelType) {
         let animationObject = CoreAnimationObject(label: label, endValue: value, labelType: type)
         animationObject.updateLabel()
+    }
+    
+    @IBAction func debugBackground(_ sender: Any) {
+        
+        let names = ["bg1cloudy2iPhone", "street"]
+        
+        // keep 1,2,4
+        
+        backgroundImage.image = UIImage(named: names[debugBackgroundCounter])
+        
+        if (debugBackgroundCounter + 1) == names.count {
+            debugBackgroundCounter = 0
+        } else {
+            debugBackgroundCounter += 1
+        }
     }
     
 }

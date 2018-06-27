@@ -22,7 +22,7 @@ class CoreAnimationObject: NSObject {
     let label: UILabel
     var startValue: Int = 0
     let endValue: Int
-    let animationDuration: Double = 0.8
+    let animationDuration: Double = 0.8 // was 0.8
     let animationStartDate: Date
     var displayLink: CADisplayLink?
     let labelType: LabelType
@@ -48,15 +48,20 @@ class CoreAnimationObject: NSObject {
         let elapsedTime = now.timeIntervalSince(animationStartDate)
         
         if elapsedTime > animationDuration {
-            label.text = getLabelText(forValue: String(endValue))
-            displayLink?.invalidate()
-            displayLink = nil
+            DispatchQueue.main.asyncAfter(deadline: .now() + animationDuration / 12) {
+                [weak self] in
+                self?.label.text = self?.getLabelText(forValue: String(self?.endValue ?? 0 ))
+                self?.displayLink?.invalidate()
+                self?.displayLink = nil
+            }
         } else {
             var percentage = elapsedTime / animationDuration
             percentage = 1 - percentage
-            percentage = 1 - (percentage * percentage * percentage)
+            percentage = 1 - (percentage * percentage)
             let value = startValue + Int(percentage * Double((endValue - startValue)))
-            label.text = getLabelText(forValue: String(value))
+            if (value != endValue) {
+                label.text = getLabelText(forValue: String(value))
+            }
         }
     }
     

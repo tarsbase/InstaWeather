@@ -24,6 +24,11 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         didSet {
             switch weatherIconName {
             case "clear": backgroundName = "bg\(arc4random_uniform(3) + 1)\(weatherIconName)"
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                if backgroundName == "bg2clear" {
+                    backgroundName += "iPhone\(arc4random_uniform(3) + 1)"
+                }
+                }
             case "snow", "fog", "clearnight", "cloudy2", "cloudy2night" :
                 backgroundName = "bg\(arc4random_uniform(2) + 1)\(weatherIconName)"
                 if UIDevice.current.userInterfaceIdiom == .phone {

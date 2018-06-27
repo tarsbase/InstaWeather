@@ -315,10 +315,10 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="bcR-vM-fYR" secondAttribute="trailing" id="8QF-Li-vuq"/>
                             <constraint firstItem="dSf-SB-90S" firstAttribute="top" secondItem="UDb-Ur-zFT" secondAttribute="top" id="8bA-Vz-0IA"/>
-                            <constraint firstItem="tFx-yc-c62" firstAttribute="bottom" secondItem="kwB-TR-zVy" secondAttribute="bottom" id="C65-BL-mB4"/>
+                            <constraint firstAttribute="bottom" secondItem="kwB-TR-zVy" secondAttribute="bottom" id="C65-BL-mB4"/>
                             <constraint firstItem="kwB-TR-zVy" firstAttribute="top" secondItem="tFx-yc-c62" secondAttribute="top" constant="5" id="O1f-Xh-gJM"/>
                             <constraint firstItem="dSf-SB-90S" firstAttribute="leading" secondItem="tFx-yc-c62" secondAttribute="leading" id="YcS-qz-m6u"/>
-                            <constraint firstItem="tFx-yc-c62" firstAttribute="bottom" secondItem="dSf-SB-90S" secondAttribute="bottom" id="aJ3-5g-hC2"/>
+                            <constraint firstAttribute="bottom" secondItem="dSf-SB-90S" secondAttribute="bottom" id="aJ3-5g-hC2"/>
                             <constraint firstItem="bcR-vM-fYR" firstAttribute="top" secondItem="UDb-Ur-zFT" secondAttribute="top" id="an3-t4-LXH"/>
                             <constraint firstItem="kwB-TR-zVy" firstAttribute="top" secondItem="bcR-vM-fYR" secondAttribute="bottom" id="ehe-78-9sd"/>
                             <constraint firstItem="tFx-yc-c62" firstAttribute="trailing" secondItem="kwB-TR-zVy" secondAttribute="trailing" id="vou-Ne-0Oh"/>
