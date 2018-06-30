@@ -14,7 +14,6 @@ enum LabelType {
     case minTemp
     case maxTemp
     case humidity
-    case wind
 }
 
 class CoreAnimationObject: NSObject {
@@ -78,7 +77,6 @@ class CoreAnimationObject: NSObject {
         case .maxTemp: return "↑\(value)"
         case .feelsLike: return "Feels like \(value)°"
         case .humidity: return "Humidity: \(value)%"
-        case .wind: return ""
         }
     }
     

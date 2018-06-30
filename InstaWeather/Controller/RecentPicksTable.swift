@@ -22,6 +22,11 @@ class RecentPicksTable: UITableViewController {
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.textColor = UIColor.white
+        if #available(iOS 11.0, *) {
+            header.backgroundView?.backgroundColor = UIColor(named: "RecentPicksHeader")
+        } else {
+            header.backgroundView?.backgroundColor = UIColor(red: 46/255, green: 50/255, blue: 56/255, alpha: 1)
+        }
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return changeCityVC.recentPicks.count

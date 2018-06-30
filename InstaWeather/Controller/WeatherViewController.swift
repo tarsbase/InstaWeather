@@ -23,12 +23,22 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
     @IBOutlet weak var windLabel: UILabel!
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var windIcon: UIImageView!
+    @IBOutlet weak var lastUpdated: UILabel!
     
     
     let locationManager = CLLocationManager()
     var weatherDataModel = WeatherDataModel()
     var recentPicksDataSource: RecentPicksDataSource?
     var debugBackgroundCounter = 0
+    let delegate = UIApplication.shared.delegate as? AppDelegate
+    var reconnectTimer: Timer? {
+        set {
+            delegate?.reconnectTimer = newValue
+        }
+        get {
+            return delegate?.reconnectTimer
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,23 +46,35 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
         assignDelegate()
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestWhenInUseAuthorization()
-        updateData()
+        loadLastLocation()
         loadScale()
+        
+        // load saved data here
+        updateLabelsNoAnimation()
+        
         // updates location when app goes to foreground
         NotificationCenter.default.addObserver(forName: .UIApplicationWillEnterForeground, object: nil, queue: .main) {
             [unowned self] _ in
             self.assignDelegate()
-            self.updateData()
+            self.loadLastLocation()
         }
-        addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon)
+        addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon, lastUpdated)
         addShadow(opacity: 0.5, feelsLikeLabel)
+        
+        
+
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        // add check for last updated here
+        
+        
         let feelsLikeScale:CGFloat = 1.06
         let conditionScale:CGFloat = 1.03
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             [unowned self] in
+            self.lastUpdated.alpha = 1
             self.conditionImage.transform = CGAffineTransform(scaleX: conditionScale, y: conditionScale)
             self.feelsLikeLabel.transform = CGAffineTransform(scaleX: feelsLikeScale, y: feelsLikeScale)
             }, completion: {
@@ -65,6 +87,15 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
                     }, completion: nil)
         })
         super.viewDidAppear(animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseInOut, animations: {
+            [unowned self] in
+            self.lastUpdated.alpha = 0
+            }, completion: nil)
+        super.viewWillDisappear(animated)
     }
         
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -122,14 +153,24 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
         }
     }
     
-    func updateLabel(_ label: UILabel, toValue value: Int, forType type: LabelType) {
-        let animationObject = CoreAnimationObject(label: label, endValue: value, labelType: type)
-        animationObject.updateLabel()
+    func lastUpdateWasUpdated() {
+        let date = Date()
+        weatherDataModel.lastUpdated = date
+        updateLastLabel(withDate: date)
+    }
+    
+    func updateLastLabel(withDate date: Date) {
+        let dateString = weatherDataModel.lastUpdatedFormatter.string(from: date)
+        lastUpdated.text = "Last updated: \(dateString)"
+    }
+    
+    func deactivateTimer() {
+        delegate?.deactivateTimer()
     }
     
     @IBAction func debugBackground(_ sender: Any) {
         
-        let names = ["bg1cloudy2iPhone", "street"]
+        let names = ["bg3clear"]
         
         // keep 1,2,4
         

@@ -24,19 +24,14 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         didSet {
             switch weatherIconName {
             case "clear": backgroundName = "bg\(arc4random_uniform(3) + 1)\(weatherIconName)"
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                if backgroundName == "bg2clear" {
-                    backgroundName += "iPhone\(arc4random_uniform(3) + 1)"
+            if UIDevice.current.userInterfaceIdiom == .phone && backgroundName == "bg2clear" {
+                backgroundName += "iPhone\(arc4random_uniform(3) + 1)"
                 }
-                }
-            case "snow", "fog", "clearnight", "cloudy2", "cloudy2night" :
+            case "snow", "fog", "clearnight", "cloudy2night" :
                 backgroundName = "bg\(arc4random_uniform(2) + 1)\(weatherIconName)"
-                if UIDevice.current.userInterfaceIdiom == .phone {
-                    if backgroundName == "bg2cloudy2" || backgroundName == "bg1cloudy2" {
-                        backgroundName += "iPhone"
-                    }
-                }
             case "tstorm1", "tstorm2": backgroundName = "bgtstorm"
+            case "cloudy2":
+                backgroundName = UIDevice.current.userInterfaceIdiom == .phone ? "bg2cloudyiPhone" : "bg2cloudy"
             case "light_rain", "shower3": backgroundName = "bglight_rain"
             default: backgroundName = "bg\(weatherIconName)"
             }
@@ -79,6 +74,7 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     var humidity = 0
     var latitude = 0.0
     var longitude = 0.0
+    var lastUpdated: Date?
     
     var windDirection: String {
         get {
@@ -86,6 +82,15 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         }
         set {
             _windDirection = Double(newValue) ?? 0.0
+        }
+    }
+    
+    var windDirectionInDegrees: Double {
+        set {
+            _windDirection = newValue
+        }
+        get {
+            return _windDirection
         }
     }
 
@@ -110,6 +115,12 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     lazy var objectFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
+    lazy var lastUpdatedFormatter: DateFormatter = {
+        let formatter  = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd, h:mm a"
         return formatter
     }()
     

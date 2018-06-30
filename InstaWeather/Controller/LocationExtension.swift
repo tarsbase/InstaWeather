@@ -39,7 +39,8 @@ extension WeatherViewController: CLLocationManagerDelegate {
                     print("Reverse geocode failed: \(error.localizedDescription)")
                 }
                 guard let pm = placemarks, let possibleCity = pm.first, let city = possibleCity.locality else { return }
-                self.cityLabel.text = city
+                self.weatherDataModel.city = city
+                self.cityLabel.text = self.weatherDataModel.city
         })
     }
     
