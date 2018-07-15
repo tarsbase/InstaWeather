@@ -880,7 +880,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "InstaWeather/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.BesherAlMaleh.InstaWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -903,7 +903,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "InstaWeather/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.BesherAlMaleh.InstaWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -991,7 +991,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S9M2AHXJQE;
 				INFOPLIST_FILE = InstaWeatherToday/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.BesherAlMaleh.InstaWeather.InstaWeatherToday;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1010,7 +1010,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S9M2AHXJQE;
 				INFOPLIST_FILE = InstaWeatherToday/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.BesherAlMaleh.InstaWeather.InstaWeatherToday;
 				PRODUCT_NAME = "$(TARGET_NAME)";

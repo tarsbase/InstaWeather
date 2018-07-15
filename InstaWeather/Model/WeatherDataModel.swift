@@ -15,11 +15,7 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     let forecastURL = "http://api.openweathermap.org/data/2.5/forecast"
 
     var condition = 0
-    var city = "" {
-        didSet {
-            print(city)
-        }
-    }
+    var city = ""
     var currentTime = 0
     var sunriseTime = 0
     var sunsetTime = 0
