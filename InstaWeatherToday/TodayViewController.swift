@@ -162,7 +162,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        extensionContext?.open(URL(string: "instaurl:")!, completionHandler: nil)
+        extensionContext?.open(URL(string: "instaurl:")!, completionHandler: nil)
     }
     
     func updateCityFromLocation(location: CLLocation){

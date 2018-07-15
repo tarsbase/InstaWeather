@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import MapKit
 
 extension WeatherViewController: CLLocationManagerDelegate {
     
@@ -18,9 +19,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
             locationManager.delegate = nil // prevents multiple refreshes
             let latitude = String(location.coordinate.latitude)
             let longitude = String(location.coordinate.longitude)
-            let params = ["lat": latitude, "lon": longitude, "appid": APP_ID]
-            getWeatherData(url: weatherDataModel.weatherURL, parameters: params, local:true)
-            updateCityFromLocation(location: location)
+            getWeatherForCoordinates(latitude: latitude, longitude: longitude, location: location)
         }
     }
     
@@ -42,6 +41,20 @@ extension WeatherViewController: CLLocationManagerDelegate {
                 self.weatherDataModel.city = city
                 self.cityLabel.text = self.weatherDataModel.city
         })
+    }
+    
+    func performMapSearch(for result: String) {
+        let request = MKLocalSearchRequest()
+        request.naturalLanguageQuery = result
+        let search = MKLocalSearch(request: request)
+        search.start { [unowned self](response, error) in
+            guard let response = response else { return }
+            if let coordinates = response.mapItems.first?.placemark.coordinate {
+                let latitude = coordinates.latitude
+                let longitude = coordinates.longitude
+                self.getWeatherForCoordinates(latitude: String(latitude), longitude: String(longitude), location: CLLocation(latitude: latitude, longitude: longitude), city: self.weatherDataModel.city)
+            }
+        }
     }
     
 }

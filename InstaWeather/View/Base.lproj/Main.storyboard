@@ -718,8 +718,14 @@
                                     <action selector="checkWeatherButton:" destination="QY7-Dg-NX2" eventType="touchUpInside" id="AZO-3e-MUi"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MW2-OE-hun" userLabel="AutoCompleter Container">
+                                <rect key="frame" x="51" y="144" width="274" height="0.0"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="YLV-UE-r1f"/>
+                                </constraints>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WM6-xh-DAS">
-                                <rect key="frame" x="68.5" y="209" width="238" height="304"/>
+                                <rect key="frame" x="68.5" y="194" width="238" height="319"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="408" id="85a-T5-nfM"/>
                                     <constraint firstAttribute="width" constant="238" id="xaw-p0-izB"/>
@@ -752,7 +758,9 @@
                         <constraints>
                             <constraint firstItem="wgX-yo-6Ct" firstAttribute="top" secondItem="6ga-Ff-xiW" secondAttribute="top" id="8Cn-Bt-fcU"/>
                             <constraint firstItem="cuq-et-T6X" firstAttribute="bottom" secondItem="3hr-a4-FvR" secondAttribute="bottom" constant="14" id="B3Y-1X-RN9"/>
+                            <constraint firstItem="MW2-OE-hun" firstAttribute="top" secondItem="iv7-AE-zym" secondAttribute="bottom" constant="20" id="B8l-CN-Cjk"/>
                             <constraint firstItem="cuq-et-T6X" firstAttribute="trailing" secondItem="mfS-IG-cKA" secondAttribute="trailing" constant="17" id="GEO-7R-JoO"/>
+                            <constraint firstItem="MW2-OE-hun" firstAttribute="width" secondItem="WM6-xh-DAS" secondAttribute="width" multiplier="1.15" id="GQh-hH-MV9"/>
                             <constraint firstItem="uAM-ds-MuP" firstAttribute="leading" secondItem="cuq-et-T6X" secondAttribute="leading" constant="16" id="Jb1-5b-uEW"/>
                             <constraint firstItem="3hr-a4-FvR" firstAttribute="leading" secondItem="cuq-et-T6X" secondAttribute="leading" constant="17" id="LbD-I4-3FX"/>
                             <constraint firstItem="Dns-ke-Cbg" firstAttribute="centerX" secondItem="6ga-Ff-xiW" secondAttribute="centerX" id="Olb-cV-qZs"/>
@@ -768,16 +776,21 @@
                             <constraint firstItem="wgX-yo-6Ct" firstAttribute="leading" secondItem="6ga-Ff-xiW" secondAttribute="leading" id="krI-tp-EVT"/>
                             <constraint firstItem="cuq-et-T6X" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="uAM-ds-MuP" secondAttribute="trailing" constant="200" id="lU7-qh-N19"/>
                             <constraint firstItem="6cx-98-g0U" firstAttribute="centerX" secondItem="6ga-Ff-xiW" secondAttribute="centerX" id="oTu-Ae-94E"/>
-                            <constraint firstItem="WM6-xh-DAS" firstAttribute="top" secondItem="6cx-98-g0U" secondAttribute="bottom" constant="32" id="qMR-L4-oK4"/>
+                            <constraint firstItem="MW2-OE-hun" firstAttribute="centerX" secondItem="iv7-AE-zym" secondAttribute="centerX" id="oiv-7g-ESa"/>
+                            <constraint firstItem="WM6-xh-DAS" firstAttribute="top" secondItem="MW2-OE-hun" secondAttribute="bottom" constant="50" id="qMR-L4-oK4"/>
                             <constraint firstItem="WM6-xh-DAS" firstAttribute="centerX" secondItem="6ga-Ff-xiW" secondAttribute="centerX" id="wvI-Ix-NwA"/>
                             <constraint firstItem="Dns-ke-Cbg" firstAttribute="top" secondItem="WM6-xh-DAS" secondAttribute="bottom" constant="42" id="xHF-Cl-tRZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="cuq-et-T6X"/>
                     </view>
                     <connections>
+                        <outlet property="autoCompleteConstraint" destination="YLV-UE-r1f" id="FLo-UG-WvP"/>
+                        <outlet property="autoCompleteContainer" destination="MW2-OE-hun" id="ozc-dt-vjD"/>
                         <outlet property="backgroundImage" destination="wgX-yo-6Ct" id="khr-0P-sX2"/>
+                        <outlet property="checkBtn" destination="6cx-98-g0U" id="hIS-aH-1fH"/>
                         <outlet property="cityField" destination="iv7-AE-zym" id="dIC-UI-SSd"/>
                         <outlet property="tableContainer" destination="WM6-xh-DAS" id="BuZ-mn-QbV"/>
+                        <outlet property="tablePicksConstraint" destination="qMR-L4-oK4" id="xxw-hI-hSj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L3z-pS-UUN" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -812,6 +825,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1J7-uy-4DI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1615" y="116"/>
+        </scene>
+        <!--Auto Completer Table-->
+        <scene sceneID="1rh-1t-INH">
+            <objects>
+                <tableViewController storyboardIdentifier="autocomplete" id="FrP-3V-R5m" customClass="AutoCompleterTable" customModule="InstaWeather" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="30" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="2bG-WF-fi5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.17688181641063624" green="0.19151380798528253" blue="0.21277045719514642" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CityCell" id="NBo-ow-plQ">
+                                <rect key="frame" x="0.0" y="28" width="375" height="30"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NBo-ow-plQ" id="lVg-iP-Wqc">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="FrP-3V-R5m" id="j4E-8j-xsc"/>
+                            <outlet property="delegate" destination="FrP-3V-R5m" id="CVc-yd-MIZ"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zlM-6T-xPM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2369" y="116"/>
         </scene>
     </scenes>
     <resources>

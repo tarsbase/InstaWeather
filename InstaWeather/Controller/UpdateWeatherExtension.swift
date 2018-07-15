@@ -9,10 +9,22 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import CoreLocation
 
 extension WeatherViewController {
     
-    func getWeatherData(url: String, parameters: [String: String], local:Bool = false, reconnecting: Bool = false) {
+    func getWeatherForCoordinates(latitude: String, longitude: String, location: CLLocation, city: String = "") {
+        let params = ["lat": latitude, "lon": longitude, "appid": APP_ID]
+        getWeatherData(url: weatherDataModel.weatherURL, parameters: params, withCoordinates:true)
+        if city == "" {
+            updateCityFromLocation(location: location)
+        } else {
+            weatherDataModel.city = city
+            UserDefaults.standard.set(city, forKey: "cityChosen")
+        }
+    }
+    
+    func getWeatherData(url: String, parameters: [String: String], withCoordinates:Bool = false, reconnecting: Bool = false) {
         let oldModel = weatherDataModel
         weatherDataModel = WeatherDataModel()
         Alamofire.request(url, method: .get, parameters: parameters).responseJSON {
@@ -22,7 +34,6 @@ extension WeatherViewController {
                 let weatherJSON = JSON(response.result.value!)
                 if self.updateWeatherData(json: weatherJSON) {
                     self.cityIsValid(parameters: parameters)
-                    if !local { self.cityLabel.text = self.weatherDataModel.city }
                 }
                 else { self.cityIsNotValid(restore: oldModel) }
             } else if !reconnecting {
@@ -31,7 +42,7 @@ extension WeatherViewController {
                 self.present(ac, animated: true)
                 self.deactivateTimer()
                 self.reconnectTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { [unowned self] (timer) in
-                    self.getWeatherData(url: url, parameters: parameters, local: local, reconnecting: true)
+                    self.getWeatherData(url: url, parameters: parameters, withCoordinates: withCoordinates, reconnecting: true)
                 })
                 self.reconnectTimer?.tolerance = 0.5
                 if let timer = self.reconnectTimer {
@@ -90,7 +101,7 @@ extension WeatherViewController {
     func updateWeatherData(json: JSON) -> Bool {
         if let tempResult = json["main"]["temp"].double {
             weatherDataModel.temperature = kelvinToCelsius(tempResult)
-            weatherDataModel.city = json["name"].stringValue
+//            weatherDataModel.city = json["name"].stringValue
             weatherDataModel.condition = json["weather"][0]["id"].intValue
             weatherDataModel.currentTime = json["dt"].intValue
             weatherDataModel.sunriseTime = json["sys"]["sunrise"].intValue
@@ -170,16 +181,6 @@ extension WeatherViewController {
         updateLabel(humidityLabel, toValue: weatherDataModel.humidity, forType: .humidity)
     }
     
-    func userEnteredNewCity(city: String) {
-        let params: [String: String] = ["q": city, "appid": APP_ID]
-        getWeatherData(url: weatherDataModel.weatherURL, parameters: params)
-        if let parent = self.parent as? PageViewController {
-            if let forecastVC = parent.orderedViewControllers.last as? ForecastViewController {
-                forecastVC.parseForecast()
-            }
-        }
-    }
-    
     func updateLabel(_ label: UILabel, toValue value: Int, forType type: LabelType) {
         let animationObject = CoreAnimationObject(label: label, endValue: value, labelType: type)
         animationObject.updateLabel()
@@ -241,7 +242,7 @@ extension WeatherViewController {
     
     func loadLastLocation() {
         if let loadObject = UserDefaults.standard.string(forKey: "cityChosen") {
-            userEnteredNewCity(city: loadObject)
+            performMapSearch(for: loadObject)
         } else {
             locationManager.startUpdatingLocation()
         }
