@@ -89,8 +89,7 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextF
    
     
     @IBAction func checkWeatherButton(_ sender: Any) {
-        let cityName = cityField.text!
-        checkWeatherFromAutocomplete(for: cityName)
+        searchFirstResult()
     }
     
     
@@ -100,6 +99,7 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextF
     
     func checkWeatherFromAutocomplete(for result: String) {
         SVProgressHUD.show()
+        UserDefaults.standard.set(result, forKey: "cityChosen")
         let indexOfComma = result.index(of: ",")
         var city = result
         
@@ -161,8 +161,16 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextF
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        checkWeatherFromAutocomplete(for: cityField.text!)
+        searchFirstResult()
         return true
+    }
+    
+    func searchFirstResult() {
+        var cityName = cityField.text!
+        if let searchResult = autoCompleteTable?.completionResults.first {
+            cityName = searchResult
+        }
+        checkWeatherFromAutocomplete(for: cityName)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

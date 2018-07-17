@@ -20,7 +20,6 @@ extension WeatherViewController {
             updateCityFromLocation(location: location)
         } else {
             weatherDataModel.city = city
-            UserDefaults.standard.set(city, forKey: "cityChosen")
         }
     }
     
