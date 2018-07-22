@@ -145,6 +145,10 @@ extension WeatherViewController {
             weatherDataModel.forecast.append(forecastObject)
         }
         weatherDataModel.filterDays()
+        
+        if !self.preloadedForecastTable { self.preloadForecastTable?() }
+        self.preloadedForecastTable = true
+        
         saveValues(forYahoo: false)
     }
     

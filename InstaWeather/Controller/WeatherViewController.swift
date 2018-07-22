@@ -28,6 +28,8 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
     
     let locationManager = CLLocationManager()
     var weatherDataModel = WeatherDataModel()
+    var preloadForecastTable: (() -> Void)?
+    var preloadedForecastTable = false
     var recentPicksDataSource: RecentPicksDataSource?
     var debugBackgroundCounter = 0
     let delegate = UIApplication.shared.delegate as? AppDelegate

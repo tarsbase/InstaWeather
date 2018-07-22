@@ -30,20 +30,19 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
     }
     
     override func viewDidLoad() {
-        guard let first = storyboard?.instantiateViewController(withIdentifier: "first"), let second = storyboard?.instantiateViewController(withIdentifier: "second"), let third = storyboard?.instantiateViewController(withIdentifier: "third") else { fatalError() }
-        orderedViewControllers = [first, second, third]
         
+        guard let first = storyboard?.instantiateViewController(withIdentifier: "first"), let second = storyboard?.instantiateViewController(withIdentifier: "second") as? WeatherViewController, let third = storyboard?.instantiateViewController(withIdentifier: "third") else { fatalError() }
+        orderedViewControllers = [first, second, third]
+
+        second.preloadForecastTable = preloadForecastTable
         
         super.viewDidLoad()
         dataSource = self
+        
+        
         if orderedViewControllers.count > 0 {
-            // preload all viewControllers upon launch
-            var first = orderedViewControllers[0]
-            setViewControllers([first], direction: .reverse, animated: false)
-            first = orderedViewControllers[2]
-            setViewControllers([first], direction: .reverse, animated: false)
-            first = orderedViewControllers[1]
-            setViewControllers([first], direction: .forward, animated: false)
+            let vcToLoad = orderedViewControllers[1]
+            setViewControllers([vcToLoad], direction: .reverse, animated: false)
         }
     }
 
@@ -79,6 +78,13 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
         return firstViewControllerIndex
     }
     
-    
+    func preloadForecastTable() {
+        var vcToLoad = self.orderedViewControllers[0]
+        self.setViewControllers([vcToLoad], direction: .reverse, animated: false)
+        vcToLoad = self.orderedViewControllers[2]
+        self.setViewControllers([vcToLoad], direction: .reverse, animated: false)
+        vcToLoad = self.orderedViewControllers[1]
+        self.setViewControllers([vcToLoad], direction: .forward, animated: false)
+    }
     
 }
