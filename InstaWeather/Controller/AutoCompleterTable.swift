@@ -68,9 +68,6 @@ class AutoCompleterTable: UITableViewController, MKLocalSearchCompleterDelegate 
             let rangeOfDigits = $0.subtitle.rangeOfCharacter(from: .decimalDigits)
             return rangeOfDigits == nil
             }.map { $0.title }
-        NSLog("\(cityfieldText)")
-        NSLog("\(completionResults.count)")
-        print(completionResults)
         tableView.reloadData()
         
     }

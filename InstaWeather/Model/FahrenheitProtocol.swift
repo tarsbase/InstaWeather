@@ -10,9 +10,9 @@ import Foundation
 
 protocol ConvertibleToFahrenheit {
     var scaleIsCelsius: Bool { mutating get }
-    var temperatureCelsius: Int { get set }
-    var minTempCelsius: Int { get set }
-    var maxTempCelsius: Int { get set }
+    var temperatureFahrenheit: Int { get set }
+    var minTempFahrenheit: Int { get set }
+    var maxTempFahrenheit: Int { get set }
     var feelsLikeFahrenheit: Int { get set }
     var windSpeedKph: Int { get set }
 }
@@ -28,7 +28,7 @@ extension ConvertibleToFahrenheit {
             }
         }
         set {
-            temperatureCelsius = newValue
+            temperatureFahrenheit = newValue
         }
     }
     var maxTemp: Int {
@@ -40,7 +40,7 @@ extension ConvertibleToFahrenheit {
             }
         }
         set {
-            maxTempCelsius = newValue
+            maxTempFahrenheit = newValue
         }
     }
     var minTemp: Int {
@@ -52,7 +52,7 @@ extension ConvertibleToFahrenheit {
             }
         }
         set {
-            minTempCelsius = newValue
+            minTempFahrenheit = newValue
         }
     }
     var feelsLike: Int {
@@ -80,14 +80,14 @@ extension ConvertibleToFahrenheit {
         }
     }
     
-    var temperatureFahrenheit: Int {
-        return celsiusToFahrenheit(temperatureCelsius)
+    var temperatureCelsius: Int {
+        return fahrenheitToCelsius(temperatureFahrenheit)
     }
-    var maxTempFahrenheit: Int {
-        return celsiusToFahrenheit(maxTempCelsius)
+    var maxTempCelsius: Int {
+        return fahrenheitToCelsius(maxTempFahrenheit)
     }
-    var minTempFahrenheit: Int {
-        return celsiusToFahrenheit(minTempCelsius)
+    var minTempCelsius: Int {
+        return fahrenheitToCelsius(minTempFahrenheit)
     }
     var feelsLikeCelsius: Int {
         return fahrenheitToCelsius(feelsLikeFahrenheit)

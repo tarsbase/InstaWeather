@@ -11,7 +11,7 @@ import UIKit
 
 public struct WeatherDataModel: ConvertibleToFahrenheit {
     
-    let weatherURL = "http://api.openweathermap.org/data/2.5/weather"
+//    let weatherURL = "http://api.openweathermap.org/data/2.5/weather"
     let forecastURL = "http://api.openweathermap.org/data/2.5/forecast"
 
     var condition = 0
@@ -30,7 +30,7 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
             case "snow", "fog", "clearnight", "cloudy2night" :
                 backgroundName = "bg\(arc4random_uniform(2) + 1)\(weatherIconName)"
             case "tstorm1", "tstorm2": backgroundName = "bgtstorm"
-            case "cloudy2":
+            case "cloudy2", "overcast", "wind":
                 backgroundName = UIDevice.current.userInterfaceIdiom == .phone ? "bg2cloudyiPhone" : "bg2cloudy"
             case "light_rain", "shower3": backgroundName = "bglight_rain"
             default: backgroundName = "bg\(weatherIconName)"
@@ -66,9 +66,9 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     
     private(set) var scaleIsCelsius = true
     private var _windDirection = 0.0
-    var temperatureCelsius = 0
-    var maxTempCelsius = 0
-    var minTempCelsius = 0
+    var temperatureFahrenheit = 0
+    var maxTempFahrenheit = 0
+    var minTempFahrenheit = 0
     var feelsLikeFahrenheit = 0
     var windSpeedKph = 0
     var humidity = 0
@@ -163,7 +163,7 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         return forecastSections
     }()
     
-    func updateWeatherIcon(condition: Int, objectTime: Int, objectSunrise: Int = 0, objectSunset: Int = 0) -> String {
+    func updateOpenWeatherIcon(condition: Int, objectTime: Int, objectSunrise: Int = 0, objectSunset: Int = 0) -> String {
             switch condition {
             case 0...300 : return "tstorm1"
             case 301...500 : return "light_rain"
@@ -193,6 +193,25 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
                 }
             }
     }
+    
+    func updateYahooWeatherIcon(condition: Int) -> String {
+        switch condition {
+        case 0...4, 37...39, 45, 47: return "tstorm1"
+        case 5...8: return "snow"
+        case 9...10, 35: return "light_rain"
+        case 11...12, 40: return "shower3"
+        case 13...18, 41...43, 46: return "snow"
+        case 19...23: return "fog"
+        case 24...25: return "wind"
+        case 26, 44: return "overcast"
+        case 28, 30: return "cloudy2"
+        case 27, 29: return "cloudy2night"
+        case 31, 33: return "clearnight"
+        case 32, 34, 36: return "clear"
+        default: return "none"
+        }
+    }
+    
     mutating func filterDays() {
         currentDay = forecast.first?.currentDay ?? 0
         

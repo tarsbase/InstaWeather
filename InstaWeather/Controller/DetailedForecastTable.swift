@@ -106,7 +106,7 @@ class DetailedForecastTable: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.backgroundColor = UIColor.clear
         for case let imageView as UIImageView in cell.contentView.subviews {
-            let iconName = model?.updateWeatherIcon(condition: icon, objectTime: timeDigits, objectSunrise: sunrise, objectSunset: sunset) ?? ""
+            let iconName = model?.updateOpenWeatherIcon(condition: icon, objectTime: timeDigits, objectSunrise: sunrise, objectSunset: sunset) ?? ""
             imageView.image = UIImage(named: iconName)
         }
         for case let label as UILabel in cell.contentView.subviews {

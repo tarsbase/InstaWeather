@@ -15,7 +15,7 @@ extension WeatherViewController {
     
     func getWeatherForCoordinates(latitude: String, longitude: String, location: CLLocation, city: String = "") {
         let params = ["lat": latitude, "lon": longitude, "appid": APP_ID]
-        getWeatherData(url: weatherDataModel.weatherURL, parameters: params, withCoordinates:true)
+        getWeatherData(parameters: params, location: location)
         if city == "" {
             updateCityFromLocation(location: location)
         } else {
@@ -23,32 +23,68 @@ extension WeatherViewController {
         }
     }
     
-    func getWeatherData(url: String, parameters: [String: String], withCoordinates:Bool = false, reconnecting: Bool = false) {
+    func getWeatherData(parameters: [String: String], location: CLLocation, reconnecting: Bool = false) {
         let oldModel = weatherDataModel
         weatherDataModel = WeatherDataModel()
-        Alamofire.request(url, method: .get, parameters: parameters).responseJSON {
+        
+        let lat = String(location.coordinate.latitude)
+        let lon = String(location.coordinate.longitude)
+        let loc: String = "(" + lat + "," + lon + ")"
+        
+        Alamofire.request(getYahooURL(forLocation: loc), method: .get, parameters: nil).responseJSON {
             [unowned self] response in
             if response.result.isSuccess {
                 self.deactivateTimer()
-                let weatherJSON = JSON(response.result.value!)
-                if self.updateWeatherData(json: weatherJSON) {
-                    self.cityIsValid(parameters: parameters)
-                }
-                else { self.cityIsNotValid(restore: oldModel) }
-            } else if !reconnecting {
+                let json = JSON(response.result.value!)
+                self.updateYahooData(with:json)
+                
+                self.cityIsValid(parameters: parameters)
+                
+            } else {
+                
                 let ac = UIAlertController(title: "Error", message: response.result.error?.localizedDescription, preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "Dismiss", style: .default))
                 self.present(ac, animated: true)
                 self.deactivateTimer()
                 self.reconnectTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { [unowned self] (timer) in
-                    self.getWeatherData(url: url, parameters: parameters, withCoordinates: withCoordinates, reconnecting: true)
+                    self.getWeatherData(parameters: parameters, location: location, reconnecting: true)
                 })
                 self.reconnectTimer?.tolerance = 0.5
                 if let timer = self.reconnectTimer {
                     RunLoop.current.add(timer, forMode: .commonModes)
                 }
+                
+                
+                
+                print(response.result.error?.localizedDescription ?? "Error")
             }
         }
+        
+        
+        
+//        Alamofire.request(url, method: .get, parameters: parameters).responseJSON {
+//            [unowned self] response in
+//            if response.result.isSuccess {
+//                self.deactivateTimer()
+//                let weatherJSON = JSON(response.result.value!)
+//                if self.updateWeatherData(json: weatherJSON) {
+//                    self.cityIsValid(parameters: parameters)
+//                }
+//                else { self.cityIsNotValid(restore: oldModel) }
+//            } else if !reconnecting {
+//                let ac = UIAlertController(title: "Error", message: response.result.error?.localizedDescription, preferredStyle: .alert)
+//                ac.addAction(UIAlertAction(title: "Dismiss", style: .default))
+//                self.present(ac, animated: true)
+//                self.deactivateTimer()
+//                self.reconnectTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { [unowned self] (timer) in
+//                    self.getWeatherData(url: url, parameters: parameters, location: location, reconnecting: true)
+//                })
+//                self.reconnectTimer?.tolerance = 0.5
+//                if let timer = self.reconnectTimer {
+//                    RunLoop.current.add(timer, forMode: .commonModes)
+//                }
+//            }
+//        }
 
     }
     
@@ -70,7 +106,7 @@ extension WeatherViewController {
             [unowned self] response in
             if response.result.isSuccess {
                 let weatherJSON = JSON(response.result.value!)
-                self.updateMinMaxTemp(json: weatherJSON)
+//                self.updateMinMaxTemp(json: weatherJSON)
                 self.updateForecast(json: weatherJSON)
             } else {
                 let ac = UIAlertController(title: "Error", message: response.result.error?.localizedDescription, preferredStyle: .alert)
@@ -79,20 +115,20 @@ extension WeatherViewController {
             }
         }
         
-        let lat = String(weatherDataModel.latitude)
-        let lon = String(weatherDataModel.longitude)
-        
-        let location = "(" + lat + "," + lon + ")"
-        
-        Alamofire.request(getYahooURL(forLocation: location), method: .get, parameters: nil).responseJSON {
-            [unowned self] response in
-            if response.result.isSuccess {
-                let json = JSON(response.result.value!)
-                self.updateYahooData(with:json)
-            } else {
-                print(response.result.error?.localizedDescription ?? "Error")
-            }
-        }
+//        let lat = String(weatherDataModel.latitude)
+//        let lon = String(weatherDataModel.longitude)
+//
+//        let location = "(" + lat + "," + lon + ")"
+//
+//        Alamofire.request(getYahooURL(forLocation: location), method: .get, parameters: nil).responseJSON {
+//            [unowned self] response in
+//            if response.result.isSuccess {
+//                let json = JSON(response.result.value!)
+//                self.updateYahooData(with:json)
+//            } else {
+//                print(response.result.error?.localizedDescription ?? "Error")
+//            }
+//        }
         
         
     }
@@ -107,7 +143,7 @@ extension WeatherViewController {
             weatherDataModel.sunsetTime = json["sys"]["sunset"].intValue
             weatherDataModel.latitude = json["coord"]["lat"].doubleValue
             weatherDataModel.longitude = json["coord"]["lon"].doubleValue
-            weatherDataModel.weatherIconName = weatherDataModel.updateWeatherIcon(condition: weatherDataModel.condition, objectTime: weatherDataModel.currentTime, objectSunrise: weatherDataModel.sunriseTime, objectSunset: weatherDataModel.sunsetTime)
+//            weatherDataModel.weatherIconName = weatherDataModel.updateOpenWeatherIcon(condition: weatherDataModel.condition, objectTime: weatherDataModel.currentTime, objectSunrise: weatherDataModel.sunriseTime, objectSunset: weatherDataModel.sunsetTime)
 //            updateUIWithWeatherData()
             return true
         } else {
@@ -166,11 +202,25 @@ extension WeatherViewController {
     }
     
     func updateYahooData(with json: JSON) {
+        
+        // TODO: temp, min, max, condition,
+        
+        weatherDataModel.temperature = json["query"]["results"]["channel"]["item"]["condition"]["temp"].intValue
+        
+        weatherDataModel.minTemp = json["query"]["results"]["channel"]["item"]["forecast"][0]["low"].intValue
+        weatherDataModel.maxTemp = json["query"]["results"]["channel"]["item"]["forecast"][0]["high"].intValue
+        
+        let condition = json["query"]["results"]["channel"]["item"]["condition"]["code"].intValue
+        weatherDataModel.weatherIconName = weatherDataModel.updateYahooWeatherIcon(condition: condition)
+        
         weatherDataModel.feelsLike = json["query"]["results"]["channel"]["wind"]["chill"].intValue
         weatherDataModel.windSpeed = json["query"]["results"]["channel"]["wind"]["speed"].intValue
         weatherDataModel.windDirection = json["query"]["results"]["channel"]["wind"]["direction"].stringValue
         weatherDataModel.humidity = json["query"]["results"]["channel"]["atmosphere"]["humidity"].intValue
         saveValues(forYahoo: true)
+        
+        
+        updateUIWithWeatherData()
         self.updateYahooLabels()
     }
     

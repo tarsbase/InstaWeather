@@ -81,7 +81,6 @@ class WeatherViewController: UIViewController, ChangeCityDelegate {
             self.feelsLikeLabel.transform = CGAffineTransform(scaleX: feelsLikeScale, y: feelsLikeScale)
             }, completion: {
                 [unowned self] boolean in
-                print(boolean)
                 UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
                     [unowned self] in
                     self.conditionImage.transform = CGAffineTransform(scaleX: 1, y: 1)

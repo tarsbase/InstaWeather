@@ -85,6 +85,15 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     let locationManager = CLLocationManager()
     var todayModel = TodayDataModel()
     let defaults = UserDefaults(suiteName: "group.com.besher.InstaWeather")
+    let updateCooldown: Double = 60
+    var lastUpdate: Date? {
+        set {
+            defaults?.set(newValue, forKey: "lastUpdate")
+        }
+        get {
+            return defaults?.object(forKey: "lastUpdate") as? Date
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         assignDelegate()
@@ -118,6 +127,16 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
             updateCityFromLocation(location: location)
             let latitude = String(location.coordinate.latitude)
             let longitude = String(location.coordinate.longitude)
+            
+            // Skip weather check if too recent
+            if let lastUpdate = lastUpdate {
+                let currentTime = Date()
+                print(currentTime.timeIntervalSince(lastUpdate))
+                if currentTime.timeIntervalSince(lastUpdate) < updateCooldown {
+                    return
+                }
+            }
+            print("Updating")
             updateTodayModelWith(longitude: longitude, latitude: latitude)
         }
     }
@@ -127,6 +146,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         let coords = latitude + "," + longitude
         let units = "?units=\(scale)"
         let url = urlBegin + DARK_SKY + coords + units
+        lastUpdate = Date() // update cooldown
         Alamofire.request(url, method: .get, parameters: nil).responseJSON {
             [unowned self] response in
             if response.result.isSuccess {

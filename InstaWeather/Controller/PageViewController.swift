@@ -37,7 +37,6 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
         second.preloadForecastTable = preloadForecastTable
         
         super.viewDidLoad()
-        dataSource = self
         
         
         if orderedViewControllers.count > 0 {
@@ -85,6 +84,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
         self.setViewControllers([vcToLoad], direction: .reverse, animated: false)
         vcToLoad = self.orderedViewControllers[1]
         self.setViewControllers([vcToLoad], direction: .forward, animated: false)
+        dataSource = self
     }
     
 }

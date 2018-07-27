@@ -146,7 +146,7 @@ class ForecastViewController: UIViewController {
         for stack in subStacks {
             if stack.tag == tag {
                 for case let imageView as UIImageView in stack.arrangedSubviews {
-                    let iconName = model?.updateWeatherIcon(condition: icon, objectTime: 0) ?? ""
+                    let iconName = model?.updateOpenWeatherIcon(condition: icon, objectTime: 0) ?? ""
                     imageView.image = UIImage(named: iconName)
                 }
                 for case let label as UILabel in stack.arrangedSubviews {
