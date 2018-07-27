@@ -24,9 +24,8 @@ extension WeatherViewController {
     }
     
     func getWeatherData(parameters: [String: String], location: CLLocation, reconnecting: Bool = false) {
-        let oldModel = weatherDataModel
         weatherDataModel = WeatherDataModel()
-        
+        weatherDataModel.toggleScale(to: segmentedControl.selectedSegmentIndex)
         let lat = String(location.coordinate.latitude)
         let lon = String(location.coordinate.longitude)
         let loc: String = "(" + lat + "," + lon + ")"
@@ -40,7 +39,7 @@ extension WeatherViewController {
                 
                 self.cityIsValid(parameters: parameters)
                 
-            } else {
+            } else if !reconnecting {
                 
                 let ac = UIAlertController(title: "Error", message: response.result.error?.localizedDescription, preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "Dismiss", style: .default))
@@ -89,7 +88,6 @@ extension WeatherViewController {
     }
     
     func cityIsValid(parameters: [String: String]) {
-        weatherDataModel.toggleScale(to: segmentedControl.selectedSegmentIndex)
         getWeatherForecast(url: weatherDataModel.forecastURL, parameters: parameters)
         if let city = parameters["q"] {
             UserDefaults.standard.set(city, forKey: "cityChosen")
@@ -263,9 +261,9 @@ extension WeatherViewController {
         if !forYahoo {
             defaults.set(weatherDataModel.weatherIconName, forKey: "conditionImage")
             defaults.set(weatherDataModel.backgroundName, forKey: "backgroundName")
-            defaults.set(weatherDataModel.temperatureCelsius, forKey: "temperature")
-            defaults.set(weatherDataModel.minTempCelsius, forKey: "minTemp")
-            defaults.set(weatherDataModel.maxTempCelsius, forKey: "maxTemp")
+            defaults.set(weatherDataModel.temperatureFahrenheit, forKey: "temperature")
+            defaults.set(weatherDataModel.minTempFahrenheit, forKey: "minTemp")
+            defaults.set(weatherDataModel.maxTempFahrenheit, forKey: "maxTemp")
             defaults.set(weatherDataModel.city, forKey: "city")
             defaults.set(weatherDataModel.lastUpdated, forKey: "lastUpdated")
         } else {
