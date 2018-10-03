@@ -17,9 +17,13 @@
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.24</string>
+	<string>1.26</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>1</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fmlatte</string>
+	</array>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionMainStoryboard</key>

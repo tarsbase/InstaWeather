@@ -107,7 +107,7 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextF
             city = String(result[result.startIndex..<index])
         }
         
-        let request = MKLocalSearchRequest()
+        let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = result
         let search = MKLocalSearch(request: request)
         search.start { [unowned self](response, error) in

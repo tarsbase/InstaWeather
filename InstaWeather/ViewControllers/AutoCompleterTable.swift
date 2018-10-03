@@ -69,6 +69,5 @@ class AutoCompleterTable: UITableViewController, MKLocalSearchCompleterDelegate 
             return rangeOfDigits == nil
             }.map { $0.title }
         tableView.reloadData()
-        
     }
 }

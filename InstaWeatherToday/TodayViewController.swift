@@ -85,7 +85,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     let locationManager = CLLocationManager()
     var todayModel = TodayDataModel()
     let defaults = UserDefaults(suiteName: "group.com.besher.InstaWeather")
-    let updateCooldown: Double = 60
+    let updateCooldown: Double = 120
     var lastUpdate: Date? {
         set {
             defaults?.set(newValue, forKey: "lastUpdate")
@@ -131,13 +131,16 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
             // Skip weather check if too recent
             if let lastUpdate = lastUpdate {
                 let currentTime = Date()
-                print(currentTime.timeIntervalSince(lastUpdate))
+                print("\(currentTime.timeIntervalSince(lastUpdate)) seconds since last update")
                 if currentTime.timeIntervalSince(lastUpdate) < updateCooldown {
                     return
                 }
             }
-            print("Updating")
-            updateTodayModelWith(longitude: longitude, latitude: latitude)
+            
+            if !refreshDue() {
+                print("Updating")
+                updateTodayModelWith(longitude: longitude, latitude: latitude)
+            }
         }
     }
     
@@ -160,6 +163,11 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     }
     
     func updateUI() {
+        // display refresh message if due
+        if refreshDue() {
+            displayRefreshMessage()
+            return
+        }
         currentTempLabel.text = "\(todayModel.getCurrentTemp())°"
         maxTempLabel.text = "↑ \(todayModel.getMaxTemp())"
         minTempLabel.text = "↓ \(todayModel.getMinTemp())"
@@ -251,5 +259,45 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         nextHourLabel.text = ""
         cityLabel.text = "Location Unknown"
         summaryLabel.text = "Please activate location services for InstaWeather in the settings"
+    }
+    
+    func refreshDue() -> Bool {
+        let currentDate = Date()
+        let threeWeeks: Double = 1_814_400
+        let refreshDate: Double = 1538784000
+        var refreshDue = true
+        
+        // Check if we passed the initial refresh date
+        if currentDate.timeIntervalSince1970 > refreshDate {
+            
+            // Check if it's been over 3 weeks since app was launched
+            if let loadObject = defaults?.object(forKey: "appLaunched") as? Data,
+                let appLaunch = AppLaunch.decodeFrom(loadObject) {
+                let timeSinceAppLaunch = currentDate.timeIntervalSince(appLaunch.date)
+                print("\(timeSinceAppLaunch) seconds since last app launch")
+                
+                if timeSinceAppLaunch > threeWeeks {
+                    print("It's been over 3 weeks since the last app launch!")
+                    refreshDue = true
+                } else {
+                    refreshDue = false
+                }
+            } else {
+                print("App was never launched!")
+                refreshDue = true
+            }
+        } else {
+            refreshDue = false
+        }
+        return refreshDue
+    }
+    
+    func displayRefreshMessage() {
+        cityLabel.text = "Tap to refresh"
+        summaryLabel.text = "Error retrieving data"
+        currentTempLabel.text = " error"
+        minTempLabel.text = "N/A"
+        maxTempLabel.text = "N/A"
+        percipProbabilityLabel.text = "N/A"
     }
 }

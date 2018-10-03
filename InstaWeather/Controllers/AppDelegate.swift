@@ -18,11 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var reconnectTimer: Timer?
 
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         let pageControl = UIPageControl.appearance()
         pageControl.backgroundColor = UIColor.clear
-        
         Fabric.with([Crashlytics.self])
         
         return true
@@ -46,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        updateLastLaunchDate()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -61,3 +61,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+// MARK: - Update last launch date for reference in Today Widget
+
+extension AppDelegate {
+    func updateLastLaunchDate() {
+        if let defaults = UserDefaults(suiteName: "group.com.besher.InstaWeather") {
+            defaults.set(AppLaunch.encodeFrom(AppLaunch()), forKey: "appLaunched")
+        }
+    }
+}

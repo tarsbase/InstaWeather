@@ -50,7 +50,7 @@ extension WeatherViewController {
                 })
                 self.reconnectTimer?.tolerance = 0.5
                 if let timer = self.reconnectTimer {
-                    RunLoop.current.add(timer, forMode: .commonModes)
+                    RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
                 }
                 
                 
@@ -234,7 +234,7 @@ extension WeatherViewController {
     
     func updateLabel(_ label: UILabel, toValue value: Int, forType type: LabelType) {
         let animationObject = CoreAnimationObject(label: label, endValue: value, labelType: type)
-        animationObject.updateLabel()
+        animationObject.start()
     }
     
     func updateLabelsNoAnimation() {

@@ -37,9 +37,9 @@ class CoreAnimationObject: NSObject {
         }
     }
     
-    func updateLabel() {
+    func start() {
         displayLink = CADisplayLink(target: self, selector: #selector(handleUpdate))
-        displayLink?.add(to: .main, forMode: .defaultRunLoopMode)
+        displayLink?.add(to: .main, forMode: RunLoop.Mode.default)
     }
     
     @objc private func handleUpdate() {

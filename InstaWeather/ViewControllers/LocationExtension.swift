@@ -20,6 +20,11 @@ extension WeatherViewController: CLLocationManagerDelegate {
             let latitude = String(location.coordinate.latitude)
             let longitude = String(location.coordinate.longitude)
             getWeatherForCoordinates(latitude: latitude, longitude: longitude, location: location)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+                if self?.presentedViewController == nil {
+                    self?.launchAds()
+                }
+            }
         }
     }
     
@@ -44,7 +49,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
     }
     
     func performMapSearch(for result: String) {
-        let request = MKLocalSearchRequest()
+        let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = result
         let search = MKLocalSearch(request: request)
         search.start { [unowned self](response, error) in
