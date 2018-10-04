@@ -11,7 +11,7 @@ import UIKit
 
 public struct WeatherDataModel: ConvertibleToFahrenheit {
     
-//    let weatherURL = "http://api.openweathermap.org/data/2.5/weather"
+    let weatherURL = "http://api.openweathermap.org/data/2.5/weather"
     let forecastURL = "http://api.openweathermap.org/data/2.5/forecast"
 
     var condition = 0
@@ -66,9 +66,12 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     
     private(set) var scaleIsCelsius = true
     private var _windDirection = 0.0
-    var temperatureFahrenheit = 0
-    var maxTempFahrenheit = 0
-    var minTempFahrenheit = 0
+//    var temperatureFahrenheit = 0
+//    var maxTempFahrenheit = 0
+//    var minTempFahrenheit = 0
+    var temperatureCelsius = 0
+    var maxTempCelsius = 0
+    var minTempCelsius = 0
     var feelsLikeFahrenheit = 0
     var windSpeedKph = 0
     var humidity = 0

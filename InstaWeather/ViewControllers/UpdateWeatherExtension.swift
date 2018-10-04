@@ -26,16 +26,16 @@ extension WeatherViewController {
     func getWeatherData(parameters: [String: String], location: CLLocation, reconnecting: Bool = false) {
         weatherDataModel = WeatherDataModel()
         weatherDataModel.toggleScale(to: segmentedControl.selectedSegmentIndex)
-        let lat = String(location.coordinate.latitude)
-        let lon = String(location.coordinate.longitude)
-        let loc: String = "(" + lat + "," + lon + ")"
         
-        Alamofire.request(getYahooURL(forLocation: loc), method: .get, parameters: nil).responseJSON {
+        Alamofire.request(weatherDataModel.weatherURL, method: .get, parameters: parameters).responseJSON {
             [unowned self] response in
             if response.result.isSuccess {
                 self.deactivateTimer()
                 let json = JSON(response.result.value!)
-                self.updateYahooData(with:json)
+                
+                self.updateWeatherData(json: json)
+                
+//                self.updateYahooData(with:json)
                 
                 self.cityIsValid(parameters: parameters)
                 
@@ -104,7 +104,7 @@ extension WeatherViewController {
             [unowned self] response in
             if response.result.isSuccess {
                 let weatherJSON = JSON(response.result.value!)
-//                self.updateMinMaxTemp(json: weatherJSON)
+                self.updateMinMaxTemp(json: weatherJSON)
                 self.updateForecast(json: weatherJSON)
             } else {
                 let ac = UIAlertController(title: "Error", message: response.result.error?.localizedDescription, preferredStyle: .alert)
@@ -131,24 +131,30 @@ extension WeatherViewController {
         
     }
     
-    func updateWeatherData(json: JSON) -> Bool {
+    func updateWeatherData(json: JSON) {
         if let tempResult = json["main"]["temp"].double {
             weatherDataModel.temperature = kelvinToCelsius(tempResult)
-//            weatherDataModel.city = json["name"].stringValue
             weatherDataModel.condition = json["weather"][0]["id"].intValue
             weatherDataModel.currentTime = json["dt"].intValue
             weatherDataModel.sunriseTime = json["sys"]["sunrise"].intValue
             weatherDataModel.sunsetTime = json["sys"]["sunset"].intValue
-            weatherDataModel.latitude = json["coord"]["lat"].doubleValue
-            weatherDataModel.longitude = json["coord"]["lon"].doubleValue
-//            weatherDataModel.weatherIconName = weatherDataModel.updateOpenWeatherIcon(condition: weatherDataModel.condition, objectTime: weatherDataModel.currentTime, objectSunrise: weatherDataModel.sunriseTime, objectSunset: weatherDataModel.sunsetTime)
-//            updateUIWithWeatherData()
-            return true
+//            weatherDataModel.latitude = json["coord"]["lat"].doubleValue
+//            weatherDataModel.longitude = json["coord"]["lon"].doubleValue
+            let humidity = json["main"]["humidity"].intValue
+            weatherDataModel.humidity = humidity
+            let meterPerSecond = json["wind"]["speed"].doubleValue
+            let kphSpeed = Int(meterPerSecond * 3.6)
+            weatherDataModel.windSpeedKph = kphSpeed
+            let windDirection = json["wind"]["deg"].doubleValue
+            weatherDataModel.windDirectionInDegrees = windDirection
+            
+            
+            weatherDataModel.weatherIconName = weatherDataModel.updateOpenWeatherIcon(condition: weatherDataModel.condition, objectTime: weatherDataModel.currentTime, objectSunrise: weatherDataModel.sunriseTime, objectSunset: weatherDataModel.sunsetTime)
+            updateCurrentWeatherLabels()
         } else {
             let ac = UIAlertController(title: "Invalid city", message: "You have entered an invalid city name", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Ok", style: .default))
             present(ac, animated: true)
-            return false
         }
     }
     
@@ -161,7 +167,7 @@ extension WeatherViewController {
         }
         weatherDataModel.minTemp = kelvinToCelsius(minTemp)
         weatherDataModel.maxTemp = kelvinToCelsius(maxTemp)
-        updateUIWithWeatherData()
+        updateMinMaxLabels()
     }
     
     func updateForecast(json: JSON) {
@@ -189,38 +195,46 @@ extension WeatherViewController {
     
 
     
-    func updateUIWithWeatherData() {
+    func updateCurrentWeatherLabels() {
         updateLabel(tempLabel, toValue: weatherDataModel.temperature, forType: .mainTemperature)
-        updateLabel(minTempLabel, toValue: weatherDataModel.minTemp, forType: .minTemp)
-        updateLabel(maxTempLabel, toValue: weatherDataModel.maxTemp, forType: .maxTemp)
         conditionImage.image = UIImage(named: weatherDataModel.weatherIconName)
         backgroundImage.image = UIImage(named: weatherDataModel.backgroundName)
         cityLabel.text = weatherDataModel.city
+        let scale = segmentedControl.selectedSegmentIndex == 0 ? "km/h" : "mph"
+        let windSpeed = weatherDataModel.windSpeed
+        let windDirection = weatherDataModel.windDirection
+        windLabel.text = "\(windDirection) \(windSpeed) \(scale)"
+        updateLabel(humidityLabel, toValue: weatherDataModel.humidity, forType: .humidity)
         lastUpdateWasUpdated()
     }
     
-    func updateYahooData(with json: JSON) {
-        
-        // TODO: temp, min, max, condition,
-        
-        weatherDataModel.temperature = json["query"]["results"]["channel"]["item"]["condition"]["temp"].intValue
-        
-        weatherDataModel.minTemp = json["query"]["results"]["channel"]["item"]["forecast"][0]["low"].intValue
-        weatherDataModel.maxTemp = json["query"]["results"]["channel"]["item"]["forecast"][0]["high"].intValue
-        
-        let condition = json["query"]["results"]["channel"]["item"]["condition"]["code"].intValue
-        weatherDataModel.weatherIconName = weatherDataModel.updateYahooWeatherIcon(condition: condition)
-        
-        weatherDataModel.feelsLike = json["query"]["results"]["channel"]["wind"]["chill"].intValue
-        weatherDataModel.windSpeed = json["query"]["results"]["channel"]["wind"]["speed"].intValue
-        weatherDataModel.windDirection = json["query"]["results"]["channel"]["wind"]["direction"].stringValue
-        weatherDataModel.humidity = json["query"]["results"]["channel"]["atmosphere"]["humidity"].intValue
-        saveValues(forYahoo: true)
-        
-        
-        updateUIWithWeatherData()
-        self.updateYahooLabels()
+    func updateMinMaxLabels() {
+        updateLabel(minTempLabel, toValue: weatherDataModel.minTemp, forType: .minTemp)
+        updateLabel(maxTempLabel, toValue: weatherDataModel.maxTemp, forType: .maxTemp)
     }
+    
+//    func updateYahooData(with json: JSON) {
+//
+//
+//
+//        weatherDataModel.temperature = json["query"]["results"]["channel"]["item"]["condition"]["temp"].intValue
+//
+//        weatherDataModel.minTemp = json["query"]["results"]["channel"]["item"]["forecast"][0]["low"].intValue
+//        weatherDataModel.maxTemp = json["query"]["results"]["channel"]["item"]["forecast"][0]["high"].intValue
+//
+//        let condition = json["query"]["results"]["channel"]["item"]["condition"]["code"].intValue
+//        weatherDataModel.weatherIconName = weatherDataModel.updateYahooWeatherIcon(condition: condition)
+//
+//        weatherDataModel.feelsLike = json["query"]["results"]["channel"]["wind"]["chill"].intValue
+//        weatherDataModel.windSpeed = json["query"]["results"]["channel"]["wind"]["speed"].intValue
+//        weatherDataModel.windDirection = json["query"]["results"]["channel"]["wind"]["direction"].stringValue
+//        weatherDataModel.humidity = json["query"]["results"]["channel"]["atmosphere"]["humidity"].intValue
+//        saveValues(forYahoo: true)
+//
+//
+//        updateUIWithWeatherData()
+//        self.updateYahooLabels()
+//    }
     
     func updateYahooLabels() {
         let feelsLikeTemp = weatherDataModel.feelsLike
@@ -261,13 +275,13 @@ extension WeatherViewController {
         if !forYahoo {
             defaults.set(weatherDataModel.weatherIconName, forKey: "conditionImage")
             defaults.set(weatherDataModel.backgroundName, forKey: "backgroundName")
-            defaults.set(weatherDataModel.temperatureFahrenheit, forKey: "temperature")
-            defaults.set(weatherDataModel.minTempFahrenheit, forKey: "minTemp")
-            defaults.set(weatherDataModel.maxTempFahrenheit, forKey: "maxTemp")
+            defaults.set(weatherDataModel.temperatureCelsius, forKey: "temperature")
+            defaults.set(weatherDataModel.minTempCelsius, forKey: "minTemp")
+            defaults.set(weatherDataModel.maxTempCelsius, forKey: "maxTemp")
             defaults.set(weatherDataModel.city, forKey: "city")
             defaults.set(weatherDataModel.lastUpdated, forKey: "lastUpdated")
         } else {
-            defaults.set(weatherDataModel.feelsLikeFahrenheit, forKey: "feelsLike")
+            defaults.set(weatherDataModel.feelsLikeCelsius, forKey: "feelsLike")
             defaults.set(weatherDataModel.humidity, forKey: "humidity")
             defaults.set(weatherDataModel.windSpeed, forKey: "windSpeed")
             defaults.set(weatherDataModel.windDirectionInDegrees, forKey: "windDirection")
