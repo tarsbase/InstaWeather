@@ -8,9 +8,14 @@
 
 import UIKit
 
+protocol StatusBarUpdater: class {
+    func changeStatusBarToLight(_ light: Bool)
+}
+
 class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
     
     var deviceFrame: CGRect?
+    var lightStatusBar: Bool = true
     
     private(set) var orderedViewControllers = [UIViewController]()
 
@@ -26,7 +31,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-            return .lightContent
+        return lightStatusBar ? .lightContent : .default
     }
     
     override func viewDidLoad() {
@@ -35,6 +40,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
         orderedViewControllers = [first, second, third]
 
         second.preloadForecastTable = preloadForecastTable
+        second.statusBarUpdater = self
         
         super.viewDidLoad()
         
@@ -87,4 +93,11 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
         dataSource = self
     }
     
+}
+
+extension PageViewController: StatusBarUpdater {
+    func changeStatusBarToLight(_ light: Bool) {
+        lightStatusBar = light
+        setNeedsStatusBarAppearanceUpdate()
+    }
 }

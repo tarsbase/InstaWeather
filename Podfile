@@ -8,6 +8,7 @@ target 'InstaWeather' do
   pod 'SwiftyJSON'
   pod 'Alamofire'
   pod 'SVProgressHUD'
+  pod 'YPImagePicker'
 
   target 'InstaWeatherTests' do
     inherit! :search_paths

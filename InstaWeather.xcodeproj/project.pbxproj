@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2807A91D216A6A9C003DA8D6 /* ImageMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2807A91C216A6A9C003DA8D6 /* ImageMenu.xib */; };
+		2807A91F216A6CF3003DA8D6 /* ImageMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807A91E216A6CF3003DA8D6 /* ImageMenu.swift */; };
+		2807A921216A7077003DA8D6 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807A920216A7077003DA8D6 /* CustomSlider.swift */; };
 		2822A03A2021485F0007D9E9 /* ForecastObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822A0392021485F0007D9E9 /* ForecastObject.swift */; };
 		28243639209E6BC9002D3142 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28243637209E6BC9002D3142 /* Crashlytics.framework */; };
 		2824363A209E6BC9002D3142 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28243638209E6BC9002D3142 /* Fabric.framework */; };
@@ -37,9 +40,11 @@
 		289D3E0E20E8046300D3D5DD /* LaunchBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 289D3E0D20E8046200D3D5DD /* LaunchBackground.jpg */; };
 		28A0619D20E004CD00BF9112 /* DetailedContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A0619C20E004CD00BF9112 /* DetailedContainerViewController.swift */; };
 		28A176C020E15294006A056F /* CoreAnimationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A176BF20E15294006A056F /* CoreAnimationObject.swift */; };
+		28B5CD262169501D004331DA /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B5CD252169501D004331DA /* ImagePicker.swift */; };
 		28BB175E201D589D006E14A0 /* UpdateWeatherExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BB175D201D589D006E14A0 /* UpdateWeatherExtension.swift */; };
 		28BFE2C52164447F000F44C3 /* AppLaunch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE2C42164447F000F44C3 /* AppLaunch.swift */; };
 		28BFE2C6216444CC000F44C3 /* AppLaunch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE2C42164447F000F44C3 /* AppLaunch.swift */; };
+		28CD21872169D1F700BBFA62 /* Helper Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CD21862169D1F700BBFA62 /* Helper Functions.swift */; };
 		28CDAE1E20B1C2EE003CE837 /* WeatherDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EEB916201C44CD0090D0D3 /* WeatherDataModel.swift */; };
 		28CDAE1F20B1C2EE003CE837 /* ForecastObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822A0392021485F0007D9E9 /* ForecastObject.swift */; };
 		28CDAE2020B1C2EE003CE837 /* FahrenheitProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2873AED02027A55C00C3ABCE /* FahrenheitProtocol.swift */; };
@@ -95,6 +100,9 @@
 		09808961610CA42FB6E0C66E /* Pods-InstaWeatherTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaWeatherTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InstaWeatherTests/Pods-InstaWeatherTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1D3016E15023B4D1C7088105 /* Pods-InstaWeatherUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaWeatherUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-InstaWeatherUITests/Pods-InstaWeatherUITests.release.xcconfig"; sourceTree = "<group>"; };
 		237C6CE99104E30C5AA80DF9 /* Pods-InstaWeatherToday.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaWeatherToday.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InstaWeatherToday/Pods-InstaWeatherToday.debug.xcconfig"; sourceTree = "<group>"; };
+		2807A91C216A6A9C003DA8D6 /* ImageMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageMenu.xib; sourceTree = "<group>"; };
+		2807A91E216A6CF3003DA8D6 /* ImageMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMenu.swift; sourceTree = "<group>"; };
+		2807A920216A7077003DA8D6 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		28177AE620B7AB8B009079AD /* InstaWeather.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InstaWeather.entitlements; sourceTree = "<group>"; };
 		28177AE720B7ABE3009079AD /* InstaWeatherToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InstaWeatherToday.entitlements; sourceTree = "<group>"; };
 		2822A0392021485F0007D9E9 /* ForecastObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastObject.swift; sourceTree = "<group>"; };
@@ -134,8 +142,10 @@
 		289D3E0D20E8046200D3D5DD /* LaunchBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = LaunchBackground.jpg; sourceTree = "<group>"; };
 		28A0619C20E004CD00BF9112 /* DetailedContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedContainerViewController.swift; sourceTree = "<group>"; };
 		28A176BF20E15294006A056F /* CoreAnimationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAnimationObject.swift; sourceTree = "<group>"; };
+		28B5CD252169501D004331DA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		28BB175D201D589D006E14A0 /* UpdateWeatherExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateWeatherExtension.swift; sourceTree = "<group>"; };
 		28BFE2C42164447F000F44C3 /* AppLaunch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLaunch.swift; sourceTree = "<group>"; };
+		28CD21862169D1F700BBFA62 /* Helper Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helper Functions.swift"; sourceTree = "<group>"; };
 		28EEB910201C44300090D0D3 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		28EEB916201C44CD0090D0D3 /* WeatherDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataModel.swift; sourceTree = "<group>"; };
 		28EEB91A201C50EC0090D0D3 /* LocationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationExtension.swift; sourceTree = "<group>"; };
@@ -228,6 +238,7 @@
 		28359A4B201C41E3005AAFF4 /* InstaWeather */ = {
 			isa = PBXGroup;
 			children = (
+				28B5CD2321694FE9004331DA /* Features */,
 				289D1949215DA19B006339D9 /* Controllers */,
 				28177AE620B7AB8B009079AD /* InstaWeather.entitlements */,
 				28EEB915201C44AC0090D0D3 /* Supporting Files */,
@@ -288,6 +299,26 @@
 				289D194D215DA32C006339D9 /* AdHosting.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		28B5CD2321694FE9004331DA /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				28B5CD2421694FEE004331DA /* Image Picker */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		28B5CD2421694FEE004331DA /* Image Picker */ = {
+			isa = PBXGroup;
+			children = (
+				28B5CD252169501D004331DA /* ImagePicker.swift */,
+				2807A91E216A6CF3003DA8D6 /* ImageMenu.swift */,
+				28CD21862169D1F700BBFA62 /* Helper Functions.swift */,
+				2807A91C216A6A9C003DA8D6 /* ImageMenu.xib */,
+				2807A920216A7077003DA8D6 /* CustomSlider.swift */,
+			);
+			path = "Image Picker";
 			sourceTree = "<group>";
 		};
 		28EEB912201C44850090D0D3 /* ViewControllers */ = {
@@ -512,6 +543,7 @@
 				289D3E0E20E8046300D3D5DD /* LaunchBackground.jpg in Resources */,
 				28359A54201C41E3005AAFF4 /* Assets.xcassets in Resources */,
 				28359A52201C41E3005AAFF4 /* Main.storyboard in Resources */,
+				2807A91D216A6A9C003DA8D6 /* ImageMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,14 +581,22 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-InstaWeather/Pods-InstaWeather-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Bartinter/Bartinter.framework",
+				"${BUILT_PRODUCTS_DIR}/PryntTrimmerView/PryntTrimmerView.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/SteviaLayout/Stevia.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/YPImagePicker/YPImagePicker.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bartinter.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PryntTrimmerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stevia.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YPImagePicker.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -699,13 +739,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28CD21872169D1F700BBFA62 /* Helper Functions.swift in Sources */,
 				28A0619D20E004CD00BF9112 /* DetailedContainerViewController.swift in Sources */,
+				2807A91F216A6CF3003DA8D6 /* ImageMenu.swift in Sources */,
 				28EEB91B201C50EC0090D0D3 /* LocationExtension.swift in Sources */,
 				28481F18201E9199004A89B6 /* RecentPicksTable.swift in Sources */,
 				28A176C020E15294006A056F /* CoreAnimationObject.swift in Sources */,
 				28EEB917201C44CD0090D0D3 /* WeatherDataModel.swift in Sources */,
 				28481F16201E8FA3004A89B6 /* ContainmentExtension.swift in Sources */,
 				2885EE5F2023F62500CD4CC4 /* DetailedForecastTable.swift in Sources */,
+				28B5CD262169501D004331DA /* ImagePicker.swift in Sources */,
 				28359A4F201C41E3005AAFF4 /* WeatherViewController.swift in Sources */,
 				287A5DD1201D62D1008E71CF /* ChangeCityViewController.swift in Sources */,
 				28BFE2C52164447F000F44C3 /* AppLaunch.swift in Sources */,
@@ -717,6 +760,7 @@
 				289D1950215DA9A6006339D9 /* EnumKeys.swift in Sources */,
 				289D194B215DA1AE006339D9 /* AppSettings.swift in Sources */,
 				289D1948215DA14F006339D9 /* PageViewController.swift in Sources */,
+				2807A921216A7077003DA8D6 /* CustomSlider.swift in Sources */,
 				289D194E215DA32C006339D9 /* AdHosting.swift in Sources */,
 				28359A4D201C41E3005AAFF4 /* AppDelegate.swift in Sources */,
 				2882D6892020116F00B40082 /* ForecastViewController.swift in Sources */,
@@ -926,7 +970,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "InstaWeather/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.BesherAlMaleh.InstaWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -949,7 +993,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "InstaWeather/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.BesherAlMaleh.InstaWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";

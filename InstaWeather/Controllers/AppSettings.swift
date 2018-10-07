@@ -13,6 +13,9 @@ struct AppSettings {
     private enum SettingKey: String {
         case ShowedFindMyLatteAd
         case DateForFindMylatteAd
+        case mainscreenCustomImage
+        case mainscreenBlurSetting
+        case mainscreenBrightnessSetting
     }
     
     static var DateForFindMylatteAd: Date? {
@@ -30,6 +33,59 @@ struct AppSettings {
             
             if let date = newValue {
                 defaults.set(date, forKey: key)
+            }
+        }
+    }
+    
+    static var customImageMain: Bool! {
+        get {
+            return UserDefaults.standard.bool(forKey: SettingKey.mainscreenCustomImage.rawValue)
+        }
+        set {
+            let defaults = UserDefaults.standard
+            let key = SettingKey.mainscreenCustomImage.rawValue
+            if let custom = newValue {
+                defaults.set(custom, forKey: key)
+            } else {
+                defaults.removeObject(forKey: key)
+            }
+        }
+    }
+    
+    static var mainscreenBlurSetting: Float! {
+        get {
+            return UserDefaults.standard.float(forKey:
+                SettingKey.mainscreenBlurSetting.rawValue)
+        }
+        set {
+            let defaults = UserDefaults.standard
+            let key = SettingKey.mainscreenBlurSetting.rawValue
+            
+            if let blur = newValue {
+                defaults.set(blur, forKey: key)
+            } else {
+                defaults.removeObject(forKey: key)
+            }
+        }
+    }
+    
+    static var mainscreenBrightnessSetting: Float! {
+        get {
+            if let brightness = UserDefaults.standard.object(forKey:
+                SettingKey.mainscreenBrightnessSetting.rawValue) as? Float {
+                return brightness
+            } else {
+                return 0.8
+            }
+        }
+        set {
+            let defaults = UserDefaults.standard
+            let key = SettingKey.mainscreenBrightnessSetting.rawValue
+            
+            if let brightness = newValue {
+                defaults.set(brightness, forKey: key)
+            } else {
+                defaults.removeObject(forKey: key)
             }
         }
     }

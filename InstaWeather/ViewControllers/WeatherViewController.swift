@@ -25,7 +25,8 @@ class WeatherViewController: UIViewController, ChangeCityDelegate, AdHosting {
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var windIcon: UIImageView!
     @IBOutlet weak var lastUpdated: UILabel!
-    
+    @IBOutlet weak var imageChangeButton: UIButton!
+    @IBOutlet weak var backgroundContainer: UIView!
     
     let locationManager = CLLocationManager()
     var weatherDataModel = WeatherDataModel()
@@ -35,6 +36,11 @@ class WeatherViewController: UIViewController, ChangeCityDelegate, AdHosting {
     var debugBackgroundCounter = 0
     let delegate = UIApplication.shared.delegate as? AppDelegate
     var appStoreVC: SKStoreProductViewController?
+    lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
+    lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
+    lazy var blurAnimator = UIViewPropertyAnimator(duration: 1, curve: .easeOut) {
+        self.backgroundBlur.effect = UIBlurEffect(style: .regular)
+    }
     var reconnectTimer: Timer? {
         set {
             delegate?.reconnectTimer = newValue
@@ -43,10 +49,16 @@ class WeatherViewController: UIViewController, ChangeCityDelegate, AdHosting {
             return delegate?.reconnectTimer
         }
     }
+    lazy var imageMenu = createImageMenu()
+    var imageMenuIsVisible = false {
+        didSet {
+            menuIsVisibleChanged(to: imageMenuIsVisible)
+        }
+    }
+    weak var statusBarUpdater: StatusBarUpdater?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         assignDelegate()
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestWhenInUseAuthorization()
@@ -62,8 +74,19 @@ class WeatherViewController: UIViewController, ChangeCityDelegate, AdHosting {
             self.assignDelegate()
             self.loadLastLocation()
         }
+
+        setupStoryboard()
+    }
+    
+    func setupStoryboard() {
         addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon, lastUpdated)
-        addShadow(opacity: 0.5, feelsLikeLabel)
+//        addShadow(opacity: 0.5, feelsLikeLabel)
+        addShadow(opacity: 0.3, imageChangeButton)
+        _ = imageMenu
+        // crucial to keep blur functional
+        blurAnimator.pausesOnCompletion = true
+        
+        backgroundContainer.clipsToBounds = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -206,4 +229,83 @@ extension WeatherViewController: SKStoreProductViewControllerDelegate {
     }
     
     
+}
+
+// MARK: - Image menu
+extension WeatherViewController: ImageMenuDelegate {
+    
+    func resetBackgroundImage() {
+        updateLabelsNoAnimation()
+    }
+    
+    func dismissImageMenu() {
+        imageMenuIsVisible = false
+    }
+    
+    @IBAction func imageChangePressed(_ sender: Any) {
+        imageMenuIsVisible = true
+    }
+    
+    func menuIsVisibleChanged(to visible: Bool) {
+        
+//        statusBarUpdater?.changeStatusBarToLight(!visible)
+        
+        let yValue: CGFloat = visible ? 33.5 : -143.5
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
+            self.imageMenu.center.y = yValue
+        }
+    }
+    
+    
+    func createImageMenu() -> ImageMenu {
+        guard let imageMenu = UINib(nibName: "ImageMenu", bundle: nil)
+            .instantiate(withOwner: self, options: nil)[0] as? ImageMenu else { fatalError() }
+        imageMenu.frame = CGRect(x: 0, y: -287, width: view.bounds.width, height: 267)
+        view.addSubview(imageMenu)
+        
+        imageMenu.delegate = self
+        
+        return imageMenu
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let location = touches.first?.location(in: self.view) {
+            if !imageMenu.frame.contains(location) {
+                imageMenuIsVisible = false
+            }
+        }
+    }
+
+    func setupBackgroundBlur() -> UIVisualEffectView {
+        let visualView = UIVisualEffectView()
+        visualView.frame = self.view.frame
+        visualView.transform = CGAffineTransform(scaleX: 2, y: 2)
+        backgroundContainer.addSubview(visualView)
+        return visualView
+    }
+    
+    func setupBackgroundBrightness() -> UIView {
+        let view = UIView(frame: self.view.frame)
+        view.transform = CGAffineTransform(scaleX: 2, y: 2)
+        backgroundContainer.addSubview(view)
+        return view
+    }
+    
+    func changeBlurValueTo(value: CGFloat) {
+        let finalValue = value * 0.5
+        blurAnimator.fractionComplete = finalValue
+    }
+    
+    func changeBrightnessValueTo(value: CGFloat) {
+        var finalValue: CGFloat = 0
+        // if below 0.8 we decrease brightness, otherwise we increase
+        if value < 0.8 {
+            finalValue = 1 - (0.5 + (value * 0.625))
+            backgroundBrightness.backgroundColor = UIColor.init(white: 0, alpha: finalValue)
+        } else {
+            finalValue = value - 0.8
+            backgroundBrightness.backgroundColor = UIColor.init(white: 1, alpha: finalValue)
+        }
+    }
 }
