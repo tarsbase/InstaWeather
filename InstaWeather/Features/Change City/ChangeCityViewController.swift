@@ -23,6 +23,8 @@ protocol RecentPicksDataSource {
 
 class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextFieldDelegate {
     
+    @IBOutlet weak var hideCamerasButton: LargeTapAreaButton!
+    @IBOutlet weak var changeImageButton: CustomImageButton!
     @IBOutlet weak var autoCompleteContainer: UIView!
     @IBOutlet weak var tableContainer: UIView!
     @IBOutlet weak var backgroundImage: UIImageView!
@@ -30,6 +32,7 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextF
     @IBOutlet weak var autoCompleteConstraint: NSLayoutConstraint!
     @IBOutlet weak var tablePicksConstraint: NSLayoutConstraint!
     @IBOutlet weak var checkBtn: UIButton!
+    @IBOutlet weak var backgroundContainer: UIView!
     var delegate: ChangeCityDelegate?
     var picksTable: RecentPicksTable?
     var autoCompleteTable: AutoCompleterTable?
@@ -38,6 +41,15 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextF
             UserDefaults.standard.set(recentPicks, forKey: "recentPicks")
         }
     }
+    
+    lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
+    lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
+    lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
+    lazy var imageMenu: ImageMenu = createImageMenuFor(host: .changeCity)
+    var imageMenuIsVisible = false {
+        didSet { menuIsVisibleChanged(to: imageMenuIsVisible) }
+    }
+    weak var statusBarUpdater: StatusBarUpdater?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -48,7 +60,13 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextF
         self.cityField.delegate = self
         SVProgressHUD.setBackgroundColor(UIColor.white)
         SVProgressHUD.setDefaultMaskType(.gradient)
-        
+        loadBackgroundImage()
+        _ = imageMenu
+        backgroundContainer.clipsToBounds = true
+        CustomImageButton.buttonsArray.insert(changeImageButton)
+        let title = AppSettings.hideCameras ? "Show Camera Buttons" : "Hide Camera Buttons"
+        hideCamerasButton.setTitle(title, for: .normal)
+        changeImageButton.isHidden = AppSettings.hideCameras
     }
     
     
@@ -84,6 +102,7 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextF
     override func viewWillDisappear(_ animated: Bool) {
         picksTable?.remove()
         autoCompleteTable?.remove()
+        CustomImageButton.buttonsArray.remove(changeImageButton)
         super.viewWillDisappear(animated)
     }
    
@@ -202,5 +221,40 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextF
                     self?.checkBtn.alpha = 1
                 })
         })
+    }
+}
+
+// MARK: - Image Manager
+extension ChangeCityViewController: ImageMenuDelegate {
+    
+    func loadBackgroundImage() {
+        if AppSettings.changecityCustomImage {
+            loadCustomImage()
+        } else {
+            resetBackgroundImage()
+        }
+    }
+    
+    func resetBackgroundImage() {
+        backgroundImage.image = UIImage(named: "bgselect3")
+    }
+    
+    @IBAction func imageChangePressed(_ sender: Any) {
+        imageMenuIsVisible = true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        handleTouch(by: touches)
+    }
+    
+    @IBAction func hideCameras(_ sender: UIButton) {
+        if AppSettings.hideCameras {
+            AppSettings.hideCameras = false
+            sender.setTitle("Hide Camera Buttons", for: .normal)
+        } else {
+            AppSettings.hideCameras = true
+            sender.setTitle("Show Camera Buttons", for: .normal)
+        }
+        CustomImageButton.buttonsArray.forEach { $0.isHidden = AppSettings.hideCameras }
     }
 }

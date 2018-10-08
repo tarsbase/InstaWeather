@@ -315,10 +315,8 @@ extension WeatherViewController {
     
     func updateBackgroundWithForecastImage(_ image: UIImage?) {
         
-        if AppSettings.customImageMain {
-            if let savedImage = ImageManager.getBackgroundImage(for: .mainScreen) {
-                backgroundImage.image = savedImage
-            }
+        if AppSettings.mainscreenCustomImage {
+            loadCustomImage()
         } else {
             backgroundImage.image = image
         }

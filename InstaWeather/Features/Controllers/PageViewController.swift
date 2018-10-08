@@ -10,6 +10,7 @@ import UIKit
 
 protocol StatusBarUpdater: class {
     func changeStatusBarToLight(_ light: Bool)
+    func pageViewDataSourceIsActive(_ active: Bool)
 }
 
 class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
@@ -36,12 +37,15 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
     
     override func viewDidLoad() {
         
-        guard let first = storyboard?.instantiateViewController(withIdentifier: "first"), let second = storyboard?.instantiateViewController(withIdentifier: "second") as? WeatherViewController, let third = storyboard?.instantiateViewController(withIdentifier: "third") else { fatalError() }
+        guard let first = storyboard?.instantiateViewController(withIdentifier: "first") as? DetailedContainerViewController,
+            let second = storyboard?.instantiateViewController(withIdentifier: "second") as? WeatherViewController,
+            let third = storyboard?.instantiateViewController(withIdentifier: "third") as? ForecastViewController else { fatalError() }
         orderedViewControllers = [first, second, third]
-
-        second.preloadForecastTable = preloadForecastTable
-        second.statusBarUpdater = self
         
+        second.preloadForecastTable = preloadForecastTable
+        first.statusBarUpdater = self
+        second.statusBarUpdater = self
+        third.statusBarUpdater = self
         super.viewDidLoad()
         
         
@@ -99,5 +103,9 @@ extension PageViewController: StatusBarUpdater {
     func changeStatusBarToLight(_ light: Bool) {
         lightStatusBar = light
         setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    func pageViewDataSourceIsActive(_ active: Bool) {
+        self.dataSource = active ? self : nil 
     }
 }

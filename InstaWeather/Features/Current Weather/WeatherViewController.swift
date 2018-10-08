@@ -25,7 +25,7 @@ class WeatherViewController: UIViewController, ChangeCityDelegate, AdHosting {
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var windIcon: UIImageView!
     @IBOutlet weak var lastUpdated: UILabel!
-    @IBOutlet weak var imageChangeButton: UIButton!
+    @IBOutlet weak var changeImageButton: CustomImageButton!
     @IBOutlet weak var backgroundContainer: UIView!
     
     let locationManager = CLLocationManager()
@@ -36,11 +36,6 @@ class WeatherViewController: UIViewController, ChangeCityDelegate, AdHosting {
     var debugBackgroundCounter = 0
     let delegate = UIApplication.shared.delegate as? AppDelegate
     var appStoreVC: SKStoreProductViewController?
-    lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
-    lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
-    lazy var blurAnimator = UIViewPropertyAnimator(duration: 1, curve: .easeOut) {
-        self.backgroundBlur.effect = UIBlurEffect(style: .regular)
-    }
     var reconnectTimer: Timer? {
         set {
             delegate?.reconnectTimer = newValue
@@ -49,11 +44,12 @@ class WeatherViewController: UIViewController, ChangeCityDelegate, AdHosting {
             return delegate?.reconnectTimer
         }
     }
-    lazy var imageMenu = createImageMenu()
+    lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
+    lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
+    lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
+    lazy var imageMenu: ImageMenu = createImageMenuFor(host: .mainScreen)
     var imageMenuIsVisible = false {
-        didSet {
-            menuIsVisibleChanged(to: imageMenuIsVisible)
-        }
+        didSet { menuIsVisibleChanged(to: imageMenuIsVisible) }
     }
     weak var statusBarUpdater: StatusBarUpdater?
     
@@ -81,18 +77,15 @@ class WeatherViewController: UIViewController, ChangeCityDelegate, AdHosting {
     func setupStoryboard() {
         addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon, lastUpdated)
 //        addShadow(opacity: 0.5, feelsLikeLabel)
-        addShadow(opacity: 0.3, imageChangeButton)
+        addShadow(opacity: 0.3, changeImageButton)
         _ = imageMenu
-        // crucial to keep blur functional
-        blurAnimator.pausesOnCompletion = true
-        
         backgroundContainer.clipsToBounds = true
+        CustomImageButton.buttonsArray.insert(changeImageButton)
+        animateCameraButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         // add check for last updated here
-        
-        
         let feelsLikeScale:CGFloat = 1.06
         let conditionScale:CGFloat = 1.03
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
@@ -109,6 +102,7 @@ class WeatherViewController: UIViewController, ChangeCityDelegate, AdHosting {
                     }, completion: nil)
         })
         super.viewDidAppear(animated)
+        CustomImageButton.buttonsArray.forEach { $0.isHidden = AppSettings.hideCameras }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -238,74 +232,30 @@ extension WeatherViewController: ImageMenuDelegate {
         updateLabelsNoAnimation()
     }
     
-    func dismissImageMenu() {
-        imageMenuIsVisible = false
-    }
-    
     @IBAction func imageChangePressed(_ sender: Any) {
         imageMenuIsVisible = true
     }
     
-    func menuIsVisibleChanged(to visible: Bool) {
-        
-//        statusBarUpdater?.changeStatusBarToLight(!visible)
-        
-        let yValue: CGFloat = visible ? 33.5 : -143.5
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            guard let self = self else { return }
-            self.imageMenu.center.y = yValue
-        }
-    }
-    
-    
-    func createImageMenu() -> ImageMenu {
-        guard let imageMenu = UINib(nibName: "ImageMenu", bundle: nil)
-            .instantiate(withOwner: self, options: nil)[0] as? ImageMenu else { fatalError() }
-        imageMenu.frame = CGRect(x: 0, y: -287, width: view.bounds.width, height: 267)
-        view.addSubview(imageMenu)
-        
-        imageMenu.delegate = self
-        
-        return imageMenu
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let location = touches.first?.location(in: self.view) {
-            if !imageMenu.frame.contains(location) {
-                imageMenuIsVisible = false
-            }
-        }
-    }
-
-    func setupBackgroundBlur() -> UIVisualEffectView {
-        let visualView = UIVisualEffectView()
-        visualView.frame = self.view.frame
-        visualView.transform = CGAffineTransform(scaleX: 2, y: 2)
-        backgroundContainer.addSubview(visualView)
-        return visualView
+        handleTouch(by: touches)
     }
     
-    func setupBackgroundBrightness() -> UIView {
-        let view = UIView(frame: self.view.frame)
-        view.transform = CGAffineTransform(scaleX: 2, y: 2)
-        backgroundContainer.addSubview(view)
-        return view
-    }
-    
-    func changeBlurValueTo(value: CGFloat) {
-        let finalValue = value * 0.5
-        blurAnimator.fractionComplete = finalValue
-    }
-    
-    func changeBrightnessValueTo(value: CGFloat) {
-        var finalValue: CGFloat = 0
-        // if below 0.8 we decrease brightness, otherwise we increase
-        if value < 0.8 {
-            finalValue = 1 - (0.5 + (value * 0.625))
-            backgroundBrightness.backgroundColor = UIColor.init(white: 0, alpha: finalValue)
-        } else {
-            finalValue = value - 0.8
-            backgroundBrightness.backgroundColor = UIColor.init(white: 1, alpha: finalValue)
+    func animateCameraButton(counter: Int = 0) {
+        guard AppSettings.appLaunchCount < 3 else { return }
+        guard counter < 10 else { return }
+        let scale: CGFloat = 1.3
+        
+        UIView.animateKeyframes(withDuration: 1, delay: 0, options: [.calculationModeCubic, .allowUserInteraction], animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5, animations: { [ weak self] in
+                guard let self = self else { return }
+                self.changeImageButton.transform = CGAffineTransform(scaleX: scale, y: scale)
+            })
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5, animations: { [ weak self] in
+                guard let self = self else { return }
+                self.changeImageButton.transform = .identity
+            })
+        }) { [weak self] (finish) in
+            self?.animateCameraButton(counter: counter + 1)
         }
     }
 }

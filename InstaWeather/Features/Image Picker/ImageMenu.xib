@@ -121,7 +121,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="m96-Rr-a5k">
                                                         <rect key="frame" x="0.0" y="43" width="248.5" height="30"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brightness" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gYT-39-TAy">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brightness" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gYT-39-TAy">
                                                                 <rect key="frame" x="0.0" y="6" width="73.5" height="18"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -175,6 +175,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="blurEffectView" destination="W22-i5-srz" id="J3S-DT-VSI"/>
                 <outlet property="blurSlider" destination="D0u-C8-zWz" id="guK-NA-Pzz"/>
                 <outlet property="brightnessSlider" destination="kYb-UL-aN6" id="So1-eG-sVA"/>
                 <outlet property="constraintToTop" destination="Kxn-mu-iKA" id="EN4-sz-sB6"/>

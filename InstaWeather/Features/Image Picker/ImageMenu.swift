@@ -8,19 +8,38 @@
 
 import UIKit
 
-protocol ImageMenuDelegate: class {
-    var backgroundImage: UIImageView! { get set }
-    func resetBackgroundImage()
-    func dismissImageMenu()
-    func changeBlurValueTo(value: CGFloat)
-    func changeBrightnessValueTo(value: CGFloat)
-    
-    func present(_ viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> Void)?)
-}
-
 class ImageMenu: UIView {
     
     var hostType = PickerHostType.mainScreen
+    @IBOutlet weak var blurEffectView: UIVisualEffectView!
+    
+    var savedSettings: (image: Bool, blur: Float, brightness: Float) {
+        get {
+            switch hostType {
+            case .mainScreen:
+                return (AppSettings.mainscreenCustomImage, AppSettings.mainscreenBlurSetting, AppSettings.mainscreenBrightnessSetting)
+            case .changeCity:
+                return (AppSettings.changecityCustomImage, AppSettings.changecityBlurSetting, AppSettings.changecityBrightnessSetting)
+            case .weeklyForecast:
+                return (AppSettings.weeklyForecastCustomImage, AppSettings.weeklyForecastBlurSetting, AppSettings.weeklyForecastBrightnessSetting)
+            case .detailedForecast:
+                return (AppSettings.detailedForecastCustomImage, AppSettings.detailedForecastBlurSetting, AppSettings.detailedForecastBrightnessSetting)
+            }
+        }
+        set {
+            switch hostType {
+            case .mainScreen:
+                (AppSettings.mainscreenCustomImage, AppSettings.mainscreenBlurSetting, AppSettings.mainscreenBrightnessSetting) = (newValue.image, newValue.blur, newValue.brightness)
+            case .changeCity:
+                (AppSettings.changecityCustomImage, AppSettings.changecityBlurSetting, AppSettings.changecityBrightnessSetting) = (newValue.image, newValue.blur, newValue.brightness)
+            case .weeklyForecast:
+                (AppSettings.weeklyForecastCustomImage, AppSettings.weeklyForecastBlurSetting, AppSettings.weeklyForecastBrightnessSetting) = (newValue.image, newValue.blur, newValue.brightness)
+            case .detailedForecast:
+                (AppSettings.detailedForecastCustomImage, AppSettings.detailedForecastBlurSetting, AppSettings.detailedForecastBrightnessSetting) = (newValue.image, newValue.blur, newValue.brightness)
+            }
+        }
+    }
+    
     lazy var imagePicker = setupImagePicker()
     weak var delegate: ImageMenuDelegate? {
         didSet {
@@ -39,11 +58,11 @@ class ImageMenu: UIView {
     
     
     @objc func updateBlurSettings() {
-        AppSettings.mainscreenBlurSetting = blurSlider.value
+        savedSettings.blur = blurSlider.value
     }
     
     @objc func updateBrightnessSettings() {
-        AppSettings.mainscreenBrightnessSetting = brightnessSlider.value
+        savedSettings.brightness = brightnessSlider.value
     }
     
     @IBAction func cameraButton(_ sender: Any) {
@@ -69,9 +88,9 @@ class ImageMenu: UIView {
     }
     
     func updateSliders() {
-        blurSlider.value = AppSettings.mainscreenBlurSetting
+        blurSlider.value = savedSettings.blur
         blurChanged(blurSlider)
-        brightnessSlider.value = AppSettings.mainscreenBrightnessSetting
+        brightnessSlider.value = savedSettings.brightness
         brightnessChanged(brightnessSlider)
     }
     
@@ -84,18 +103,25 @@ extension ImageMenu: ImagePickerHost {
         imagePicker.imageHost = self
         return imagePicker
     }
+    
+    func updateCustomImageSetting() {
+        savedSettings.image = true
+    }
 }
 
 // MARK: - Alerts
 
 extension ImageMenu {
     
-    func resetBackgroundAlert() -> UIAlertController {
+    func resetBackgroundAndEffectsAlert() -> UIAlertController {
         let ac = UIAlertController(title: "Reset All Backgrounds?", message: "Are you sure you want to reset the background to the default images?", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Yes", style: .default, handler: { [weak self] (action) in
             guard let self = self else { return }
-            AppSettings.customImageMain = false
+            self.savedSettings.image = false
             self.delegate?.resetBackgroundImage()
+            self.savedSettings.brightness = 0.8
+            self.savedSettings.blur = 0
+            self.updateSliders()
         }))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         return ac
@@ -103,26 +129,26 @@ extension ImageMenu {
     
     func generalResetAlert() -> UIAlertController {
         let ac = UIAlertController(title: "Reset Selection", message: nil, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "Reset all backgrounds", style: .destructive, handler: { [weak self] (action) in
+        ac.addAction(UIAlertAction(title: "Reset background and effects", style: .destructive, handler: { [weak self] (action) in
             guard let self = self else { return }
-            self.delegate?.present(self.resetBackgroundAlert(), animated: true, completion: nil)
+            self.delegate?.present(self.resetBackgroundAndEffectsAlert(), animated: true, completion: nil)
         }))
         
-        if AppSettings.customImageMain {
-            ac.addAction(UIAlertAction(title: "Reset current background", style: .default, handler: { [weak self] (action) in
+        if savedSettings.image {
+            ac.addAction(UIAlertAction(title: "Reset background", style: .default, handler: { [weak self] (action) in
                 guard let self = self else { return }
-                AppSettings.customImageMain = false
+                self.savedSettings.image = false
                 self.delegate?.resetBackgroundImage()
             }))
         }
         ac.addAction(UIAlertAction(title: "Reset blur effect", style: .default, handler: { [weak self] (action) in
             guard let self = self else { return }
-            AppSettings.mainscreenBlurSetting = 0
+            self.savedSettings.blur = 0
             self.updateSliders()
         }))
         ac.addAction(UIAlertAction(title: "Reset brightness effect", style: .default, handler: { [weak self] (action) in
             guard let self = self else { return }
-            AppSettings.mainscreenBrightnessSetting = 0.8
+            self.savedSettings.brightness = 0.8
             self.updateSliders()
         }))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

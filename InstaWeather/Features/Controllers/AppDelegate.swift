@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let pageControl = UIPageControl.appearance()
         pageControl.backgroundColor = UIColor.clear
         Fabric.with([Crashlytics.self])
-        
+        incrementLaunchCount()
         return true
     }
 
@@ -68,5 +68,10 @@ extension AppDelegate {
         if let defaults = UserDefaults(suiteName: "group.com.besher.InstaWeather") {
             defaults.set(AppLaunch.encodeFrom(AppLaunch()), forKey: "appLaunched")
         }
+    }
+    
+    func incrementLaunchCount() {
+//        AppSettings.appLaunchCount
+        AppSettings.appLaunchCount += 1
     }
 }

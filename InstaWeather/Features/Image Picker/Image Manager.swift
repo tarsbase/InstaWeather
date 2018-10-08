@@ -27,7 +27,6 @@ struct ImageManager {
             do {
                 try data.write(to: imageFileName)
                 print("Wrote new file: \(imageFileName.absoluteString)")
-                AppSettings.customImageMain = true
             } catch {
                 print(error.localizedDescription)
             }

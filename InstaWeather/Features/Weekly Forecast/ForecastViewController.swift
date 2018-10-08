@@ -10,13 +10,27 @@ import UIKit
 
 class ForecastViewController: UIViewController {
     @IBOutlet weak var stackBottomConstraint: NSLayoutConstraint!
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
     @IBOutlet weak var mainStack: UIStackView!
+    @IBOutlet weak var backgroundContainer: UIView!
+    @IBOutlet weak var backgroundImage: UIImageView!
+    @IBOutlet weak var changeImageButton: CustomImageButton!
+    
     var subStacks = [UIStackView]()
     var model: WeatherDataModel?
     var preloading = true // ensures no animation during preloading
+    
+    lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
+    lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
+    lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
+    lazy var imageMenu: ImageMenu = createImageMenuFor(host: .weeklyForecast)
+    var imageMenuIsVisible = false {
+        didSet { menuIsVisibleChanged(to: imageMenuIsVisible) }
+    }
+    weak var statusBarUpdater: StatusBarUpdater?
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     override func viewDidLoad() {
        super.viewDidLoad()
@@ -32,6 +46,11 @@ class ForecastViewController: UIViewController {
                 stack.isHidden = true
         }
         stackBottomConstraint.constant = 500
+        
+        loadBackgroundImage()
+        _ = imageMenu
+        backgroundContainer.clipsToBounds = true
+        CustomImageButton.buttonsArray.insert(changeImageButton)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -167,5 +186,29 @@ class ForecastViewController: UIViewController {
             view.layer.shadowOpacity = 0.5
             view.layer.shadowRadius = 1.0
         }
+    }
+}
+
+// MARK: - Image manager
+extension ForecastViewController: ImageMenuDelegate {
+    
+    func loadBackgroundImage() {
+        if AppSettings.changecityCustomImage {
+            loadCustomImage()
+        } else {
+            resetBackgroundImage()
+        }
+    }
+    
+    func resetBackgroundImage() {
+        backgroundImage.image = UIImage(named: "bgselect1")
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        handleTouch(by: touches)
+    }
+    
+    @IBAction func changeImage(_ sender: Any) {
+        imageMenuIsVisible = true
     }
 }

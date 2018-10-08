@@ -15,6 +15,7 @@ enum PickerHostType: String {
 
 protocol ImagePickerHost: class {
     var delegate: ImageMenuDelegate? { get set }
+    func updateCustomImageSetting()
 }
 
 extension ImagePickerHost {
@@ -70,9 +71,9 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
                 print(photo.modifiedImage) // Transformed image, can be nil
                 print(photo.exifMeta) // Print exif meta data of original image.
                 
-                ImageManager.setBackground(image: photo.image, for: .mainScreen)
-                
-                if let savedImage = ImageManager.getBackgroundImage(for: .mainScreen) {
+                ImageManager.setBackground(image: photo.image, for: host)
+                self.imageHost?.updateCustomImageSetting()
+                if let savedImage = ImageManager.getBackgroundImage(for: host) {
                     self.imageHost?.updateBackgroundWith(savedImage)
                 }
             }
