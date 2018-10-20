@@ -55,10 +55,12 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
     
     func selectPictureFromCamera(for host: PickerHostType) {
         selectPicture(for: host, using: cameraPicker)
+        imageHost?.delegate?.dismissImageMenu()
     }
     
     func selectPictureFromAlbum(for host: PickerHostType) {
         selectPicture(for: host, using: albumPicker)
+        imageHost?.delegate?.dismissImageMenu()
     }
     
     func selectPicture(for host: PickerHostType, using picker: YPImagePicker) {
@@ -85,49 +87,4 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         
         imageHost?.delegate?.present(picker, animated: true, completion: nil)
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-//            func selectPicture() {
-//        let picker = UIImagePickerController()
-//        picker.mediaTypes = ["public.image"]
-//        picker.sourceType = .camera
-//        picker.allowsEditing = true
-//        picker.delegate = self
-//        parentViewcontroller?.present(picker, animated: true)
-//    }
-    
-//    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-//        parentViewcontroller?.dismiss(animated: true, completion: nil)
-//    }
-//
-//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-//
-//        var newImage: UIImage
-//
-//        if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-//            newImage = possibleImage
-//        } else if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-//            newImage = possibleImage
-//        } else {
-//            return
-//        }
-//
-//        print(newImage)
-//
-//        // do something interesting here!
-//        //        print(newImage.size)
-//
-//        parentViewcontroller?.dismiss(animated: true, completion: nil)
-//    }
 }

@@ -37,6 +37,10 @@
 		285D413E20A136F50040F6BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 285D413D20A136F40040F6BE /* Assets.xcassets */; };
 		2871C19D20B5085900326A4C /* TodayDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2871C19C20B5085900326A4C /* TodayDataModel.swift */; };
 		287A5DD1201D62D1008E71CF /* ChangeCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A5DD0201D62D1008E71CF /* ChangeCityViewController.swift */; };
+		287DFB0D217558D7005086A3 /* DisplaySizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287DFB0C217558D7005086A3 /* DisplaySizes.swift */; };
+		287DFB0E217558D7005086A3 /* DisplaySizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287DFB0C217558D7005086A3 /* DisplaySizes.swift */; };
+		287DFB102175597D005086A3 /* YPImagePicker+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287DFB0F2175597D005086A3 /* YPImagePicker+Extension.swift */; };
+		287DFB112175597D005086A3 /* YPImagePicker+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287DFB0F2175597D005086A3 /* YPImagePicker+Extension.swift */; };
 		2882D6892020116F00B40082 /* ForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2882D6882020116F00B40082 /* ForecastViewController.swift */; };
 		2885EE5F2023F62500CD4CC4 /* DetailedForecastTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2885EE5E2023F62500CD4CC4 /* DetailedForecastTable.swift */; };
 		288F60D920FACD7100B91054 /* AutoCompleterTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288F60D820FACD7100B91054 /* AutoCompleterTable.swift */; };
@@ -140,6 +144,8 @@
 		2871C19C20B5085900326A4C /* TodayDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDataModel.swift; sourceTree = "<group>"; };
 		2873AED02027A55C00C3ABCE /* FahrenheitProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FahrenheitProtocol.swift; sourceTree = "<group>"; };
 		287A5DD0201D62D1008E71CF /* ChangeCityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeCityViewController.swift; sourceTree = "<group>"; };
+		287DFB0C217558D7005086A3 /* DisplaySizes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplaySizes.swift; sourceTree = "<group>"; };
+		287DFB0F2175597D005086A3 /* YPImagePicker+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YPImagePicker+Extension.swift"; sourceTree = "<group>"; };
 		2882D6882020116F00B40082 /* ForecastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewController.swift; sourceTree = "<group>"; };
 		2885EE5E2023F62500CD4CC4 /* DetailedForecastTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedForecastTable.swift; sourceTree = "<group>"; };
 		288F60D820FACD7100B91054 /* AutoCompleterTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCompleterTable.swift; sourceTree = "<group>"; };
@@ -222,6 +228,7 @@
 		2807A924216AF01B003DA8D6 /* Current Weather */ = {
 			isa = PBXGroup;
 			children = (
+				289D1949215DA19B006339D9 /* Controllers */,
 				289D194C215DA311006339D9 /* Protocols */,
 				2807A928216AF09E003DA8D6 /* Model */,
 				28359A4E201C41E3005AAFF4 /* WeatherViewController.swift */,
@@ -369,7 +376,6 @@
 			children = (
 				2807A929216AF0EE003DA8D6 /* Storyboards */,
 				2807A924216AF01B003DA8D6 /* Current Weather */,
-				289D1949215DA19B006339D9 /* Controllers */,
 				2807A927216AF04E003DA8D6 /* Change City */,
 				2807A926216AF036003DA8D6 /* Weekly Forecast */,
 				2807A925216AF02E003DA8D6 /* Detailed Forecast */,
@@ -386,9 +392,9 @@
 				2807A91E216A6CF3003DA8D6 /* ImageMenu.swift */,
 				2807A922216AED4A003DA8D6 /* ImageMenuDelegate.swift */,
 				28CD21862169D1F700BBFA62 /* Image Manager.swift */,
-				2807A91C216A6A9C003DA8D6 /* ImageMenu.xib */,
 				2807A920216A7077003DA8D6 /* CustomSlider.swift */,
 				284574F6216B075E00996AC4 /* CustomImageButton.swift */,
+				2807A91C216A6A9C003DA8D6 /* ImageMenu.xib */,
 			);
 			path = "Image Picker";
 			sourceTree = "<group>";
@@ -399,6 +405,8 @@
 				289D194F215DA9A6006339D9 /* EnumKeys.swift */,
 				28BFE2C42164447F000F44C3 /* AppLaunch.swift */,
 				28EEB910201C44300090D0D3 /* Secrets.swift */,
+				287DFB0C217558D7005086A3 /* DisplaySizes.swift */,
+				287DFB0F2175597D005086A3 /* YPImagePicker+Extension.swift */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -623,7 +631,6 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-InstaWeather/Pods-InstaWeather-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Bartinter/Bartinter.framework",
 				"${BUILT_PRODUCTS_DIR}/PryntTrimmerView/PryntTrimmerView.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/SteviaLayout/Stevia.framework",
@@ -633,7 +640,6 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bartinter.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PryntTrimmerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stevia.framework",
@@ -798,11 +804,13 @@
 				28EEB911201C44300090D0D3 /* Secrets.swift in Sources */,
 				28BB175E201D589D006E14A0 /* UpdateWeatherExtension.swift in Sources */,
 				288F60D920FACD7100B91054 /* AutoCompleterTable.swift in Sources */,
+				287DFB0D217558D7005086A3 /* DisplaySizes.swift in Sources */,
 				2822A03A2021485F0007D9E9 /* ForecastObject.swift in Sources */,
 				289D1950215DA9A6006339D9 /* EnumKeys.swift in Sources */,
 				289D194B215DA1AE006339D9 /* AppSettings.swift in Sources */,
 				2807A92A216AF123003DA8D6 /* FahrenheitProtocol.swift in Sources */,
 				289D1948215DA14F006339D9 /* PageViewController.swift in Sources */,
+				287DFB102175597D005086A3 /* YPImagePicker+Extension.swift in Sources */,
 				2807A923216AED4A003DA8D6 /* ImageMenuDelegate.swift in Sources */,
 				2807A921216A7077003DA8D6 /* CustomSlider.swift in Sources */,
 				289D194E215DA32C006339D9 /* AdHosting.swift in Sources */,
@@ -836,8 +844,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				285D413120A133370040F6BE /* TodayViewController.swift in Sources */,
+				287DFB0E217558D7005086A3 /* DisplaySizes.swift in Sources */,
 				28CDAE2120B1C2EE003CE837 /* Secrets.swift in Sources */,
 				28BFE2C6216444CC000F44C3 /* AppLaunch.swift in Sources */,
+				287DFB112175597D005086A3 /* YPImagePicker+Extension.swift in Sources */,
 				28CDAE1F20B1C2EE003CE837 /* ForecastObject.swift in Sources */,
 				284574F5216AF1C900996AC4 /* FahrenheitProtocol.swift in Sources */,
 				2871C19D20B5085900326A4C /* TodayDataModel.swift in Sources */,

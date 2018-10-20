@@ -53,6 +53,11 @@ class WeatherViewController: UIViewController, ChangeCityDelegate, AdHosting {
     }
     weak var statusBarUpdater: StatusBarUpdater?
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        recreateImageMenu()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         assignDelegate()
@@ -70,7 +75,6 @@ class WeatherViewController: UIViewController, ChangeCityDelegate, AdHosting {
             self.assignDelegate()
             self.loadLastLocation()
         }
-
         setupStoryboard()
     }
     
@@ -78,7 +82,7 @@ class WeatherViewController: UIViewController, ChangeCityDelegate, AdHosting {
         addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon, lastUpdated)
 //        addShadow(opacity: 0.5, feelsLikeLabel)
         addShadow(opacity: 0.3, changeImageButton)
-        _ = imageMenu
+        ImageMenu.imageMenusArray.append(imageMenu)
         backgroundContainer.clipsToBounds = true
         CustomImageButton.buttonsArray.insert(changeImageButton)
         animateCameraButton()
@@ -103,6 +107,7 @@ class WeatherViewController: UIViewController, ChangeCityDelegate, AdHosting {
         })
         super.viewDidAppear(animated)
         CustomImageButton.buttonsArray.forEach { $0.isHidden = AppSettings.hideCameras }
+        recreateImageMenu()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

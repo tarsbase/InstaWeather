@@ -55,13 +55,18 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextF
         return .lightContent
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        recreateImageMenu()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.cityField.delegate = self
         SVProgressHUD.setBackgroundColor(UIColor.white)
         SVProgressHUD.setDefaultMaskType(.gradient)
         loadBackgroundImage()
-        _ = imageMenu
+        ImageMenu.imageMenusArray.append(imageMenu)
         backgroundContainer.clipsToBounds = true
         CustomImageButton.buttonsArray.insert(changeImageButton)
         let title = AppSettings.hideCameras ? "Show Camera Buttons" : "Hide Camera Buttons"
@@ -89,6 +94,7 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextF
             add(autoCompleteTable, frame: tableContainer.frame)
         }
         autoCompleteConstraint.constant = 0
+        recreateImageMenu()
     }
     
     // necessary to line up the tableView properly

@@ -10,6 +10,8 @@ import UIKit
 
 class ImageMenu: UIView {
     
+    static var imageMenusArray = [ImageMenu]()
+    
     var hostType = PickerHostType.mainScreen
     @IBOutlet weak var blurEffectView: UIVisualEffectView!
     
@@ -114,7 +116,7 @@ extension ImageMenu: ImagePickerHost {
 extension ImageMenu {
     
     func resetBackgroundAndEffectsAlert() -> UIAlertController {
-        let ac = UIAlertController(title: "Reset All Backgrounds?", message: "Are you sure you want to reset the background to the default images?", preferredStyle: .alert)
+        let ac = UIAlertController(title: "Reset Background?", message: "Are you sure you want to reset the background and effects to their default values?", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Yes", style: .default, handler: { [weak self] (action) in
             guard let self = self else { return }
             self.savedSettings.image = false

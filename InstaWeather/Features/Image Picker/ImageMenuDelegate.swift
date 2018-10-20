@@ -17,6 +17,7 @@ protocol ImageMenuDelegate: class {
     var imageMenu: ImageMenu { get set }
     var imageMenuIsVisible: Bool { get set }
     var statusBarUpdater: StatusBarUpdater? { get set }
+    var width: CGFloat { get }
     
     func menuIsVisibleChanged(to visible: Bool)
     
@@ -27,9 +28,13 @@ protocol ImageMenuDelegate: class {
     
     func present(_ viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> Void)?)
     func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator)
 }
 
 extension ImageMenuDelegate where Self: UIViewController {
+    
+    var width: CGFloat { return self.view.bounds.width }
+    
     var imageMenu: ImageMenu {
         return ImageMenu()
     }
@@ -101,7 +106,6 @@ extension ImageMenuDelegate where Self: UIViewController {
 
         let xValue = (view.bounds.width / 2) - (width / 2)
         
-        
         imageMenu.frame = CGRect(x: xValue, y: -287, width: width, height: 267)
         view.addSubview(imageMenu)
         imageMenu.hostType = host
@@ -110,17 +114,28 @@ extension ImageMenuDelegate where Self: UIViewController {
         return imageMenu
     }
     
+    func recreateImageMenu(){
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
+            guard let self = self else { return }
+            self.imageMenu.alpha = 0
+            }, completion: {[weak self] finish in
+                guard let self = self else { return }
+                self.imageMenu.removeFromSuperview()
+                self.imageMenu = self.createImageMenuFor(host: self.imageMenu.hostType)
+        })
+    }
+    
     func setupBackgroundBlur() -> UIVisualEffectView {
         let visualView = UIVisualEffectView()
         visualView.frame = self.view.frame
-        visualView.transform = CGAffineTransform(scaleX: 2, y: 2)
+        visualView.transform = CGAffineTransform(scaleX: 10, y: 10)
         backgroundContainer.addSubview(visualView)
         return visualView
     }
     
     func setupBackgroundBrightness() -> UIView {
         let view = UIView(frame: self.view.frame)
-        view.transform = CGAffineTransform(scaleX: 2, y: 2)
+        view.transform = CGAffineTransform(scaleX: 10, y: 10)
         backgroundContainer.addSubview(view)
         return view
     }

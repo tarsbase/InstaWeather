@@ -32,6 +32,11 @@ class ForecastViewController: UIViewController {
         return .lightContent
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        recreateImageMenu()
+    }
+    
     override func viewDidLoad() {
        super.viewDidLoad()
         for case let stack as UIStackView in mainStack.arrangedSubviews {
@@ -48,7 +53,7 @@ class ForecastViewController: UIViewController {
         stackBottomConstraint.constant = 500
         
         loadBackgroundImage()
-        _ = imageMenu
+        ImageMenu.imageMenusArray.append(imageMenu)
         backgroundContainer.clipsToBounds = true
         CustomImageButton.buttonsArray.insert(changeImageButton)
     }
@@ -88,6 +93,7 @@ class ForecastViewController: UIViewController {
                 animateRow()
             }
         }
+        recreateImageMenu()
     }
     
     override func viewDidAppear(_ animated: Bool) {

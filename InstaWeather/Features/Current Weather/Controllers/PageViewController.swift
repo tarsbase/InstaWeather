@@ -20,6 +20,14 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
     
     private(set) var orderedViewControllers = [UIViewController]()
 
+    override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return Display.pad ? .all : .portrait //return the value as per the required orientation
+    }
+    
+//    override public var shouldAutorotate: Bool {
+//        return true
+//    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         for view in self.view.subviews {

@@ -29,12 +29,17 @@ class DetailedContainerViewController: UIViewController {
     var detailedForecast: DetailedForecastTable?
     var gestureView = UIView()
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        recreateImageMenu()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         loadBackgroundImage()
-        _ = imageMenu
+        ImageMenu.imageMenusArray.append(imageMenu)
         backgroundContainer.clipsToBounds = true
         createViewAndGesture()
         CustomImageButton.buttonsArray.insert(changeImageButton)
@@ -54,6 +59,7 @@ class DetailedContainerViewController: UIViewController {
         view.bringSubviewToFront(changeImageButton)
         view.bringSubviewToFront(imageMenu)
         super.viewWillAppear(animated)
+        recreateImageMenu()
     }
     
     // necessary for iPad layout, otherwise it's too small
@@ -71,6 +77,7 @@ class DetailedContainerViewController: UIViewController {
 }
 
 extension DetailedContainerViewController: ImageMenuDelegate {
+    
     func loadBackgroundImage() {
         if AppSettings.changecityCustomImage {
             loadCustomImage()
