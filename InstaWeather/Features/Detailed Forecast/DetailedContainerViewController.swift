@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailedContainerViewController: UIViewController {
+class DetailedContainerViewController: ParallaxViewController {
 
     @IBOutlet weak var tableContainer: UIView!
     @IBOutlet weak var backgroundContainer: UIView!
@@ -28,6 +28,9 @@ class DetailedContainerViewController: UIViewController {
     
     var detailedForecast: DetailedForecastTable?
     var gestureView = UIView()
+    override var parallaxImage: UIImageView? {
+        get { return backgroundImage } set { }
+    }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)

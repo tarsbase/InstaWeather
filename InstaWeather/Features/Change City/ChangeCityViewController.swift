@@ -21,7 +21,7 @@ protocol RecentPicksDataSource {
     func removeLastRecentPick()
 }
 
-class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextFieldDelegate {
+class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, UITextFieldDelegate {
     
     @IBOutlet weak var hideCamerasButton: LargeTapAreaButton!
     @IBOutlet weak var changeImageButton: CustomImageButton!
@@ -53,6 +53,9 @@ class ChangeCityViewController: UIViewController, RecentPicksDataSource, UITextF
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    override var parallaxImage: UIImageView? {
+        get { return backgroundImage } set { }
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import StoreKit
 
-class WeatherViewController: UIViewController, ChangeCityDelegate, AdHosting {
+class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosting {
 
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var changeCityButton: UIButton!
@@ -52,6 +52,9 @@ class WeatherViewController: UIViewController, ChangeCityDelegate, AdHosting {
         didSet { menuIsVisibleChanged(to: imageMenuIsVisible) }
     }
     weak var statusBarUpdater: StatusBarUpdater?
+    override var parallaxImage: UIImageView? {
+        get { return backgroundImage } set { }
+    }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)

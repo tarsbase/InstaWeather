@@ -34,7 +34,7 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         var config = YPImagePickerConfiguration()
         config.library.mediaType = .photo
         config.library.onlySquare  = false
-        config.onlySquareImagesFromCamera = true
+        config.onlySquareImagesFromCamera = false
         config.targetImageSize = .original
         config.usesFrontCamera = true
         config.showsFilters = true
@@ -47,7 +47,7 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
 //        config.overlayView = myOverlayView
         config.library.numberOfItemsInRow = 4
         config.library.spacingBetweenItems = 2
-        config.isScrollToChangeModesEnabled = false
+        config.isScrollToChangeModesEnabled = true
         
         // Build a picker with your configuration
         return YPImagePicker(configuration: config)

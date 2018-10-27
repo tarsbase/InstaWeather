@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ForecastViewController: UIViewController {
+class ForecastViewController: ParallaxViewController {
     @IBOutlet weak var stackBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var mainStack: UIStackView!
     @IBOutlet weak var backgroundContainer: UIView!
@@ -35,6 +35,10 @@ class ForecastViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         recreateImageMenu()
+    }
+    
+    override var parallaxImage: UIImageView? {
+        get { return backgroundImage } set { }
     }
     
     override func viewDidLoad() {
