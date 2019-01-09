@@ -14,6 +14,7 @@ enum AppStoreAppsKeys: String {
     case facebook
     case twitter
     case findMyLatte
+    case drawWithMath
     
     var id: Int {
         switch self {
@@ -22,6 +23,15 @@ enum AppStoreAppsKeys: String {
         case .facebook: return 284882215
         case .twitter: return 333903271
         case .findMyLatte: return 1435110287
+        case .drawWithMath: return 1447996733
+        }
+    }
+    
+    var url: String {
+        switch self {
+        case .findMyLatte: return "https://itunes.apple.com/us/app/find-my-latte/id1435110287?ls=1&mt=8"
+        case .drawWithMath: return "https://itunes.apple.com/us/app/draw-with-math/id1447996733?ls=1&mt=8"
+        default: return ""
         }
     }
 }

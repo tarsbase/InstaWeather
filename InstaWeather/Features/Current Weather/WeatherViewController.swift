@@ -35,7 +35,6 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     var recentPicksDataSource: RecentPicksDataSource?
     var debugBackgroundCounter = 0
     let delegate = UIApplication.shared.delegate as? AppDelegate
-    var appStoreVC: SKStoreProductViewController?
     var reconnectTimer: Timer? {
         set {
             delegate?.reconnectTimer = newValue
@@ -89,6 +88,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         backgroundContainer.clipsToBounds = true
         CustomImageButton.buttonsArray.insert(changeImageButton)
         animateCameraButton()
+        requestReview()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -209,30 +209,6 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     
 }
 
-extension WeatherViewController: SKStoreProductViewControllerDelegate {
-    
-    func launchAppStorePage(for app: AppStoreAppsKeys) {
-        guard self.appStoreVC == nil else { return }
-        let appStoreVC = SKStoreProductViewController()
-        appStoreVC.delegate = self
-        appStoreVC.loadProduct(withParameters: [SKStoreProductParameterITunesItemIdentifier: app.id]) { [weak self] (result, error) in
-            if result {
-                self?.present(appStoreVC, animated: true, completion: nil)
-            } else {
-                print(error?.localizedDescription ?? "ERROR loading app store" )
-            }
-        }
-        self.appStoreVC = appStoreVC
-    }
-    
-    func productViewControllerDidFinish(_ viewController: SKStoreProductViewController) {
-        appStoreVC?.dismiss(animated: true, completion: nil)
-        appStoreVC = nil
-    }
-    
-    
-}
-
 // MARK: - Image menu
 extension WeatherViewController: ImageMenuDelegate {
     
@@ -264,6 +240,13 @@ extension WeatherViewController: ImageMenuDelegate {
             })
         }) { [weak self] (finish) in
             self?.animateCameraButton(counter: counter + 1)
+        }
+    }
+    
+    func requestReview() {
+        if AppSettings.appLaunchCount > 1 && !AppSettings.alreadySubmittedReview {
+            AppSettings.alreadySubmittedReview = true
+            SKStoreReviewController.requestReview()
         }
     }
 }

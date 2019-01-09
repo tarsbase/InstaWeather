@@ -12,6 +12,7 @@ class AppSettings: NSObject {
     
     private enum SettingKey: String {
         case appLaunchCount
+        case alreadySubmittedReview
         case ShowedFindMyLatteAd
         case DateForFindMylatteAd
         
@@ -46,6 +47,25 @@ class AppSettings: NSObject {
             let key = SettingKey.appLaunchCount.rawValue
             if let count = newValue {
                 defaults.set(count, forKey: key)
+            }
+        }
+    }
+    
+    static var alreadySubmittedReview: Bool! {
+        get {
+            if let object = UserDefaults.standard.object(forKey:
+                SettingKey.alreadySubmittedReview.rawValue) as? Bool {
+                return object
+            } else {
+                return false
+            }
+        }
+        set {
+            let defaults = UserDefaults.standard
+            let key = SettingKey.alreadySubmittedReview.rawValue
+            
+            if let alreadySubmittedReview = newValue {
+                defaults.set(alreadySubmittedReview, forKey: key)
             }
         }
     }
