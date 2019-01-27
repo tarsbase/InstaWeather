@@ -12,11 +12,13 @@ import UIKit
 
 class ImageButton: UIControl {
     
+    // TODO add text above button to describe which weather state, fades as you touch down
+    
     var normalScale: CGFloat = 1.0
     
     private var growAnimator = UIViewPropertyAnimator()
     
-    var touchesEndedHandler: (() -> Void)?
+    var buttonActionHandler: (() -> Void)?
     
     var image: UIImageView?
     var imageName: String?
@@ -55,10 +57,9 @@ class ImageButton: UIControl {
     // this is currently unnecessary, keeping it for later
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
-        touchesEndedHandler?()
     }
     
-    func setupImageWith(name: String) {
+    func setupImageWith(name: String, action: @escaping (() -> Void)) {
         let image = UIImageView(frame: self.frame)
         image.image = UIImage(named: name)
         image.contentMode = .scaleAspectFill
@@ -82,6 +83,18 @@ class ImageButton: UIControl {
         self.image?.removeFromSuperview()
         self.image = image
         self.imageName = name
+        
+        // add action
+        addSelector(action: action)
+    }
+    
+    func addSelector(action: @escaping (() -> Void)) {
+        self.buttonActionHandler = action
+        addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+    }
+    
+    @objc func buttonAction() {
+        buttonActionHandler?()
     }
     
     // makes button easier to activate
@@ -103,9 +116,5 @@ class DashboardButton: ImageButton {
             self?.normalScale = newScale
             self?.transform = CGAffineTransform(scaleX: newScale, y: newScale)
             }.startAnimation()
-    }
-    
-    func addSelector(sender: NSObject, _ selector: Selector) {
-        addTarget(sender, action: selector, for: .touchUpInside)
     }
 }

@@ -33,7 +33,7 @@ protocol ImageMenuDelegate: class {
     func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator)
 }
 
-extension ImageMenuDelegate where Self: UIViewController {
+extension ImageMenuDelegate where Self: ParallaxViewController {
     
     var width: CGFloat { return self.view.bounds.width }
     
@@ -64,6 +64,7 @@ extension ImageMenuDelegate where Self: UIViewController {
     
     func dismissImageMenu() {
         imageMenuIsVisible = false
+        restoreBackground()
     }
     
     func hideContainers() {
@@ -103,7 +104,7 @@ extension ImageMenuDelegate where Self: UIViewController {
 
 // MARK: - create properties
 
-extension ImageMenuDelegate where Self: UIViewController {
+extension ImageMenuDelegate where Self: ParallaxViewController {
     
     var dashboardCenterPoint: CGPoint {
         return CGPoint(x: Display.width / 2, y: (Display.height / 2) + 80)
@@ -170,7 +171,7 @@ extension ImageMenuDelegate where Self: UIViewController {
         
         dashboard.hostType = host
         dashboard.initialSetup()
-        dashboard.showImageMenuHandler = { [weak self] in self?.imageMenuIsVisible = true }
+        dashboard.previewBackground = { [weak self] button in self?.previewBackground(by: button) }
         dashboard.dismissSelf = { [weak self] in self?.hideContainers() }
         view.addSubview(dashboard)
         
@@ -179,7 +180,7 @@ extension ImageMenuDelegate where Self: UIViewController {
     }
     
     func recreateMenusIfNotVisible() {
-        guard !imageMenuIsVisible && dashboardMenu.dashboardStatus == .hidden else { return }
+        guard !imageMenuIsVisible, case DashboardStatus.hidden = dashboardMenu.dashboardStatus else { return }
         recreateMenus()
     }
     
@@ -198,14 +199,11 @@ extension ImageMenuDelegate where Self: UIViewController {
     }
 }
 
-// animations
+// MARK: - Dashboard animations
 
-extension ImageMenuDelegate where Self: UIViewController {
+extension ImageMenuDelegate where Self: ParallaxViewController {
     
-    // todo fill background with image from polygon when selected
     // slider shows upon selection, with banner text specifying condition (change snowy background)
-    // use interactive buttons for images
-    //
     
     func showDashboard() {
         changeImageButton.isEnabled = false
@@ -218,7 +216,7 @@ extension ImageMenuDelegate where Self: UIViewController {
     
     func animateDashboard(dashboard: ImageDashboard, fromButton button: UIButton, show: Bool) {
         print(dashboard.dashboardStatus)
-        guard dashboard.dashboardStatus != .animating else { return }
+        if case DashboardStatus.animating = dashboardMenu.dashboardStatus { return }
         dashboardMenu.dashboardStatus = .animating
         
         let endCenter = show ? dashboardCenterPoint : button.center
@@ -257,6 +255,97 @@ extension ImageMenuDelegate where Self: UIViewController {
     
 }
 
+// MARK: - Background animations
+
+extension ImageMenuDelegate where Self: ParallaxViewController {
+    
+    func previewBackground(by button: DashboardButton) {
+        guard let background = button.image?.image else { return }
+        dashboardMenu.dashboardStatus = .preview(button)
+        let imageView = UIImageView(image: background)
+        let frame = button.superview?.convert(button.frame, to: self.view) ?? .zero
+        fadeOutDashboard()
+        imageView.frame = frame
+        imageView.layer.cornerRadius = imageView.bounds.height / 2
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        self.view.addSubview(imageView)
+        
+        let duration: TimeInterval = 0.7
+        
+        UIViewPropertyAnimator(duration: duration, dampingRatio: 0.9) {
+            imageView.frame = self.backgroundImage.frame
+            imageView.layer.cornerRadius = 0
+        }.startAnimation()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration * 0.6) {
+            self.backgroundImage.image = background
+            let fade = UIViewPropertyAnimator(duration: 0.2, curve: .linear){
+                imageView.alpha = 0
+            }
+            fade.addCompletion{ (_) in
+                imageView.removeFromSuperview()
+            }
+            fade.startAnimation()
+            self.imageMenuIsVisible = true
+        }
+    }
+    
+    func restoreBackground() {
+        guard case DashboardStatus.preview(let button) = dashboardMenu.dashboardStatus else { return }
+        guard let background = button.image?.image else { return }
+        
+        let imageView = UIImageView(image: background)
+        let backgroundFrame = self.backgroundImage.frame
+        let buttonFrame = button.superview?.convert(button.frame, to: view) ?? .zero
+        
+        self.fadeInDashboard()
+        
+        imageView.frame = backgroundFrame
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        self.view.addSubview(imageView)
+        
+        let duration: TimeInterval = 0.5
+        
+        resetBackgroundImage() // to be amended later
+        self.imageMenuIsVisible = false
+        
+        UIViewPropertyAnimator(duration: duration, dampingRatio: 0.9) {
+            imageView.frame = buttonFrame
+            imageView.layer.cornerRadius = imageView.bounds.height / 2
+            }.startAnimation()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration * 0.6) {
+            let fade = UIViewPropertyAnimator(duration: 0.2, curve: .linear){
+                imageView.alpha = 0
+            }
+            fade.addCompletion{ (_) in
+                imageView.removeFromSuperview()
+            }
+            fade.startAnimation()
+        }
+        dashboardMenu.dashboardStatus = .displayed
+    }
+    
+    func fadeOutDashboard() {
+        fadeDashboard(fadeOut: true)
+    }
+    
+    func fadeInDashboard() {
+        fadeDashboard(fadeOut: false)
+    }
+    
+    func fadeDashboard(fadeOut: Bool) {
+        let endAlpha: CGFloat = fadeOut ? 0 : 1
+        UIViewPropertyAnimator(duration: 0.3, curve: .linear) { [weak self] in
+            self?.dashboardMenu.alpha = endAlpha
+        }.startAnimation()
+    }
+    
+    
+}
+
 enum DashboardStatus {
-    case hidden, animating, displayed
+    case hidden, animating, displayed, preview(DashboardButton)
 }

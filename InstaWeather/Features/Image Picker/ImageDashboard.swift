@@ -26,7 +26,7 @@ class ImageDashboard: UIView {
     var dashboardStatus: DashboardStatus = .hidden
     var maskingLayer: CAShapeLayer?
     
-    var showImageMenuHandler: (() -> Void)?
+    var previewBackground: ((DashboardButton) -> Void)?
     var dismissSelf: (() -> Void)?
     
     func initialSetup() {
@@ -42,7 +42,6 @@ class ImageDashboard: UIView {
         maskingLayer.frame = self.layer.bounds
         self.layer.mask = maskingLayer
         storyboardBackground.isHidden = true
-        images.forEach { $0.addSelector(sender: self, #selector(showImageMenu))}
         
         self.maskingLayer = maskingLayer
     }
@@ -52,19 +51,19 @@ class ImageDashboard: UIView {
             $0.clipToCircle()
         }
         
-        imageCenter.setupImageWith(name: "bglight_rain")
-        image1.setupImageWith(name: "bg1fog")
-        image2.setupImageWith(name: "bg1clearnight")
-        image3.setupImageWith(name: "bg2snow")
-        image4.setupImageWith(name: "bg2cleariPhone3")
-        image5.setupImageWith(name: "bg2cloudy")
-        
+        imageCenter.setupImageWith(name: "bglight_rain") { [weak self] in self?.showImageMenu(from: self?.imageCenter) }
+        image1.setupImageWith(name: "bg1fog") { [weak self] in self?.showImageMenu(from: self?.image1) }
+        image2.setupImageWith(name: "bg1clearnight") { [weak self] in self?.showImageMenu(from: self?.image2) }
+        image3.setupImageWith(name: "bg2snow") { [weak self] in self?.showImageMenu(from: self?.image3) }
+        image4.setupImageWith(name: "bg2cleariPhone3") { [weak self] in self?.showImageMenu(from: self?.image4) }
+        image5.setupImageWith(name: "bg2cloudy") { [weak self] in self?.showImageMenu(from: self?.image5) }
         
         layer.masksToBounds = true
     }
     
-    @objc func showImageMenu() {
-        showImageMenuHandler?()
+    func showImageMenu(from button: DashboardButton?) {
+        guard let button = button else { return }
+        previewBackground?(button)
     }
     
     
