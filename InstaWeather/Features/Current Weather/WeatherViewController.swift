@@ -47,6 +47,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .mainScreen)
+    lazy var dashboardMenu: ImageDashboard = createDashboardFor(host: .mainScreen)
     var imageMenuIsVisible = false {
         didSet { menuIsVisibleChanged(to: imageMenuIsVisible) }
     }
@@ -57,7 +58,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        recreateImageMenu()
+        recreateMenus()
     }
     
     override func viewDidLoad() {
@@ -110,7 +111,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         })
         super.viewDidAppear(animated)
         CustomImageButton.buttonsArray.forEach { $0.isHidden = AppSettings.hideCameras }
-        recreateImageMenu()
+        recreateMenusIfNotVisible()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -217,7 +218,7 @@ extension WeatherViewController: ImageMenuDelegate {
     }
     
     @IBAction func imageChangePressed(_ sender: Any) {
-        imageMenuIsVisible = true
+        showDashboard()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

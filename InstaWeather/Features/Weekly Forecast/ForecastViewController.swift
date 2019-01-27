@@ -23,6 +23,7 @@ class ForecastViewController: ParallaxViewController {
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .weeklyForecast)
+    lazy var dashboardMenu: ImageDashboard = createDashboardFor(host: .weeklyForecast)
     var imageMenuIsVisible = false {
         didSet { menuIsVisibleChanged(to: imageMenuIsVisible) }
     }
@@ -34,7 +35,7 @@ class ForecastViewController: ParallaxViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        recreateImageMenu()
+        recreateMenus()
     }
     
     override var parallaxImage: UIImageView? {
@@ -97,7 +98,7 @@ class ForecastViewController: ParallaxViewController {
                 animateRow()
             }
         }
-        recreateImageMenu()
+        recreateMenusIfNotVisible()
     }
     
     override func viewDidAppear(_ animated: Bool) {

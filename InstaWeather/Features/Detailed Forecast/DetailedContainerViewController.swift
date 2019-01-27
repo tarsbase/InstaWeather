@@ -19,6 +19,7 @@ class DetailedContainerViewController: ParallaxViewController {
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .detailedForecast)
+    lazy var dashboardMenu: ImageDashboard = createDashboardFor(host: .detailedForecast)
     var imageMenuIsVisible = false {
         didSet { menuIsVisibleChanged(to: imageMenuIsVisible)
             gestureView.isHidden = !imageMenuIsVisible
@@ -34,7 +35,7 @@ class DetailedContainerViewController: ParallaxViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        recreateImageMenu()
+        recreateMenus()
     }
     
     override func viewDidLoad() {
@@ -62,7 +63,7 @@ class DetailedContainerViewController: ParallaxViewController {
         view.bringSubviewToFront(changeImageButton)
         view.bringSubviewToFront(imageMenu)
         super.viewWillAppear(animated)
-        recreateImageMenu()
+        recreateMenusIfNotVisible()
     }
     
     // necessary for iPad layout, otherwise it's too small

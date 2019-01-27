@@ -31,8 +31,9 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         for view in self.view.subviews {
-            if view is UIScrollView {
-                view.frame = UIScreen.main.bounds
+            if let scrollView = view as? UIScrollView {
+                scrollView.frame = UIScreen.main.bounds
+                scrollView.delaysContentTouches = false
             } else if view is UIPageControl {
                 view.backgroundColor = UIColor.clear
             }

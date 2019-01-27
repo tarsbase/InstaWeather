@@ -46,6 +46,7 @@ class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, U
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .changeCity)
+    lazy var dashboardMenu: ImageDashboard = createDashboardFor(host: .changeCity)
     var imageMenuIsVisible = false {
         didSet { menuIsVisibleChanged(to: imageMenuIsVisible) }
     }
@@ -60,7 +61,7 @@ class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, U
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        recreateImageMenu()
+        recreateMenus()
     }
     
     override func viewDidLoad() {
@@ -97,7 +98,7 @@ class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, U
             add(autoCompleteTable, frame: tableContainer.frame)
         }
         autoCompleteConstraint.constant = 0
-        recreateImageMenu()
+        recreateMenusIfNotVisible()
     }
     
     // necessary to line up the tableView properly

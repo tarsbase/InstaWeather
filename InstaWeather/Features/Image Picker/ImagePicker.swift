@@ -36,7 +36,7 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         config.library.onlySquare  = false
         config.onlySquareImagesFromCamera = false
         config.targetImageSize = .original
-        config.usesFrontCamera = true
+//        config.usesFrontCamera = true
         config.showsFilters = true
         config.shouldSaveNewPicturesToAlbum = true
         config.albumName = "MyGreatAppName"
@@ -55,12 +55,12 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
     
     func selectPictureFromCamera(for host: PickerHostType) {
         selectPicture(for: host, using: cameraPicker)
-        imageHost?.delegate?.dismissImageMenu()
+//        imageHost?.delegate?.dismissImageMenu()
     }
     
     func selectPictureFromAlbum(for host: PickerHostType) {
         selectPicture(for: host, using: albumPicker)
-        imageHost?.delegate?.dismissImageMenu()
+//        imageHost?.delegate?.dismissImageMenu()
     }
     
     func selectPicture(for host: PickerHostType, using picker: YPImagePicker) {

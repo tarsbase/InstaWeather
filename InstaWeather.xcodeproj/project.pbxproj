@@ -45,6 +45,10 @@
 		287DFB112175597D005086A3 /* YPImagePicker+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287DFB0F2175597D005086A3 /* YPImagePicker+Extension.swift */; };
 		2882D6892020116F00B40082 /* ForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2882D6882020116F00B40082 /* ForecastViewController.swift */; };
 		2885EE5F2023F62500CD4CC4 /* DetailedForecastTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2885EE5E2023F62500CD4CC4 /* DetailedForecastTable.swift */; };
+		28890DBA21FD47CB004C963A /* ImageDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28890DB921FD47CB004C963A /* ImageDashboard.swift */; };
+		28890DBC21FD47D7004C963A /* ImageDashboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28890DBB21FD47D7004C963A /* ImageDashboard.xib */; };
+		28890DC021FD5EF7004C963A /* UIView Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28890DBF21FD5EF7004C963A /* UIView Extension.swift */; };
+		28890DC521FE14F5004C963A /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28890DC421FE14F5004C963A /* ImageButton.swift */; };
 		288F60D920FACD7100B91054 /* AutoCompleterTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288F60D820FACD7100B91054 /* AutoCompleterTable.swift */; };
 		289D1948215DA14F006339D9 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D1947215DA14F006339D9 /* PageViewController.swift */; };
 		289D194B215DA1AE006339D9 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D194A215DA1AE006339D9 /* AppSettings.swift */; };
@@ -152,6 +156,10 @@
 		287DFB0F2175597D005086A3 /* YPImagePicker+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YPImagePicker+Extension.swift"; sourceTree = "<group>"; };
 		2882D6882020116F00B40082 /* ForecastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewController.swift; sourceTree = "<group>"; };
 		2885EE5E2023F62500CD4CC4 /* DetailedForecastTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedForecastTable.swift; sourceTree = "<group>"; };
+		28890DB921FD47CB004C963A /* ImageDashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDashboard.swift; sourceTree = "<group>"; };
+		28890DBB21FD47D7004C963A /* ImageDashboard.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageDashboard.xib; sourceTree = "<group>"; };
+		28890DBF21FD5EF7004C963A /* UIView Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView Extension.swift"; sourceTree = "<group>"; };
+		28890DC421FE14F5004C963A /* ImageButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
 		288F60D820FACD7100B91054 /* AutoCompleterTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCompleterTable.swift; sourceTree = "<group>"; };
 		289D1947215DA14F006339D9 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		289D194A215DA1AE006339D9 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
@@ -365,6 +373,14 @@
 			path = InstaWeatherToday;
 			sourceTree = "<group>";
 		};
+		28890DC321FE14EE004C963A /* Custom Controls */ = {
+			isa = PBXGroup;
+			children = (
+				28890DC421FE14F5004C963A /* ImageButton.swift */,
+			);
+			path = "Custom Controls";
+			sourceTree = "<group>";
+		};
 		289D1949215DA19B006339D9 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -387,6 +403,7 @@
 		28B5CD2321694FE9004331DA /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				28890DC321FE14EE004C963A /* Custom Controls */,
 				280A03EA21841FC400F71B6A /* Parallax */,
 				2807A929216AF0EE003DA8D6 /* Storyboards */,
 				2807A924216AF01B003DA8D6 /* Current Weather */,
@@ -402,13 +419,15 @@
 		28B5CD2421694FEE004331DA /* Image Picker */ = {
 			isa = PBXGroup;
 			children = (
-				28B5CD252169501D004331DA /* ImagePicker.swift */,
 				2807A91E216A6CF3003DA8D6 /* ImageMenu.swift */,
 				2807A922216AED4A003DA8D6 /* ImageMenuDelegate.swift */,
 				28CD21862169D1F700BBFA62 /* Image Manager.swift */,
 				2807A920216A7077003DA8D6 /* CustomSlider.swift */,
 				284574F6216B075E00996AC4 /* CustomImageButton.swift */,
 				2807A91C216A6A9C003DA8D6 /* ImageMenu.xib */,
+				28B5CD252169501D004331DA /* ImagePicker.swift */,
+				28890DB921FD47CB004C963A /* ImageDashboard.swift */,
+				28890DBB21FD47D7004C963A /* ImageDashboard.xib */,
 			);
 			path = "Image Picker";
 			sourceTree = "<group>";
@@ -416,6 +435,7 @@
 		28EEB914201C44940090D0D3 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
+				28890DBF21FD5EF7004C963A /* UIView Extension.swift */,
 				289D194F215DA9A6006339D9 /* EnumKeys.swift */,
 				28BFE2C42164447F000F44C3 /* AppLaunch.swift */,
 				28EEB910201C44300090D0D3 /* Secrets.swift */,
@@ -607,6 +627,7 @@
 				289D3E0E20E8046300D3D5DD /* LaunchBackground.jpg in Resources */,
 				28359A54201C41E3005AAFF4 /* Assets.xcassets in Resources */,
 				28359A52201C41E3005AAFF4 /* Main.storyboard in Resources */,
+				28890DBC21FD47D7004C963A /* ImageDashboard.xib in Resources */,
 				2807A91D216A6A9C003DA8D6 /* ImageMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -818,6 +839,7 @@
 				28BFE2C52164447F000F44C3 /* AppLaunch.swift in Sources */,
 				28EEB911201C44300090D0D3 /* Secrets.swift in Sources */,
 				28BB175E201D589D006E14A0 /* UpdateWeatherExtension.swift in Sources */,
+				28890DC521FE14F5004C963A /* ImageButton.swift in Sources */,
 				288F60D920FACD7100B91054 /* AutoCompleterTable.swift in Sources */,
 				287DFB0D217558D7005086A3 /* DisplaySizes.swift in Sources */,
 				2822A03A2021485F0007D9E9 /* ForecastObject.swift in Sources */,
@@ -827,6 +849,8 @@
 				289D1948215DA14F006339D9 /* PageViewController.swift in Sources */,
 				280A03EC21841FD600F71B6A /* ParallaxViewController.swift in Sources */,
 				287DFB102175597D005086A3 /* YPImagePicker+Extension.swift in Sources */,
+				28890DBA21FD47CB004C963A /* ImageDashboard.swift in Sources */,
+				28890DC021FD5EF7004C963A /* UIView Extension.swift in Sources */,
 				2807A923216AED4A003DA8D6 /* ImageMenuDelegate.swift in Sources */,
 				2807A921216A7077003DA8D6 /* CustomSlider.swift in Sources */,
 				289D194E215DA32C006339D9 /* AdHosting.swift in Sources */,

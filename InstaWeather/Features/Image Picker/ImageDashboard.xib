@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ImageDashboard" customModule="InstaWeather" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a5d-4G-Icc" propertyAccessControl="none">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="O3s-mE-u4C">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dashboardPolygon" translatesAutoresizingMaskIntoConstraints="NO" id="CqY-pp-zrA" userLabel="background">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BfS-Mg-JLm" customClass="DashboardButton" customModule="InstaWeather" customModuleProvider="target">
+                                <rect key="frame" x="128" y="220" width="64" height="64"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tQ9-cE-8Fh" customClass="DashboardButton" customModule="InstaWeather" customModuleProvider="target">
+                                <rect key="frame" x="39" y="153" width="64" height="64"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G12-ap-JOA" customClass="DashboardButton" customModule="InstaWeather" customModuleProvider="target">
+                                <rect key="frame" x="217" y="153" width="64" height="64"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nCS-yC-V9h" customClass="DashboardButton" customModule="InstaWeather" customModuleProvider="target">
+                                <rect key="frame" x="186" y="47" width="64" height="64"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8jZ-gO-HN2" customClass="DashboardButton" customModule="InstaWeather" customModuleProvider="target">
+                                <rect key="frame" x="70" y="47" width="64" height="64"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jfc-MT-gGA" customClass="DashboardButton" customModule="InstaWeather" customModuleProvider="target">
+                                <rect key="frame" x="128" y="128" width="64" height="64"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Jfc-MT-gGA" secondAttribute="height" multiplier="1:1" id="Vq8-Zj-8ux"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="CqY-pp-zrA" secondAttribute="bottom" id="1il-Rq-DEN"/>
+                            <constraint firstItem="nCS-yC-V9h" firstAttribute="height" secondItem="Jfc-MT-gGA" secondAttribute="height" id="4ME-jB-Mf9"/>
+                            <constraint firstItem="nCS-yC-V9h" firstAttribute="width" secondItem="Jfc-MT-gGA" secondAttribute="width" id="5yr-cA-fWZ"/>
+                            <constraint firstItem="Jfc-MT-gGA" firstAttribute="top" secondItem="8jZ-gO-HN2" secondAttribute="bottom" constant="17" id="9Il-j5-z4c"/>
+                            <constraint firstItem="G12-ap-JOA" firstAttribute="leading" secondItem="Jfc-MT-gGA" secondAttribute="trailing" constant="25" id="AEU-Sg-8ZY"/>
+                            <constraint firstItem="8jZ-gO-HN2" firstAttribute="height" secondItem="Jfc-MT-gGA" secondAttribute="height" id="CJr-55-ADR"/>
+                            <constraint firstItem="G12-ap-JOA" firstAttribute="width" secondItem="Jfc-MT-gGA" secondAttribute="width" id="COh-gO-96U"/>
+                            <constraint firstItem="BfS-Mg-JLm" firstAttribute="top" secondItem="Jfc-MT-gGA" secondAttribute="bottom" constant="28" id="FgH-Vx-uJw"/>
+                            <constraint firstItem="nCS-yC-V9h" firstAttribute="leading" secondItem="Jfc-MT-gGA" secondAttribute="trailing" constant="-6" id="Gxh-qc-cWz"/>
+                            <constraint firstItem="G12-ap-JOA" firstAttribute="centerY" secondItem="O3s-mE-u4C" secondAttribute="centerY" constant="25" id="HVt-Fk-4Yl"/>
+                            <constraint firstItem="G12-ap-JOA" firstAttribute="height" secondItem="Jfc-MT-gGA" secondAttribute="height" id="R4b-KS-YUV"/>
+                            <constraint firstAttribute="trailing" secondItem="CqY-pp-zrA" secondAttribute="trailing" id="TZI-1G-wBW"/>
+                            <constraint firstItem="Jfc-MT-gGA" firstAttribute="width" secondItem="O3s-mE-u4C" secondAttribute="width" multiplier="0.2" id="Tf6-8j-fiF"/>
+                            <constraint firstItem="CqY-pp-zrA" firstAttribute="centerY" secondItem="O3s-mE-u4C" secondAttribute="centerY" id="Yia-eg-GPk"/>
+                            <constraint firstItem="tQ9-cE-8Fh" firstAttribute="height" secondItem="Jfc-MT-gGA" secondAttribute="height" id="ZV3-FL-xbx"/>
+                            <constraint firstItem="tQ9-cE-8Fh" firstAttribute="width" secondItem="Jfc-MT-gGA" secondAttribute="width" id="aAP-mG-Ak6"/>
+                            <constraint firstItem="Jfc-MT-gGA" firstAttribute="top" secondItem="nCS-yC-V9h" secondAttribute="bottom" constant="17" id="bLO-cR-z2G"/>
+                            <constraint firstItem="CqY-pp-zrA" firstAttribute="centerX" secondItem="O3s-mE-u4C" secondAttribute="centerX" id="bUM-TW-wfd"/>
+                            <constraint firstItem="CqY-pp-zrA" firstAttribute="top" secondItem="O3s-mE-u4C" secondAttribute="top" id="ch2-oo-TKD"/>
+                            <constraint firstItem="Jfc-MT-gGA" firstAttribute="leading" secondItem="8jZ-gO-HN2" secondAttribute="trailing" constant="-6" id="emc-EM-tbC"/>
+                            <constraint firstItem="tQ9-cE-8Fh" firstAttribute="centerY" secondItem="O3s-mE-u4C" secondAttribute="centerY" constant="25" id="fuC-Sk-xfv"/>
+                            <constraint firstItem="Jfc-MT-gGA" firstAttribute="centerY" secondItem="O3s-mE-u4C" secondAttribute="centerY" id="hFv-9E-inG"/>
+                            <constraint firstItem="BfS-Mg-JLm" firstAttribute="width" secondItem="Jfc-MT-gGA" secondAttribute="width" id="kNc-vF-RWA"/>
+                            <constraint firstItem="8jZ-gO-HN2" firstAttribute="width" secondItem="Jfc-MT-gGA" secondAttribute="width" id="nV9-bu-xmz"/>
+                            <constraint firstItem="CqY-pp-zrA" firstAttribute="leading" secondItem="O3s-mE-u4C" secondAttribute="leading" id="oeH-gU-oOx"/>
+                            <constraint firstItem="Jfc-MT-gGA" firstAttribute="centerX" secondItem="O3s-mE-u4C" secondAttribute="centerX" id="qGN-is-0EI"/>
+                            <constraint firstItem="BfS-Mg-JLm" firstAttribute="centerX" secondItem="O3s-mE-u4C" secondAttribute="centerX" id="wpX-6t-XCd"/>
+                            <constraint firstItem="BfS-Mg-JLm" firstAttribute="height" secondItem="Jfc-MT-gGA" secondAttribute="height" id="yol-mY-JcT"/>
+                            <constraint firstItem="Jfc-MT-gGA" firstAttribute="leading" secondItem="tQ9-cE-8Fh" secondAttribute="trailing" constant="25" id="zxF-ds-fkK"/>
+                        </constraints>
+                    </view>
+                    <blurEffect style="light"/>
+                </visualEffectView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="a5d-4G-Icc" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="30g-ic-6Mx"/>
+                <constraint firstItem="a5d-4G-Icc" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="hmT-Ir-uN1"/>
+                <constraint firstAttribute="trailing" secondItem="a5d-4G-Icc" secondAttribute="trailing" id="huf-oF-JAo"/>
+                <constraint firstItem="a5d-4G-Icc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="lS6-g0-e0v"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="blurEffectView" destination="a5d-4G-Icc" id="mUl-i6-BeA"/>
+                <outlet property="image1" destination="8jZ-gO-HN2" id="cqK-En-BGo"/>
+                <outlet property="image2" destination="nCS-yC-V9h" id="Q6W-FB-KWU"/>
+                <outlet property="image3" destination="G12-ap-JOA" id="K0L-et-V30"/>
+                <outlet property="image4" destination="BfS-Mg-JLm" id="lVY-3D-hHP"/>
+                <outlet property="image5" destination="tQ9-cE-8Fh" id="DKO-SY-mhh"/>
+                <outlet property="imageCenter" destination="Jfc-MT-gGA" id="oFi-bJ-8If"/>
+                <outlet property="storyboardBackground" destination="CqY-pp-zrA" id="dbz-jJ-i8C"/>
+            </connections>
+            <point key="canvasLocation" x="203.19999999999999" y="35.982008995502248"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="dashboardPolygon" width="666" height="662"/>
+    </resources>
+</document>
