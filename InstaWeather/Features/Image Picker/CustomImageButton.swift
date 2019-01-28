@@ -22,4 +22,11 @@ class CustomImageButton: LargeTapAreaButton {
             print("Buttons array is now at \(buttonsArray.count)")
         }
     }
+    
+    func hide(_ hide: Bool) {
+        let alpha: CGFloat = hide ? 0 : 1
+        UIViewPropertyAnimator(duration: 0.2, curve: .linear) { [weak self] in
+            self?.alpha = alpha
+            }.startAnimation()
+    }
 }

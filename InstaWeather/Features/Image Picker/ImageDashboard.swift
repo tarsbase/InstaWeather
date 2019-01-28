@@ -10,7 +10,7 @@ import UIKit
 
 class ImageDashboard: UIView {
 
-    @IBOutlet weak var blurEffectView: UIVisualEffectView!
+    @IBOutlet weak var blurEffectView: DashboardBlurEffect!
     @IBOutlet weak var storyboardBackground: UIImageView!
     
     @IBOutlet weak var imageCenter: DashboardButton!
@@ -19,6 +19,7 @@ class ImageDashboard: UIView {
     @IBOutlet weak var image3: DashboardButton!
     @IBOutlet weak var image4: DashboardButton!
     @IBOutlet weak var image5: DashboardButton!
+    var overlay: UIView?
     
     var images: [DashboardButton] { return [imageCenter, image1, image2, image3, image4, image5] }
     
@@ -31,6 +32,7 @@ class ImageDashboard: UIView {
     
     func initialSetup() {
         alpha = 0
+        blurEffectView.dismissSelf = { [weak self] in self?.dismissSelf?() }
         setupMaskingPolygon()
     }
     
@@ -40,10 +42,31 @@ class ImageDashboard: UIView {
         let maskingLayer = CAShapeLayer()
         maskingLayer.contents = cgImage
         maskingLayer.frame = self.layer.bounds
-        self.layer.mask = maskingLayer
+        blurEffectView.layer.mask = maskingLayer
         storyboardBackground.isHidden = true
         
         self.maskingLayer = maskingLayer
+    }
+    
+    func attachOverlay(_ overlay: DashboardOverlay) {
+        self.overlay?.removeFromSuperview()
+        self.overlay = overlay
+    }
+    
+    func fadeOut() {
+        fade(fadeOut: true)
+    }
+    
+    func fadeIn() {
+        fade(fadeOut: false)
+    }
+    
+    private func fade(fadeOut: Bool) {
+        let endAlpha: CGFloat = fadeOut ? 0 : 1
+        UIViewPropertyAnimator(duration: 0.3, curve: .linear) { [weak self] in
+            self?.alpha = endAlpha
+            self?.overlay?.alpha = endAlpha
+            }.startAnimation()
     }
     
     override func layoutSubviews() {
@@ -58,20 +81,20 @@ class ImageDashboard: UIView {
         image4.setupImageWith(name: "bg2cleariPhone3") { [weak self] in self?.showImageMenu(from: self?.image4) }
         image5.setupImageWith(name: "bg2cloudy") { [weak self] in self?.showImageMenu(from: self?.image5) }
         
-        layer.masksToBounds = true
+        blurEffectView.layer.masksToBounds = true
     }
     
     func showImageMenu(from button: DashboardButton?) {
         guard let button = button else { return }
         previewBackground?(button)
     }
-    
-    
+}
+
+class DashboardBlurEffect: UIVisualEffectView {
+    var dismissSelf: (() -> Void)?
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let location = touches.first?.location(in: self) {
-            
             let alpha = alphaFromPoint(point: location)
-            
             if alpha == 0 { dismissSelf?() }
         }
     }

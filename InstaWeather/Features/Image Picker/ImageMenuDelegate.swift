@@ -49,7 +49,7 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
     
     func menuIsVisibleChanged(to visible: Bool) {
         // disable paging while menu is visible
-        statusBarUpdater?.pageViewDataSourceIsActive(!visible)
+//        statusBarUpdater?.pageViewDataSourceIsActive(!visible)
         if visible { self.imageMenu.alpha = 1 }
         let yValue: CGFloat = visible ? 33.5 : -148.5
         
@@ -107,7 +107,7 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
 extension ImageMenuDelegate where Self: ParallaxViewController {
     
     var dashboardCenterPoint: CGPoint {
-        return CGPoint(x: Display.width / 2, y: (Display.height / 2) + 80)
+        return CGPoint(x: Display.width / 2, y: (Display.height / 2))
     }
     
     var dashboardCenterFrame: CGRect {
@@ -115,7 +115,7 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
         let height: CGFloat = width
         
         let xValue = (Display.width / 2) - (width / 2)
-        let yValue = (Display.height / 2) - (height / 2) + 80
+        let yValue = (Display.height / 2) - (height / 2)
         
         return CGRect(x: xValue, y: yValue, width: width, height: height)
     }
@@ -175,6 +175,13 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
         dashboard.dismissSelf = { [weak self] in self?.hideContainers() }
         view.addSubview(dashboard)
         
+        let overlay = DashboardOverlay.setupOverlayBy(vc: self) { [weak self] in
+            self?.hideContainers()
+        }
+
+        dashboard.attachOverlay(overlay)
+        view.insertSubview(overlay, belowSubview: dashboard)
+        
         print("Creating dashboard for \(host)")
         return dashboard
     }
@@ -185,7 +192,7 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
     }
     
     func recreateMenus(){
-        UIView.animate(withDuration: 0.2, animations: { [weak self] in
+        UIView.animate(withDuration: 0.1, animations: { [weak self] in
             guard let self = self else { return }
             self.imageMenu.alpha = 0
             self.dashboardMenu.alpha = 0
@@ -206,7 +213,7 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
     // slider shows upon selection, with banner text specifying condition (change snowy background)
     
     func showDashboard() {
-        changeImageButton.isEnabled = false
+        changeImageButton.hide(true)
         animateDashboard(dashboard: dashboardMenu, fromButton: changeImageButton, show: true)
     }
     
@@ -215,9 +222,11 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
     }
     
     func animateDashboard(dashboard: ImageDashboard, fromButton button: UIButton, show: Bool) {
-        print(dashboard.dashboardStatus)
+        
         if case DashboardStatus.animating = dashboardMenu.dashboardStatus { return }
         dashboardMenu.dashboardStatus = .animating
+        // disable paging while menu is visible
+        statusBarUpdater?.pageViewDataSourceIsActive(!show)
         
         let endCenter = show ? dashboardCenterPoint : button.center
         dashboard.transform = show ? CGAffineTransform(scaleX: 0.1, y: 0.1) : .identity
@@ -225,28 +234,29 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
         
         let duration: TimeInterval = 0.8
         
-        let anim = UIViewPropertyAnimator(duration: duration, dampingRatio: 0.9) {
+        UIViewPropertyAnimator(duration: duration, dampingRatio: 0.9) {
             dashboard.transform = show ? .identity : CGAffineTransform(scaleX: 0.1, y: 0.1)
+            let rotationAngle: CGFloat = show ? .pi / 2 : .pi / 4
             for _ in 0...3 {
-                let rotation = CGAffineTransform(rotationAngle: .pi / 2)
+                let rotation = CGAffineTransform(rotationAngle: rotationAngle)
                 dashboard.transform = dashboard.transform.concatenating(rotation)
             }
             dashboard.center = endCenter
-        }
+            show ? dashboard.fadeIn() : dashboard.fadeOut()
+        }.startAnimation()
         
-        anim.addCompletion { [weak self] _ in
+        // hide camera towards the end
+        let fadeCameraTime = duration * 0.4
+        DispatchQueue.main.asyncAfter(deadline: .now() + fadeCameraTime) { [weak self] in
             if !show {
-//                self?.recreateMenus() // bad line
-                self?.changeImageButton.isEnabled = true
+                self?.changeImageButton.hide(false)
             }
             dashboard.dashboardStatus = show ? .displayed : .hidden
         }
         
-
-        anim.startAnimation()
-        
-        let alphaStart = show ? 0 : duration * 0.35
-        DispatchQueue.main.asyncAfter(deadline: .now() + alphaStart) {
+        // fade
+        let alphaStartTime = show ? 0 : duration * 0.35
+        DispatchQueue.main.asyncAfter(deadline: .now() + alphaStartTime) {
             UIViewPropertyAnimator(duration: 0.1, curve: .linear) {
                 dashboard.alpha = show ? 1 : 0
             }.startAnimation()
@@ -264,7 +274,8 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
         dashboardMenu.dashboardStatus = .preview(button)
         let imageView = UIImageView(image: background)
         let frame = button.superview?.convert(button.frame, to: self.view) ?? .zero
-        fadeOutDashboard()
+        
+        dashboardMenu.fadeOut()
         imageView.frame = frame
         imageView.layer.cornerRadius = imageView.bounds.height / 2
         imageView.contentMode = .scaleAspectFill
@@ -299,14 +310,14 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
         let backgroundFrame = self.backgroundImage.frame
         let buttonFrame = button.superview?.convert(button.frame, to: view) ?? .zero
         
-        self.fadeInDashboard()
+        dashboardMenu.fadeIn()
         
         imageView.frame = backgroundFrame
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         self.view.addSubview(imageView)
         
-        let duration: TimeInterval = 0.5
+        let duration: TimeInterval = 0.6
         
         resetBackgroundImage() // to be amended later
         self.imageMenuIsVisible = false
@@ -316,7 +327,7 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
             imageView.layer.cornerRadius = imageView.bounds.height / 2
             }.startAnimation()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + duration * 0.6) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration * 0.9) {
             let fade = UIViewPropertyAnimator(duration: 0.2, curve: .linear){
                 imageView.alpha = 0
             }
@@ -327,23 +338,6 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
         }
         dashboardMenu.dashboardStatus = .displayed
     }
-    
-    func fadeOutDashboard() {
-        fadeDashboard(fadeOut: true)
-    }
-    
-    func fadeInDashboard() {
-        fadeDashboard(fadeOut: false)
-    }
-    
-    func fadeDashboard(fadeOut: Bool) {
-        let endAlpha: CGFloat = fadeOut ? 0 : 1
-        UIViewPropertyAnimator(duration: 0.3, curve: .linear) { [weak self] in
-            self?.dashboardMenu.alpha = endAlpha
-        }.startAnimation()
-    }
-    
-    
 }
 
 enum DashboardStatus {
