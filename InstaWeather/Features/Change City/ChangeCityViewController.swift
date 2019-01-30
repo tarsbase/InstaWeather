@@ -235,7 +235,7 @@ class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, U
 }
 
 // MARK: - Image Manager
-extension ChangeCityViewController: ImageMenuDelegate {
+extension ChangeCityViewController: DashboardDelegate {
     
     func loadBackgroundImage() {
         if AppSettings.changecityCustomImage {

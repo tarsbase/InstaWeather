@@ -14,7 +14,7 @@ enum PickerHostType: String {
 }
 
 protocol ImagePickerHost: class {
-    var delegate: ImageMenuDelegate? { get set }
+    var delegate: DashboardDelegate? { get set }
     func updateCustomImageSetting()
 }
 

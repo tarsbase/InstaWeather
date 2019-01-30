@@ -49,6 +49,12 @@ class DetailedContainerViewController: ParallaxViewController {
         CustomImageButton.buttonsArray.insert(changeImageButton)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        recreateMenus()
+        dashboardMenu.alpha = 0
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
      
         if detailedForecast == nil {
@@ -76,11 +82,12 @@ class DetailedContainerViewController: ParallaxViewController {
 //        detailedForecast?.remove()
 //        detailedForecast = nil
         super.viewDidDisappear(animated)
+        dashboardMenu.fadeOut()
     }
 
 }
 
-extension DetailedContainerViewController: ImageMenuDelegate {
+extension DetailedContainerViewController: DashboardDelegate {
     
     func loadBackgroundImage() {
         if AppSettings.changecityCustomImage {
@@ -95,7 +102,7 @@ extension DetailedContainerViewController: ImageMenuDelegate {
     }
     
     @IBAction func imageChangePressed(_ sender: Any) {
-        imageMenuIsVisible = true
+        showDashboard()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

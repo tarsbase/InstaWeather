@@ -19,9 +19,27 @@ class ImageDashboard: UIView {
     @IBOutlet weak var image3: DashboardButton!
     @IBOutlet weak var image4: DashboardButton!
     @IBOutlet weak var image5: DashboardButton!
+    @IBOutlet weak var labelCenter: UILabel!
+    @IBOutlet weak var label1: UILabel!
+    @IBOutlet weak var label2: UILabel!
+    @IBOutlet weak var label3: UILabel!
+    @IBOutlet weak var label4: UILabel!
+    @IBOutlet weak var label5: UILabel!
     var overlay: UIView?
     
+    // we hide frame setter, and replace with custom implementation to prevent pageviewcontroller
+    // from messing with the frame via layoutsubviews / safe area did change
+    override var frame: CGRect {
+        get { return super.frame }
+        set { }
+    }
+    
+    func updateFrame(_ frame: CGRect) {
+        super.frame = frame
+    }
+    
     var images: [DashboardButton] { return [imageCenter, image1, image2, image3, image4, image5] }
+    var labels: [UILabel] { return [labelCenter, label1, label2, label3, label4, label5]}
     
     var hostType: PickerHostType = .mainScreen
     var dashboardStatus: DashboardStatus = .hidden
@@ -30,10 +48,16 @@ class ImageDashboard: UIView {
     var previewBackground: ((DashboardButton) -> Void)?
     var dismissSelf: (() -> Void)?
     
+    deinit {
+        self.overlay?.removeFromSuperview()
+        self.overlay = nil
+    }
+    
     func initialSetup() {
         alpha = 0
         blurEffectView.dismissSelf = { [weak self] in self?.dismissSelf?() }
         setupMaskingPolygon()
+        setupLabels()
     }
     
     private func setupMaskingPolygon() {
@@ -48,25 +72,49 @@ class ImageDashboard: UIView {
         self.maskingLayer = maskingLayer
     }
     
+    func setupLabels() {
+        addShadow(opacity: 0.4, labels)
+    }
+    
     func attachOverlay(_ overlay: DashboardOverlay) {
         self.overlay?.removeFromSuperview()
+        self.overlay = nil
         self.overlay = overlay
     }
     
     func fadeOut() {
-        fade(fadeOut: true)
+        fade(fadeOut: true, justOverlay: false)
     }
     
     func fadeIn() {
-        fade(fadeOut: false)
+        fade(fadeOut: false, justOverlay: false)
     }
     
-    private func fade(fadeOut: Bool) {
+    func fadeOutOverlay() {
+        fade(fadeOut: true, justOverlay: true)
+    }
+    
+    func fadeInOverlay() {
+        fade(fadeOut: false, justOverlay: true)
+    }
+    
+    private func fade(fadeOut: Bool, justOverlay: Bool) {
         let endAlpha: CGFloat = fadeOut ? 0 : 1
-        UIViewPropertyAnimator(duration: 0.3, curve: .linear) { [weak self] in
-            self?.alpha = endAlpha
+        if fadeOut { showTextLabels(show: false) }
+        let anim = UIViewPropertyAnimator(duration: 0.3, curve: .linear) { [weak self] in
+            if !justOverlay { self?.alpha = endAlpha }
             self?.overlay?.alpha = endAlpha
-            }.startAnimation()
+            }
+        anim.addCompletion { [weak self] (_) in
+            if !fadeOut { self?.showTextLabels(show: true) }
+        }
+        anim.startAnimation()
+    }
+    
+    func showTextLabels(show: Bool) {
+        UIViewPropertyAnimator(duration: 0.1, curve: .linear) { [weak self] in
+            self?.labels.forEach { $0.alpha = show ? 1 : 0 }
+        }.startAnimation()
     }
     
     override func layoutSubviews() {
@@ -87,6 +135,15 @@ class ImageDashboard: UIView {
     func showImageMenu(from button: DashboardButton?) {
         guard let button = button else { return }
         previewBackground?(button)
+    }
+    
+    func addShadow(opacity: Float = 0.5, _ views: [UIView]) {
+        for view in views {
+            view.layer.shadowColor = UIColor.black.cgColor
+            view.layer.shadowOffset = CGSize(width: 0, height: 2)
+            view.layer.shadowOpacity = opacity
+            view.layer.shadowRadius = 1.0
+        }
     }
 }
 

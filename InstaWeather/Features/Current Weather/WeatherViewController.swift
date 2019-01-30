@@ -211,7 +211,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
 }
 
 // MARK: - Image menu
-extension WeatherViewController: ImageMenuDelegate {
+extension WeatherViewController: DashboardDelegate {
     
     func resetBackgroundImage() {
         updateLabelsNoAnimation()

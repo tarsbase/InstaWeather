@@ -128,6 +128,7 @@ class ForecastViewController: ParallaxViewController {
             animateStack()
         }
         
+        recreateMenus()
         super.viewDidAppear(animated)
     }
     
@@ -201,7 +202,7 @@ class ForecastViewController: ParallaxViewController {
 }
 
 // MARK: - Image manager
-extension ForecastViewController: ImageMenuDelegate {
+extension ForecastViewController: DashboardDelegate {
     
     func loadBackgroundImage() {
         if AppSettings.changecityCustomImage {
@@ -220,6 +221,6 @@ extension ForecastViewController: ImageMenuDelegate {
     }
     
     @IBAction func changeImage(_ sender: Any) {
-        imageMenuIsVisible = true
+        showDashboard()
     }
 }

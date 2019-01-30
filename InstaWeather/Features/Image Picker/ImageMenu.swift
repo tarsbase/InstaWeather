@@ -43,7 +43,7 @@ class ImageMenu: UIView {
     }
     
     lazy var imagePicker = setupImagePicker()
-    weak var delegate: ImageMenuDelegate? {
+    weak var delegate: DashboardDelegate? {
         didSet {
             updateSliders()
         }
