@@ -12,7 +12,7 @@ class ImageMenu: UIView {
     
     static var imageMenusArray = [ImageMenu]()
     
-    var hostType = PickerHostType.mainScreen
+    var hostType = PickerHostType.mainScreen(.clear)
     @IBOutlet weak var blurEffectView: UIVisualEffectView!
     
     var savedSettings: (image: Bool, blur: Float, brightness: Float) {

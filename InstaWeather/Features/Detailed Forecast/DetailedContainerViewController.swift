@@ -18,8 +18,8 @@ class DetailedContainerViewController: ParallaxViewController {
     lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
-    lazy var imageMenu: ImageMenu = createImageMenuFor(host: .detailedForecast)
-    lazy var dashboardMenu: ImageDashboard = createDashboardFor(host: .detailedForecast)
+    lazy var imageMenu: ImageMenu = createImageMenuFor(host: .detailedForecast(.clear))
+    lazy var dashboardMenu: ImageDashboard = createDashboardFor(host: .detailedForecast(.clear))
     var imageMenuIsVisible = false {
         didSet { menuIsVisibleChanged(to: imageMenuIsVisible)
             gestureView.isHidden = !imageMenuIsVisible
@@ -45,7 +45,6 @@ class DetailedContainerViewController: ParallaxViewController {
         loadBackgroundImage()
         ImageMenu.imageMenusArray.append(imageMenu)
         backgroundContainer.clipsToBounds = true
-        createViewAndGesture()
         CustomImageButton.buttonsArray.insert(changeImageButton)
     }
     
@@ -111,14 +110,5 @@ extension DetailedContainerViewController: DashboardDelegate {
     
     @objc func dismissImageTap() {
         dismissImageMenu()
-    }
-    
-    func createViewAndGesture() {
-        let gestureView = UIView(frame: backgroundBlur.frame)
-        gestureView.isUserInteractionEnabled = true
-        view.addSubview(gestureView)
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissImageTap))
-        gestureView.addGestureRecognizer(tapGesture)
-        self.gestureView = gestureView
     }
 }

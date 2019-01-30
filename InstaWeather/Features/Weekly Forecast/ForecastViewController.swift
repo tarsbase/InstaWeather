@@ -22,8 +22,8 @@ class ForecastViewController: ParallaxViewController {
     lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
-    lazy var imageMenu: ImageMenu = createImageMenuFor(host: .weeklyForecast)
-    lazy var dashboardMenu: ImageDashboard = createDashboardFor(host: .weeklyForecast)
+    lazy var imageMenu: ImageMenu = createImageMenuFor(host: .weeklyForecast(.clear))
+    lazy var dashboardMenu: ImageDashboard = createDashboardFor(host: .weeklyForecast(.clear))
     var imageMenuIsVisible = false {
         didSet { menuIsVisibleChanged(to: imageMenuIsVisible) }
     }

@@ -9,10 +9,6 @@
 import UIKit
 import YPImagePicker
 
-enum PickerHostType: String {
-    case mainScreen, detailedForecast, weeklyForecast, changeCity
-}
-
 protocol ImagePickerHost: class {
     var delegate: DashboardDelegate? { get set }
     func updateCustomImageSetting()
@@ -73,9 +69,9 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
                 print(photo.modifiedImage) // Transformed image, can be nil
                 print(photo.exifMeta) // Print exif meta data of original image.
                 
-                ImageManager.setBackground(image: photo.image, for: host)
+                ImageFileManager.setBackground(image: photo.image, for: host)
                 self.imageHost?.updateCustomImageSetting()
-                if let savedImage = ImageManager.getBackgroundImage(for: host) {
+                if let savedImage = ImageFileManager.getBackgroundImage(for: host) {
                     self.imageHost?.updateBackgroundWith(savedImage)
                 }
             }

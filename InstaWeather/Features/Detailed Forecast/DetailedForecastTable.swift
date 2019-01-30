@@ -32,13 +32,13 @@ class DetailedForecastTable: UITableViewController {
                 for (index, cell) in self.tableView.visibleCells.enumerated() {
                     if counter == index {
                         counter += 1
-                        UIView.animate(withDuration: 0.17, delay: 0, options: .curveEaseInOut, animations: {
+                        UIView.animate(withDuration: 0.17, delay: 0, options: [.curveEaseInOut, .allowUserInteraction], animations: {
                             cell.transform = CGAffineTransform(translationX: 12, y: 0)
                         }, completion: {
                             boolean in
-                            UIView.animate(withDuration: 0.17) {
+                            UIView.animate(withDuration: 0.17, delay: 0, options: .allowUserInteraction, animations: {
                                 cell.transform = CGAffineTransform.identity
-                            }
+                            }, completion: nil)
                         })
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.055) {
                             animateRow()

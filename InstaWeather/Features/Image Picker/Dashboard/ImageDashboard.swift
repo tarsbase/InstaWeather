@@ -41,7 +41,7 @@ class ImageDashboard: UIView {
     var images: [DashboardButton] { return [imageCenter, image1, image2, image3, image4, image5] }
     var labels: [UILabel] { return [labelCenter, label1, label2, label3, label4, label5]}
     
-    var hostType: PickerHostType = .mainScreen
+    var hostType: PickerHostType = .mainScreen(.clear)
     var dashboardStatus: DashboardStatus = .hidden
     var maskingLayer: CAShapeLayer?
     
@@ -101,7 +101,7 @@ class ImageDashboard: UIView {
     private func fade(fadeOut: Bool, justOverlay: Bool) {
         let endAlpha: CGFloat = fadeOut ? 0 : 1
         if fadeOut { showTextLabels(show: false) }
-        let anim = UIViewPropertyAnimator(duration: 0.3, curve: .linear) { [weak self] in
+        let anim = UIViewPropertyAnimator(duration: 0.15, curve: .linear) { [weak self] in
             if !justOverlay { self?.alpha = endAlpha }
             self?.overlay?.alpha = endAlpha
             }

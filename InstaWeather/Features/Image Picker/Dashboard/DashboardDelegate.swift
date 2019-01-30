@@ -23,6 +23,7 @@ protocol DashboardDelegate: class {
     
     func menuIsVisibleChanged(to visible: Bool)
     
+    func updateBackgroundImageTo(_ image: UIImage)
     func resetBackgroundImage()
     func dismissImageMenu()
     func changeBlurValueTo(value: CGFloat)

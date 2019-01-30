@@ -17,9 +17,13 @@ extension DashboardDelegate where Self: ParallaxViewController {
     }
     
     func loadCustomImage() {
-        if let savedImage = ImageManager.getBackgroundImage(for: imageMenu.hostType) {
+        if let savedImage = ImageFileManager.getBackgroundImage(for: imageMenu.hostType) {
             backgroundImage.image = savedImage
         }
+    }
+    
+    func updateBackgroundImageTo(_ image: UIImage) {
+        backgroundImage.image = image
     }
     
     func menuIsVisibleChanged(to visible: Bool) {
