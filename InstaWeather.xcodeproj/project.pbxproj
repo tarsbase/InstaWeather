@@ -69,6 +69,12 @@
 		28CDAE1F20B1C2EE003CE837 /* ForecastObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822A0392021485F0007D9E9 /* ForecastObject.swift */; };
 		28CDAE2120B1C2EE003CE837 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EEB910201C44300090D0D3 /* Secrets.swift */; };
 		28E58BFF22014E09006A67EF /* BackgroundImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58BFE22014E09006A67EF /* BackgroundImageLoader.swift */; };
+		28E58C0222015C5C006A67EF /* ImageMenuDismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58C0122015C5B006A67EF /* ImageMenuDismissButton.swift */; };
+		28E58C04220167BA006A67EF /* ConfirmBackgroundButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28E58C03220167BA006A67EF /* ConfirmBackgroundButton.xib */; };
+		28E58C062201681F006A67EF /* ConfirmBackgroundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58C052201681F006A67EF /* ConfirmBackgroundButton.swift */; };
+		28E58C0822028DBC006A67EF /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58C0722028DBC006A67EF /* ColorPickerView.swift */; };
+		28E58C0A22028F15006A67EF /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58C0922028F15006A67EF /* ColorPicker.swift */; };
+		28E58C0C22028F1E006A67EF /* ColorPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28E58C0B22028F1E006A67EF /* ColorPicker.xib */; };
 		28EEB911201C44300090D0D3 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EEB910201C44300090D0D3 /* Secrets.swift */; };
 		28EEB917201C44CD0090D0D3 /* WeatherDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EEB916201C44CD0090D0D3 /* WeatherDataModel.swift */; };
 		28EEB91B201C50EC0090D0D3 /* LocationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EEB91A201C50EC0090D0D3 /* LocationExtension.swift */; };
@@ -180,6 +186,12 @@
 		28BFE2C42164447F000F44C3 /* AppLaunch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLaunch.swift; sourceTree = "<group>"; };
 		28CD21862169D1F700BBFA62 /* ImageFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFileManager.swift; sourceTree = "<group>"; };
 		28E58BFE22014E09006A67EF /* BackgroundImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundImageLoader.swift; sourceTree = "<group>"; };
+		28E58C0122015C5B006A67EF /* ImageMenuDismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMenuDismissButton.swift; sourceTree = "<group>"; };
+		28E58C03220167BA006A67EF /* ConfirmBackgroundButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConfirmBackgroundButton.xib; sourceTree = "<group>"; };
+		28E58C052201681F006A67EF /* ConfirmBackgroundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmBackgroundButton.swift; sourceTree = "<group>"; };
+		28E58C0722028DBC006A67EF /* ColorPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
+		28E58C0922028F15006A67EF /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
+		28E58C0B22028F1E006A67EF /* ColorPicker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorPicker.xib; sourceTree = "<group>"; };
 		28EEB910201C44300090D0D3 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		28EEB916201C44CD0090D0D3 /* WeatherDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataModel.swift; sourceTree = "<group>"; };
 		28EEB91A201C50EC0090D0D3 /* LocationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationExtension.swift; sourceTree = "<group>"; };
@@ -441,15 +453,29 @@
 			isa = PBXGroup;
 			children = (
 				280C4C2421FFF8C900430ED3 /* Dashboard */,
-				2807A91E216A6CF3003DA8D6 /* ImageMenu.swift */,
+				28E58C0022015C41006A67EF /* ImagemNeu */,
 				28CD21862169D1F700BBFA62 /* ImageFileManager.swift */,
 				28E58BFE22014E09006A67EF /* BackgroundImageLoader.swift */,
 				2807A920216A7077003DA8D6 /* CustomSlider.swift */,
 				284574F6216B075E00996AC4 /* CustomImageButton.swift */,
-				2807A91C216A6A9C003DA8D6 /* ImageMenu.xib */,
 				28B5CD252169501D004331DA /* ImagePicker.swift */,
+				28E58C0722028DBC006A67EF /* ColorPickerView.swift */,
 			);
 			path = "Image Picker";
+			sourceTree = "<group>";
+		};
+		28E58C0022015C41006A67EF /* ImagemNeu */ = {
+			isa = PBXGroup;
+			children = (
+				28E58C0122015C5B006A67EF /* ImageMenuDismissButton.swift */,
+				28E58C03220167BA006A67EF /* ConfirmBackgroundButton.xib */,
+				28E58C052201681F006A67EF /* ConfirmBackgroundButton.swift */,
+				28E58C0922028F15006A67EF /* ColorPicker.swift */,
+				28E58C0B22028F1E006A67EF /* ColorPicker.xib */,
+				2807A91E216A6CF3003DA8D6 /* ImageMenu.swift */,
+				2807A91C216A6A9C003DA8D6 /* ImageMenu.xib */,
+			);
+			path = ImagemNeu;
 			sourceTree = "<group>";
 		};
 		28EEB914201C44940090D0D3 /* Misc */ = {
@@ -645,8 +671,10 @@
 			files = (
 				28359A57201C41E3005AAFF4 /* LaunchScreen.storyboard in Resources */,
 				289D3E0E20E8046300D3D5DD /* LaunchBackground.jpg in Resources */,
+				28E58C04220167BA006A67EF /* ConfirmBackgroundButton.xib in Resources */,
 				28359A54201C41E3005AAFF4 /* Assets.xcassets in Resources */,
 				28359A52201C41E3005AAFF4 /* Main.storyboard in Resources */,
+				28E58C0C22028F1E006A67EF /* ColorPicker.xib in Resources */,
 				28890DBC21FD47D7004C963A /* ImageDashboard.xib in Resources */,
 				2807A91D216A6A9C003DA8D6 /* ImageMenu.xib in Resources */,
 			);
@@ -863,7 +891,10 @@
 				28890DC521FE14F5004C963A /* ImageButton.swift in Sources */,
 				288F60D920FACD7100B91054 /* AutoCompleterTable.swift in Sources */,
 				287DFB0D217558D7005086A3 /* DisplaySizes.swift in Sources */,
+				28E58C062201681F006A67EF /* ConfirmBackgroundButton.swift in Sources */,
 				2822A03A2021485F0007D9E9 /* ForecastObject.swift in Sources */,
+				28E58C0A22028F15006A67EF /* ColorPicker.swift in Sources */,
+				28E58C0222015C5C006A67EF /* ImageMenuDismissButton.swift in Sources */,
 				289D1950215DA9A6006339D9 /* EnumKeys.swift in Sources */,
 				280C4C2321FFEF1F00430ED3 /* DashboardDelegate+Animations.swift in Sources */,
 				289D194B215DA1AE006339D9 /* AppSettings.swift in Sources */,
@@ -880,6 +911,7 @@
 				289D194E215DA32C006339D9 /* AdHosting.swift in Sources */,
 				28359A4D201C41E3005AAFF4 /* AppDelegate.swift in Sources */,
 				2882D6892020116F00B40082 /* ForecastViewController.swift in Sources */,
+				28E58C0822028DBC006A67EF /* ColorPickerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

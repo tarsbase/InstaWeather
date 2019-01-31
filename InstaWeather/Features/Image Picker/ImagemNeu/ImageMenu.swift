@@ -11,9 +11,11 @@ import UIKit
 class ImageMenu: UIView {
     
     static var imageMenusArray = [ImageMenu]()
+    @IBOutlet weak var verticalStackView: UIStackView!
     
     var hostType = PickerHostType.mainScreen(.clear)
     @IBOutlet weak var blurEffectView: UIVisualEffectView!
+    lazy var colorPicker: ColorPicker = setupColorPicker()
     
     var savedSettings: (image: Bool, blur: Float, brightness: Float) {
         get {
@@ -43,6 +45,7 @@ class ImageMenu: UIView {
     }
     
     lazy var imagePicker = setupImagePicker()
+    var confirmButton: ConfirmBackgroundButton?
     weak var delegate: DashboardDelegate? {
         didSet {
             updateSliders()
@@ -77,8 +80,9 @@ class ImageMenu: UIView {
     @IBAction func resetButton(_ sender: Any) {
         delegate?.present(generalResetAlert(), animated: true, completion: nil)
     }
-    @IBAction func okButton(_ sender: Any) {
-        delegate?.dismissImageMenu()
+    
+    @IBAction func textColorButton(_ sender: Any) {
+        toggleColorPicker(visible: true)
     }
     
     @IBAction func blurChanged(_ sender: UISlider) {
@@ -96,6 +100,35 @@ class ImageMenu: UIView {
         brightnessChanged(brightnessSlider)
     }
     
+    func createWeatherLabel(controller: UIViewController) -> ConfirmBackgroundButton {
+        removeConfirmButton()
+        let confirmButton = ConfirmBackgroundButton.createFor(controller: controller) {
+            [weak self] in
+            self?.delegate?.dismissImageMenu()
+            self?.removeConfirmButton()
+            self?.toggleColorPicker(visible: false)
+        }
+        self.confirmButton = confirmButton
+        return confirmButton
+    }
+    
+    func removeConfirmButton() {
+        confirmButton?.removeFromSuperview()
+        confirmButton = nil
+    }
+    
+    func toggleColorPicker(visible: Bool) {
+        let endAlpha: CGFloat = visible ? 0 : 1
+        UIViewPropertyAnimator(duration: 0.15, curve: .linear) { [weak self] in
+            guard let self = self else { return }
+            for view in self.verticalStackView.arrangedSubviews {
+                if view is UILabel { continue }
+                view.alpha = endAlpha
+            }
+        }.startAnimation()
+        visible ? colorPicker.show() : colorPicker.hide()
+    }
+    
 }
 
 
@@ -104,6 +137,12 @@ extension ImageMenu: ImagePickerHost {
         let imagePicker = ImagePicker()
         imagePicker.imageHost = self
         return imagePicker
+    }
+    
+    func setupColorPicker() -> ColorPicker {
+        return ColorPicker.createByView(self) { [weak self] in
+            self?.toggleColorPicker(visible: false)
+        }
     }
     
     func updateCustomImageSetting() {

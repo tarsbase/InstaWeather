@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ConfirmBackgroundButton" customModule="InstaWeather" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="124" height="45"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="99D-i1-jJj">
+                    <rect key="frame" x="0.0" y="0.0" width="124" height="45"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="3TT-yH-NxC">
+                        <rect key="frame" x="0.0" y="0.0" width="124" height="45"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X1V-hC-7KM">
+                                <rect key="frame" x="0.0" y="0.0" width="124" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="qGh-TK-1VQ"/>
+                                    <constraint firstAttribute="width" constant="124" id="sBh-Jh-EgQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                <state key="normal" title="Confirm">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="X1V-hC-7KM" secondAttribute="bottom" id="6cg-Qa-Ew7"/>
+                            <constraint firstItem="X1V-hC-7KM" firstAttribute="leading" secondItem="3TT-yH-NxC" secondAttribute="leading" id="9F5-1v-gKI"/>
+                            <constraint firstItem="X1V-hC-7KM" firstAttribute="top" secondItem="3TT-yH-NxC" secondAttribute="top" id="hQY-Tq-bbn"/>
+                            <constraint firstAttribute="trailing" secondItem="X1V-hC-7KM" secondAttribute="trailing" id="ybL-9n-3gO"/>
+                        </constraints>
+                    </view>
+                    <blurEffect style="light"/>
+                </visualEffectView>
+            </subviews>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="button" destination="X1V-hC-7KM" id="Lnd-Fs-eYH"/>
+                <outlet property="buttonVisualEffectView" destination="99D-i1-jJj" id="dPS-eP-Vhs"/>
+            </connections>
+            <point key="canvasLocation" x="-68.799999999999997" y="-125.4872563718141"/>
+        </view>
+    </objects>
+</document>

@@ -36,8 +36,10 @@ extension DashboardDelegate where Self: ParallaxViewController {
             self?.imageMenu.center.y = yValue
         }
         anim.addCompletion { [weak self] (_) in
-            if !visible { self?.imageMenu.alpha = 0 }
+            guard let self = self else { return }
+            if !visible { self.imageMenu.alpha = 0 }
         }
+        createImageMenuButtonAndLabel(imageMenu: imageMenu, visible: visible)
         anim.startAnimation()
     }
     
@@ -114,11 +116,19 @@ extension DashboardDelegate where Self: ParallaxViewController {
         
         let xValue = (view.bounds.width / 2) - (width / 2)
         
-        imageMenu.frame = CGRect(x: xValue, y: -287, width: width, height: 267)
+        imageMenu.frame = CGRect(x: xValue, y: -287, width: width, height: 300)
         view.addSubview(imageMenu)
         imageMenu.hostType = host
         imageMenu.delegate = self
         imageMenu.alpha = 0
         return imageMenu
     }
+    
+    func createImageMenuButtonAndLabel(imageMenu: ImageMenu, visible: Bool) {
+        if visible {
+            view.addSubview(imageMenu.createWeatherLabel(controller: self))
+        }
+    }
+    
+    
 }

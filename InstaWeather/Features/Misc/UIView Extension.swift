@@ -124,3 +124,27 @@ public extension UIWindow {
         }
     }
 }
+
+extension UIColor {
+    
+    private func lighterColor(removeSaturation val: CGFloat, removeBrightness brt: CGFloat, resultAlpha alpha: CGFloat = -1) -> UIColor {
+        var h: CGFloat = 0, s: CGFloat = 0
+        var b: CGFloat = 0, a: CGFloat = 0
+        
+        guard getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+            else {return self}
+        
+        return UIColor(hue: h,
+                       saturation: s - val,
+                       brightness: b - brt,
+                       alpha: alpha == -1 ? a : alpha)
+    }
+    
+    func setBrightnessTo(_ value: CGFloat) -> UIColor {
+        if value > 0 {
+            return lighterColor(removeSaturation: value, removeBrightness: 0)
+        } else {
+            return lighterColor(removeSaturation: 0, removeBrightness: -value)
+        }
+    }
+}

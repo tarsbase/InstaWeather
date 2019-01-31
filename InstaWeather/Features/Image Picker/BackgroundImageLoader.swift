@@ -11,11 +11,7 @@ import UIKit
 struct BackgroundImageLoader {
     static let shared = BackgroundImageLoader()
     private init() {}
-    
-    
 }
-
-
 
 enum PickerHostType {
     case mainScreen(ImageWeatherType), detailedForecast(ImageWeatherType), weeklyForecast(ImageWeatherType), changeCity(ImageWeatherType)
