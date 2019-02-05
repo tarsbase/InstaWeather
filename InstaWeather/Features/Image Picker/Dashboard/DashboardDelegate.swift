@@ -58,7 +58,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
         guard let dashboard = UINib(nibName: "ImageDashboard", bundle: nil)
             .instantiate(withOwner: self, options: nil)[0] as? ImageDashboard else { fatalError() }
         
-        dashboard.updateFrame(dashboardCenterFrame)
+        dashboard.frame = dashboardCenterFrame
         dashboard.hostType = host
         dashboard.initialSetup()
         dashboard.previewBackground = { [weak self] button in self?.previewBackground(by: button) }

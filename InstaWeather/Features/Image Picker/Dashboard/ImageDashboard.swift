@@ -27,17 +27,6 @@ class ImageDashboard: UIView {
     @IBOutlet weak var label5: UILabel!
     var overlay: UIView?
     
-    // we hide frame setter, and replace with custom implementation to prevent pageviewcontroller
-    // from messing with the frame via layoutsubviews / safe area did change
-    override var frame: CGRect {
-        get { return super.frame }
-        set { }
-    }
-    
-    func updateFrame(_ frame: CGRect) {
-        super.frame = frame
-    }
-    
     var images: [DashboardButton] { return [imageCenter, image1, image2, image3, image4, image5] }
     var labels: [UILabel] { return [labelCenter, label1, label2, label3, label4, label5]}
     
@@ -58,21 +47,18 @@ class ImageDashboard: UIView {
         blurEffectView.dismissSelf = { [weak self] in self?.dismissSelf?() }
         setupMaskingPolygon()
         setupLabels()
+        setupShadows()
     }
     
     private func setupMaskingPolygon() {
-        let clippingImage = UIImage(named: "dashboardPolygon")
-        let cgImage = clippingImage?.cgImage
-        let maskingLayer = CAShapeLayer()
-        maskingLayer.contents = cgImage
-        maskingLayer.frame = self.layer.bounds
+        let maskingLayer = createMaskingPolygon()
         blurEffectView.layer.mask = maskingLayer
         storyboardBackground.isHidden = true
-        
         self.maskingLayer = maskingLayer
     }
     
     func setupLabels() {
+        labels.forEach { $0.isHidden = true }
         addShadow(opacity: 0.4, labels)
     }
     
@@ -80,6 +66,24 @@ class ImageDashboard: UIView {
         self.overlay?.removeFromSuperview()
         self.overlay = nil
         self.overlay = overlay
+    }
+    
+    func setupShadows() {
+        let maskingLayer = createMaskingPolygon()
+        layer.shadowPath = maskingLayer.path
+        layer.shadowRadius = 35
+        layer.shadowOffset = .zero
+        layer.shadowOpacity = 0.4
+        
+    }
+    
+    func createMaskingPolygon() -> CAShapeLayer {
+        let clippingImage = UIImage(named: "dashboardPolygon")
+        let cgImage = clippingImage?.cgImage
+        let maskingLayer = CAShapeLayer()
+        maskingLayer.contents = cgImage
+        maskingLayer.frame = self.layer.bounds
+        return maskingLayer
     }
     
     func fadeOut() {
@@ -112,9 +116,7 @@ class ImageDashboard: UIView {
     }
     
     func showTextLabels(show: Bool) {
-        UIViewPropertyAnimator(duration: 0.1, curve: .linear) { [weak self] in
-            self?.labels.forEach { $0.alpha = show ? 1 : 0 }
-        }.startAnimation()
+        labels.forEach { $0.isHidden = !show }
     }
     
     override func layoutSubviews() {

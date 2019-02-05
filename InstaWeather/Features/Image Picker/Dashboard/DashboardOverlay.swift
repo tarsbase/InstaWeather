@@ -14,7 +14,6 @@ class DashboardOverlay: UIView {
         let overlay = DashboardOverlay()
         overlay.frame.size = CGSize(width: 5000, height: 5000)
         overlay.center = vc.view.center
-        overlay.backgroundColor = UIColor.init(white: 0, alpha: 0.12)
         overlay.alpha = 0
         overlay.dismissHandler = dismiss
         overlay.isUserInteractionEnabled = true

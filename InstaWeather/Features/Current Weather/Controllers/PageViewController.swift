@@ -115,6 +115,12 @@ extension PageViewController: StatusBarUpdater {
     }
     
     func pageViewDataSourceIsActive(_ active: Bool) {
-        self.dataSource = active ? self : nil 
+        togglePaging(enabled: active)
+    }
+    
+    func togglePaging(enabled: Bool) {
+        for case let view as UIScrollView in self.view.subviews {
+            view.isScrollEnabled = enabled
+        }
     }
 }

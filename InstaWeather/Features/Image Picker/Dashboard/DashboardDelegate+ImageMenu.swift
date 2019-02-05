@@ -27,8 +27,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
     }
     
     func menuIsVisibleChanged(to visible: Bool) {
-        // disable paging while menu is visible
-        //        statusBarUpdater?.pageViewDataSourceIsActive(!visible)
+        
         if visible { self.imageMenu.alpha = 1 }
         let yValue: CGFloat = visible ? 33.5 : -148.5
         

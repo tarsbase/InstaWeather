@@ -453,7 +453,7 @@
 			isa = PBXGroup;
 			children = (
 				280C4C2421FFF8C900430ED3 /* Dashboard */,
-				28E58C0022015C41006A67EF /* ImagemNeu */,
+				28E58C0022015C41006A67EF /* ImageMenu */,
 				28CD21862169D1F700BBFA62 /* ImageFileManager.swift */,
 				28E58BFE22014E09006A67EF /* BackgroundImageLoader.swift */,
 				2807A920216A7077003DA8D6 /* CustomSlider.swift */,
@@ -464,7 +464,7 @@
 			path = "Image Picker";
 			sourceTree = "<group>";
 		};
-		28E58C0022015C41006A67EF /* ImagemNeu */ = {
+		28E58C0022015C41006A67EF /* ImageMenu */ = {
 			isa = PBXGroup;
 			children = (
 				28E58C0122015C5B006A67EF /* ImageMenuDismissButton.swift */,
@@ -475,7 +475,7 @@
 				2807A91E216A6CF3003DA8D6 /* ImageMenu.swift */,
 				2807A91C216A6A9C003DA8D6 /* ImageMenu.xib */,
 			);
-			path = ImagemNeu;
+			path = ImageMenu;
 			sourceTree = "<group>";
 		};
 		28EEB914201C44940090D0D3 /* Misc */ = {
