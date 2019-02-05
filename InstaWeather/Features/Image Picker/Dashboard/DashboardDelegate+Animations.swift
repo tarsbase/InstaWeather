@@ -87,7 +87,8 @@ extension DashboardDelegate where Self: ParallaxViewController {
     
     func previewBackground(by button: DashboardButton) {
         guard let background = button.image?.image else { return }
-        dashboardMenu.dashboardStatus = .preview(button)
+        dashboardMenu.dashboardStatus = .animating
+        
         let imageView = UIImageView(image: background)
         let frame = button.superview?.convert(button.frame, to: self.view) ?? .zero
         
@@ -100,10 +101,16 @@ extension DashboardDelegate where Self: ParallaxViewController {
         
         let duration: TimeInterval = 0.7
         
-        UIViewPropertyAnimator(duration: duration, dampingRatio: 0.9) {
+        let anim = UIViewPropertyAnimator(duration: duration, dampingRatio: 0.9) {
             imageView.frame = self.backgroundImage.frame
             imageView.layer.cornerRadius = 0
-            }.startAnimation()
+            }
+            
+        anim.addCompletion { [weak self] (_) in
+            self?.dashboardMenu.dashboardStatus = .preview(button)
+        }
+        anim.startAnimation()
+        
         
         DispatchQueue.main.asyncAfter(deadline: .now() + duration * 0.6) {
             self.backgroundImage.image = background
@@ -121,7 +128,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
     func restoreBackground() {
         guard case DashboardStatus.preview(let button) = dashboardMenu.dashboardStatus else { return }
         guard let background = button.image?.image else { return }
-        
+        dashboardMenu.dashboardStatus = .animating
         let imageView = UIImageView(image: background)
         imageView.alpha = 0.99 // this prevents strange alpha artifacts / white strips
         let backgroundFrame = self.backgroundImage.frame

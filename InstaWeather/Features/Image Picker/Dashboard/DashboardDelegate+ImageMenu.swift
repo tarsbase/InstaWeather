@@ -36,7 +36,10 @@ extension DashboardDelegate where Self: ParallaxViewController {
         }
         anim.addCompletion { [weak self] (_) in
             guard let self = self else { return }
-            if !visible { self.imageMenu.alpha = 0 }
+            if !visible {
+                self.imageMenu.alpha = 0
+                self.imageMenu.removeConfirmButton()
+            }
         }
         createImageMenuButtonAndLabel(imageMenu: imageMenu, visible: visible)
         anim.startAnimation()
@@ -48,6 +51,8 @@ extension DashboardDelegate where Self: ParallaxViewController {
     }
     
     func hideContainers() {
+        if case DashboardStatus.animating = dashboardMenu.dashboardStatus { return }
+        
         if imageMenuIsVisible {
             dismissImageMenu()
         } else {
@@ -59,6 +64,10 @@ extension DashboardDelegate where Self: ParallaxViewController {
         if let location = touches.first?.location(in: self.view) {
             if !imageMenu.frame.contains(location) && !dashboardMenu.frame.contains(location) {
                 hideContainers()
+            } else if !imageMenu.frame.contains(location) {
+                if case DashboardStatus.preview = dashboardMenu.dashboardStatus {
+                    hideContainers()
+                }
             }
         }
     }
@@ -128,6 +137,4 @@ extension DashboardDelegate where Self: ParallaxViewController {
             view.addSubview(imageMenu.createWeatherLabel(controller: self))
         }
     }
-    
-    
 }
