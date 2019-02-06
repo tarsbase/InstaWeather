@@ -24,7 +24,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
         animateDashboard(dashboard: dashboardMenu, fromButton: changeImageButton, show: false)
     }
     
-    func animateDashboard(dashboard: ImageDashboard, fromButton button: UIButton, show: Bool) {
+    func animateDashboard(dashboard: dashboardImage, fromButton button: UIButton, show: Bool) {
         
         if case DashboardStatus.animating = dashboardMenu.dashboardStatus { return }
         dashboardMenu.dashboardStatus = .animating
@@ -68,7 +68,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
         }
     }
     
-    func applyTransformTo(_ dashboard: ImageDashboard, big: Bool) {
+    func applyTransformTo(_ dashboard: dashboardImage, big: Bool) {
         if big {
             dashboard.transform = .identity
             dashboard.bounds.size = self.dashboardCenterFrame.size
@@ -105,8 +105,8 @@ extension DashboardDelegate where Self: ParallaxViewController {
         let anim = UIViewPropertyAnimator(duration: duration, dampingRatio: 0.9) {
             imageView.frame = self.backgroundImage.frame
             imageView.layer.cornerRadius = 0
-            }
-            
+        }
+        
         anim.addCompletion { [weak self] (_) in
             self?.dashboardMenu.dashboardStatus = .preview(button)
         }
@@ -150,7 +150,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
         let anim = UIViewPropertyAnimator(duration: duration, dampingRatio: 0.9) {
             imageView.frame = buttonFrame
             imageView.layer.cornerRadius = imageView.bounds.height / 2
-            }
+        }
         
         anim.addCompletion { [weak self] (_) in
             self?.dashboardMenu.dashboardStatus = .displayed

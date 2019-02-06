@@ -46,7 +46,7 @@ class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, U
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .changeCity(.clear))
-    lazy var dashboardMenu: ImageDashboard = createDashboardFor(host: .changeCity(.clear))
+    lazy var dashboardMenu: dashboardImage = createDashboardFor(host: .changeCity(.clear))
     var imageMenuIsVisible = false {
         didSet { toggleImageMenu(visible: imageMenuIsVisible) }
     }

@@ -17,7 +17,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="L81-IM-slW">
-                    <rect key="frame" x="91" y="94" width="216" height="31"/>
+                    <rect key="frame" x="91" y="88" width="206" height="31"/>
                     <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                     <connections>
                         <action selector="brightnessChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="mam-dh-f74"/>
@@ -28,14 +28,11 @@
                     <color key="backgroundColor" red="1" green="0.0093617555430000002" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="f5D-fD-5fX" secondAttribute="height" multiplier="1:1" id="4e8-sL-dtA"/>
+                        <constraint firstAttribute="height" constant="53" id="ya5-Wg-cAs"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Isi-0m-nYd">
-                    <rect key="frame" x="16" y="83" width="52" height="52"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="52" id="I0y-yW-rqK"/>
-                        <constraint firstAttribute="width" constant="52" id="yMX-go-ge9"/>
-                    </constraints>
+                    <rect key="frame" x="15" y="87" width="53" height="32"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <state key="normal" title="Back">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -45,23 +42,23 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xo1-6R-BII" customClass="ColorPickerView" customModule="InstaWeather" customModuleProvider="target">
-                    <rect key="frame" x="93" y="15" width="212" height="53"/>
+                    <rect key="frame" x="93" y="15" width="202" height="53"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
             </subviews>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Isi-0m-nYd" secondAttribute="bottom" constant="15" id="1ZJ-nx-YkQ"/>
-                <constraint firstItem="L81-IM-slW" firstAttribute="leading" secondItem="Isi-0m-nYd" secondAttribute="trailing" constant="25" id="3yZ-Da-IFD"/>
                 <constraint firstItem="xo1-6R-BII" firstAttribute="height" secondItem="f5D-fD-5fX" secondAttribute="height" id="9Nl-Fd-HzV"/>
+                <constraint firstItem="L81-IM-slW" firstAttribute="width" secondItem="xo1-6R-BII" secondAttribute="width" id="Gpk-rN-7fS"/>
                 <constraint firstItem="xo1-6R-BII" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="15" id="H8v-JI-4Hu"/>
+                <constraint firstItem="Isi-0m-nYd" firstAttribute="centerY" secondItem="L81-IM-slW" secondAttribute="centerY" id="PqI-hn-lEz"/>
                 <constraint firstItem="f5D-fD-5fX" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="RLp-Qq-jix"/>
                 <constraint firstItem="f5D-fD-5fX" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="15" id="RsS-We-Wg8"/>
-                <constraint firstItem="Isi-0m-nYd" firstAttribute="top" secondItem="f5D-fD-5fX" secondAttribute="bottom" constant="15" id="fxa-HU-P6U"/>
-                <constraint firstItem="L81-IM-slW" firstAttribute="centerX" secondItem="xo1-6R-BII" secondAttribute="centerX" id="h3M-qd-B2y"/>
-                <constraint firstItem="L81-IM-slW" firstAttribute="centerY" secondItem="Isi-0m-nYd" secondAttribute="centerY" id="jBH-j5-Rxw"/>
+                <constraint firstItem="Isi-0m-nYd" firstAttribute="width" secondItem="f5D-fD-5fX" secondAttribute="width" id="TpK-xa-dwh"/>
+                <constraint firstItem="L81-IM-slW" firstAttribute="centerX" secondItem="xo1-6R-BII" secondAttribute="centerX" id="XUg-hH-Ar5"/>
+                <constraint firstItem="Isi-0m-nYd" firstAttribute="centerX" secondItem="f5D-fD-5fX" secondAttribute="centerX" id="rRm-Rs-70f"/>
                 <constraint firstItem="xo1-6R-BII" firstAttribute="leading" secondItem="f5D-fD-5fX" secondAttribute="trailing" constant="25" id="tqK-4Q-msY"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="L81-IM-slW" secondAttribute="trailing" constant="15" id="uVd-6G-GP0"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="xo1-6R-BII" secondAttribute="trailing" constant="15" id="y2y-oE-Wwb"/>
+                <constraint firstItem="L81-IM-slW" firstAttribute="top" secondItem="xo1-6R-BII" secondAttribute="bottom" constant="20" id="wbw-cn-3bM"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="xo1-6R-BII" secondAttribute="trailing" constant="25" id="y2y-oE-Wwb"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>

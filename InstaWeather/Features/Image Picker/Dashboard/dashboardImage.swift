@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ImageDashboard: UIView {
+class dashboardImage: UIView {
 
     @IBOutlet weak var blurEffectView: DashboardBlurEffect!
     @IBOutlet weak var storyboardBackground: UIImageView!
@@ -47,7 +47,7 @@ class ImageDashboard: UIView {
         blurEffectView.dismissSelf = { [weak self] in self?.dismissSelf?() }
         setupMaskingPolygon()
         setupLabels()
-        setupShadows()
+        setupShadow()
     }
     
     private func setupMaskingPolygon() {
@@ -68,12 +68,12 @@ class ImageDashboard: UIView {
         self.overlay = overlay
     }
     
-    func setupShadows() {
+    func setupShadow() {
         let maskingLayer = createMaskingPolygon()
         layer.shadowPath = maskingLayer.path
-        layer.shadowRadius = 35
+        layer.shadowRadius = 25
         layer.shadowOffset = .zero
-        layer.shadowOpacity = 0.4
+        layer.shadowOpacity = 0.3
         
     }
     

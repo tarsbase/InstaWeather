@@ -18,10 +18,10 @@ enum PickerHostType {
     
     var description: String {
         switch self {
-        case .mainScreen(let weather): return "Mainscreen,\(weather.rawValue)"
-        case .detailedForecast(let weather): return "Detailed,\(weather.rawValue)"
-        case .weeklyForecast(let weather): return "Weekly,\(weather.rawValue)"
-        case .changeCity(let weather): return "ChangeCity,\(weather.rawValue)"
+        case .mainScreen(let weather): return "Mainscreen_\(weather.rawValue)"
+        case .detailedForecast(let weather): return "Detailed_\(weather.rawValue)"
+        case .weeklyForecast(let weather): return "Weekly_\(weather.rawValue)"
+        case .changeCity(let weather): return "ChangeCity_\(weather.rawValue)"
         }
     }
     

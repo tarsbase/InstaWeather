@@ -9,8 +9,6 @@
 import UIKit
 
 struct ImageFileManager {
-    
-    // TODO add migration and conversion from raw value to description
 
     static func getBackgroundImage(for host: PickerHostType) -> UIImage? {
         // first perform migration

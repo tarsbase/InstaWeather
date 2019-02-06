@@ -23,8 +23,6 @@ extension ImagePickerHost {
 class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     weak var imageHost: ImagePickerHost?
-    lazy var cameraPicker = setupYPImagePicker(camera: true)
-    lazy var albumPicker = setupYPImagePicker(camera: false)
     
     func setupYPImagePicker(camera: Bool) -> YPImagePicker {
         var config = YPImagePickerConfiguration()
@@ -35,7 +33,7 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
 //        config.usesFrontCamera = true
         config.showsFilters = true
         config.shouldSaveNewPicturesToAlbum = true
-        config.albumName = "MyGreatAppName"
+        config.albumName = "InstaWeather"
         config.screens = [.library, .photo]
         config.startOnScreen = camera ? .photo : .library
         config.wordings.libraryTitle = "Gallery"
@@ -50,25 +48,18 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
     }
     
     func selectPictureFromCamera(for host: PickerHostType) {
-        selectPicture(for: host, using: cameraPicker)
-//        imageHost?.delegate?.dismissImageMenu()
+        let picker = setupYPImagePicker(camera: true)
+        selectPicture(for: host, using: picker)
     }
     
     func selectPictureFromAlbum(for host: PickerHostType) {
-        selectPicture(for: host, using: albumPicker)
-//        imageHost?.delegate?.dismissImageMenu()
+        let picker = setupYPImagePicker(camera: false)
+        selectPicture(for: host, using: picker)
     }
     
     func selectPicture(for host: PickerHostType, using picker: YPImagePicker) {
-        
         picker.didFinishPicking { [unowned picker] items, cancelled in
             if let photo = items.singlePhoto {
-                print(photo.fromCamera) // Image source (camera or library)
-                print(photo.image) // Final image selected by the user
-                print(photo.originalImage) // original image selected by the user, unfiltered
-                print(photo.modifiedImage) // Transformed image, can be nil
-                print(photo.exifMeta) // Print exif meta data of original image.
-                
                 ImageFileManager.setBackground(image: photo.image, for: host)
                 self.imageHost?.updateCustomImageSetting()
                 if let savedImage = ImageFileManager.getBackgroundImage(for: host) {
@@ -78,7 +69,7 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
             if cancelled {
                 print("Picker was cancelled")
             }
-            picker.dismiss(animated: true, completion: nil)
+            picker.dismiss(animated: true)
         }
         
         imageHost?.delegate?.present(picker, animated: true, completion: nil)

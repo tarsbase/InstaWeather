@@ -15,7 +15,7 @@ protocol DashboardDelegate: class {
     var backgroundBrightness: UIView { get set }
     var blurAnimator: UIViewPropertyAnimator { get set }
     var imageMenu: ImageMenu { get set }
-    var dashboardMenu: ImageDashboard { get set }
+    var dashboardMenu: dashboardImage { get set }
     var imageMenuIsVisible: Bool { get set }
     var changeImageButton: CustomImageButton! { get }
     var statusBarUpdater: StatusBarUpdater? { get set }
@@ -54,9 +54,9 @@ extension DashboardDelegate where Self: ParallaxViewController {
         return CGRect(x: xValue, y: yValue, width: width, height: height)
     }
     
-    func createDashboardFor(host: PickerHostType) -> ImageDashboard {
+    func createDashboardFor(host: PickerHostType) -> dashboardImage {
         guard let dashboard = UINib(nibName: "ImageDashboard", bundle: nil)
-            .instantiate(withOwner: self, options: nil)[0] as? ImageDashboard else { fatalError() }
+            .instantiate(withOwner: self, options: nil)[0] as? dashboardImage else { fatalError() }
         
         dashboard.frame = dashboardCenterFrame
         dashboard.hostType = host
@@ -69,7 +69,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
         return dashboard
     }
     
-    func createOverlayFor(dashboard: ImageDashboard) {
+    func createOverlayFor(dashboard: dashboardImage) {
         guard dashboard.overlay == nil else { return }
         let overlay = Overlay.setupOverlayBy(vc: self) { [weak self] in
             self?.hideContainers()

@@ -35,6 +35,9 @@
 		284574F7216B075E00996AC4 /* CustomImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284574F6216B075E00996AC4 /* CustomImageButton.swift */; };
 		28481F16201E8FA3004A89B6 /* ContainmentExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28481F15201E8FA3004A89B6 /* ContainmentExtension.swift */; };
 		28481F18201E9199004A89B6 /* RecentPicksTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28481F17201E9199004A89B6 /* RecentPicksTable.swift */; };
+		284AE557220A91AF004A19DE /* BackgroundImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58BFE22014E09006A67EF /* BackgroundImageLoader.swift */; };
+		284AE558220A91B0004A19DE /* BackgroundImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58BFE22014E09006A67EF /* BackgroundImageLoader.swift */; };
+		284AE559220A91B0004A19DE /* BackgroundImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58BFE22014E09006A67EF /* BackgroundImageLoader.swift */; };
 		285D412E20A133370040F6BE /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285D412D20A133370040F6BE /* NotificationCenter.framework */; };
 		285D413120A133370040F6BE /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D413020A133370040F6BE /* TodayViewController.swift */; };
 		285D413420A133370040F6BE /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 285D413220A133370040F6BE /* MainInterface.storyboard */; };
@@ -48,7 +51,7 @@
 		287DFB112175597D005086A3 /* YPImagePicker+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287DFB0F2175597D005086A3 /* YPImagePicker+Extension.swift */; };
 		2882D6892020116F00B40082 /* ForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2882D6882020116F00B40082 /* ForecastViewController.swift */; };
 		2885EE5F2023F62500CD4CC4 /* DetailedForecastTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2885EE5E2023F62500CD4CC4 /* DetailedForecastTable.swift */; };
-		28890DBA21FD47CB004C963A /* ImageDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28890DB921FD47CB004C963A /* ImageDashboard.swift */; };
+		28890DBA21FD47CB004C963A /* dashboardImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28890DB921FD47CB004C963A /* dashboardImage.swift */; };
 		28890DBC21FD47D7004C963A /* ImageDashboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28890DBB21FD47D7004C963A /* ImageDashboard.xib */; };
 		28890DC021FD5EF7004C963A /* UIView Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28890DBF21FD5EF7004C963A /* UIView Extension.swift */; };
 		28890DC521FE14F5004C963A /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28890DC421FE14F5004C963A /* ImageButton.swift */; };
@@ -169,7 +172,7 @@
 		287DFB0F2175597D005086A3 /* YPImagePicker+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YPImagePicker+Extension.swift"; sourceTree = "<group>"; };
 		2882D6882020116F00B40082 /* ForecastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewController.swift; sourceTree = "<group>"; };
 		2885EE5E2023F62500CD4CC4 /* DetailedForecastTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedForecastTable.swift; sourceTree = "<group>"; };
-		28890DB921FD47CB004C963A /* ImageDashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDashboard.swift; sourceTree = "<group>"; };
+		28890DB921FD47CB004C963A /* dashboardImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dashboardImage.swift; sourceTree = "<group>"; };
 		28890DBB21FD47D7004C963A /* ImageDashboard.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageDashboard.xib; sourceTree = "<group>"; };
 		28890DBF21FD5EF7004C963A /* UIView Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView Extension.swift"; sourceTree = "<group>"; };
 		28890DC421FE14F5004C963A /* ImageButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
@@ -330,7 +333,7 @@
 		280C4C2421FFF8C900430ED3 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
-				28890DB921FD47CB004C963A /* ImageDashboard.swift */,
+				28890DB921FD47CB004C963A /* dashboardImage.swift */,
 				28890DBB21FD47D7004C963A /* ImageDashboard.xib */,
 				2807A922216AED4A003DA8D6 /* DashboardDelegate.swift */,
 				280C4C2021FFEEC700430ED3 /* DashboardDelegate+ImageMenu.swift */,
@@ -904,7 +907,7 @@
 				28E58BFF22014E09006A67EF /* BackgroundImageLoader.swift in Sources */,
 				280C4C1F21FED29B00430ED3 /* Overlay.swift in Sources */,
 				287DFB102175597D005086A3 /* YPImagePicker+Extension.swift in Sources */,
-				28890DBA21FD47CB004C963A /* ImageDashboard.swift in Sources */,
+				28890DBA21FD47CB004C963A /* dashboardImage.swift in Sources */,
 				28890DC021FD5EF7004C963A /* UIView Extension.swift in Sources */,
 				2807A923216AED4A003DA8D6 /* DashboardDelegate.swift in Sources */,
 				2807A921216A7077003DA8D6 /* CustomSlider.swift in Sources */,
@@ -919,6 +922,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				284AE557220A91AF004A19DE /* BackgroundImageLoader.swift in Sources */,
 				2807A92D216AF156003DA8D6 /* ForecastObject.swift in Sources */,
 				2807A92B216AF154003DA8D6 /* WeatherDataModel.swift in Sources */,
 				28359A62201C41E3005AAFF4 /* InstaWeatherTests.swift in Sources */,
@@ -929,6 +933,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				284AE558220A91B0004A19DE /* BackgroundImageLoader.swift in Sources */,
 				2807A92E216AF157003DA8D6 /* ForecastObject.swift in Sources */,
 				2807A92C216AF154003DA8D6 /* WeatherDataModel.swift in Sources */,
 				28359A6D201C41E3005AAFF4 /* InstaWeatherUITests.swift in Sources */,
@@ -947,6 +952,7 @@
 				28CDAE1F20B1C2EE003CE837 /* ForecastObject.swift in Sources */,
 				284574F5216AF1C900996AC4 /* FahrenheitProtocol.swift in Sources */,
 				2871C19D20B5085900326A4C /* TodayDataModel.swift in Sources */,
+				284AE559220A91B0004A19DE /* BackgroundImageLoader.swift in Sources */,
 				28CDAE1E20B1C2EE003CE837 /* WeatherDataModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
