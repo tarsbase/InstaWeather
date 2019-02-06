@@ -1,5 +1,5 @@
 //
-//  DashboardOverlay.swift
+//  Overlay.swift
 //  InstaWeather
 //
 //  Created by Besher on 2019-01-28.
@@ -8,10 +8,10 @@
 
 import UIKit
 
-class DashboardOverlay: UIView {
+class Overlay: UIView {
     
-    static func setupOverlayBy(vc: UIViewController, dismiss: @escaping (() -> Void)) -> DashboardOverlay {
-        let overlay = DashboardOverlay()
+    static func setupOverlayBy(vc: UIViewController, dismiss: @escaping (() -> Void)) -> Overlay {
+        let overlay = Overlay()
         overlay.frame.size = CGSize(width: 5000, height: 5000)
         overlay.center = vc.view.center
         overlay.alpha = 0

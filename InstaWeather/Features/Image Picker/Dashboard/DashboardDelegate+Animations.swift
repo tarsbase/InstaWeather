@@ -86,6 +86,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
 extension DashboardDelegate where Self: ParallaxViewController {
     
     func previewBackground(by button: DashboardButton) {
+        if case DashboardStatus.animating = dashboardMenu.dashboardStatus { return }
         guard let background = button.image?.image else { return }
         dashboardMenu.dashboardStatus = .animating
         
@@ -146,10 +147,16 @@ extension DashboardDelegate where Self: ParallaxViewController {
         resetBackgroundImage() // to be amended later
         self.imageMenuIsVisible = false
         
-        UIViewPropertyAnimator(duration: duration, dampingRatio: 0.9) {
+        let anim = UIViewPropertyAnimator(duration: duration, dampingRatio: 0.9) {
             imageView.frame = buttonFrame
             imageView.layer.cornerRadius = imageView.bounds.height / 2
-            }.startAnimation()
+            }
+        
+        anim.addCompletion { [weak self] (_) in
+            self?.dashboardMenu.dashboardStatus = .displayed
+        }
+        
+        anim.startAnimation()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + duration * 0.9) {
             let fade = UIViewPropertyAnimator(duration: 0.2, curve: .linear){
@@ -160,6 +167,5 @@ extension DashboardDelegate where Self: ParallaxViewController {
             }
             fade.startAnimation()
         }
-        dashboardMenu.dashboardStatus = .displayed
     }
 }

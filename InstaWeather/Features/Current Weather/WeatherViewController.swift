@@ -49,7 +49,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .mainScreen(.clear))
     lazy var dashboardMenu: ImageDashboard = createDashboardFor(host: .mainScreen(.clear))
     var imageMenuIsVisible = false {
-        didSet { menuIsVisibleChanged(to: imageMenuIsVisible) }
+        didSet { toggleImageMenu(visible: imageMenuIsVisible) }
     }
     weak var statusBarUpdater: StatusBarUpdater?
     override var parallaxImage: UIImageView? {

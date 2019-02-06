@@ -21,7 +21,7 @@ protocol DashboardDelegate: class {
     var statusBarUpdater: StatusBarUpdater? { get set }
     var width: CGFloat { get }
     
-    func menuIsVisibleChanged(to visible: Bool)
+    func toggleImageMenu(visible: Bool)
     
     func updateBackgroundImageTo(_ image: UIImage)
     func resetBackgroundImage()
@@ -71,7 +71,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
     
     func createOverlayFor(dashboard: ImageDashboard) {
         guard dashboard.overlay == nil else { return }
-        let overlay = DashboardOverlay.setupOverlayBy(vc: self) { [weak self] in
+        let overlay = Overlay.setupOverlayBy(vc: self) { [weak self] in
             self?.hideContainers()
         }
         dashboard.attachOverlay(overlay)

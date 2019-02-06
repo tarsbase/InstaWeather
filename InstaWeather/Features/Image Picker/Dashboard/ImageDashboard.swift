@@ -62,7 +62,7 @@ class ImageDashboard: UIView {
         addShadow(opacity: 0.4, labels)
     }
     
-    func attachOverlay(_ overlay: DashboardOverlay) {
+    func attachOverlay(_ overlay: Overlay) {
         self.overlay?.removeFromSuperview()
         self.overlay = nil
         self.overlay = overlay

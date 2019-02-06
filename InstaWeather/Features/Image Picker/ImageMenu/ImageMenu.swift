@@ -14,6 +14,8 @@ class ImageMenu: UIView {
     @IBOutlet weak var verticalStackView: UIStackView!
     
     var hostType = PickerHostType.mainScreen(.clear)
+    var overlay: Overlay?
+    
     @IBOutlet weak var blurEffectView: UIVisualEffectView!
     lazy var colorPicker: ColorPicker = setupColorPicker()
     
@@ -100,7 +102,11 @@ class ImageMenu: UIView {
         brightnessChanged(brightnessSlider)
     }
     
-    func createWeatherLabel(controller: UIViewController) -> ConfirmBackgroundButton {
+    func toggleOverlay(visible: Bool) {
+        self.overlay?.alpha = visible ? 1 : 0
+    }
+    
+    func createButton(controller: UIViewController) -> ConfirmBackgroundButton {
         removeConfirmButton()
         let confirmButton = ConfirmBackgroundButton.createFor(controller: controller) {
             [weak self] in

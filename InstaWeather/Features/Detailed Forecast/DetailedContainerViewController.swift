@@ -21,7 +21,7 @@ class DetailedContainerViewController: ParallaxViewController {
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .detailedForecast(.clear))
     lazy var dashboardMenu: ImageDashboard = createDashboardFor(host: .detailedForecast(.clear))
     var imageMenuIsVisible = false {
-        didSet { menuIsVisibleChanged(to: imageMenuIsVisible)
+        didSet { toggleImageMenu(visible: imageMenuIsVisible)
             gestureView.isHidden = !imageMenuIsVisible
         }
     }

@@ -25,7 +25,7 @@ class ForecastViewController: ParallaxViewController {
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .weeklyForecast(.clear))
     lazy var dashboardMenu: ImageDashboard = createDashboardFor(host: .weeklyForecast(.clear))
     var imageMenuIsVisible = false {
-        didSet { menuIsVisibleChanged(to: imageMenuIsVisible) }
+        didSet { toggleImageMenu(visible: imageMenuIsVisible) }
     }
     weak var statusBarUpdater: StatusBarUpdater?
     

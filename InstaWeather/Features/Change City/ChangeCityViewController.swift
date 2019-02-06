@@ -48,7 +48,7 @@ class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, U
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .changeCity(.clear))
     lazy var dashboardMenu: ImageDashboard = createDashboardFor(host: .changeCity(.clear))
     var imageMenuIsVisible = false {
-        didSet { menuIsVisibleChanged(to: imageMenuIsVisible) }
+        didSet { toggleImageMenu(visible: imageMenuIsVisible) }
     }
     weak var statusBarUpdater: StatusBarUpdater?
     

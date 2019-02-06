@@ -22,13 +22,48 @@ extension DashboardDelegate where Self: ParallaxViewController {
         }
     }
     
+    func createImageMenuFor(host: PickerHostType) -> ImageMenu {
+        guard let imageMenu = UINib(nibName: "ImageMenu", bundle: nil)
+            .instantiate(withOwner: self, options: nil)[0] as? ImageMenu else { fatalError() }
+        let width = min(view.bounds.width,400)
+        
+        if width == 400 {
+            imageMenu.blurEffectView.layer.cornerRadius = 8
+            imageMenu.blurEffectView.clipsToBounds = true
+        }
+        
+        let xValue = (view.bounds.width / 2) - (width / 2)
+        
+        imageMenu.frame = CGRect(x: xValue, y: -287, width: width, height: 300)
+        view.addSubview(imageMenu)
+        imageMenu.hostType = host
+        imageMenu.delegate = self
+        imageMenu.alpha = 0
+        let overlay = Overlay.setupOverlayBy(vc: self) { [weak self] in
+            self?.hideContainers()
+        }
+        imageMenu.overlay = overlay
+        view.insertSubview(overlay, belowSubview: imageMenu)
+        return imageMenu
+    }
+    
+    func createImageMenuConfirmButton(imageMenu: ImageMenu, visible: Bool) {
+        if visible {
+            view.addSubview(imageMenu.createButton(controller: self))
+        }
+    }
+    
     func updateBackgroundImageTo(_ image: UIImage) {
         backgroundImage.image = image
     }
     
-    func menuIsVisibleChanged(to visible: Bool) {
+    func toggleImageMenu(visible: Bool) {
         
-        if visible { self.imageMenu.alpha = 1 }
+        if visible {
+            self.imageMenu.alpha = 1
+            self.imageMenu.toggleOverlay(visible: true)
+        }
+        
         let yValue: CGFloat = visible ? 33.5 : -148.5
         
         let anim = UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.9) { [weak self] in
@@ -39,9 +74,10 @@ extension DashboardDelegate where Self: ParallaxViewController {
             if !visible {
                 self.imageMenu.alpha = 0
                 self.imageMenu.removeConfirmButton()
+                self.imageMenu.toggleOverlay(visible: false)
             }
         }
-        createImageMenuButtonAndLabel(imageMenu: imageMenu, visible: visible)
+        createImageMenuConfirmButton(imageMenu: imageMenu, visible: visible)
         anim.startAnimation()
     }
     
@@ -110,31 +146,5 @@ extension DashboardDelegate where Self: ParallaxViewController {
         }
         animator.pausesOnCompletion = true
         return animator
-    }
-    
-    func createImageMenuFor(host: PickerHostType) -> ImageMenu {
-        guard let imageMenu = UINib(nibName: "ImageMenu", bundle: nil)
-            .instantiate(withOwner: self, options: nil)[0] as? ImageMenu else { fatalError() }
-        let width = min(view.bounds.width,400)
-        
-        if width == 400 {
-            imageMenu.blurEffectView.layer.cornerRadius = 8
-            imageMenu.blurEffectView.clipsToBounds = true
-        }
-        
-        let xValue = (view.bounds.width / 2) - (width / 2)
-        
-        imageMenu.frame = CGRect(x: xValue, y: -287, width: width, height: 300)
-        view.addSubview(imageMenu)
-        imageMenu.hostType = host
-        imageMenu.delegate = self
-        imageMenu.alpha = 0
-        return imageMenu
-    }
-    
-    func createImageMenuButtonAndLabel(imageMenu: ImageMenu, visible: Bool) {
-        if visible {
-            view.addSubview(imageMenu.createWeatherLabel(controller: self))
-        }
     }
 }

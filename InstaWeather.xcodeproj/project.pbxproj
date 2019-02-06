@@ -18,7 +18,7 @@
 		2807A92E216AF157003DA8D6 /* ForecastObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822A0392021485F0007D9E9 /* ForecastObject.swift */; };
 		280A03E92183FDCD00F71B6A /* ParallaxHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280A03E82183FDCD00F71B6A /* ParallaxHost.swift */; };
 		280A03EC21841FD600F71B6A /* ParallaxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280A03EB21841FD600F71B6A /* ParallaxViewController.swift */; };
-		280C4C1F21FED29B00430ED3 /* DashboardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280C4C1E21FED29B00430ED3 /* DashboardOverlay.swift */; };
+		280C4C1F21FED29B00430ED3 /* Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280C4C1E21FED29B00430ED3 /* Overlay.swift */; };
 		280C4C2121FFEEC700430ED3 /* DashboardDelegate+ImageMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280C4C2021FFEEC700430ED3 /* DashboardDelegate+ImageMenu.swift */; };
 		280C4C2321FFEF1F00430ED3 /* DashboardDelegate+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280C4C2221FFEF1F00430ED3 /* DashboardDelegate+Animations.swift */; };
 		2822A03A2021485F0007D9E9 /* ForecastObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822A0392021485F0007D9E9 /* ForecastObject.swift */; };
@@ -132,7 +132,7 @@
 		2807A922216AED4A003DA8D6 /* DashboardDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardDelegate.swift; sourceTree = "<group>"; };
 		280A03E82183FDCD00F71B6A /* ParallaxHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxHost.swift; sourceTree = "<group>"; };
 		280A03EB21841FD600F71B6A /* ParallaxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxViewController.swift; sourceTree = "<group>"; };
-		280C4C1E21FED29B00430ED3 /* DashboardOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardOverlay.swift; sourceTree = "<group>"; };
+		280C4C1E21FED29B00430ED3 /* Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overlay.swift; sourceTree = "<group>"; };
 		280C4C2021FFEEC700430ED3 /* DashboardDelegate+ImageMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DashboardDelegate+ImageMenu.swift"; sourceTree = "<group>"; };
 		280C4C2221FFEF1F00430ED3 /* DashboardDelegate+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DashboardDelegate+Animations.swift"; sourceTree = "<group>"; };
 		28177AE620B7AB8B009079AD /* InstaWeather.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InstaWeather.entitlements; sourceTree = "<group>"; };
@@ -335,7 +335,7 @@
 				2807A922216AED4A003DA8D6 /* DashboardDelegate.swift */,
 				280C4C2021FFEEC700430ED3 /* DashboardDelegate+ImageMenu.swift */,
 				280C4C2221FFEF1F00430ED3 /* DashboardDelegate+Animations.swift */,
-				280C4C1E21FED29B00430ED3 /* DashboardOverlay.swift */,
+				280C4C1E21FED29B00430ED3 /* Overlay.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -902,7 +902,7 @@
 				289D1948215DA14F006339D9 /* PageViewController.swift in Sources */,
 				280A03EC21841FD600F71B6A /* ParallaxViewController.swift in Sources */,
 				28E58BFF22014E09006A67EF /* BackgroundImageLoader.swift in Sources */,
-				280C4C1F21FED29B00430ED3 /* DashboardOverlay.swift in Sources */,
+				280C4C1F21FED29B00430ED3 /* Overlay.swift in Sources */,
 				287DFB102175597D005086A3 /* YPImagePicker+Extension.swift in Sources */,
 				28890DBA21FD47CB004C963A /* ImageDashboard.swift in Sources */,
 				28890DC021FD5EF7004C963A /* UIView Extension.swift in Sources */,
