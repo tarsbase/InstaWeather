@@ -8,27 +8,33 @@
 
 import UIKit
 
-class dashboardImage: UIView {
+class Dashboard: UIView {
 
     @IBOutlet weak var blurEffectView: DashboardBlurEffect!
     @IBOutlet weak var storyboardBackground: UIImageView!
     
     @IBOutlet weak var imageCenter: DashboardButton!
-    @IBOutlet weak var image1: DashboardButton!
-    @IBOutlet weak var image2: DashboardButton!
-    @IBOutlet weak var image3: DashboardButton!
-    @IBOutlet weak var image4: DashboardButton!
-    @IBOutlet weak var image5: DashboardButton!
     @IBOutlet weak var labelCenter: UILabel!
-    @IBOutlet weak var label1: UILabel!
-    @IBOutlet weak var label2: UILabel!
-    @IBOutlet weak var label3: UILabel!
-    @IBOutlet weak var label4: UILabel!
-    @IBOutlet weak var label5: UILabel!
+    
+    @IBOutlet weak var clearImage: DashboardButton!
+    @IBOutlet weak var clearLabel: UILabel!
+    
+    @IBOutlet weak var cloudyImage: DashboardButton!
+    @IBOutlet weak var cloudyLabel: UILabel!
+    
+    @IBOutlet weak var rainyImage: DashboardButton!
+    @IBOutlet weak var rainyLabel: UILabel!
+    
+    @IBOutlet weak var stormyImage: DashboardButton!
+    @IBOutlet weak var stormyLabel: UILabel!
+    
+    @IBOutlet weak var snowyImage: DashboardButton!
+    @IBOutlet weak var snowyLabel: UILabel!
+    
     var overlay: UIView?
     
-    var images: [DashboardButton] { return [imageCenter, image1, image2, image3, image4, image5] }
-    var labels: [UILabel] { return [labelCenter, label1, label2, label3, label4, label5]}
+    var images: [DashboardButton] { return [imageCenter, clearImage, cloudyImage, rainyImage, stormyImage, snowyImage] }
+    var labels: [UILabel] { return [labelCenter, clearLabel, cloudyLabel, rainyLabel, stormyLabel, snowyLabel]}
     
     var hostType: PickerHostType = .mainScreen(.clear)
     var dashboardStatus: DashboardStatus = .hidden
@@ -36,6 +42,8 @@ class dashboardImage: UIView {
     
     var previewBackground: ((DashboardButton) -> Void)?
     var dismissSelf: (() -> Void)?
+    
+    lazy var createButtonsOnce: Void = createButtons()
     
     deinit {
         self.overlay?.removeFromSuperview()
@@ -124,14 +132,37 @@ class dashboardImage: UIView {
             $0.clipToCircle()
         }
         
-        imageCenter.setupImageWith(name: "bglight_rain") { [weak self] in self?.showImageMenu(from: self?.imageCenter) }
-        image1.setupImageWith(name: "bg1fog") { [weak self] in self?.showImageMenu(from: self?.image1) }
-        image2.setupImageWith(name: "bg1clearnight") { [weak self] in self?.showImageMenu(from: self?.image2) }
-        image3.setupImageWith(name: "bg2snow") { [weak self] in self?.showImageMenu(from: self?.image3) }
-        image4.setupImageWith(name: "bg2cleariPhone3") { [weak self] in self?.showImageMenu(from: self?.image4) }
-        image5.setupImageWith(name: "bg2cloudy") { [weak self] in self?.showImageMenu(from: self?.image5) }
+//        _ = createButtonsOnce
+        
+        createButtons()
         
         blurEffectView.layer.masksToBounds = true
+    }
+    
+    func createButtons() {
+        imageCenter.setupImage(with: .setup(weatherType: .all, from: hostType)) { [weak self] in
+            self?.showImageMenu(from: self?.imageCenter)
+        }
+        
+        clearImage.setupImage(with: .setup(weatherType: .clear, from: hostType)) { [weak self] in
+            self?.showImageMenu(from: self?.clearImage)
+        }
+        
+        cloudyImage.setupImage(with: .setup(weatherType: .cloudy, from: hostType)) { [weak self] in
+            self?.showImageMenu(from: self?.cloudyImage)
+        }
+        
+        rainyImage.setupImage(with: .setup(weatherType: .rainy, from: hostType)) { [weak self] in
+            self?.showImageMenu(from: self?.rainyImage)
+        }
+        
+        stormyImage.setupImage(with: .setup(weatherType: .stormy, from: hostType)) { [weak self] in
+            self?.showImageMenu(from: self?.stormyImage)
+        }
+        
+        snowyImage.setupImage(with: .setup(weatherType: .snowy, from: hostType)) { [weak self] in
+            self?.showImageMenu(from: self?.snowyImage)
+        }
     }
     
     func showImageMenu(from button: DashboardButton?) {

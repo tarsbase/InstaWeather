@@ -9,14 +9,29 @@
 import UIKit
 
 struct ImageFileManager {
+    
+    private init() {}
+    
+    static var documentsDirectory: URL = {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }()
 
     static func getBackgroundImage(for host: PickerHostType) -> UIImage? {
-        // first perform migration
+        
+        // first check if image is already loaded in memory
+        if ImageLazyLoader.contains(host) {
+            return ImageLazyLoader.getImage(for: host)
+        }
+        
+        // perform migration if needed
         if let image = getOldBackgroundWithMigration(for: host) { return image }
-        let imageFileName = getDocumentsDirectory().appendingPathComponent("\(host.description).png")
+        let imageFileName = documentsDirectory.appendingPathComponent("\(host.description).png")
         do {
             let data = try Data(contentsOf: imageFileName)
-            return UIImage(data: data)
+            let image = UIImage(data: data)
+            ImageLazyLoader.addImage(image, for: host)
+            return image
         } catch {
             print(error.localizedDescription)
         }
@@ -24,10 +39,11 @@ struct ImageFileManager {
     }
     
     static func setBackground(image: UIImage, for host: PickerHostType) {
-        let imageFileName = getDocumentsDirectory().appendingPathComponent("\(host.description).png")
+        let imageFileName = documentsDirectory.appendingPathComponent("\(host.description).png")
         if let data = (image).pngData() {
             do {
                 try data.write(to: imageFileName)
+                ImageLazyLoader.addImage(image, for: host)
                 print("Wrote new file: \(imageFileName.absoluteString)")
             } catch {
                 print(error.localizedDescription)
@@ -36,7 +52,7 @@ struct ImageFileManager {
     }
     
     private static func getOldBackgroundWithMigration(for host: PickerHostType) -> UIImage? {
-        let url = getDocumentsDirectory().appendingPathComponent("\(host.preMigrationName).png")
+        let url = documentsDirectory.appendingPathComponent("\(host.preMigrationName).png")
         let imageFileName = url
         defer {
             do { try FileManager.default.removeItem(at: url) } catch {
@@ -45,17 +61,13 @@ struct ImageFileManager {
         do {
             let data = try Data(contentsOf: imageFileName)
             let image = UIImage(data: data)
-            setBackground(image: image ?? UIImage(), for: PickerHostType.setupFrom(host: host))
+            setBackground(image: image ?? UIImage(), for: PickerHostType.setupClearFrom(host: host))
+            ImageLazyLoader.addImage(image, for: host)
             return image
         } catch {
             print(error.localizedDescription)
         }
         return nil
-    }
-    
-    private static func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
     }
 }
 

@@ -51,7 +51,7 @@
 		287DFB112175597D005086A3 /* YPImagePicker+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287DFB0F2175597D005086A3 /* YPImagePicker+Extension.swift */; };
 		2882D6892020116F00B40082 /* ForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2882D6882020116F00B40082 /* ForecastViewController.swift */; };
 		2885EE5F2023F62500CD4CC4 /* DetailedForecastTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2885EE5E2023F62500CD4CC4 /* DetailedForecastTable.swift */; };
-		28890DBA21FD47CB004C963A /* dashboardImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28890DB921FD47CB004C963A /* dashboardImage.swift */; };
+		28890DBA21FD47CB004C963A /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28890DB921FD47CB004C963A /* Dashboard.swift */; };
 		28890DBC21FD47D7004C963A /* ImageDashboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28890DBB21FD47D7004C963A /* ImageDashboard.xib */; };
 		28890DC021FD5EF7004C963A /* UIView Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28890DBF21FD5EF7004C963A /* UIView Extension.swift */; };
 		28890DC521FE14F5004C963A /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28890DC421FE14F5004C963A /* ImageButton.swift */; };
@@ -81,6 +81,7 @@
 		28EEB911201C44300090D0D3 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EEB910201C44300090D0D3 /* Secrets.swift */; };
 		28EEB917201C44CD0090D0D3 /* WeatherDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EEB916201C44CD0090D0D3 /* WeatherDataModel.swift */; };
 		28EEB91B201C50EC0090D0D3 /* LocationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EEB91A201C50EC0090D0D3 /* LocationExtension.swift */; };
+		28F63D92220BC981000DF609 /* ImageLazyLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F63D91220BC981000DF609 /* ImageLazyLoader.swift */; };
 		387D8750D216082EA0A1C75D /* Pods_InstaWeatherUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98231A4D7CDBF3C78BCBB14D /* Pods_InstaWeatherUITests.framework */; };
 		5FC369B7141958CDA2A1F92A /* Pods_InstaWeatherToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712CE70B02265FD71C44FFAA /* Pods_InstaWeatherToday.framework */; };
 		6AB74F83067294B275C7EF51 /* Pods_InstaWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42CB567C9021980F2ECCCB48 /* Pods_InstaWeather.framework */; };
@@ -172,7 +173,7 @@
 		287DFB0F2175597D005086A3 /* YPImagePicker+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YPImagePicker+Extension.swift"; sourceTree = "<group>"; };
 		2882D6882020116F00B40082 /* ForecastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewController.swift; sourceTree = "<group>"; };
 		2885EE5E2023F62500CD4CC4 /* DetailedForecastTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedForecastTable.swift; sourceTree = "<group>"; };
-		28890DB921FD47CB004C963A /* dashboardImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dashboardImage.swift; sourceTree = "<group>"; };
+		28890DB921FD47CB004C963A /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		28890DBB21FD47D7004C963A /* ImageDashboard.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageDashboard.xib; sourceTree = "<group>"; };
 		28890DBF21FD5EF7004C963A /* UIView Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView Extension.swift"; sourceTree = "<group>"; };
 		28890DC421FE14F5004C963A /* ImageButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
@@ -198,6 +199,7 @@
 		28EEB910201C44300090D0D3 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		28EEB916201C44CD0090D0D3 /* WeatherDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataModel.swift; sourceTree = "<group>"; };
 		28EEB91A201C50EC0090D0D3 /* LocationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationExtension.swift; sourceTree = "<group>"; };
+		28F63D91220BC981000DF609 /* ImageLazyLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLazyLoader.swift; sourceTree = "<group>"; };
 		42CB567C9021980F2ECCCB48 /* Pods_InstaWeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstaWeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		712CE70B02265FD71C44FFAA /* Pods_InstaWeatherToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstaWeatherToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		98231A4D7CDBF3C78BCBB14D /* Pods_InstaWeatherUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstaWeatherUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -333,7 +335,7 @@
 		280C4C2421FFF8C900430ED3 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
-				28890DB921FD47CB004C963A /* dashboardImage.swift */,
+				28890DB921FD47CB004C963A /* Dashboard.swift */,
 				28890DBB21FD47D7004C963A /* ImageDashboard.xib */,
 				2807A922216AED4A003DA8D6 /* DashboardDelegate.swift */,
 				280C4C2021FFEEC700430ED3 /* DashboardDelegate+ImageMenu.swift */,
@@ -458,6 +460,7 @@
 				280C4C2421FFF8C900430ED3 /* Dashboard */,
 				28E58C0022015C41006A67EF /* ImageMenu */,
 				28CD21862169D1F700BBFA62 /* ImageFileManager.swift */,
+				28F63D91220BC981000DF609 /* ImageLazyLoader.swift */,
 				28E58BFE22014E09006A67EF /* BackgroundImageLoader.swift */,
 				2807A920216A7077003DA8D6 /* CustomSlider.swift */,
 				284574F6216B075E00996AC4 /* CustomImageButton.swift */,
@@ -907,9 +910,10 @@
 				28E58BFF22014E09006A67EF /* BackgroundImageLoader.swift in Sources */,
 				280C4C1F21FED29B00430ED3 /* Overlay.swift in Sources */,
 				287DFB102175597D005086A3 /* YPImagePicker+Extension.swift in Sources */,
-				28890DBA21FD47CB004C963A /* dashboardImage.swift in Sources */,
+				28890DBA21FD47CB004C963A /* Dashboard.swift in Sources */,
 				28890DC021FD5EF7004C963A /* UIView Extension.swift in Sources */,
 				2807A923216AED4A003DA8D6 /* DashboardDelegate.swift in Sources */,
+				28F63D92220BC981000DF609 /* ImageLazyLoader.swift in Sources */,
 				2807A921216A7077003DA8D6 /* CustomSlider.swift in Sources */,
 				289D194E215DA32C006339D9 /* AdHosting.swift in Sources */,
 				28359A4D201C41E3005AAFF4 /* AppDelegate.swift in Sources */,

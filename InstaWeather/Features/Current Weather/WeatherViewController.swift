@@ -47,7 +47,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .mainScreen(.clear))
-    lazy var dashboardMenu: dashboardImage = createDashboardFor(host: .mainScreen(.clear))
+    lazy var dashboardMenu: Dashboard = createDashboardFor(host: .mainScreen(.clear))
     var imageMenuIsVisible = false {
         didSet { toggleImageMenu(visible: imageMenuIsVisible) }
     }

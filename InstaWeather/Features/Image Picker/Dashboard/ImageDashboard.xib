@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -8,7 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="dashboardImage" customModule="InstaWeather" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="Dashboard" customModule="InstaWeather" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -142,18 +146,18 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="blurEffectView" destination="a5d-4G-Icc" id="mUl-i6-BeA"/>
-                <outlet property="image1" destination="8jZ-gO-HN2" id="cqK-En-BGo"/>
-                <outlet property="image2" destination="nCS-yC-V9h" id="Q6W-FB-KWU"/>
-                <outlet property="image3" destination="G12-ap-JOA" id="K0L-et-V30"/>
-                <outlet property="image4" destination="BfS-Mg-JLm" id="lVY-3D-hHP"/>
-                <outlet property="image5" destination="tQ9-cE-8Fh" id="DKO-SY-mhh"/>
+                <outlet property="clearImage" destination="8jZ-gO-HN2" id="cqK-En-BGo"/>
+                <outlet property="clearLabel" destination="0LI-zI-fnu" id="gbC-sz-0vf"/>
+                <outlet property="cloudyImage" destination="nCS-yC-V9h" id="Q6W-FB-KWU"/>
+                <outlet property="cloudyLabel" destination="tcO-ED-tQz" id="Mqs-Im-eZL"/>
                 <outlet property="imageCenter" destination="Jfc-MT-gGA" id="oFi-bJ-8If"/>
-                <outlet property="label1" destination="0LI-zI-fnu" id="gbC-sz-0vf"/>
-                <outlet property="label2" destination="tcO-ED-tQz" id="Mqs-Im-eZL"/>
-                <outlet property="label3" destination="vZE-Tk-cv0" id="znL-3n-pF4"/>
-                <outlet property="label4" destination="3dP-iU-7u7" id="Hp0-HG-2TY"/>
-                <outlet property="label5" destination="Jfr-mZ-08r" id="Eqd-8d-JtG"/>
                 <outlet property="labelCenter" destination="t1j-c7-i2e" id="kaq-hH-chw"/>
+                <outlet property="rainyImage" destination="G12-ap-JOA" id="K0L-et-V30"/>
+                <outlet property="rainyLabel" destination="vZE-Tk-cv0" id="znL-3n-pF4"/>
+                <outlet property="snowyImage" destination="tQ9-cE-8Fh" id="DKO-SY-mhh"/>
+                <outlet property="snowyLabel" destination="Jfr-mZ-08r" id="Eqd-8d-JtG"/>
+                <outlet property="stormyImage" destination="BfS-Mg-JLm" id="lVY-3D-hHP"/>
+                <outlet property="stormyLabel" destination="3dP-iU-7u7" id="Hp0-HG-2TY"/>
                 <outlet property="storyboardBackground" destination="CqY-pp-zrA" id="dbz-jJ-i8C"/>
             </connections>
             <point key="canvasLocation" x="203.19999999999999" y="35.982008995502248"/>

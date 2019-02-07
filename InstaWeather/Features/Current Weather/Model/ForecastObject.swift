@@ -33,7 +33,6 @@ struct ForecastObject {
     }
     
     var time: String {
-        print(date)
         return formatAmPm(date: date)
     }
     

@@ -25,8 +25,17 @@ enum PickerHostType {
         }
     }
     
+    static func setup(weatherType: ImageWeatherType, from host: PickerHostType) -> PickerHostType {
+        switch host {
+        case .mainScreen: return PickerHostType.mainScreen(weatherType)
+        case .detailedForecast: return PickerHostType.detailedForecast(weatherType)
+        case .weeklyForecast: return PickerHostType.weeklyForecast(weatherType)
+        case .changeCity: return PickerHostType.changeCity(weatherType)
+        }
+    }
+    
     // migration code
-    static func setupFrom(host: PickerHostType) -> PickerHostType {
+    static func setupClearFrom(host: PickerHostType) -> PickerHostType {
         switch host {
         case .mainScreen: return PickerHostType.mainScreen(.clear)
         case .detailedForecast: return PickerHostType.detailedForecast(.clear)
@@ -46,5 +55,5 @@ enum PickerHostType {
 }
 
 enum ImageWeatherType: String {
-    case clear, cloudy, rainy, stormy, snowy
+    case all, clear, cloudy, rainy, stormy, snowy
 }

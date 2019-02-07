@@ -126,9 +126,7 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
                 if !forecastDays.contains(newDay) {
                     forecastDays.append(newDay)
                 }
-            } else {
-                print(day.date)
-            }
+            } 
         }
         return forecastDays
     }()

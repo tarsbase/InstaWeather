@@ -21,7 +21,7 @@ class ImageButton: UIControl {
     var buttonActionHandler: (() -> Void)?
     
     var image: UIImageView?
-    var imageName: String?
+    var imageType: PickerHostType?
     
     override func layoutSubviews() {
         addTarget(self, action: #selector(touchDown), for: [.touchDown, .touchDragEnter])
@@ -59,9 +59,11 @@ class ImageButton: UIControl {
         super.touchesEnded(touches, with: event)
     }
     
-    func setupImageWith(name: String, action: @escaping (() -> Void)) {
+    func setupImage(with type: PickerHostType, action: @escaping (() -> Void)) {
+        self.imageType = type
+        
         let image = UIImageView(frame: self.frame)
-        image.image = UIImage(named: name)
+        image.image = getImage(for: type)
         image.contentMode = .scaleAspectFill
         addSubview(image)
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -82,7 +84,6 @@ class ImageButton: UIControl {
         // remove old image first
         self.image?.removeFromSuperview()
         self.image = image
-        self.imageName = name
         
         // add action
         addSelector(action: action)
@@ -101,6 +102,14 @@ class ImageButton: UIControl {
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         let biggerFrame = bounds.insetBy(dx: -15, dy: -15)
         return biggerFrame.contains(point)
+    }
+    
+    func getImage(for type: PickerHostType) -> UIImage {
+        //TODO
+        // taps into image manager
+        let image = ImageFileManager.getBackgroundImage(for: type)
+        let backupImage = UIImage(named: "bg1clear") ?? UIImage()
+        return image ?? backupImage
     }
 }
 
