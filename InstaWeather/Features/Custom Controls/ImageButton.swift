@@ -8,7 +8,7 @@
 
 import UIKit
 
-
+var imgCounter = 0
 
 class ImageButton: UIControl {
     
@@ -20,17 +20,27 @@ class ImageButton: UIControl {
     
     var buttonActionHandler: (() -> Void)?
     
-    var image: UIImageView?
+    
+    var imageView: UIImageView?
     var imageType: PickerHostType?
     
+    lazy var initialSetupOnce: Void = initialSetup()
+    
+    var imageWidthConstraint: NSLayoutConstraint?
+    var imageHeightConstraint: NSLayoutConstraint?
+    
     override func layoutSubviews() {
+        _ = initialSetupOnce
+    }
+    
+    func initialSetup() {
         addTarget(self, action: #selector(touchDown), for: [.touchDown, .touchDragEnter])
         addTarget(self, action: #selector(touchUp), for: [.touchUpInside, .touchDragExit, .touchCancel])
         
         isUserInteractionEnabled = true
         backgroundColor = .clear
-        image?.contentMode = .scaleAspectFit
-        image?.layer.minificationFilter = CALayerContentsFilter.trilinear
+        imageView?.contentMode = .scaleAspectFit
+        imageView?.layer.minificationFilter = CALayerContentsFilter.trilinear
     }
     
     @objc private func touchDown() {
@@ -63,9 +73,11 @@ class ImageButton: UIControl {
         self.imageType = type
         
         let image = UIImageView(frame: self.frame)
-        image.image = getImage(for: type)
+        
+        image.image = getImage()
+        
         image.contentMode = .scaleAspectFill
-        addSubview(image)
+        self.addSubview(image)
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.minificationFilter = .trilinear
         
@@ -74,19 +86,38 @@ class ImageButton: UIControl {
         var aspect = dimensions.width / dimensions.height
         if aspect < 1 { aspect = 1 / aspect }
         
+        let imageWidthConstraint = image.widthAnchor.constraint(equalToConstant: self.bounds.width * aspect)
+        let imageHeightConstraint = image.heightAnchor.constraint(equalToConstant: self.bounds.height * aspect)
+        
         NSLayoutConstraint.activate([
             image.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             image.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            image.widthAnchor.constraint(equalToConstant: self.bounds.width * aspect),
-            image.heightAnchor.constraint(equalToConstant: self.bounds.height * aspect)
+            imageWidthConstraint,
+            imageHeightConstraint
             ])
         
         // remove old image first
-        self.image?.removeFromSuperview()
-        self.image = image
+        self.imageView?.removeFromSuperview()
+        self.imageView = image
+        self.imageWidthConstraint = imageWidthConstraint
+        self.imageHeightConstraint = imageHeightConstraint
         
         // add action
         addSelector(action: action)
+    }
+    
+    func updateImageSize() {
+        guard let imageView = self.imageView else { return }
+        let dimensions = imageView.image?.size ?? .zero
+        // ensures image fills up circle
+        var aspect = dimensions.width / dimensions.height
+        if aspect < 1 { aspect = 1 / aspect }
+        self.imageWidthConstraint?.constant = self.bounds.width * aspect
+        self.imageHeightConstraint?.constant = self.bounds.height * aspect
+    }
+    
+    @objc func buttonAction() {
+        buttonActionHandler?()
     }
     
     func addSelector(action: @escaping (() -> Void)) {
@@ -94,22 +125,24 @@ class ImageButton: UIControl {
         addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
     }
     
-    @objc func buttonAction() {
-        buttonActionHandler?()
+    func getImage() -> UIImage {
+        //TODO
+        // taps into image manager
+        let type = imageType ?? .mainScreen(.clear)
+        let image = ImageManager.getDashboardIconImage(for: type, size: self.bounds.size)
+        return image ?? ImageManager.loadImage(named: "bg1clear")
+    }
+    
+    func getOriginalImage() -> UIImage {
+        let type = imageType ?? .mainScreen(.clear)
+        let image = ImageManager.getBackgroundImage(for: type)
+        return image ?? ImageManager.loadImage(named: "bg1clear")
     }
     
     // makes button easier to activate
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         let biggerFrame = bounds.insetBy(dx: -15, dy: -15)
         return biggerFrame.contains(point)
-    }
-    
-    func getImage(for type: PickerHostType) -> UIImage {
-        //TODO
-        // taps into image manager
-        let image = ImageFileManager.getBackgroundImage(for: type)
-        let backupImage = UIImage(named: "bg1clear") ?? UIImage()
-        return image ?? backupImage
     }
 }
 

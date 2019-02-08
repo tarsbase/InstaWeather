@@ -60,9 +60,9 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
     func selectPicture(for host: PickerHostType, using picker: YPImagePicker) {
         picker.didFinishPicking { [unowned picker] items, cancelled in
             if let photo = items.singlePhoto {
-                ImageFileManager.setBackground(image: photo.image, for: host)
+                ImageManager.setBackground(image: photo.image, for: host)
                 self.imageHost?.updateCustomImageSetting()
-                if let savedImage = ImageFileManager.getBackgroundImage(for: host) {
+                if let savedImage = ImageManager.getBackgroundImage(for: host) {
                     self.imageHost?.updateBackgroundWith(savedImage)
                 }
             }

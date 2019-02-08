@@ -247,7 +247,7 @@ extension ChangeCityViewController: DashboardDelegate {
     }
     
     func resetBackgroundImage() {
-        backgroundImage.image = UIImage(named: "bgselect3")
+        backgroundImage.image = ImageManager.loadImage(named: "bgselect3")
     }
     
     @IBAction func imageChangePressed(_ sender: Any) {

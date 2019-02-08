@@ -51,11 +51,12 @@ class Dashboard: UIView {
     }
     
     func initialSetup() {
-        alpha = 0
+        alpha = 0.01
         blurEffectView.dismissSelf = { [weak self] in self?.dismissSelf?() }
         setupMaskingPolygon()
         setupLabels()
         setupShadow()
+        _ = createButtonsOnce
     }
     
     private func setupMaskingPolygon() {
@@ -86,8 +87,8 @@ class Dashboard: UIView {
     }
     
     func createMaskingPolygon() -> CAShapeLayer {
-        let clippingImage = UIImage(named: "dashboardPolygon")
-        let cgImage = clippingImage?.cgImage
+        let clippingImage = ImageManager.loadImage(named: "dashboardPolygon")
+        let cgImage = clippingImage.cgImage
         let maskingLayer = CAShapeLayer()
         maskingLayer.contents = cgImage
         maskingLayer.frame = self.layer.bounds
@@ -128,14 +129,7 @@ class Dashboard: UIView {
     }
     
     override func layoutSubviews() {
-        images.forEach {
-            $0.clipToCircle()
-        }
-        
-//        _ = createButtonsOnce
-        
-        createButtons()
-        
+        updateButtonsLayout()
         blurEffectView.layer.masksToBounds = true
     }
     
@@ -162,6 +156,13 @@ class Dashboard: UIView {
         
         snowyImage.setupImage(with: .setup(weatherType: .snowy, from: hostType)) { [weak self] in
             self?.showImageMenu(from: self?.snowyImage)
+        }
+    }
+    
+    func updateButtonsLayout() {
+        images.forEach {
+            $0.clipToCircle()
+            $0.updateImageSize()
         }
     }
     

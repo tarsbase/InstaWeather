@@ -87,7 +87,8 @@ extension DashboardDelegate where Self: ParallaxViewController {
     
     func previewBackground(by button: DashboardButton) {
         if case DashboardStatus.animating = dashboardMenu.dashboardStatus { return }
-        guard let background = button.image?.image else { return }
+        
+        let background = button.getOriginalImage()
         
         dashboardMenu.dashboardStatus = .animating
         imageMenu.hostType = button.imageType ?? dashboardMenu.hostType
@@ -130,8 +131,9 @@ extension DashboardDelegate where Self: ParallaxViewController {
     
     func restoreBackground() {
         guard case DashboardStatus.preview(let button) = dashboardMenu.dashboardStatus else { return }
-        guard let background = button.image?.image else { return }
+        let background = button.getOriginalImage()
         dashboardMenu.dashboardStatus = .animating
+        dashboardMenu.updateButtonsLayout()
         let imageView = UIImageView(image: background)
         imageView.alpha = 0.99 // this prevents strange alpha artifacts / white strips
         let backgroundFrame = self.backgroundImage.frame

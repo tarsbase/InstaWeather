@@ -51,6 +51,7 @@ class DetailedContainerViewController: ParallaxViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         dashboardMenu.alpha = 0
+        recreateMenusIfNotVisible()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,7 +68,6 @@ class DetailedContainerViewController: ParallaxViewController {
         view.bringSubviewToFront(changeImageButton)
         view.bringSubviewToFront(imageMenu)
         super.viewWillAppear(animated)
-        recreateMenusIfNotVisible()
     }
     
     // necessary for iPad layout, otherwise it's too small
@@ -96,7 +96,7 @@ extension DetailedContainerViewController: DashboardDelegate {
     }
     
     func resetBackgroundImage() {
-        backgroundImage.image = UIImage(named: "forecast")
+        backgroundImage.image = ImageManager.loadImage(named: "forecast")
     }
     
     @IBAction func imageChangePressed(_ sender: Any) {

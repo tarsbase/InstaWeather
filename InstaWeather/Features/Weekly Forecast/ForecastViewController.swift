@@ -98,7 +98,6 @@ class ForecastViewController: ParallaxViewController {
                 animateRow()
             }
         }
-        recreateMenusIfNotVisible()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -128,6 +127,7 @@ class ForecastViewController: ParallaxViewController {
             animateStack()
         }
         super.viewDidAppear(animated)
+        recreateMenusIfNotVisible()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -176,7 +176,7 @@ class ForecastViewController: ParallaxViewController {
             if stack.tag == tag {
                 for case let imageView as UIImageView in stack.arrangedSubviews {
                     let iconName = model?.updateOpenWeatherIcon(condition: icon, objectTime: 0) ?? ""
-                    imageView.image = UIImage(named: iconName)
+                    imageView.image = ImageManager.loadImage(named: iconName)
                 }
                 for case let label as UILabel in stack.arrangedSubviews {
                     if label.tag == 0 {
@@ -211,7 +211,7 @@ extension ForecastViewController: DashboardDelegate {
     }
     
     func resetBackgroundImage() {
-        backgroundImage.image = UIImage(named: "bgselect1")
+        backgroundImage.image = ImageManager.loadImage(named: "bgselect1")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

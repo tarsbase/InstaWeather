@@ -204,8 +204,8 @@ extension WeatherViewController {
     
     func updateCurrentWeatherLabels() {
         updateLabel(tempLabel, toValue: weatherDataModel.temperature, forType: .mainTemperature)
-        conditionImage.image = UIImage(named: weatherDataModel.weatherIconName)
-        updateBackgroundWithForecastImage(UIImage(named: weatherDataModel.backgroundName))
+        conditionImage.image = ImageManager.loadImage(named: weatherDataModel.weatherIconName)
+        updateBackgroundWithForecastImage(ImageManager.loadImage(named: weatherDataModel.backgroundName))
         cityLabel.text = weatherDataModel.city
         let scale = segmentedControl.selectedSegmentIndex == 0 ? "km/h" : "mph"
         let windSpeed = weatherDataModel.windSpeed
@@ -264,8 +264,8 @@ extension WeatherViewController {
         let windSpeed = weatherDataModel.windSpeed
         let windDirection = weatherDataModel.windDirection
         windLabel.text = "\(windDirection) \(windSpeed) \(scale)"
-        conditionImage.image = UIImage(named: weatherDataModel.weatherIconName)
-        updateBackgroundWithForecastImage(UIImage(named: weatherDataModel.backgroundName))
+        conditionImage.image = ImageManager.loadImage(named: weatherDataModel.weatherIconName)
+        updateBackgroundWithForecastImage(ImageManager.loadImage(named: weatherDataModel.backgroundName))
         tempLabel.text = "\(weatherDataModel.temperature)°"
         minTempLabel.text = "↓\(weatherDataModel.minTemp)"
         maxTempLabel.text = "↑\(weatherDataModel.maxTemp)"

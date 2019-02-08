@@ -14,6 +14,7 @@ struct BackgroundImageLoader {
 }
 
 enum PickerHostType {
+    
     case mainScreen(ImageWeatherType), detailedForecast(ImageWeatherType), weeklyForecast(ImageWeatherType), changeCity(ImageWeatherType)
     
     var description: String {
@@ -52,8 +53,20 @@ enum PickerHostType {
         case .changeCity: return "changeCity"
         }
     }
+    
+    static var allCases: [PickerHostType] {
+        var allCases = [PickerHostType]()
+        for weatherCase in ImageWeatherType.allCases {
+            allCases.append(PickerHostType.mainScreen(weatherCase))
+            allCases.append(PickerHostType.detailedForecast(weatherCase))
+            allCases.append(PickerHostType.weeklyForecast(weatherCase))
+            allCases.append(PickerHostType.changeCity(weatherCase))
+        }
+        
+        return allCases
+    }
 }
 
-enum ImageWeatherType: String {
+enum ImageWeatherType: String, CaseIterable {
     case all, clear, cloudy, rainy, stormy, snowy
 }

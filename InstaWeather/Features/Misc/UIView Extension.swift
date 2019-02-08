@@ -11,6 +11,19 @@ import UIKit
 
 // MARK: - Extend UIImage
 
+extension UIImage {
+    func image(scaledTo size: CGSize) -> UIImage? {
+        defer {
+            UIGraphicsEndImageContext()
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(size, true, 0)
+        draw(in: CGRect(origin: .zero, size: size))
+        
+        return UIGraphicsGetImageFromCurrentImageContext()
+    }
+}
+
 extension UIView {
     
     func imageRepresentation() -> UIImage? {
@@ -99,11 +112,11 @@ extension Double {
     }
 }
 
-public extension UIViewController {
-    static var visibleViewController: UIViewController? {
-        return UIApplication.shared.keyWindow?.visibleViewController
-    }
-}
+//public extension UIViewController {
+//    static var visibleViewController: UIViewController? {
+//        return UIApplication.shared.keyWindow?.visibleViewController
+//    }
+//}
 
 public extension UIWindow {
     public var visibleViewController: UIViewController? {

@@ -79,6 +79,8 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
             self.loadLastLocation()
         }
         setupStoryboard()
+        
+        ImageManager.preloadAllImages()
     }
     
     func setupStoryboard() {
