@@ -1,5 +1,5 @@
 //
-//  DashboardDelegate+ImageMenu.swift
+//  ImageMenuDelegate.swift
 //  InstaWeather
 //
 //  Created by Besher on 2019-01-28.
@@ -8,7 +8,32 @@
 
 import UIKit
 
-extension DashboardDelegate where Self: ParallaxViewController {
+protocol ImageMenuDelegate: class {
+    var backgroundImage: UIImageView! { get set }
+    var backgroundContainer: UIView! { get set }
+    var backgroundBlur: UIVisualEffectView { get set }
+    var backgroundBrightness: UIView { get set }
+    var blurAnimator: UIViewPropertyAnimator { get set }
+    var imageMenu: ImageMenu { get set }
+    var imageMenuIsVisible: Bool { get set }
+    var changeImageButton: CustomImageButton! { get }
+    var statusBarUpdater: StatusBarUpdater? { get set }
+    var width: CGFloat { get }
+    
+    func toggleImageMenu(visible: Bool)
+    
+    func updateBackgroundImageTo(_ image: UIImage)
+    func resetBackgroundImage()
+    func dismissImageMenu()
+    func changeBlurValueTo(value: CGFloat)
+    func changeBrightnessValueTo(value: CGFloat)
+    
+    func present(_ viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> Void)?)
+    func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator)
+}
+
+extension ImageMenuDelegate where Self: ParallaxViewController {
     
     var width: CGFloat { return self.view.bounds.width }
     
@@ -62,9 +87,10 @@ extension DashboardDelegate where Self: ParallaxViewController {
         if visible {
             self.imageMenu.alpha = 1
             self.imageMenu.toggleOverlay(visible: true)
+            self.statusBarUpdater?.pageViewDataSourceIsActive(false)
         }
         
-        let yValue: CGFloat = visible ? 33.5 : -148.5
+        let yValue: CGFloat = visible ? 33.5 : -168.5
         
         let anim = UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.9) { [weak self] in
             self?.imageMenu.center.y = yValue
@@ -83,27 +109,19 @@ extension DashboardDelegate where Self: ParallaxViewController {
     
     func dismissImageMenu() {
         imageMenuIsVisible = false
-        restoreBackground()
+        
+        // restore paging
+        statusBarUpdater?.pageViewDataSourceIsActive(true)
     }
     
     func hideContainers() {
-        if case DashboardStatus.animating = dashboardMenu.dashboardStatus { return }
-        
-        if imageMenuIsVisible {
-            dismissImageMenu()
-        } else {
-            hideDashboard()
-        }
+        dismissImageMenu()
     }
     
     func handleTouch(by touches: Set<UITouch>) {
         if let location = touches.first?.location(in: self.view) {
-            if !imageMenu.frame.contains(location) && !dashboardMenu.frame.contains(location) {
+            if !imageMenu.frame.contains(location) {
                 hideContainers()
-            } else if !imageMenu.frame.contains(location) {
-                if case DashboardStatus.preview = dashboardMenu.dashboardStatus {
-                    hideContainers()
-                }
             }
         }
     }
@@ -146,5 +164,21 @@ extension DashboardDelegate where Self: ParallaxViewController {
         }
         animator.pausesOnCompletion = true
         return animator
+    }
+    
+    func recreateMenusIfNotVisible() {
+        guard !imageMenuIsVisible else { return }
+        recreateMenus()
+    }
+    
+    func recreateMenus(){
+        UIView.animate(withDuration: 0.1, animations: { [weak self] in
+            guard let self = self else { return }
+            self.imageMenu.alpha = 0
+            }, completion: {[weak self] finish in
+                guard let self = self else { return }
+                self.imageMenu.removeFromSuperview()
+                self.imageMenu = self.createImageMenuFor(host: self.imageMenu.hostType)
+        })
     }
 }

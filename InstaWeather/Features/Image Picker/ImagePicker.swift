@@ -10,7 +10,7 @@ import UIKit
 import YPImagePicker
 
 protocol ImagePickerHost: class {
-    var delegate: DashboardDelegate? { get set }
+    var delegate: ImageMenuDelegate? { get set }
     func updateCustomImageSetting()
 }
 

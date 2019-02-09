@@ -135,6 +135,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
         dashboardMenu.dashboardStatus = .animating
         dashboardMenu.updateButtonsLayout()
         let imageView = UIImageView(image: background)
+        imageView.layer.minificationFilter = .trilinear
         imageView.alpha = 0.99 // this prevents strange alpha artifacts / white strips
         let backgroundFrame = self.backgroundImage.frame
         let buttonFrame = button.superview?.convert(button.frame, to: view) ?? .zero

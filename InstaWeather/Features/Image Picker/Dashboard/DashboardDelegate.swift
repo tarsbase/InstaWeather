@@ -8,32 +8,40 @@
 
 import UIKit
 
-protocol DashboardDelegate: class {
-    var backgroundImage: UIImageView! { get set }
-    var backgroundContainer: UIView! { get set }
-    var backgroundBlur: UIVisualEffectView { get set }
-    var backgroundBrightness: UIView { get set }
-    var blurAnimator: UIViewPropertyAnimator { get set }
-    var imageMenu: ImageMenu { get set }
+protocol DashboardDelegate: ImageMenuDelegate {
     var dashboardMenu: Dashboard { get set }
-    var imageMenuIsVisible: Bool { get set }
-    var changeImageButton: CustomImageButton! { get }
-    var statusBarUpdater: StatusBarUpdater? { get set }
-    var width: CGFloat { get }
-    
-    func toggleImageMenu(visible: Bool)
-    
-    func updateBackgroundImageTo(_ image: UIImage)
-    func resetBackgroundImage()
-    func dismissImageMenu()
-    func changeBlurValueTo(value: CGFloat)
-    func changeBrightnessValueTo(value: CGFloat)
-    
-    func present(_ viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> Void)?)
-    func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
-    func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator)
 }
 
+// MARK: - override parent protocol
+
+extension DashboardDelegate where Self: ParallaxViewController {
+    func dismissImageMenu() {
+        imageMenuIsVisible = false
+        restoreBackground()
+    }
+    
+    func hideContainers() {
+        if case DashboardStatus.animating = dashboardMenu.dashboardStatus { return }
+        
+        if imageMenuIsVisible {
+            dismissImageMenu()
+        } else {
+            hideDashboard()
+        }
+    }
+    
+    func handleTouch(by touches: Set<UITouch>) {
+        if let location = touches.first?.location(in: self.view) {
+            if !imageMenu.frame.contains(location) && !dashboardMenu.frame.contains(location) {
+                hideContainers()
+            } else if !imageMenu.frame.contains(location) {
+                if case DashboardStatus.preview = dashboardMenu.dashboardStatus {
+                    hideContainers()
+                }
+            }
+        }
+    }
+}
 
 
 // MARK: - create dashboard

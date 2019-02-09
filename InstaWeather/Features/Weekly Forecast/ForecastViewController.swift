@@ -23,7 +23,6 @@ class ForecastViewController: ParallaxViewController {
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .weeklyForecast(.clear))
-    lazy var dashboardMenu: Dashboard = createDashboardFor(host: .weeklyForecast(.clear))
     var imageMenuIsVisible = false {
         didSet { toggleImageMenu(visible: imageMenuIsVisible) }
     }
@@ -200,7 +199,7 @@ class ForecastViewController: ParallaxViewController {
 }
 
 // MARK: - Image manager
-extension ForecastViewController: DashboardDelegate {
+extension ForecastViewController: ImageMenuDelegate {
     
     func loadBackgroundImage() {
         if AppSettings.changecityCustomImage {
@@ -219,6 +218,6 @@ extension ForecastViewController: DashboardDelegate {
     }
     
     @IBAction func changeImage(_ sender: Any) {
-        showDashboard()
+        self.imageMenuIsVisible = true
     }
 }

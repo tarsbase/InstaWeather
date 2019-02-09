@@ -48,7 +48,7 @@ class ImageMenu: UIView {
     
     lazy var imagePicker = setupImagePicker()
     var confirmButton: ConfirmBackgroundButton?
-    weak var delegate: DashboardDelegate? {
+    weak var delegate: ImageMenuDelegate? {
         didSet {
             updateSliders()
         }
@@ -107,7 +107,7 @@ class ImageMenu: UIView {
     }
     
     func createButton(controller: UIViewController) -> ConfirmBackgroundButton {
-        removeConfirmButton()
+        deleteConfirmButton()
         let confirmButton = ConfirmBackgroundButton.createFor(controller: controller) {
             [weak self] in
             self?.delegate?.dismissImageMenu()
@@ -119,6 +119,16 @@ class ImageMenu: UIView {
     }
     
     func removeConfirmButton() {
+        let anim = UIViewPropertyAnimator(duration: 0.2, curve: .linear) { [weak self] in
+            self?.confirmButton?.alpha = 0
+        }
+        anim.addCompletion { [weak self] (_) in
+            self?.deleteConfirmButton()
+        }
+        anim.startAnimation()
+    }
+    
+    func deleteConfirmButton() {
         confirmButton?.removeFromSuperview()
         confirmButton = nil
     }

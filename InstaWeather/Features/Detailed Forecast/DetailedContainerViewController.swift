@@ -19,7 +19,6 @@ class DetailedContainerViewController: ParallaxViewController {
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .detailedForecast(.clear))
-    lazy var dashboardMenu: Dashboard = createDashboardFor(host: .detailedForecast(.clear))
     var imageMenuIsVisible = false {
         didSet { toggleImageMenu(visible: imageMenuIsVisible)
             gestureView.isHidden = !imageMenuIsVisible
@@ -50,7 +49,6 @@ class DetailedContainerViewController: ParallaxViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        dashboardMenu.alpha = 0
         recreateMenusIfNotVisible()
     }
     
@@ -80,12 +78,11 @@ class DetailedContainerViewController: ParallaxViewController {
 //        detailedForecast?.remove()
 //        detailedForecast = nil
         super.viewDidDisappear(animated)
-        dashboardMenu.fadeOut()
     }
 
 }
 
-extension DetailedContainerViewController: DashboardDelegate {
+extension DetailedContainerViewController: ImageMenuDelegate {
     
     func loadBackgroundImage() {
         if AppSettings.changecityCustomImage {
@@ -100,7 +97,7 @@ extension DetailedContainerViewController: DashboardDelegate {
     }
     
     @IBAction func imageChangePressed(_ sender: Any) {
-        showDashboard()
+        imageMenuIsVisible = true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

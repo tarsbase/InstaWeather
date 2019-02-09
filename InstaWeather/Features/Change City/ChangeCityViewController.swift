@@ -46,7 +46,6 @@ class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, U
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .changeCity(.clear))
-    lazy var dashboardMenu: Dashboard = createDashboardFor(host: .changeCity(.clear))
     var imageMenuIsVisible = false {
         didSet { toggleImageMenu(visible: imageMenuIsVisible) }
     }
@@ -235,7 +234,7 @@ class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, U
 }
 
 // MARK: - Image Manager
-extension ChangeCityViewController: DashboardDelegate {
+extension ChangeCityViewController: ImageMenuDelegate {
     
     func loadBackgroundImage() {
         
@@ -251,7 +250,7 @@ extension ChangeCityViewController: DashboardDelegate {
     }
     
     @IBAction func imageChangePressed(_ sender: Any) {
-        showDashboard()
+        imageMenuIsVisible = true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

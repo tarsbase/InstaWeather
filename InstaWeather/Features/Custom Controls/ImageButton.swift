@@ -129,14 +129,17 @@ class ImageButton: UIControl {
         //TODO
         // taps into image manager
         let type = imageType ?? .mainScreen(.clear)
+        let weather = imageType?.weather ?? .clear
+        
         let image = ImageManager.getDashboardIconImage(for: type, size: self.bounds.size)
-        return image ?? ImageManager.loadDashboardDefaultImage(named: "bg1clear")
+        return image ?? ImageManager.loadDashboardDefaultImage(named: weather.defaultBackground)
     }
     
     func getOriginalImage() -> UIImage {
         let type = imageType ?? .mainScreen(.clear)
+        let weather = imageType?.weather ?? .clear
         let image = ImageManager.getBackgroundImage(for: type)
-        return image ?? ImageManager.loadImage(named: "bg1clear")
+        return image ?? ImageManager.loadImage(named: weather.defaultBackground)
     }
     
     // makes button easier to activate

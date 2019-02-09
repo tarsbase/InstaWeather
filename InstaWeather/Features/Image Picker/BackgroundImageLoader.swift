@@ -65,8 +65,32 @@ enum PickerHostType {
         
         return allCases
     }
+    
+    var weather: ImageWeatherType {
+        switch self {
+        case .changeCity(let x), .detailedForecast(let x), .mainScreen(let x), .weeklyForecast(let x):
+            return x
+        }
+    }
 }
 
 enum ImageWeatherType: String, CaseIterable {
     case all, clear, cloudy, rainy, stormy, snowy
+    
+    var defaultBackground: String {
+        switch self {
+        case .all:
+            return "bg3clear"
+        case .clear:
+            return "bg2clear"
+        case .cloudy:
+            return "bg2cloudy"
+        case .rainy:
+            return "bglight_rain"
+        case .stormy:
+            return "bgtstorm"
+        case .snowy:
+            return "bg2snow"
+        }
+    }
 }
