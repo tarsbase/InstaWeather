@@ -130,7 +130,7 @@ class ImageButton: UIControl {
         // taps into image manager
         let type = imageType ?? .mainScreen(.clear)
         let image = ImageManager.getDashboardIconImage(for: type, size: self.bounds.size)
-        return image ?? ImageManager.loadImage(named: "bg1clear")
+        return image ?? ImageManager.loadDashboardDefaultImage(named: "bg1clear")
     }
     
     func getOriginalImage() -> UIImage {

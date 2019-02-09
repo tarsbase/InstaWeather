@@ -36,7 +36,7 @@ struct ImageLazyLoader {
     static func addImage(_ image: UIImage?, for host: PickerHostType) {
         guard let image = image else { return }
         loadedImages[host.description] = image
-        loadedImages["\(host.description)_resized"] = image.image(scaledTo: CGSize(width: 100, height: 100))
+        loadedImages["\(host.description)_resized"] = image.scaledToSafeThumbnailSize
     }
     
     // MARK: - Bundle methods
@@ -45,12 +45,18 @@ struct ImageLazyLoader {
         return loadedImages.keys.contains(name)
     }
     
-    static func getImage(for name: String) -> UIImage {
-        return UIImage(named: name) ?? UIImage()
+    static func getImage(for name: String, scaledDown: Bool = false) -> UIImage {
+        if scaledDown {
+            return loadedImages["\(name)_resized"] ?? UIImage()
+        } else {
+            return loadedImages[name] ?? UIImage()
+        }
     }
     
     static func addImage(_ image: UIImage?, for name: String) {
         guard let image = image else { return }
         loadedImages[name] = image
+        loadedImages["\(name)_resized"] = image.scaledToSafeThumbnailSize
     }
+    // TODO fix scaling so it doesn't warp aspect ratio
 }

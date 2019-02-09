@@ -12,6 +12,17 @@ import UIKit
 // MARK: - Extend UIImage
 
 extension UIImage {
+    
+    var scaledToSafeThumbnailSize: UIImage? {
+        let maxImageSideLength: CGFloat = 120
+        
+        let largerSide: CGFloat = max(size.width, size.height)
+        let ratioScale: CGFloat = largerSide > maxImageSideLength ? largerSide / maxImageSideLength : 1
+        let newImageSize = CGSize(width: size.width / ratioScale, height: size.height / ratioScale)
+        
+        return image(scaledTo: newImageSize)
+    }
+    
     func image(scaledTo size: CGSize) -> UIImage? {
         defer {
             UIGraphicsEndImageContext()

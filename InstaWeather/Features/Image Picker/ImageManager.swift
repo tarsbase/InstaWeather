@@ -51,13 +51,12 @@ struct ImageManager {
     
     static func getDashboardIconImage(for host: PickerHostType, size: CGSize) -> UIImage? {
         
-        
         // first check if image is already loaded in memory
         if ImageLazyLoader.contains(host) {
             return ImageLazyLoader.getImage(for: host, scaledDown: true)
         }
         // perform migration if needed
-        if let image = getOldBackgroundWithMigration(for: host) { return image.image(scaledTo: size) }
+        if let image = getOldBackgroundWithMigration(for: host) { return image.scaledToSafeThumbnailSize }
         let imageFileName = documentsDirectory.appendingPathComponent("\(host.description).png")
         do {
             let data = try Data(contentsOf: imageFileName)
@@ -68,6 +67,16 @@ struct ImageManager {
             print(error.localizedDescription)
         }
         return nil
+    }
+    
+    static func loadDashboardDefaultImage(named name: String) -> UIImage {
+        if ImageLazyLoader.contains(name) {
+            return ImageLazyLoader.getImage(for: name, scaledDown: true)
+        } else {
+            let image = UIImage(named: name)
+            ImageLazyLoader.addImage(image, for: name)
+            return image ?? UIImage()
+        }
     }
     
 //    static func getBackgroundImageAsync(for host: PickerHostType, completion: @escaping ((UIImage?) -> Void)) {
