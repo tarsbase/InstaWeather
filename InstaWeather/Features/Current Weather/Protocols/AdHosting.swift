@@ -21,7 +21,7 @@ extension AdHosting where Self: UIViewController {
         }
         
         // don't show ads if it was shown less than 2 weeks ago
-        if let date = AppSettings.DateForFindMylatteAd {
+        if let date = AppSettings.DateForMyOtherApp {
             let timeSinceLastAd = Date().timeIntervalSince(date)
             print ("\(timeSinceLastAd) seconds since last ad")
             if timeSinceLastAd < twoWeeks {
@@ -30,7 +30,7 @@ extension AdHosting where Self: UIViewController {
         }
         
         // Update the timer
-        AppSettings.DateForFindMylatteAd = Date()
+        AppSettings.DateForMyOtherApp = Date()
         
         let ac = UIAlertController(title: "Draw with Math\n\n\n\n\n\n\n\n", message: "Check out my brand new family game that helps kids practice their math skills", preferredStyle: .alert)
         let appStoreAction = UIAlertAction(title: "Download", style: .default, handler: { [weak self] (action) in

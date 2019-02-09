@@ -16,9 +16,7 @@ class AppSettings: NSObject {
         case ShowedFindMyLatteAd
         case DateForFindMylatteAd
         
-        case mainscreenCustomImage
-        case mainscreenBlurSetting
-        case mainscreenBrightnessSetting
+        case mainscreenBackgrounds
         
         case changecityCustomImage
         case changecityBlurSetting
@@ -70,7 +68,7 @@ class AppSettings: NSObject {
         }
     }
     
-    static var DateForFindMylatteAd: Date? {
+    static var DateForMyOtherApp: Date? {
         get {
             if let object = UserDefaults.standard.object(forKey:
                 SettingKey.DateForFindMylatteAd.rawValue) as? Date {
@@ -89,55 +87,20 @@ class AppSettings: NSObject {
         }
     }
     
-    static var mainscreenCustomImage: Bool! {
+    static var mainscreenBackgrounds: SavedBackgrounds! {
         get {
-            return UserDefaults.standard.bool(forKey: SettingKey.mainscreenCustomImage.rawValue)
+            if let data = UserDefaults.standard.object(forKey: SettingKey.mainscreenBackgrounds.rawValue) as? Data {
+                if let backgrounds = try? JSONDecoder().decode(SavedBackgrounds.self, from: data) {
+                    return backgrounds
+                }
+            }
+            return SavedBackgrounds()
         }
         set {
             let defaults = UserDefaults.standard
-            let key = SettingKey.mainscreenCustomImage.rawValue
-            if let custom = newValue {
-                defaults.set(custom, forKey: key)
-            } else {
-                defaults.removeObject(forKey: key)
-            }
-        }
-    }
-    
-    static var mainscreenBlurSetting: Float! {
-        get {
-            return UserDefaults.standard.float(forKey:
-                SettingKey.mainscreenBlurSetting.rawValue)
-        }
-        set {
-            let defaults = UserDefaults.standard
-            let key = SettingKey.mainscreenBlurSetting.rawValue
-            
-            if let blur = newValue {
-                defaults.set(blur, forKey: key)
-            } else {
-                defaults.removeObject(forKey: key)
-            }
-        }
-    }
-    
-    static var mainscreenBrightnessSetting: Float! {
-        get {
-            if let brightness = UserDefaults.standard.object(forKey:
-                SettingKey.mainscreenBrightnessSetting.rawValue) as? Float {
-                return brightness
-            } else {
-                return 0.8
-            }
-        }
-        set {
-            let defaults = UserDefaults.standard
-            let key = SettingKey.mainscreenBrightnessSetting.rawValue
-            
-            if let brightness = newValue {
-                defaults.set(brightness, forKey: key)
-            } else {
-                defaults.removeObject(forKey: key)
+            let key = SettingKey.mainscreenBackgrounds.rawValue
+            if let backgrounds = newValue, let data = try? JSONEncoder().encode(backgrounds) {
+                defaults.set(data, forKey: key)
             }
         }
     }

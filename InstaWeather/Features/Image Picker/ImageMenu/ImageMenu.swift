@@ -23,7 +23,7 @@ class ImageMenu: UIView {
         get {
             switch hostType {
             case .mainScreen:
-                return (AppSettings.mainscreenCustomImage, AppSettings.mainscreenBlurSetting, AppSettings.mainscreenBrightnessSetting)
+                return AppSettings.mainscreenBackgrounds.clearWeather.allSettings
             case .changeCity:
                 return (AppSettings.changecityCustomImage, AppSettings.changecityBlurSetting, AppSettings.changecityBrightnessSetting)
             case .weeklyForecast:
@@ -35,7 +35,7 @@ class ImageMenu: UIView {
         set {
             switch hostType {
             case .mainScreen:
-                (AppSettings.mainscreenCustomImage, AppSettings.mainscreenBlurSetting, AppSettings.mainscreenBrightnessSetting) = (newValue.image, newValue.blur, newValue.brightness)
+                AppSettings.mainscreenBackgrounds.clearWeather.allSettings = (newValue.image, newValue.blur, newValue.brightness)
             case .changeCity:
                 (AppSettings.changecityCustomImage, AppSettings.changecityBlurSetting, AppSettings.changecityBrightnessSetting) = (newValue.image, newValue.blur, newValue.brightness)
             case .weeklyForecast:
