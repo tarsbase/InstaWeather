@@ -20,6 +20,8 @@ protocol ImageMenuDelegate: AnyObject {
     var statusBarUpdater: StatusBarUpdater? { get set }
     var width: CGFloat { get }
     
+    func toggleShadows(on: Bool)
+    
     func toggleImageMenu(visible: Bool)
     
     func updateBackgroundImageTo(_ image: UIImage)

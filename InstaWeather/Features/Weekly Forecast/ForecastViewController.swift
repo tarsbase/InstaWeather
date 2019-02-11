@@ -202,7 +202,7 @@ class ForecastViewController: ParallaxViewController {
 extension ForecastViewController: ImageMenuDelegate {
     
     func loadBackgroundImage() {
-        if AppSettings.changecityCustomImage {
+        if AppSettings.weeklyForecastBackgrounds.allWeather.customBackground {
             loadCustomImage()
         } else {
             resetBackgroundImage()
@@ -222,6 +222,10 @@ extension ForecastViewController: ImageMenuDelegate {
     }
     
     func pickedNewTextColor(_ color: UIColor) {
+        
+    }
+    
+    func toggleShadows(on: Bool) {
         
     }
 }

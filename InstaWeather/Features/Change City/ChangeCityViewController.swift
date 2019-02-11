@@ -238,7 +238,7 @@ extension ChangeCityViewController: ImageMenuDelegate {
     
     func loadBackgroundImage() {
         
-        if AppSettings.changecityCustomImage {
+        if AppSettings.changecityBackgrounds.allWeather.customBackground {
             loadCustomImage()
         } else {
             resetBackgroundImage()
@@ -269,6 +269,10 @@ extension ChangeCityViewController: ImageMenuDelegate {
     }
     
     func pickedNewTextColor(_ color: UIColor) {
+        
+    }
+    
+    func toggleShadows(on: Bool) {
         
     }
 }

@@ -35,7 +35,7 @@
 		284574F7216B075E00996AC4 /* CustomImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284574F6216B075E00996AC4 /* CustomImageButton.swift */; };
 		28481F16201E8FA3004A89B6 /* ContainmentExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28481F15201E8FA3004A89B6 /* ContainmentExtension.swift */; };
 		28481F18201E9199004A89B6 /* RecentPicksTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28481F17201E9199004A89B6 /* RecentPicksTable.swift */; };
-		284AE559220A91B0004A19DE /* BackgroundImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58BFE22014E09006A67EF /* BackgroundImageLoader.swift */; };
+		284AE559220A91B0004A19DE /* PickerHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58BFE22014E09006A67EF /* PickerHost.swift */; };
 		285D412E20A133370040F6BE /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285D412D20A133370040F6BE /* NotificationCenter.framework */; };
 		285D413120A133370040F6BE /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D413020A133370040F6BE /* TodayViewController.swift */; };
 		285D413420A133370040F6BE /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 285D413220A133370040F6BE /* MainInterface.storyboard */; };
@@ -70,7 +70,7 @@
 		28CDAE1F20B1C2EE003CE837 /* ForecastObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822A0392021485F0007D9E9 /* ForecastObject.swift */; };
 		28CDAE2120B1C2EE003CE837 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EEB910201C44300090D0D3 /* Secrets.swift */; };
 		28D1A0FB220E8DD500B4928C /* SavedBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D1A0FA220E8DD500B4928C /* SavedBackground.swift */; };
-		28E58BFF22014E09006A67EF /* BackgroundImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58BFE22014E09006A67EF /* BackgroundImageLoader.swift */; };
+		28E58BFF22014E09006A67EF /* PickerHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58BFE22014E09006A67EF /* PickerHost.swift */; };
 		28E58C0222015C5C006A67EF /* ImageMenuDismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58C0122015C5B006A67EF /* ImageMenuDismissButton.swift */; };
 		28E58C04220167BA006A67EF /* ConfirmBackgroundButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28E58C03220167BA006A67EF /* ConfirmBackgroundButton.xib */; };
 		28E58C062201681F006A67EF /* ConfirmBackgroundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58C052201681F006A67EF /* ConfirmBackgroundButton.swift */; };
@@ -194,7 +194,7 @@
 		28BFE2C42164447F000F44C3 /* AppLaunch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLaunch.swift; sourceTree = "<group>"; };
 		28CD21862169D1F700BBFA62 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		28D1A0FA220E8DD500B4928C /* SavedBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedBackground.swift; sourceTree = "<group>"; };
-		28E58BFE22014E09006A67EF /* BackgroundImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundImageLoader.swift; sourceTree = "<group>"; };
+		28E58BFE22014E09006A67EF /* PickerHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerHost.swift; sourceTree = "<group>"; };
 		28E58C0122015C5B006A67EF /* ImageMenuDismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMenuDismissButton.swift; sourceTree = "<group>"; };
 		28E58C03220167BA006A67EF /* ConfirmBackgroundButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConfirmBackgroundButton.xib; sourceTree = "<group>"; };
 		28E58C052201681F006A67EF /* ConfirmBackgroundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmBackgroundButton.swift; sourceTree = "<group>"; };
@@ -477,7 +477,7 @@
 		28D1A0F9220E8DAB00B4928C /* ImageManager */ = {
 			isa = PBXGroup;
 			children = (
-				28E58BFE22014E09006A67EF /* BackgroundImageLoader.swift */,
+				28E58BFE22014E09006A67EF /* PickerHost.swift */,
 				28CD21862169D1F700BBFA62 /* ImageManager.swift */,
 				28F63D91220BC981000DF609 /* ImageLazyLoader.swift */,
 			);
@@ -922,7 +922,7 @@
 				2807A92A216AF123003DA8D6 /* FahrenheitProtocol.swift in Sources */,
 				289D1948215DA14F006339D9 /* PageViewController.swift in Sources */,
 				280A03EC21841FD600F71B6A /* ParallaxViewController.swift in Sources */,
-				28E58BFF22014E09006A67EF /* BackgroundImageLoader.swift in Sources */,
+				28E58BFF22014E09006A67EF /* PickerHost.swift in Sources */,
 				280C4C1F21FED29B00430ED3 /* Overlay.swift in Sources */,
 				287DFB102175597D005086A3 /* YPImagePicker+Extension.swift in Sources */,
 				28890DBA21FD47CB004C963A /* Dashboard.swift in Sources */,
@@ -972,7 +972,7 @@
 				28F75B11220D2D02007BD618 /* UIView Extension.swift in Sources */,
 				28F679EF2210C55100383ED6 /* AppSettings.swift in Sources */,
 				2871C19D20B5085900326A4C /* TodayDataModel.swift in Sources */,
-				284AE559220A91B0004A19DE /* BackgroundImageLoader.swift in Sources */,
+				284AE559220A91B0004A19DE /* PickerHost.swift in Sources */,
 				28F5B0F7220D0AFF00C927CE /* ImageManager.swift in Sources */,
 				28F5B0F8220D0B2300C927CE /* ImageLazyLoader.swift in Sources */,
 				28CDAE1E20B1C2EE003CE837 /* WeatherDataModel.swift in Sources */,

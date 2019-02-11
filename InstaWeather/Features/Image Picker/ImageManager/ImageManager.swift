@@ -135,7 +135,7 @@ struct ImageManager {
         do {
             let data = try Data(contentsOf: imageFileName)
             let image = UIImage(data: data)
-            saveBackground(image: image ?? UIImage(), for: PickerHostType.setupClearFrom(host: host))
+            saveBackground(image: image ?? UIImage(), for: PickerHostType.setupAllFrom(host: host))
             ImageLazyLoader.addImage(image, for: host)
             return image
         } catch {

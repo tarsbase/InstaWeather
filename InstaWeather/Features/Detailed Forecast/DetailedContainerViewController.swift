@@ -85,7 +85,7 @@ class DetailedContainerViewController: ParallaxViewController {
 extension DetailedContainerViewController: ImageMenuDelegate {
     
     func loadBackgroundImage() {
-        if AppSettings.changecityCustomImage {
+        if AppSettings.detailedForecastBackgrounds.allWeather.customBackground {
             loadCustomImage()
         } else {
             resetBackgroundImage()
@@ -109,6 +109,10 @@ extension DetailedContainerViewController: ImageMenuDelegate {
     }
     
     func pickedNewTextColor(_ color: UIColor) {
+        
+    }
+    
+    func toggleShadows(on: Bool) {
         
     }
 }

@@ -273,12 +273,11 @@ extension WeatherViewController: DashboardDelegate {
         viewsToColor.forEach { $0.tintColor = color }
         _ = viewsToColor.map { $0 as? UILabel }.compactMap { $0?.textColor = color }
         _ = viewsToColor.map { $0 as? UIButton }.compactMap { $0?.setTitleColor(color, for: .normal) }
-        
-        if color.getBrightness() > 0.95 {
-            addAllShadows()
-        } else {
-            removeAllShadows()
-        }
+    }
+    
+    
+    func toggleShadows(on: Bool) {
+        on ? addAllShadows() : removeAllShadows()
     }
     
     func requestReview() {

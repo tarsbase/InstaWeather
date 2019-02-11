@@ -31,12 +31,12 @@ enum PickerHostType {
     }
     
     // migration code
-    static func setupClearFrom(host: PickerHostType) -> PickerHostType {
+    static func setupAllFrom(host: PickerHostType) -> PickerHostType {
         switch host {
-        case .mainScreen: return PickerHostType.mainScreen(.clear)
-        case .detailedForecast: return PickerHostType.detailedForecast(.clear)
-        case .weeklyForecast: return PickerHostType.weeklyForecast(.clear)
-        case .changeCity: return PickerHostType.changeCity(.clear)
+        case .mainScreen: return PickerHostType.mainScreen(.all)
+        case .detailedForecast: return PickerHostType.detailedForecast(.all)
+        case .weeklyForecast: return PickerHostType.weeklyForecast(.all)
+        case .changeCity: return PickerHostType.changeCity(.all)
         }
     }
     

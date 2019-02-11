@@ -14,9 +14,12 @@ class ColorPicker: UIView {
     @IBOutlet weak var colorPickerContainer: UIView!
     @IBOutlet weak var brightnessSlider: UISlider!
     @IBOutlet weak var okButton: UIButton!
+    @IBOutlet weak var shadowsSwitch: UISwitch!
+    
     var hideHandler: (() -> Void)?
     var colorWasUpdated: ((UIColor) -> Void)?
     var colorPickerView = ColorPickerView()
+    var shadowsToggled: ((Bool) -> Void)?
     
     var brightnessValue: CGFloat {
         let value = CGFloat(brightnessSlider.value)
@@ -72,6 +75,10 @@ class ColorPicker: UIView {
     
     @IBAction func okTapped(_ sender: UIButton) {
         hideHandler?()
+    }
+    
+    @IBAction func shadowSwitchToggled(_ sender: UISwitch) {
+        shadowsToggled?(sender.isOn)
     }
     
     func show() {

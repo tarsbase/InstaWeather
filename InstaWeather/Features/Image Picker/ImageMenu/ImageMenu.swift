@@ -20,29 +20,29 @@ class ImageMenu: UIView {
     @IBOutlet weak var blurEffectView: UIVisualEffectView!
     lazy var colorPicker: ColorPicker = setupColorPicker()
     
-    var savedSettings: (image: Bool, blur: Float, brightness: Float) {
+    var savedSettings: Background {
         get {
             switch hostType {
             case .mainScreen(let weather):
-                return AppSettings.mainscreenBackgrounds.background(for: weather).allSettings
-            case .changeCity:
-                return (AppSettings.changecityCustomImage, AppSettings.changecityBlurSetting, AppSettings.changecityBrightnessSetting)
-            case .weeklyForecast:
-                return (AppSettings.weeklyForecastCustomImage, AppSettings.weeklyForecastBlurSetting, AppSettings.weeklyForecastBrightnessSetting)
-            case .detailedForecast:
-                return (AppSettings.detailedForecastCustomImage, AppSettings.detailedForecastBlurSetting, AppSettings.detailedForecastBrightnessSetting)
+                return AppSettings.mainscreenBackgrounds.background(for: weather)
+            case .changeCity(let weather):
+                return AppSettings.changecityBackgrounds.background(for: weather)
+            case .weeklyForecast(let weather):
+                return AppSettings.weeklyForecastBackgrounds.background(for: weather)
+            case .detailedForecast(let weather):
+                return AppSettings.detailedForecastBackgrounds.background(for: weather)
             }
         }
         set {
             switch hostType {
             case .mainScreen(let weather):
                 AppSettings.mainscreenBackgrounds.setSettings(newValue, for: weather)
-            case .changeCity:
-                (AppSettings.changecityCustomImage, AppSettings.changecityBlurSetting, AppSettings.changecityBrightnessSetting) = (newValue.image, newValue.blur, newValue.brightness)
-            case .weeklyForecast:
-                (AppSettings.weeklyForecastCustomImage, AppSettings.weeklyForecastBlurSetting, AppSettings.weeklyForecastBrightnessSetting) = (newValue.image, newValue.blur, newValue.brightness)
-            case .detailedForecast:
-                (AppSettings.detailedForecastCustomImage, AppSettings.detailedForecastBlurSetting, AppSettings.detailedForecastBrightnessSetting) = (newValue.image, newValue.blur, newValue.brightness)
+            case .changeCity(let weather):
+                AppSettings.changecityBackgrounds.setSettings(newValue, for: weather)
+            case .weeklyForecast(let weather):
+                AppSettings.weeklyForecastBackgrounds.setSettings(newValue, for: weather)
+            case .detailedForecast(let weather):
+                AppSettings.detailedForecastBackgrounds.setSettings(newValue, for: weather)
             }
         }
     }
@@ -66,11 +66,11 @@ class ImageMenu: UIView {
     
     
     @objc func updateBlurSettings() {
-        savedSettings.blur = blurSlider.value
+        savedSettings.blurSetting = blurSlider.value
     }
     
     @objc func updateBrightnessSettings() {
-        savedSettings.brightness = brightnessSlider.value
+        savedSettings.brightnessSetting = brightnessSlider.value
     }
     
     @IBAction func cameraButton(_ sender: Any) {
@@ -97,9 +97,9 @@ class ImageMenu: UIView {
     }
     
     func updateSliders() {
-        blurSlider.value = savedSettings.blur
+        blurSlider.value = savedSettings.blurSetting
         blurChanged(blurSlider)
-        brightnessSlider.value = savedSettings.brightness
+        brightnessSlider.value = savedSettings.brightnessSetting
         brightnessChanged(brightnessSlider)
     }
     
@@ -197,11 +197,15 @@ extension ImageMenu: ImagePickerHost {
         picker.colorWasUpdated = { [weak self] color in
             self?.pickedNewColor(color)
         }
+        
+        picker.shadowsToggled = { [weak self] on in
+           self?.delegate?.toggleShadows(on: on)
+        }
         return picker
     }
     
     func updateCustomImageSetting() {
-        savedSettings.image = true
+        savedSettings.customBackground = true
     }
 }
 
@@ -213,10 +217,10 @@ extension ImageMenu {
         let ac = UIAlertController(title: "Reset Background?", message: "Are you sure you want to reset the background and effects to their default values?", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Yes", style: .default, handler: { [weak self] (action) in
             guard let self = self else { return }
-            self.savedSettings.image = false
+            self.savedSettings.customBackground = false
             self.resetBackgroundImage()
-            self.savedSettings.brightness = 0.8
-            self.savedSettings.blur = 0
+            self.savedSettings.brightnessSetting = 0.8
+            self.savedSettings.blurSetting = 0
             self.updateSliders()
         }))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -230,21 +234,21 @@ extension ImageMenu {
             self.delegate?.present(self.resetBackgroundAndEffectsAlert(), animated: true, completion: nil)
         }))
         
-        if savedSettings.image {
+        if savedSettings.customBackground {
             ac.addAction(UIAlertAction(title: "Reset background", style: .default, handler: { [weak self] (action) in
                 guard let self = self else { return }
-                self.savedSettings.image = false
+                self.savedSettings.customBackground = false
                 self.delegate?.resetBackgroundImage()
             }))
         }
         ac.addAction(UIAlertAction(title: "Reset blur effect", style: .default, handler: { [weak self] (action) in
             guard let self = self else { return }
-            self.savedSettings.blur = 0
+            self.savedSettings.blurSetting = 0
             self.updateSliders()
         }))
         ac.addAction(UIAlertAction(title: "Reset brightness effect", style: .default, handler: { [weak self] (action) in
             guard let self = self else { return }
-            self.savedSettings.brightness = 0.8
+            self.savedSettings.brightnessSetting = 0.8
             self.updateSliders()
         }))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

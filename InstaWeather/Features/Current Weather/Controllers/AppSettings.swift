@@ -16,19 +16,17 @@ class AppSettings: NSObject {
         case ShowedFindMyLatteAd
         case DateForFindMylatteAd
         
+        case mainscreenCustomImage // keep for migration
         case mainscreenBackgrounds
         
+        case changecityBackgrounds
         case changecityCustomImage
-        case changecityBlurSetting
-        case changecityBrightnessSetting
         
+        case weeklyForecastBackgrounds
         case weeklyForecastCustomImage
-        case weeklyForecastBlurSetting
-        case weeklyForecastBrightnessSetting
         
+        case detailedForecastBackgrounds
         case detailedForecastCustomImage
-        case detailedForecastBlurSetting
-        case detailedForecastBrightnessSetting
         
         case hideCameras
     }
@@ -89,7 +87,16 @@ class AppSettings: NSObject {
     
     static var mainscreenBackgrounds: SavedBackgrounds! {
         get {
-            if let data = UserDefaults.standard.object(forKey: SettingKey.mainscreenBackgrounds.rawValue) as? Data {
+            let defaults = UserDefaults.standard
+            let oldKey = SettingKey.mainscreenCustomImage.rawValue
+            let newKey = SettingKey.mainscreenBackgrounds.rawValue
+            
+            // perform migration
+            if let oldData = migrationCheckForKey(oldKey, newKey: newKey) {
+                return oldData
+                
+                // otherwise proceed as normal
+            } else if let data = defaults.object(forKey: newKey) as? Data {
                 if let backgrounds = try? JSONDecoder().decode(SavedBackgrounds.self, from: data) {
                     return backgrounds
                 }
@@ -105,162 +112,102 @@ class AppSettings: NSObject {
         }
     }
     
-    static var changecityCustomImage: Bool! {
+    static var changecityBackgrounds: SavedBackgrounds! {
         get {
-            return UserDefaults.standard.bool(forKey: SettingKey.changecityCustomImage.rawValue)
-        }
-        set {
             let defaults = UserDefaults.standard
-            let key = SettingKey.changecityCustomImage.rawValue
-            if let custom = newValue {
-                defaults.set(custom, forKey: key)
-            } else {
-                defaults.removeObject(forKey: key)
-            }
-        }
-    }
-    
-    static var changecityBlurSetting: Float! {
-        get {
-            return UserDefaults.standard.float(forKey:
-                SettingKey.changecityBlurSetting.rawValue)
-        }
-        set {
-            let defaults = UserDefaults.standard
-            let key = SettingKey.changecityBlurSetting.rawValue
+            let oldKey = SettingKey.changecityCustomImage.rawValue
+            let newKey = SettingKey.changecityBackgrounds.rawValue
             
-            if let blur = newValue {
-                defaults.set(blur, forKey: key)
-            } else {
-                defaults.removeObject(forKey: key)
+            // perform migration
+            if let oldData = migrationCheckForKey(oldKey, newKey: newKey) {
+                return oldData
+                
+                // otherwise proceed as normal
+            } else if let data = defaults.object(forKey: newKey) as? Data {
+                if let backgrounds = try? JSONDecoder().decode(SavedBackgrounds.self, from: data) {
+                    return backgrounds
+                }
+            }
+            return SavedBackgrounds()
+        }
+        set {
+            let defaults = UserDefaults.standard
+            let key = SettingKey.changecityBackgrounds.rawValue
+            if let backgrounds = newValue, let data = try? JSONEncoder().encode(backgrounds) {
+                defaults.set(data, forKey: key)
             }
         }
     }
     
-    static var changecityBrightnessSetting: Float! {
+    static var detailedForecastBackgrounds: SavedBackgrounds! {
         get {
-            if let brightness = UserDefaults.standard.object(forKey:
-                SettingKey.changecityBrightnessSetting.rawValue) as? Float {
-                return brightness
-            } else {
-                return 0.7
-            }
-        }
-        set {
             let defaults = UserDefaults.standard
-            let key = SettingKey.changecityBrightnessSetting.rawValue
+            let oldKey = SettingKey.detailedForecastCustomImage.rawValue
+            let newKey = SettingKey.detailedForecastBackgrounds.rawValue
             
-            if let brightness = newValue {
-                defaults.set(brightness, forKey: key)
-            } else {
-                defaults.removeObject(forKey: key)
+            // perform migration
+            if let oldData = migrationCheckForKey(oldKey, newKey: newKey) {
+                return oldData
+                
+                // otherwise proceed as normal
+            } else if let data = defaults.object(forKey: newKey) as? Data {
+                if let backgrounds = try? JSONDecoder().decode(SavedBackgrounds.self, from: data) {
+                    return backgrounds
+                }
+            }
+            return SavedBackgrounds()
+        }
+        set {
+            let defaults = UserDefaults.standard
+            let key = SettingKey.detailedForecastBackgrounds.rawValue
+            if let backgrounds = newValue, let data = try? JSONEncoder().encode(backgrounds) {
+                defaults.set(data, forKey: key)
             }
         }
     }
     
-    static var detailedForecastCustomImage: Bool! {
+    static var weeklyForecastBackgrounds: SavedBackgrounds! {
         get {
-            return UserDefaults.standard.bool(forKey: SettingKey.detailedForecastCustomImage.rawValue)
-        }
-        set {
             let defaults = UserDefaults.standard
-            let key = SettingKey.detailedForecastCustomImage.rawValue
-            if let custom = newValue {
-                defaults.set(custom, forKey: key)
-            } else {
-                defaults.removeObject(forKey: key)
-            }
-        }
-    }
-    
-    static var detailedForecastBlurSetting: Float! {
-        get {
-            return UserDefaults.standard.float(forKey:
-                SettingKey.detailedForecastBlurSetting.rawValue)
-        }
-        set {
-            let defaults = UserDefaults.standard
-            let key = SettingKey.detailedForecastBlurSetting.rawValue
+            let oldKey = SettingKey.weeklyForecastCustomImage.rawValue
+            let newKey = SettingKey.weeklyForecastBackgrounds.rawValue
             
-            if let blur = newValue {
-                defaults.set(blur, forKey: key)
-            } else {
-                defaults.removeObject(forKey: key)
+            // perform migration
+            if let oldData = migrationCheckForKey(oldKey, newKey: newKey) {
+                return oldData
+                
+                // otherwise proceed as normal
+            } else if let data = defaults.object(forKey: newKey) as? Data {
+                if let backgrounds = try? JSONDecoder().decode(SavedBackgrounds.self, from: data) {
+                    return backgrounds
+                }
+            }
+            return SavedBackgrounds()
+        }
+        set {
+            let defaults = UserDefaults.standard
+            let key = SettingKey.weeklyForecastBackgrounds.rawValue
+            if let backgrounds = newValue, let data = try? JSONEncoder().encode(backgrounds) {
+                defaults.set(data, forKey: key)
             }
         }
     }
     
-    static var detailedForecastBrightnessSetting: Float! {
-        get {
-            if let brightness = UserDefaults.standard.object(forKey:
-                SettingKey.detailedForecastBrightnessSetting.rawValue) as? Float {
-                return brightness
-            } else {
-                return 0.8
-            }
-        }
-        set {
-            let defaults = UserDefaults.standard
-            let key = SettingKey.detailedForecastBrightnessSetting.rawValue
+    static func migrationCheckForKey(_ key: String, newKey: String) -> SavedBackgrounds? {
+        let defaults = UserDefaults.standard
+        if let _ = defaults.object(forKey: key) as? Bool {
+            // perform migration
+            var newBackgrounds = SavedBackgrounds()
+            newBackgrounds.allWeather.customBackground = true
+            defaults.removeObject(forKey: key)
             
-            if let brightness = newValue {
-                defaults.set(brightness, forKey: key)
-            } else {
-                defaults.removeObject(forKey: key)
+            if let data = try? JSONEncoder().encode(newBackgrounds) {
+                defaults.set(data, forKey: newKey)
             }
-        }
-    }
-    
-    static var weeklyForecastCustomImage: Bool! {
-        get {
-            return UserDefaults.standard.bool(forKey: SettingKey.weeklyForecastCustomImage.rawValue)
-        }
-        set {
-            let defaults = UserDefaults.standard
-            let key = SettingKey.weeklyForecastCustomImage.rawValue
-            if let custom = newValue {
-                defaults.set(custom, forKey: key)
-            } else {
-                defaults.removeObject(forKey: key)
-            }
-        }
-    }
-    
-    static var weeklyForecastBlurSetting: Float! {
-        get {
-            return UserDefaults.standard.float(forKey:
-                SettingKey.weeklyForecastBlurSetting.rawValue)
-        }
-        set {
-            let defaults = UserDefaults.standard
-            let key = SettingKey.weeklyForecastBlurSetting.rawValue
             
-            if let blur = newValue {
-                defaults.set(blur, forKey: key)
-            } else {
-                defaults.removeObject(forKey: key)
-            }
-        }
-    }
-    
-    static var weeklyForecastBrightnessSetting: Float! {
-        get {
-            if let brightness = UserDefaults.standard.object(forKey:
-                SettingKey.weeklyForecastBrightnessSetting.rawValue) as? Float {
-                return brightness
-            } else {
-                return 0.8
-            }
-        }
-        set {
-            let defaults = UserDefaults.standard
-            let key = SettingKey.weeklyForecastBrightnessSetting.rawValue
-            
-            if let brightness = newValue {
-                defaults.set(brightness, forKey: key)
-            } else {
-                defaults.removeObject(forKey: key)
-            }
+            return newBackgrounds
+        } else {
+            return nil
         }
     }
     

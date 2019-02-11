@@ -10,8 +10,8 @@ import UIKit
 
 struct SavedBackgrounds: Codable {
     
-    private var allWeather = Background(), clearWeather = Background(), cloudyWeather = Background()
-    private var rainyWeather = Background(), stormyWeather = Background(), snowyWeather = Background()
+    var allWeather = Background(), clearWeather = Background(), cloudyWeather = Background()
+    var rainyWeather = Background(), stormyWeather = Background(), snowyWeather = Background()
     
     var backgrounds: [Background] {
         return [allWeather, clearWeather, cloudyWeather, rainyWeather, stormyWeather, snowyWeather]
@@ -34,14 +34,14 @@ struct SavedBackgrounds: Codable {
         }
     }
     
-    mutating func setSettings(_ newSettings: (image: Bool, blur: Float, brightness: Float), for weather: ImageWeatherType) {
+    mutating func setSettings(_ newSettings: Background, for weather: ImageWeatherType) {
         switch weather {
-        case .all: allWeather.allSettings = newSettings
-        case .clear: clearWeather.allSettings = newSettings
-        case .cloudy: cloudyWeather.allSettings = newSettings
-        case .rainy: rainyWeather.allSettings = newSettings
-        case .stormy: stormyWeather.allSettings = newSettings
-        case .snowy: snowyWeather.allSettings = newSettings
+        case .all: allWeather = newSettings
+        case .clear: clearWeather = newSettings
+        case .cloudy: cloudyWeather = newSettings
+        case .rainy: rainyWeather = newSettings
+        case .stormy: stormyWeather = newSettings
+        case .snowy: snowyWeather = newSettings
         }
     }
 }
@@ -50,8 +50,6 @@ struct Background: Codable {
     var customBackground: Bool = false
     var brightnessSetting: Float = 0.8
     var blurSetting: Float = 0
-    var allSettings: (image: Bool, blur: Float, brightness: Float) {
-        get { return (customBackground, brightnessSetting, blurSetting) }
-        set { (customBackground, brightnessSetting, blurSetting) = newValue }
-    }
+    var enableShadows: Bool = true
+//    var textColor: UIColor = .white
 }
