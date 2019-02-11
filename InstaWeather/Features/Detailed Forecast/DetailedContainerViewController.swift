@@ -107,4 +107,8 @@ extension DetailedContainerViewController: ImageMenuDelegate {
     @objc func dismissImageTap() {
         dismissImageMenu()
     }
+    
+    func pickedNewTextColor(_ color: UIColor) {
+        
+    }
 }

@@ -267,4 +267,8 @@ extension ChangeCityViewController: ImageMenuDelegate {
         }
         CustomImageButton.buttonsArray.forEach { $0.isHidden = AppSettings.hideCameras }
     }
+    
+    func pickedNewTextColor(_ color: UIColor) {
+        
+    }
 }

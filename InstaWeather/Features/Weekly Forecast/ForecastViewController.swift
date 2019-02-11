@@ -220,4 +220,8 @@ extension ForecastViewController: ImageMenuDelegate {
     @IBAction func changeImage(_ sender: Any) {
         self.imageMenuIsVisible = true
     }
+    
+    func pickedNewTextColor(_ color: UIColor) {
+        
+    }
 }

@@ -61,6 +61,13 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         get { return backgroundImage } set { }
     }
     
+    var viewsToColor: [UIView] {
+        return [conditionImage, tempLabel, maxTempLabel, minTempLabel, windIcon,
+                windLabel, cityLabel, segmentedControl, changeCityButton,
+                changeImageButton, humidityLabel
+        ]
+    }
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         recreateMenus()
@@ -89,14 +96,25 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     }
     
     func setupStoryboard() {
-        addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon, lastUpdated)
-//        addShadow(opacity: 0.5, feelsLikeLabel)
-        addShadow(opacity: 0.3, changeImageButton)
+        addAllShadows()
         ImageMenu.imageMenusArray.append(imageMenu)
         backgroundContainer.clipsToBounds = true
         CustomImageButton.buttonsArray.insert(changeImageButton)
         animateCameraButton()
         requestReview()
+    }
+    
+    func addAllShadows() {
+        addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon, lastUpdated)
+        addShadow(opacity: 0.3, changeImageButton)
+    }
+    
+    func removeAllShadows() {
+        let shadowsToRemove = [segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon, lastUpdated, changeImageButton]
+        
+        shadowsToRemove.forEach {
+            $0?.layer.shadowOpacity = 0
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -248,6 +266,18 @@ extension WeatherViewController: DashboardDelegate {
             })
         }) { [weak self] (finish) in
             self?.animateCameraButton(counter: counter + 1)
+        }
+    }
+    
+    func pickedNewTextColor(_ color: UIColor) {
+        viewsToColor.forEach { $0.tintColor = color }
+        _ = viewsToColor.map { $0 as? UILabel }.compactMap { $0?.textColor = color }
+        _ = viewsToColor.map { $0 as? UIButton }.compactMap { $0?.setTitleColor(color, for: .normal) }
+        
+        if color.getBrightness() > 0.95 {
+            addAllShadows()
+        } else {
+            removeAllShadows()
         }
     }
     

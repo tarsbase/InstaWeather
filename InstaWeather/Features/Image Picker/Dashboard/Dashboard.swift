@@ -51,7 +51,7 @@ class Dashboard: UIView {
     }
     
     func initialSetup() {
-        alpha = 0.01
+        alpha = 0
         blurEffectView.dismissSelf = { [weak self] in self?.dismissSelf?() }
         setupMaskingPolygon()
         setupLabels()

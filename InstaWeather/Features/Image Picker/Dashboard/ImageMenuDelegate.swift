@@ -27,6 +27,7 @@ protocol ImageMenuDelegate: AnyObject {
     func dismissImageMenu()
     func changeBlurValueTo(value: CGFloat)
     func changeBrightnessValueTo(value: CGFloat)
+    func pickedNewTextColor(_ color: UIColor)
     
     func present(_ viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> Void)?)
     func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
@@ -97,9 +98,7 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
         anim.addCompletion { [weak self] (_) in
             guard let self = self else { return }
             if !visible {
-                self.imageMenu.alpha = 0
-                self.imageMenu.removeConfirmButton()
-                self.imageMenu.toggleOverlay(visible: false)
+                self.imageMenu.dismissalWrapUp()
             }
         }
         createImageMenuConfirmButton(imageMenu: imageMenu, visible: visible)

@@ -46,6 +46,7 @@
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shower3" translatesAutoresizingMaskIntoConstraints="NO" id="Lmb-yW-zjc">
                                 <rect key="frame" x="88" y="492" width="148" height="133"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="159" id="ZYa-dF-Bin"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="192" id="gRK-vW-fdU"/>
@@ -294,6 +295,7 @@
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tstorm1" translatesAutoresizingMaskIntoConstraints="NO" id="3O6-yV-Yqg">
                                             <rect key="frame" x="177" y="5" width="60" height="77"/>
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="60" id="5pT-xn-ecS"/>
                                             </constraints>
@@ -470,6 +472,7 @@
                                             </label>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" image="tstorm1" translatesAutoresizingMaskIntoConstraints="NO" id="PcZ-Ef-RA7">
                                                 <rect key="frame" x="113" y="0.33333333333334281" width="90" height="133"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="120" id="MBv-gR-9JF"/>
                                                     <constraint firstAttribute="width" constant="90" id="asT-ID-bZA"/>
@@ -526,6 +529,7 @@
                                             </label>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="251" image="overcast" translatesAutoresizingMaskIntoConstraints="NO" id="2GM-iA-Qek">
                                                 <rect key="frame" x="113" y="0.33333333333334281" width="90" height="133"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="120" id="bhT-7t-cyA"/>
                                                     <constraint firstAttribute="width" constant="90" id="eoC-rc-jlO"/>
@@ -578,6 +582,7 @@
                                             </label>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="snow" translatesAutoresizingMaskIntoConstraints="NO" id="OTZ-z1-8kP">
                                                 <rect key="frame" x="113" y="0.33333333333337123" width="90" height="133"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="120" id="J3h-Pl-W22"/>
                                                     <constraint firstAttribute="width" constant="90" id="xXw-2e-v6F"/>
@@ -633,6 +638,7 @@
                                             </label>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tstorm1" translatesAutoresizingMaskIntoConstraints="NO" id="NIv-Hq-hhu">
                                                 <rect key="frame" x="113" y="0.33333333333331439" width="90" height="133"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="120" id="8Y2-97-jCx"/>
                                                     <constraint firstAttribute="width" constant="90" id="Rxt-iX-ehW"/>
@@ -688,6 +694,7 @@
                                             </label>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tstorm3" translatesAutoresizingMaskIntoConstraints="NO" id="4em-qI-iye">
                                                 <rect key="frame" x="113" y="0.33333333333325754" width="90" height="133"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="90" id="O7r-Le-eBM"/>
                                                     <constraint firstAttribute="width" constant="120" id="bFh-az-PCL"/>
@@ -985,7 +992,7 @@
         <image name="bgselect1" width="1536" height="1024"/>
         <image name="bgselect3" width="1271" height="715"/>
         <image name="camera" width="40" height="40"/>
-        <image name="cameraDashboard" width="255" height="225"/>
+        <image name="cameraDashboard" width="265" height="235"/>
         <image name="forecast" width="1166" height="777"/>
         <image name="light gradient" width="1242" height="2208"/>
         <image name="overcast" width="222" height="133"/>

@@ -11,10 +11,12 @@ import UIKit
 class ColorPicker: UIView {
     
     @IBOutlet weak var pickedColorView: UIView! { didSet { pickedColorView.clipToCircle() }}
-    @IBOutlet weak var colorPickerView: ColorPickerView!
+    @IBOutlet weak var colorPickerContainer: UIView!
     @IBOutlet weak var brightnessSlider: UISlider!
     @IBOutlet weak var okButton: UIButton!
     var hideHandler: (() -> Void)?
+    var colorWasUpdated: ((UIColor) -> Void)?
+    var colorPickerView = ColorPickerView()
     
     var brightnessValue: CGFloat {
         let value = CGFloat(brightnessSlider.value)
@@ -22,24 +24,50 @@ class ColorPicker: UIView {
     }
     
     var colorValue: UIColor = .red { didSet { updateColor() }}
+    var adjustedColorValue: UIColor {
+        return colorValue.setBrightnessTo(brightnessValue)
+    }
     
     static func createByView(_ view: UIView, hideHandler: @escaping (() -> Void)) -> ColorPicker {
         guard let picker = UINib(nibName: "ColorPicker", bundle: nil)
             .instantiate(withOwner: self, options: nil)[0] as? ColorPicker else { fatalError() }
         picker.frame = CGRect(x: 0, y: view.bounds.height - 133, width: view.bounds.width, height: 150)
-        picker.colorPickerView.didChangeColor = { color in
-            picker.colorValue = color ?? .red
-        }
+        
+        picker.createColorPicker()
+        
         picker.alpha = 0
         picker.hideHandler = hideHandler
         view.addSubview(picker)
         return picker
     }
     
+    func createColorPicker() {
+        guard let container = colorPickerContainer else { return }
+        self.colorPickerView.removeFromSuperview()
+        
+        let colorPickerView = ColorPickerView(frame: container.bounds)
+        
+        container.addSubview(colorPickerView)
+        
+        colorPickerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            colorPickerView.widthAnchor.constraint(equalTo: container.widthAnchor),
+            colorPickerView.heightAnchor.constraint(equalTo: container.heightAnchor),
+            colorPickerView.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+            colorPickerView.centerYAnchor.constraint(equalTo: container.centerYAnchor)
+            ])
+        
+        colorPickerView.didChangeColor = { [weak self] color in
+            self?.colorValue = color ?? .red
+        }
+        
+        self.colorPickerView = colorPickerView
+    }
+    
     func updateColor() {
-        let color = colorValue
-        let adjustedColor = color.setBrightnessTo(brightnessValue)
-        pickedColorView.backgroundColor = adjustedColor
+        pickedColorView.backgroundColor = adjustedColorValue
+        colorWasUpdated?(adjustedColorValue)
     }
     
     @IBAction func okTapped(_ sender: UIButton) {

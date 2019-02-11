@@ -135,6 +135,7 @@ class ImageMenu: UIView {
     }
     
     func toggleColorPicker(visible: Bool) {
+        if visible { colorPicker.createColorPicker() }
         let endAlpha: CGFloat = visible ? 0 : 1
         UIViewPropertyAnimator(duration: 0.15, curve: .linear) { [weak self] in
             guard let self = self else { return }
@@ -144,6 +145,10 @@ class ImageMenu: UIView {
             }
         }.startAnimation()
         visible ? colorPicker.show() : colorPicker.hide()
+    }
+    
+    func pickedNewColor(_ color: UIColor) {
+        delegate?.pickedNewTextColor(color)
     }
     
     func prepareToShow() {
@@ -168,6 +173,13 @@ class ImageMenu: UIView {
         }
     }
     
+    func dismissalWrapUp() {
+        self.alpha = 0
+        self.removeConfirmButton()
+        self.toggleOverlay(visible: false)
+        self.toggleColorPicker(visible: false)
+    }
+    
 }
 
 
@@ -179,9 +191,13 @@ extension ImageMenu: ImagePickerHost {
     }
     
     func setupColorPicker() -> ColorPicker {
-        return ColorPicker.createByView(self) { [weak self] in
+        let picker = ColorPicker.createByView(self) { [weak self] in
             self?.toggleColorPicker(visible: false)
         }
+        picker.colorWasUpdated = { [weak self] color in
+            self?.pickedNewColor(color)
+        }
+        return picker
     }
     
     func updateCustomImageSetting() {

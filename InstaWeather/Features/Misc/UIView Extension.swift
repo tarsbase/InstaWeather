@@ -171,4 +171,10 @@ extension UIColor {
             return lighterColor(removeSaturation: 0, removeBrightness: -value)
         }
     }
+    
+    func getBrightness() -> CGFloat {
+        var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
+        getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        return ((red * 299) + (green * 587) + (blue * 114)) / 1000
+    }
 }
