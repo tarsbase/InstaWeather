@@ -22,12 +22,16 @@ class ImageButton: UIControl {
     
     
     var imageView: UIImageView?
-    var imageType: PickerHostType?
+    var imageType: PickerHostType = .mainScreen(.clear)
     
     lazy var initialSetupOnce: Void = initialSetup()
     
     var imageWidthConstraint: NSLayoutConstraint?
     var imageHeightConstraint: NSLayoutConstraint?
+    
+    var isCustomImageSelected: Bool {
+        return ImageManager.customBackgroundFor(host: imageType)
+    }
     
     override func layoutSubviews() {
         _ = initialSetupOnce
@@ -74,7 +78,7 @@ class ImageButton: UIControl {
         
         let image = UIImageView(frame: self.frame)
         
-        image.image = getImage()
+        image.image = updateDashboardImage()
         
         image.contentMode = .scaleAspectFill
         self.addSubview(image)
@@ -125,21 +129,29 @@ class ImageButton: UIControl {
         addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
     }
     
-    func getImage() -> UIImage {
-        //TODO
-        // taps into image manager
-        let type = imageType ?? .mainScreen(.clear)
-        let weather = imageType?.weather ?? .clear
-        
-        let image = ImageManager.getDashboardIconImage(for: type, size: self.bounds.size)
-        return image ?? ImageManager.loadDashboardDefaultImage(named: weather.defaultBackground)
+    func updateDashboardImage() -> UIImage {
+        // first check if custom image is selected
+        if isCustomImageSelected {
+            return updateCustomDashboardImage()
+            
+            // otherwise load default image
+        } else {
+            return ImageManager.loadDashboardDefaultImage(weather: imageType.weather)
+        }
     }
     
-    func getOriginalImage() -> UIImage {
-        let type = imageType ?? .mainScreen(.clear)
-        let weather = imageType?.weather ?? .clear
-        let image = ImageManager.getBackgroundImage(for: type)
-        return image ?? ImageManager.loadImage(named: weather.defaultBackground)
+    private func updateCustomDashboardImage() -> UIImage {
+        let image = ImageManager.getDashboardIconImage(for: imageType, size: self.bounds.size)
+        return image ?? ImageManager.loadDashboardDefaultImage(weather: imageType.weather)
+    }
+    
+    func getFullSizedImage() -> UIImage {
+        if isCustomImageSelected {
+            let image = ImageManager.getBackgroundImage(for: imageType)
+            return image ?? ImageManager.loadImage(named: imageType.weather.defaultBackground)
+        } else {
+            return ImageManager.loadImage(named: imageType.weather.defaultBackground)
+        }
     }
     
     // makes button easier to activate

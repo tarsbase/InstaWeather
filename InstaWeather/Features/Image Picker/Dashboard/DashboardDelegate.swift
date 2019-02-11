@@ -10,6 +10,7 @@ import UIKit
 
 protocol DashboardDelegate: ImageMenuDelegate {
     var dashboardMenu: Dashboard { get set }
+    var hostType: PickerHostType { get }
 }
 
 // MARK: - override parent protocol

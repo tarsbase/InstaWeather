@@ -29,7 +29,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" spacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="Hvs-bo-Dwb">
                                 <rect key="frame" x="10" y="130" width="300" height="155"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Snowy weather background" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rK2-Ca-OQB">
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Snowy weather background" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rK2-Ca-OQB">
                                         <rect key="frame" x="49.5" y="0.0" width="201.5" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="TZP-YB-ui9"/>
@@ -204,6 +204,7 @@
                 <outlet property="blurSlider" destination="D0u-C8-zWz" id="guK-NA-Pzz"/>
                 <outlet property="brightnessSlider" destination="kYb-UL-aN6" id="So1-eG-sVA"/>
                 <outlet property="constraintToTop" destination="Kxn-mu-iKA" id="EN4-sz-sB6"/>
+                <outlet property="titleLabel" destination="rK2-Ca-OQB" id="1Ot-ju-QPd"/>
                 <outlet property="verticalStackView" destination="Hvs-bo-Dwb" id="iZz-Wm-p1e"/>
             </connections>
             <point key="canvasLocation" x="96.799999999999997" y="-141.22938530734635"/>

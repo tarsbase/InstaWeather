@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ParallaxHost: class {}
+protocol ParallaxHost: AnyObject {}
 
 extension ParallaxHost where Self: UIViewController {
     func addParallaxToView(vw: UIView) {
@@ -28,7 +28,7 @@ extension ParallaxHost where Self: UIViewController {
             group.motionEffects = [horizontal, vertical]
             vw.addMotionEffect(group)
             
-            // spread out the effect over time, to prevent jerking
+            // spread out the effect over time, to prevent jerks when paging
             for amount in 1...50 {
                 let interval = 0.1 * Double(amount)
                 DispatchQueue.main.asyncAfter(deadline: .now() + interval) {

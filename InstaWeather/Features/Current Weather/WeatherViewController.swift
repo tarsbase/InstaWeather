@@ -52,6 +52,11 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         didSet { toggleImageMenu(visible: imageMenuIsVisible) }
     }
     weak var statusBarUpdater: StatusBarUpdater?
+    
+    var hostType: PickerHostType {
+        return PickerHostType.setup(weatherType: weatherDataModel.weatherType, from: .mainScreen(.all)) 
+    }
+    
     override var parallaxImage: UIImageView? {
         get { return backgroundImage } set { }
     }
@@ -195,20 +200,20 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         delegate?.deactivateTimer()
     }
     
-    @IBAction func debugBackground(_ sender: Any) {
-        
-        let names = ["bg3clear"]
-        
-        // keep 1,2,4
-        
-        backgroundImage.image = UIImage(named: names[debugBackgroundCounter])
-        
-        if (debugBackgroundCounter + 1) == names.count {
-            debugBackgroundCounter = 0
-        } else {
-            debugBackgroundCounter += 1
-        }
-    }
+//    @IBAction func debugBackground(_ sender: Any) {
+//
+//        let names = ["bg3clear"]
+//
+//        // keep 1,2,4
+//
+//        backgroundImage.image = UIImage(named: names[debugBackgroundCounter])
+//
+//        if (debugBackgroundCounter + 1) == names.count {
+//            debugBackgroundCounter = 0
+//        } else {
+//            debugBackgroundCounter += 1
+//        }
+//    }
     
 }
 

@@ -23,6 +23,16 @@ class CustomImageButton: LargeTapAreaButton {
         }
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        if let imageView = self.imageView {
+            imageView.contentMode = .scaleAspectFit
+            imageView.layer.minificationFilter = .trilinear
+            setImage(imageView.image, for: .normal)
+            layer.minificationFilter = .trilinear
+        }
+    }
+    
     func hide(_ hide: Bool) {
         let alpha: CGFloat = hide ? 0 : 1
         UIViewPropertyAnimator(duration: 0.2, curve: .linear) { [weak self] in

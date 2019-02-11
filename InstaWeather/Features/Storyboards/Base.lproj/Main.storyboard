@@ -174,13 +174,13 @@
                                 <size key="shadowOffset" width="2" height="2"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Zn-TH-NC0" customClass="CustomImageButton" customModule="InstaWeather" customModuleProvider="target">
-                                <rect key="frame" x="24" y="54.666666666666657" width="29" height="29"/>
+                                <rect key="frame" x="24" y="46.666666666666657" width="35" height="45"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="29" id="VPX-6g-Eco"/>
-                                    <constraint firstAttribute="height" constant="29" id="cZ9-L7-f8D"/>
+                                    <constraint firstAttribute="width" constant="35" id="VPX-6g-Eco"/>
+                                    <constraint firstAttribute="height" constant="45" id="cZ9-L7-f8D"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="camera"/>
+                                <state key="normal" image="cameraDashboard"/>
                                 <connections>
                                     <action selector="imageChangePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="d7t-8n-Y1K"/>
                                     <action selector="imageManager:" destination="uP8-yZ-nbf" eventType="touchUpInside" id="K6i-Bi-ZaY"/>
@@ -853,7 +853,7 @@
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="yahoo" translatesAutoresizingMaskIntoConstraints="NO" id="3hr-a4-FvR">
                                 <rect key="frame" x="17" y="703" width="89" height="19"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Rz-HY-ti4" customClass="LargeTapAreaButton" customModule="InstaWeather" customModuleProvider="target">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Rz-HY-ti4" customClass="LargeTapAreaButton" customModule="InstaWeather" customModuleProvider="target">
                                 <rect key="frame" x="17" y="698" width="138" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <state key="normal" title="Hide Camera Buttons"/>
@@ -985,6 +985,7 @@
         <image name="bgselect1" width="1536" height="1024"/>
         <image name="bgselect3" width="1271" height="715"/>
         <image name="camera" width="40" height="40"/>
+        <image name="cameraDashboard" width="255" height="225"/>
         <image name="forecast" width="1166" height="777"/>
         <image name="light gradient" width="1242" height="2208"/>
         <image name="overcast" width="222" height="133"/>

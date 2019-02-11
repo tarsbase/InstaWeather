@@ -205,7 +205,7 @@ extension WeatherViewController {
     func updateCurrentWeatherLabels() {
         updateLabel(tempLabel, toValue: weatherDataModel.temperature, forType: .mainTemperature)
         conditionImage.image = ImageManager.loadImage(named: weatherDataModel.weatherIconName)
-        updateBackgroundWithForecastImage(ImageManager.loadImage(named: weatherDataModel.backgroundName))
+        updateBackgroundWithForecastImage()
         cityLabel.text = weatherDataModel.city
         let scale = segmentedControl.selectedSegmentIndex == 0 ? "km/h" : "mph"
         let windSpeed = weatherDataModel.windSpeed
@@ -265,7 +265,7 @@ extension WeatherViewController {
         let windDirection = weatherDataModel.windDirection
         windLabel.text = "\(windDirection) \(windSpeed) \(scale)"
         conditionImage.image = ImageManager.loadImage(named: weatherDataModel.weatherIconName)
-        updateBackgroundWithForecastImage(ImageManager.loadImage(named: weatherDataModel.backgroundName))
+        updateBackgroundWithForecastImage()
         tempLabel.text = "\(weatherDataModel.temperature)°"
         minTempLabel.text = "↓\(weatherDataModel.minTemp)"
         maxTempLabel.text = "↑\(weatherDataModel.maxTemp)"
@@ -281,7 +281,7 @@ extension WeatherViewController {
         let defaults = UserDefaults.standard
         if !forYahoo {
             defaults.set(weatherDataModel.weatherIconName, forKey: "conditionImage")
-            defaults.set(weatherDataModel.backgroundName, forKey: "backgroundName")
+            defaults.set(weatherDataModel.defaultBackgroundName, forKey: "backgroundName")
             defaults.set(weatherDataModel.temperatureCelsius, forKey: "temperature")
             defaults.set(weatherDataModel.minTempCelsius, forKey: "minTemp")
             defaults.set(weatherDataModel.maxTempCelsius, forKey: "maxTemp")
@@ -300,7 +300,7 @@ extension WeatherViewController {
         weatherDataModel.windSpeed = defaults.integer(forKey: "windSpeed")
         weatherDataModel.windDirectionInDegrees = defaults.double(forKey: "windDirection")
         weatherDataModel.weatherIconName = defaults.string(forKey: "conditionImage") ?? "light_rain"
-        weatherDataModel.backgroundName = defaults.string(forKey: "backgroundName") ?? "bglight_rain"
+        weatherDataModel.defaultBackgroundName = defaults.string(forKey: "backgroundName") ?? "bglight_rain"
         weatherDataModel.temperature = defaults.integer(forKey: "temperature")
         weatherDataModel.minTemp = defaults.integer(forKey: "minTemp")
         weatherDataModel.maxTemp = defaults.integer(forKey: "maxTemp")
@@ -320,12 +320,14 @@ extension WeatherViewController {
         }
     }
     
-    func updateBackgroundWithForecastImage(_ image: UIImage?) {
-        if AppSettings.mainscreenBackgrounds.clearWeather.customBackground {
-            loadCustomImage()
-        } else {
-            backgroundImage.image = image
-        }
+    func updateBackgroundWithForecastImage() {
+        backgroundImage.image = weatherDataModel.getBackground(host: .mainScreen(.all))
+        updateBlurAndBrightness()
+    }
+    
+    func updateBlurAndBrightness() {
+        imageMenu.hostType = hostType
+        imageMenu.refreshData()
     }
     
     func celsiusToKelvin(_ temp: Int) -> Double {

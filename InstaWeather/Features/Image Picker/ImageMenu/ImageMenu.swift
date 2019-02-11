@@ -11,6 +11,7 @@ import UIKit
 class ImageMenu: UIView {
     
     static var imageMenusArray = [ImageMenu]()
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var verticalStackView: UIStackView!
     
     var hostType = PickerHostType.mainScreen(.clear)
@@ -22,8 +23,8 @@ class ImageMenu: UIView {
     var savedSettings: (image: Bool, blur: Float, brightness: Float) {
         get {
             switch hostType {
-            case .mainScreen:
-                return AppSettings.mainscreenBackgrounds.clearWeather.allSettings
+            case .mainScreen(let weather):
+                return AppSettings.mainscreenBackgrounds.background(for: weather).allSettings
             case .changeCity:
                 return (AppSettings.changecityCustomImage, AppSettings.changecityBlurSetting, AppSettings.changecityBrightnessSetting)
             case .weeklyForecast:
@@ -34,8 +35,8 @@ class ImageMenu: UIView {
         }
         set {
             switch hostType {
-            case .mainScreen:
-                AppSettings.mainscreenBackgrounds.clearWeather.allSettings = (newValue.image, newValue.blur, newValue.brightness)
+            case .mainScreen(let weather):
+                AppSettings.mainscreenBackgrounds.setSettings(newValue, for: weather)
             case .changeCity:
                 (AppSettings.changecityCustomImage, AppSettings.changecityBlurSetting, AppSettings.changecityBrightnessSetting) = (newValue.image, newValue.blur, newValue.brightness)
             case .weeklyForecast:
@@ -145,6 +146,28 @@ class ImageMenu: UIView {
         visible ? colorPicker.show() : colorPicker.hide()
     }
     
+    func prepareToShow() {
+        // update title
+        self.titleLabel.alpha = 1
+        self.titleLabel.text = hostType.weather.title
+        
+        // update sliders
+        updateSliders()
+    }
+    
+    func refreshData() {
+        updateSliders()
+    }
+    
+    func resetBackgroundImage() {
+        if case PickerHostType.mainScreen = hostType {
+            self.delegate?.backgroundImage.image = ImageManager.loadImage(named:
+                self.hostType.weather.defaultBackground)
+        } else {
+            self.delegate?.resetBackgroundImage()
+        }
+    }
+    
 }
 
 
@@ -175,7 +198,7 @@ extension ImageMenu {
         ac.addAction(UIAlertAction(title: "Yes", style: .default, handler: { [weak self] (action) in
             guard let self = self else { return }
             self.savedSettings.image = false
-            self.delegate?.resetBackgroundImage()
+            self.resetBackgroundImage()
             self.savedSettings.brightness = 0.8
             self.savedSettings.blur = 0
             self.updateSliders()

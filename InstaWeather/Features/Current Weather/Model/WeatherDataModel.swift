@@ -22,13 +22,13 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     
     var weatherIconName = "" {
         didSet {
-            updateBackgroundWith(weatherIconName)
             updateImageWeatherTypeWith(weatherIconName)
+            updateBackgroundWith(weatherIconName)
         }
     }
     
-    var backgroundName = ""
-    var imageType: ImageWeatherType = .clear
+    var defaultBackgroundName = ""
+    var weatherType: ImageWeatherType = .clear
 
     private var _forecast = [ForecastObject]()
     var forecast: [ForecastObject] {
@@ -282,37 +282,57 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     mutating func updateBackgroundWith(_ weatherIconName: String) {
         switch weatherIconName {
         case "clear":
-            backgroundName = "bg\(arc4random_uniform(3) + 1)\(weatherIconName)"
-            if UIDevice.current.userInterfaceIdiom == .phone && backgroundName == "bg2clear" {
-                backgroundName += "iPhone\(arc4random_uniform(3) + 1)"
+            defaultBackgroundName = "bg\(arc4random_uniform(3) + 1)\(weatherIconName)"
+            if UIDevice.current.userInterfaceIdiom == .phone && defaultBackgroundName == "bg2clear" {
+                defaultBackgroundName += "iPhone\(arc4random_uniform(3) + 1)"
             }
         case "snow", "fog", "clearnight", "cloudy2night":
-            backgroundName = "bg\(arc4random_uniform(2) + 1)\(weatherIconName)"
+            defaultBackgroundName = "bg\(arc4random_uniform(2) + 1)\(weatherIconName)"
         case "tstorm1", "tstorm2":
-            backgroundName = "bgtstorm"
+            defaultBackgroundName = "bgtstorm"
         case "cloudy2", "overcast", "wind":
-            backgroundName = UIDevice.current.userInterfaceIdiom == .phone ? "bg2cloudyiPhone" : "bg2cloudy"
+            defaultBackgroundName = UIDevice.current.userInterfaceIdiom == .phone ? "bg2cloudyiPhone" : "bg2cloudy"
         case "light_rain", "shower3":
-            backgroundName = "bglight_rain"
+            defaultBackgroundName = "bglight_rain"
         default:
-            backgroundName = "bg\(weatherIconName)"
+            defaultBackgroundName = "bg\(weatherIconName)"
         }
     }
     
     mutating func updateImageWeatherTypeWith(_ weatherIconName: String) {
         switch weatherIconName {
         case "clear", "clearnight":
-            imageType = .clear
+            weatherType = .clear
         case "cloudy2night", "cloudy2", "fog", "overcast":
-            imageType = .cloudy
+            weatherType = .cloudy
         case "snow":
-            imageType = .snowy
+            weatherType = .snowy
         case "light_rain", "shower3":
-            imageType = .rainy
+            weatherType = .rainy
         case "tstorm1", "tstorm2", "wind":
-            imageType = .stormy
+            weatherType = .stormy
         default:
-            imageType = .clear
+            weatherType = .clear
+        }
+    }
+    
+    // default value is set to .mainScreen temporarily, can be expanded later
+    func getBackground(host: PickerHostType = .mainScreen(.all)) -> UIImage? {
+        
+        // custom user image
+        
+        let host = PickerHostType.setup(weatherType: weatherType, from: host)
+        
+        if ImageManager.customBackgroundFor(host: host) {
+            return ImageManager.getBackgroundImage(for: host)
+            
+            // some images are custom, this one isn't
+        } else if ImageManager.backgroundAdjustedFor(host: host) {
+            return ImageManager.loadImage(named: weatherType.defaultBackground)
+            
+            // all images are default
+        } else {
+            return ImageManager.loadImage(named: defaultBackgroundName)
         }
     }
     

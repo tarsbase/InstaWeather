@@ -8,11 +8,6 @@
 
 import UIKit
 
-struct BackgroundImageLoader {
-    static let shared = BackgroundImageLoader()
-    private init() {}
-}
-
 enum PickerHostType {
     
     case mainScreen(ImageWeatherType), detailedForecast(ImageWeatherType), weeklyForecast(ImageWeatherType), changeCity(ImageWeatherType)
@@ -76,6 +71,17 @@ enum PickerHostType {
 
 enum ImageWeatherType: String, CaseIterable {
     case all, clear, cloudy, rainy, stormy, snowy
+    
+    var title: String {
+        switch self {
+        case .all: return "Background for all conditions"
+        case .clear: return "Clear weather background"
+        case .cloudy: return "Cloudy weather background"
+        case .rainy: return "Rainy weather background"
+        case .stormy: return "Stormy weather background"
+        case .snowy: return "Snowy weather background"
+        }
+    }
     
     var defaultBackground: String {
         switch self {

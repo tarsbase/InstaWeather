@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol StatusBarUpdater: class {
+protocol StatusBarUpdater: AnyObject {
     func changeStatusBarToLight(_ light: Bool)
     func pageViewDataSourceIsActive(_ active: Bool)
 }

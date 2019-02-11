@@ -9,7 +9,7 @@
 import UIKit
 import YPImagePicker
 
-protocol ImagePickerHost: class {
+protocol ImagePickerHost: AnyObject {
     var delegate: ImageMenuDelegate? { get set }
     func updateCustomImageSetting()
 }
@@ -60,7 +60,7 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
     func selectPicture(for host: PickerHostType, using picker: YPImagePicker) {
         picker.didFinishPicking { [unowned picker] items, cancelled in
             if let photo = items.singlePhoto {
-                ImageManager.setBackground(image: photo.image, for: host)
+                ImageManager.saveBackground(image: photo.image, for: host)
                 self.imageHost?.updateCustomImageSetting()
                 if let savedImage = ImageManager.getBackgroundImage(for: host) {
                     self.imageHost?.updateBackgroundWith(savedImage)

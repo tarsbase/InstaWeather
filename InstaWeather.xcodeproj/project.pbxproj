@@ -83,6 +83,8 @@
 		28F5B0F7220D0AFF00C927CE /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CD21862169D1F700BBFA62 /* ImageManager.swift */; };
 		28F5B0F8220D0B2300C927CE /* ImageLazyLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F63D91220BC981000DF609 /* ImageLazyLoader.swift */; };
 		28F63D92220BC981000DF609 /* ImageLazyLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F63D91220BC981000DF609 /* ImageLazyLoader.swift */; };
+		28F679EF2210C55100383ED6 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D194A215DA1AE006339D9 /* AppSettings.swift */; };
+		28F679F02210C55600383ED6 /* SavedBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D1A0FA220E8DD500B4928C /* SavedBackground.swift */; };
 		28F75B11220D2D02007BD618 /* UIView Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28890DBF21FD5EF7004C963A /* UIView Extension.swift */; };
 		387D8750D216082EA0A1C75D /* Pods_InstaWeatherUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98231A4D7CDBF3C78BCBB14D /* Pods_InstaWeatherUITests.framework */; };
 		5FC369B7141958CDA2A1F92A /* Pods_InstaWeatherToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712CE70B02265FD71C44FFAA /* Pods_InstaWeatherToday.framework */; };
@@ -311,6 +313,7 @@
 			isa = PBXGroup;
 			children = (
 				28EEB916201C44CD0090D0D3 /* WeatherDataModel.swift */,
+				28D1A0FA220E8DD500B4928C /* SavedBackground.swift */,
 				2822A0392021485F0007D9E9 /* ForecastObject.swift */,
 			);
 			path = Model;
@@ -339,10 +342,10 @@
 			isa = PBXGroup;
 			children = (
 				28890DB921FD47CB004C963A /* Dashboard.swift */,
-				28890DBB21FD47D7004C963A /* ImageDashboard.xib */,
-				280C4C2021FFEEC700430ED3 /* ImageMenuDelegate.swift */,
 				2807A922216AED4A003DA8D6 /* DashboardDelegate.swift */,
 				280C4C2221FFEF1F00430ED3 /* DashboardDelegate+Animations.swift */,
+				28890DBB21FD47D7004C963A /* ImageDashboard.xib */,
+				280C4C2021FFEEC700430ED3 /* ImageMenuDelegate.swift */,
 				280C4C1E21FED29B00430ED3 /* Overlay.swift */,
 			);
 			path = Dashboard;
@@ -477,7 +480,6 @@
 				28E58BFE22014E09006A67EF /* BackgroundImageLoader.swift */,
 				28CD21862169D1F700BBFA62 /* ImageManager.swift */,
 				28F63D91220BC981000DF609 /* ImageLazyLoader.swift */,
-				28D1A0FA220E8DD500B4928C /* SavedBackground.swift */,
 			);
 			path = ImageManager;
 			sourceTree = "<group>";
@@ -485,13 +487,13 @@
 		28E58C0022015C41006A67EF /* ImageMenu */ = {
 			isa = PBXGroup;
 			children = (
+				2807A91E216A6CF3003DA8D6 /* ImageMenu.swift */,
+				2807A91C216A6A9C003DA8D6 /* ImageMenu.xib */,
 				28E58C0122015C5B006A67EF /* ImageMenuDismissButton.swift */,
 				28E58C03220167BA006A67EF /* ConfirmBackgroundButton.xib */,
 				28E58C052201681F006A67EF /* ConfirmBackgroundButton.swift */,
 				28E58C0922028F15006A67EF /* ColorPicker.swift */,
 				28E58C0B22028F1E006A67EF /* ColorPicker.xib */,
-				2807A91E216A6CF3003DA8D6 /* ImageMenu.swift */,
-				2807A91C216A6A9C003DA8D6 /* ImageMenu.xib */,
 			);
 			path = ImageMenu;
 			sourceTree = "<group>";
@@ -962,11 +964,13 @@
 				285D413120A133370040F6BE /* TodayViewController.swift in Sources */,
 				287DFB0E217558D7005086A3 /* DisplaySizes.swift in Sources */,
 				28CDAE2120B1C2EE003CE837 /* Secrets.swift in Sources */,
+				28F679F02210C55600383ED6 /* SavedBackground.swift in Sources */,
 				28BFE2C6216444CC000F44C3 /* AppLaunch.swift in Sources */,
 				287DFB112175597D005086A3 /* YPImagePicker+Extension.swift in Sources */,
 				28CDAE1F20B1C2EE003CE837 /* ForecastObject.swift in Sources */,
 				284574F5216AF1C900996AC4 /* FahrenheitProtocol.swift in Sources */,
 				28F75B11220D2D02007BD618 /* UIView Extension.swift in Sources */,
+				28F679EF2210C55100383ED6 /* AppSettings.swift in Sources */,
 				2871C19D20B5085900326A4C /* TodayDataModel.swift in Sources */,
 				284AE559220A91B0004A19DE /* BackgroundImageLoader.swift in Sources */,
 				28F5B0F7220D0AFF00C927CE /* ImageManager.swift in Sources */,

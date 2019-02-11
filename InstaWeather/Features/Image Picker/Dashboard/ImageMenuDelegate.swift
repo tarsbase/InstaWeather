@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ImageMenuDelegate: class {
+protocol ImageMenuDelegate: AnyObject {
     var backgroundImage: UIImageView! { get set }
     var backgroundContainer: UIView! { get set }
     var backgroundBlur: UIVisualEffectView { get set }
@@ -30,7 +30,6 @@ protocol ImageMenuDelegate: class {
     
     func present(_ viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> Void)?)
     func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
-    func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator)
 }
 
 extension ImageMenuDelegate where Self: ParallaxViewController {

@@ -88,10 +88,13 @@ extension DashboardDelegate where Self: ParallaxViewController {
     func previewBackground(by button: DashboardButton) {
         if case DashboardStatus.animating = dashboardMenu.dashboardStatus { return }
         
-        let background = button.getOriginalImage()
+        let background = button.getFullSizedImage()
         
         dashboardMenu.dashboardStatus = .animating
-        imageMenu.hostType = button.imageType ?? dashboardMenu.hostType
+        
+        // update image menu
+        imageMenu.hostType = button.imageType
+        imageMenu.prepareToShow()
         
         let imageView = UIImageView(image: background)
         let frame = button.superview?.convert(button.frame, to: self.view) ?? .zero
@@ -115,8 +118,9 @@ extension DashboardDelegate where Self: ParallaxViewController {
         }
         anim.startAnimation()
         
+        let imageMenuDelayMultiplier: Double = 0.45
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + duration * 0.6) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration * imageMenuDelayMultiplier) {
             self.backgroundImage.image = background
             let fade = UIViewPropertyAnimator(duration: 0.2, curve: .linear){
                 imageView.alpha = 0
@@ -131,9 +135,18 @@ extension DashboardDelegate where Self: ParallaxViewController {
     
     func restoreBackground() {
         guard case DashboardStatus.preview(let button) = dashboardMenu.dashboardStatus else { return }
-        let background = button.getOriginalImage()
+        let background = button.getFullSizedImage()
+        
+        // reflect new change
+        button.imageView?.image = button.updateDashboardImage()
+        
+        // restore imageMenu values
+        imageMenu.hostType = hostType
+        imageMenu.refreshData()
+        
         dashboardMenu.dashboardStatus = .animating
         dashboardMenu.updateButtonsLayout()
+        
         let imageView = UIImageView(image: background)
         imageView.layer.minificationFilter = .trilinear
         imageView.alpha = 0.99 // this prevents strange alpha artifacts / white strips

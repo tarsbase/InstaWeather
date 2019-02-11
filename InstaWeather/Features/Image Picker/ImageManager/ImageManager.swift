@@ -19,6 +19,36 @@ struct ImageManager {
         return paths[0]
     }()
     
+    static func backgroundAdjustedFor(host: PickerHostType) -> Bool {
+        switch host {
+        case .mainScreen:
+            return AppSettings.mainscreenBackgrounds.adjusted
+            // TODO
+            //        case .changeCity:
+            //            return AppSettings.changeCityBackgrounds.adjusted
+            //        case .weeklyForecast:
+            //            return AppSettings.weeklyForecastBackgrounds.adjusted
+            //        case .detailedForecast:
+        //            return AppSettings.detailedForecastBackgrounds.adjusted
+        default: return false
+        }
+    }
+    
+    static func customBackgroundFor(host: PickerHostType) -> Bool {
+        switch host {
+        case .mainScreen(let weather):
+            return AppSettings.mainscreenBackgrounds.background(for: weather).customBackground
+            // TODO
+            //        case .changeCity:
+            //            return AppSettings.changeCityBackgrounds.adjusted
+            //        case .weeklyForecast:
+            //            return AppSettings.weeklyForecastBackgrounds.adjusted
+            //        case .detailedForecast:
+        //            return AppSettings.detailedForecastBackgrounds.adjusted
+        default: return false
+        }
+    }
+    
     static func loadImage(named name: String) -> UIImage {
         if ImageLazyLoader.contains(name) {
             return ImageLazyLoader.getImage(for: name)
@@ -28,7 +58,7 @@ struct ImageManager {
             return image ?? UIImage()
         }
     }
-
+    
     static func getBackgroundImage(for host: PickerHostType) -> UIImage? {
         
         // first check if image is already loaded in memory
@@ -48,6 +78,8 @@ struct ImageManager {
         }
         return nil
     }
+    
+    // MARK: - Dashboard (small size)
     
     static func getDashboardIconImage(for host: PickerHostType, size: CGSize) -> UIImage? {
         
@@ -69,41 +101,19 @@ struct ImageManager {
         return nil
     }
     
-    static func loadDashboardDefaultImage(named name: String) -> UIImage {
-        if ImageLazyLoader.contains(name) {
-            return ImageLazyLoader.getImage(for: name, scaledDown: true)
+    static func loadDashboardDefaultImage(weather: ImageWeatherType) -> UIImage {
+        if ImageLazyLoader.contains(weather.defaultBackground) {
+            return ImageLazyLoader.getImage(for: weather.defaultBackground, scaledDown: true)
         } else {
-            let image = UIImage(named: name)
-            ImageLazyLoader.addImage(image, for: name)
+            let image = UIImage(named: weather.defaultBackground)
+            ImageLazyLoader.addImage(image, for: weather.defaultBackground)
             return image ?? UIImage()
         }
     }
     
-//    static func getBackgroundImageAsync(for host: PickerHostType, completion: @escaping ((UIImage?) -> Void)) {
-//        DispatchQueue.global(qos: .userInitiated).async {
-//            // first check if image is already loaded in memory
-//            if ImageLazyLoader.contains(host) {
-//                completion(ImageLazyLoader.getImage(for: host))
-//                return
-//            }
-//            // perform migration if needed
-//            if let image = getOldBackgroundWithMigration(for: host) { completion(image); return }
-//            let imageFileName = documentsDirectory.appendingPathComponent("\(host.description).png")
-//            do {
-//                let data = try Data(contentsOf: imageFileName)
-//                let image = UIImage(data: data)
-//                ImageLazyLoader.addImage(image, for: host)
-//                completion(image)
-//                return
-//            } catch {
-//                print(error.localizedDescription)
-//            }
-//            completion(nil)
-//            return
-//        }
-//    }
+    // MARK: - Disk IO & Migration
     
-    static func setBackground(image: UIImage, for host: PickerHostType) {
+    static func saveBackground(image: UIImage, for host: PickerHostType) {
         let imageFileName = documentsDirectory.appendingPathComponent("\(host.description).png")
         if let data = (image).pngData() {
             do {
@@ -125,7 +135,7 @@ struct ImageManager {
         do {
             let data = try Data(contentsOf: imageFileName)
             let image = UIImage(data: data)
-            setBackground(image: image ?? UIImage(), for: PickerHostType.setupClearFrom(host: host))
+            saveBackground(image: image ?? UIImage(), for: PickerHostType.setupClearFrom(host: host))
             ImageLazyLoader.addImage(image, for: host)
             return image
         } catch {
