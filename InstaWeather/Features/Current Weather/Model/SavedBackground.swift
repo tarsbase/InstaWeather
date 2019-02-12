@@ -23,6 +23,10 @@ struct SavedBackgrounds: Codable {
         })
     }
     
+    var oneBackgroundForAllConditions: Bool {
+        return allWeather.customBackground
+    }
+    
     func background(for weather: ImageWeatherType) -> Background {
         switch weather {
         case .all: return allWeather

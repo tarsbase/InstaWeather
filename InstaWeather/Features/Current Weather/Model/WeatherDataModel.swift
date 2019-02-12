@@ -319,11 +319,16 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     // default value is set to .mainScreen temporarily, can be expanded later
     func getBackground(host: PickerHostType = .mainScreen(.all)) -> UIImage? {
         
-        // custom user image
+        // first check if image is used for all conditions
         
         let host = PickerHostType.setup(weatherType: weatherType, from: host)
         
-        if ImageManager.customBackgroundFor(host: host) {
+        if ImageManager.oneBackgroundFor(host: host) {
+            return ImageManager.getBackgroundImage(for: .mainScreen(.all))
+
+            // then check if custom user images
+        } else
+            if ImageManager.customBackgroundFor(host: host) {
             return ImageManager.getBackgroundImage(for: host)
             
             // some images are custom, this one isn't

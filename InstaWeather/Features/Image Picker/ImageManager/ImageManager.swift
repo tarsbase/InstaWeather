@@ -19,10 +19,10 @@ struct ImageManager {
         return paths[0]
     }()
     
-    static func backgroundAdjustedFor(host: PickerHostType) -> Bool {
+    static func oneBackgroundFor(host: PickerHostType) -> Bool {
         switch host {
         case .mainScreen:
-            return AppSettings.mainscreenBackgrounds.adjusted
+            return AppSettings.mainscreenBackgrounds.oneBackgroundForAllConditions
             // TODO
             //        case .changeCity:
             //            return AppSettings.changeCityBackgrounds.adjusted
@@ -38,6 +38,21 @@ struct ImageManager {
         switch host {
         case .mainScreen(let weather):
             return AppSettings.mainscreenBackgrounds.background(for: weather).customBackground
+            // TODO
+            //        case .changeCity:
+            //            return AppSettings.changeCityBackgrounds.adjusted
+            //        case .weeklyForecast:
+            //            return AppSettings.weeklyForecastBackgrounds.adjusted
+            //        case .detailedForecast:
+        //            return AppSettings.detailedForecastBackgrounds.adjusted
+        default: return false
+        }
+    }
+    
+    static func backgroundAdjustedFor(host: PickerHostType) -> Bool {
+        switch host {
+        case .mainScreen:
+            return AppSettings.mainscreenBackgrounds.adjusted
             // TODO
             //        case .changeCity:
             //            return AppSettings.changeCityBackgrounds.adjusted

@@ -54,7 +54,11 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     weak var statusBarUpdater: StatusBarUpdater?
     
     var hostType: PickerHostType {
-        return PickerHostType.setup(weatherType: weatherDataModel.weatherType, from: .mainScreen(.all)) 
+        if AppSettings.mainscreenBackgrounds.oneBackgroundForAllConditions {
+            return PickerHostType.setup(weatherType: .all, from: .mainScreen(.all))
+        } else {
+            return PickerHostType.setup(weatherType: weatherDataModel.weatherType, from: .mainScreen(.all))
+        }
     }
     
     override var parallaxImage: UIImageView? {
@@ -211,6 +215,9 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
 //        }
 //    }
     
+    func backgroundWasResetInImageMenu() {
+        dismissImageMenu()
+    }
 }
 
 // MARK: - Image menu

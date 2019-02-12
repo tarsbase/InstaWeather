@@ -108,7 +108,6 @@ class ImageMenu: UIView {
         
         delegate?.toggleShadows(on: savedSettings.enableShadows)
         
-        print("Brightness is at \(savedSettings.textBrightness)")
         colorPicker.brightnessSlider.value = savedSettings.textBrightness
         colorPicker.colorValue = savedSettings.textColor
         colorPicker.shadowsSwitch.isOn = savedSettings.enableShadows
@@ -175,6 +174,9 @@ class ImageMenu: UIView {
         if case PickerHostType.mainScreen = hostType {
             self.delegate?.backgroundImage.image = ImageManager.loadImage(named:
                 self.hostType.weather.defaultBackground)
+            if let controller = delegate as? WeatherViewController {
+                controller.backgroundWasResetInImageMenu()
+            }
         } else {
             self.delegate?.resetBackgroundImage()
         }
@@ -260,7 +262,7 @@ extension ImageMenu {
             ac.addAction(UIAlertAction(title: "Reset background", style: .default, handler: { [weak self] (action) in
                 guard let self = self else { return }
                 self.savedSettings.customBackground = false
-                self.delegate?.resetBackgroundImage()
+                self.resetBackgroundImage()
             }))
         }
         ac.addAction(UIAlertAction(title: "Reset blur effect", style: .default, handler: { [weak self] (action) in
