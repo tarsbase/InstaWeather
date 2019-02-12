@@ -11,6 +11,8 @@ import UIKit
 class DetailedForecastTable: UITableViewController {
 
     var model: WeatherDataModel?
+    var cellsColor: UIColor = .white
+    var cellsShadow: Bool = false
     let backgroundAlpha: CGFloat = 0.5
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,7 +81,7 @@ class DetailedForecastTable: UITableViewController {
             cell.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: backgroundAlpha)
             cell.textLabel?.text = model?.forecastDayTitles[section]
             cell.textLabel?.textAlignment = NSTextAlignment.center
-            cell.textLabel?.textColor = UIColor.white
+            cell.textLabel?.textColor = cellsColor
             cell.textLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight(rawValue: 200))
             return cell
         }
@@ -108,8 +110,13 @@ class DetailedForecastTable: UITableViewController {
         for case let imageView as UIImageView in cell.contentView.subviews {
             let iconName = model?.updateOpenWeatherIcon(condition: icon, objectTime: timeDigits, objectSunrise: sunrise, objectSunset: sunset) ?? ""
             imageView.image = UIImage(named: iconName)
+            imageView.tintColor = cellsColor
+            if cellsShadow { addShadow(imageView) }
         }
         for case let label as UILabel in cell.contentView.subviews {
+            label.textColor = cellsColor
+            if cellsShadow { addShadow(label) }
+            
             if label.tag == 0 {
                 label.text = time
             } else {
@@ -121,5 +128,32 @@ class DetailedForecastTable: UITableViewController {
             }
         }
         return cell
+    }
+    
+    func changeCellsColorTo(_ color: UIColor) {
+        self.cellsColor = color
+        for cell in tableView.visibleCells {
+            let subviews = cell.contentView.subviews
+            subviews.forEach { $0.tintColor = color }
+            _ = subviews.map { $0 as? UILabel }.compactMap { $0?.textColor = color }
+            _ = subviews.map { $0 as? UIButton }.compactMap { $0?.setTitleColor(color, for: .normal) }
+        }
+    }
+    
+    func getCellsToShade() -> [UIView] {
+        var cells = [UIView]()
+        for cell in tableView.visibleCells {
+            cells.append(contentsOf: cell.contentView.subviews)
+        }
+        return cells
+    }
+    
+    func addShadow(opacity: Float = 0.5, _ views: UIView...) {
+        for view in views {
+            view.layer.shadowColor = UIColor.black.cgColor
+            view.layer.shadowOffset = CGSize(width: 0, height: 2)
+            view.layer.shadowOpacity = opacity
+            view.layer.shadowRadius = 1.0
+        }
     }
 }

@@ -84,6 +84,11 @@ class DetailedContainerViewController: ParallaxViewController {
 
 extension DetailedContainerViewController: ImageMenuDelegate {
     
+    
+    var viewsToColor: [UIView] {
+        return [changeImageButton]
+    }
+    
     func loadBackgroundImage() {
         if AppSettings.detailedForecastBackgrounds.allWeather.customBackground {
             loadCustomImage()
@@ -109,10 +114,24 @@ extension DetailedContainerViewController: ImageMenuDelegate {
     }
     
     func pickedNewTextColor(_ color: UIColor) {
-        
+        changeImageButton.tintColor = color
+        detailedForecast?.changeCellsColorTo(color)
     }
     
-    func toggleShadows(on: Bool) {
-        
+    
+    func addAllShadows() {
+        addShadow(changeImageButton)
+        if let cells = detailedForecast?.getCellsToShade() {
+            cells.forEach { addShadow($0) }
+        }
+        detailedForecast?.cellsShadow = true
+    }
+    
+    func removeAllShadows() {
+        changeImageButton.layer.shadowOpacity = 0
+        if let cells = detailedForecast?.getCellsToShade() {
+            cells.forEach { $0.layer.shadowOpacity = 0 }
+        }
+        detailedForecast?.cellsShadow = false
     }
 }

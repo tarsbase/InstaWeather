@@ -104,19 +104,6 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         requestReview()
     }
     
-    func addAllShadows() {
-        addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon, lastUpdated)
-        addShadow(opacity: 0.3, changeImageButton)
-    }
-    
-    func removeAllShadows() {
-        let shadowsToRemove = [segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon, lastUpdated, changeImageButton]
-        
-        shadowsToRemove.forEach {
-            $0?.layer.shadowOpacity = 0
-        }
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         // add check for last updated here
         let feelsLikeScale:CGFloat = 1.06
@@ -170,15 +157,6 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
             updateLabel(minTempLabel, toValue: weatherDataModel.minTemp, forType: .minTemp)
             updateLabel(maxTempLabel, toValue: weatherDataModel.maxTemp, forType: .maxTemp)
             updateYahooLabels()
-        }
-    }
-    
-    func addShadow(opacity: Float = 0.5, _ views: UIView...) {
-        for view in views {
-            view.layer.shadowColor = UIColor.black.cgColor
-            view.layer.shadowOffset = CGSize(width: 0, height: 2)
-            view.layer.shadowOpacity = opacity
-            view.layer.shadowRadius = 1.0
         }
     }
     
@@ -275,15 +253,23 @@ extension WeatherViewController: DashboardDelegate {
         _ = viewsToColor.map { $0 as? UIButton }.compactMap { $0?.setTitleColor(color, for: .normal) }
     }
     
-    
-    func toggleShadows(on: Bool) {
-        on ? addAllShadows() : removeAllShadows()
-    }
-    
     func requestReview() {
         if AppSettings.appLaunchCount > 1 && !AppSettings.alreadySubmittedReview {
             AppSettings.alreadySubmittedReview = true
             SKStoreReviewController.requestReview()
+        }
+    }
+    
+    func addAllShadows() {
+        addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon, lastUpdated)
+        addShadow(opacity: 0.3, changeImageButton)
+    }
+    
+    func removeAllShadows() {
+        let shadowsToRemove = [segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon, lastUpdated, changeImageButton]
+        
+        shadowsToRemove.forEach {
+            $0?.layer.shadowOpacity = 0
         }
     }
 }

@@ -53,7 +53,7 @@
                                 </constraints>
                             </imageView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="AKo-Sr-Pkc">
-                                <rect key="frame" x="278" y="111" width="112" height="29"/>
+                                <rect key="frame" x="278" y="96" width="112" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="112" id="MQt-Jd-qTh"/>
                                     <constraint firstAttribute="height" constant="28" id="leA-Nx-8qk"/>
@@ -68,7 +68,7 @@
                                 </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zHM-T8-vMf">
-                                <rect key="frame" x="277" y="50" width="113" height="38"/>
+                                <rect key="frame" x="277" y="35" width="113" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="Dcq-pK-ZaO"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="157" id="dR7-hw-qgN"/>
@@ -175,9 +175,9 @@
                                 <size key="shadowOffset" width="2" height="2"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Zn-TH-NC0" customClass="CustomImageButton" customModule="InstaWeather" customModuleProvider="target">
-                                <rect key="frame" x="24" y="46.666666666666657" width="35" height="45"/>
+                                <rect key="frame" x="24" y="31.666666666666671" width="45" height="45"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="35" id="VPX-6g-Eco"/>
+                                    <constraint firstAttribute="width" constant="45" id="VPX-6g-Eco"/>
                                     <constraint firstAttribute="height" constant="45" id="cZ9-L7-f8D"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -197,7 +197,7 @@
                             <constraint firstAttribute="bottom" secondItem="WnI-Iz-KeK" secondAttribute="bottom" id="4le-3T-Tzx"/>
                             <constraint firstItem="xFi-1g-bni" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="9d7-lR-2c5"/>
                             <constraint firstItem="8IA-Mv-nD6" firstAttribute="top" secondItem="F5t-8A-yQd" secondAttribute="bottom" constant="6" id="F1C-bP-u1Y"/>
-                            <constraint firstItem="zHM-T8-vMf" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="GEP-vO-9xK"/>
+                            <constraint firstItem="zHM-T8-vMf" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="15" id="GEP-vO-9xK"/>
                             <constraint firstItem="F5t-8A-yQd" firstAttribute="top" secondItem="Lmb-yW-zjc" secondAttribute="bottom" constant="5.5" id="Ira-CZ-uiX"/>
                             <constraint firstItem="7Zn-TH-NC0" firstAttribute="centerY" secondItem="zHM-T8-vMf" secondAttribute="centerY" id="Pp5-rX-vFo"/>
                             <constraint firstItem="3Hs-fA-2wq" firstAttribute="trailing" secondItem="TKH-jL-2NC" secondAttribute="trailing" constant="-7" id="QYG-1P-dqm"/>
@@ -788,7 +788,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SrL-jc-AW7" userLabel="ChangeImage" customClass="CustomImageButton" customModule="InstaWeather" customModuleProvider="target">
-                                <rect key="frame" x="24" y="56.666666666666657" width="29" height="29"/>
+                                <rect key="frame" x="24" y="41.666666666666664" width="29" height="28.999999999999993"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="29" id="Mx6-A7-k3E"/>
                                     <constraint firstAttribute="width" constant="29" id="tWU-AY-ent"/>
@@ -852,8 +852,8 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Powered by the Dark Sky API" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="mfS-IG-cKA">
-                                <rect key="frame" x="245" y="703" width="152" height="19"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <rect key="frame" x="233" y="703" width="164" height="19"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -869,7 +869,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uAM-ds-MuP">
-                                <rect key="frame" x="344" y="50" width="46" height="38"/>
+                                <rect key="frame" x="344" y="35" width="46" height="38"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <state key="normal" title="Back">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -891,7 +891,7 @@
                             <constraint firstItem="3hr-a4-FvR" firstAttribute="leading" secondItem="cuq-et-T6X" secondAttribute="leading" constant="17" id="LbD-I4-3FX"/>
                             <constraint firstItem="cuq-et-T6X" firstAttribute="trailing" secondItem="uAM-ds-MuP" secondAttribute="trailing" constant="24" id="Ohu-iz-y3Z"/>
                             <constraint firstItem="Dns-ke-Cbg" firstAttribute="centerX" secondItem="6ga-Ff-xiW" secondAttribute="centerX" id="Olb-cV-qZs"/>
-                            <constraint firstItem="uAM-ds-MuP" firstAttribute="top" secondItem="cuq-et-T6X" secondAttribute="top" constant="30" id="S2m-PB-BZk"/>
+                            <constraint firstItem="uAM-ds-MuP" firstAttribute="top" secondItem="cuq-et-T6X" secondAttribute="top" constant="15" id="S2m-PB-BZk"/>
                             <constraint firstItem="8ke-OK-Y6B" firstAttribute="top" secondItem="6ga-Ff-xiW" secondAttribute="top" id="bM0-I1-74L"/>
                             <constraint firstItem="3hr-a4-FvR" firstAttribute="height" secondItem="mfS-IG-cKA" secondAttribute="height" id="bay-Yo-frK"/>
                             <constraint firstItem="mfS-IG-cKA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2Rz-HY-ti4" secondAttribute="trailing" constant="10" id="fCh-8J-5JH"/>
@@ -915,12 +915,15 @@
                     <connections>
                         <outlet property="autoCompleteConstraint" destination="YLV-UE-r1f" id="FLo-UG-WvP"/>
                         <outlet property="autoCompleteContainer" destination="MW2-OE-hun" id="ozc-dt-vjD"/>
+                        <outlet property="backButton" destination="uAM-ds-MuP" id="mnN-C2-YWB"/>
                         <outlet property="backgroundContainer" destination="8ke-OK-Y6B" id="WZ1-LV-jkK"/>
                         <outlet property="backgroundImage" destination="wgX-yo-6Ct" id="khr-0P-sX2"/>
                         <outlet property="changeImageButton" destination="SrL-jc-AW7" id="yZT-ma-kfd"/>
                         <outlet property="checkBtn" destination="6cx-98-g0U" id="hIS-aH-1fH"/>
                         <outlet property="cityField" destination="iv7-AE-zym" id="dIC-UI-SSd"/>
+                        <outlet property="currentLocationButton" destination="Dns-ke-Cbg" id="jj0-hr-HyI"/>
                         <outlet property="hideCamerasButton" destination="2Rz-HY-ti4" id="tzO-U2-vft"/>
+                        <outlet property="poweredByLabel" destination="mfS-IG-cKA" id="6Eo-Hw-RJH"/>
                         <outlet property="tableContainer" destination="WM6-xh-DAS" id="BuZ-mn-QbV"/>
                         <outlet property="tablePicksConstraint" destination="qMR-L4-oK4" id="xxw-hI-hSj"/>
                     </connections>

@@ -19,10 +19,13 @@ protocol ImageMenuDelegate: AnyObject {
     var changeImageButton: CustomImageButton! { get }
     var statusBarUpdater: StatusBarUpdater? { get set }
     var width: CGFloat { get }
+    var viewsToColor: [UIView] { get }
     
-    func toggleShadows(on: Bool)
+    func addAllShadows()
+    func removeAllShadows()
     
     func toggleImageMenu(visible: Bool)
+    func toggleShadows(on: Bool) 
     
     func updateBackgroundImageTo(_ image: UIImage)
     func resetBackgroundImage()
@@ -164,6 +167,19 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
         }
         animator.pausesOnCompletion = true
         return animator
+    }
+    
+    func addShadow(opacity: Float = 0.5, _ views: UIView...) {
+        for view in views {
+            view.layer.shadowColor = UIColor.black.cgColor
+            view.layer.shadowOffset = CGSize(width: 0, height: 2)
+            view.layer.shadowOpacity = opacity
+            view.layer.shadowRadius = 1.0
+        }
+    }
+    
+    func toggleShadows(on: Bool) {
+        on ? addAllShadows() : removeAllShadows()
     }
     
     func recreateMenusIfNotVisible() {

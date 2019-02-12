@@ -25,7 +25,10 @@ class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, U
     
     @IBOutlet weak var hideCamerasButton: LargeTapAreaButton!
     @IBOutlet weak var changeImageButton: CustomImageButton!
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var currentLocationButton: UIButton!
     @IBOutlet weak var autoCompleteContainer: UIView!
+    @IBOutlet weak var poweredByLabel: UILabel!
     @IBOutlet weak var tableContainer: UIView!
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var cityField: UITextField!
@@ -235,6 +238,10 @@ class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, U
 
 // MARK: - Image Manager
 extension ChangeCityViewController: ImageMenuDelegate {
+    var viewsToColor: [UIView] {
+        return [changeImageButton, checkBtn, currentLocationButton, backButton, poweredByLabel]
+    }
+    
     
     func loadBackgroundImage() {
         
@@ -269,10 +276,16 @@ extension ChangeCityViewController: ImageMenuDelegate {
     }
     
     func pickedNewTextColor(_ color: UIColor) {
-        
+        viewsToColor.forEach { $0.tintColor = color }
+        _ = viewsToColor.map { $0 as? UILabel }.compactMap { $0?.textColor = color }
+        _ = viewsToColor.map { $0 as? UIButton }.compactMap { $0?.setTitleColor(color, for: .normal) }
     }
     
-    func toggleShadows(on: Bool) {
-        
+    func addAllShadows() {
+        viewsToColor.forEach { addShadow($0) }
+    }
+    
+    func removeAllShadows() {
+        viewsToColor.forEach { $0.layer.shadowOpacity = 0 }
     }
 }

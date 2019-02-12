@@ -201,6 +201,7 @@ extension ImageMenu: ImagePickerHost {
         picker.shadowsToggled = { [weak self] on in
            self?.delegate?.toggleShadows(on: on)
         }
+        
         return picker
     }
     

@@ -46,11 +46,7 @@ class ForecastViewController: ParallaxViewController {
         for case let stack as UIStackView in mainStack.arrangedSubviews {
             subStacks.append(stack)
         }
-        for stack in subStacks {
-            for view in stack.arrangedSubviews where view.tag == 1 {
-                addShadow(view)
-            }
-        }
+        addAllShadows()
         for stack in subStacks {
                 stack.isHidden = true
         }
@@ -187,19 +183,14 @@ class ForecastViewController: ParallaxViewController {
             }
         }
     }
-    
-    func addShadow(_ views: UIView...) {
-        for view in views {
-            view.layer.shadowColor = UIColor.black.cgColor
-            view.layer.shadowOffset = CGSize(width: 0, height: 2)
-            view.layer.shadowOpacity = 0.5
-            view.layer.shadowRadius = 1.0
-        }
-    }
 }
 
 // MARK: - Image manager
 extension ForecastViewController: ImageMenuDelegate {
+    
+    var viewsToColor: [UIView] {
+        return [changeImageButton, mainStack]
+    }
     
     func loadBackgroundImage() {
         if AppSettings.weeklyForecastBackgrounds.allWeather.customBackground {
@@ -222,10 +213,30 @@ extension ForecastViewController: ImageMenuDelegate {
     }
     
     func pickedNewTextColor(_ color: UIColor) {
-        
+        for case let subStack as UIStackView in mainStack.arrangedSubviews {
+            let subviews = subStack.arrangedSubviews
+            subviews.forEach { $0.tintColor = color }
+            _ = subviews.map { $0 as? UILabel }.compactMap { $0?.textColor = color }
+            _ = subviews.map { $0 as? UIButton }.compactMap { $0?.setTitleColor(color, for: .normal) }
+            changeImageButton.tintColor = color
+        }
     }
     
-    func toggleShadows(on: Bool) {
-        
+    func addAllShadows() {
+        addShadow(changeImageButton)
+        for stack in subStacks {
+            for view in stack.arrangedSubviews where view.tag == 1 {
+                addShadow(view)
+            }
+        }
+    }
+    
+    func removeAllShadows() {
+        changeImageButton.layer.shadowOpacity = 0
+        for stack in subStacks {
+            for view in stack.arrangedSubviews where view.tag == 1 {
+                view.layer.shadowOpacity = 0
+            }
+        }
     }
 }
