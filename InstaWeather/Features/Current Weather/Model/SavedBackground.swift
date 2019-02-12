@@ -46,10 +46,54 @@ struct SavedBackgrounds: Codable {
     }
 }
 
-struct Background: Codable {
+struct Background {
+    
     var customBackground: Bool = false
     var brightnessSetting: Float = 0.8
     var blurSetting: Float = 0
     var enableShadows: Bool = true
-//    var textColor: UIColor = .white
+    var textColor: UIColor = .white
+    var textBrightness: Float = 1
+}
+
+extension Background: Codable {
+    
+    enum CodingKeys: String, CodingKey {
+        case background
+        case brightness
+        case blur
+        case shadows
+        case color
+        case textBrightness
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        customBackground = try container.decode(Bool.self, forKey: .background)
+        brightnessSetting = try container.decode(Float.self, forKey: .brightness)
+        blurSetting = try container.decode(Float.self, forKey: .blur)
+        enableShadows = try container.decode(Bool.self, forKey: .shadows)
+        textBrightness = try container.decode(Float.self, forKey: .textBrightness)
+        
+        let colorData = try container.decode(Data.self, forKey: .color)
+        textColor = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(colorData) as? UIColor ?? UIColor.white
+//        NSLog("Decoding \(textBrightness)")
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(customBackground, forKey: .background)
+        try container.encode(brightnessSetting, forKey: .brightness)
+        try container.encode(blurSetting, forKey: .blur)
+        try container.encode(enableShadows, forKey: .shadows)
+        try container.encode(textBrightness, forKey: .textBrightness)
+        
+        if #available(iOSApplicationExtension 11.0, *) {
+            let colorData = try NSKeyedArchiver.archivedData(withRootObject: textColor, requiringSecureCoding: false)
+//            NSLog("Encoding \(textBrightness)")
+            try container.encode(colorData, forKey: .color)
+        }
+    }
 }

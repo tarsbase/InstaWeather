@@ -30,6 +30,8 @@ open class ColorPickerView: UIView {
     fileprivate var currentSliderColor = UIColor.red
     fileprivate var hueImage: UIImage!
     fileprivate var slider: UISlider!
+    
+    var touchUpHandler: (() -> Void)?
 
     //MARK:- Open variables
     //MARK:-
@@ -61,8 +63,13 @@ open class ColorPickerView: UIView {
             if hueImage != nil {
                 hueImage.draw(in: sliderImageRect)
             }
+            slider.addTarget(self, action: #selector(performTouchUpHandler), for: .touchUpInside)
             addSubview(slider)
         }
+    }
+    
+    @objc func performTouchUpHandler() {
+        touchUpHandler?()
     }
 
     //MARK:- Internal Functions

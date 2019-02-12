@@ -118,7 +118,6 @@ extension DetailedContainerViewController: ImageMenuDelegate {
         detailedForecast?.changeCellsColorTo(color)
     }
     
-    
     func addAllShadows() {
         addShadow(changeImageButton)
         if let cells = detailedForecast?.getCellsToShade() {

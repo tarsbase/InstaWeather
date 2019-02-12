@@ -94,7 +94,6 @@ extension DashboardDelegate where Self: ParallaxViewController {
         
         // update image menu
         imageMenu.hostType = button.imageType
-        imageMenu.prepareToShow()
         
         let imageView = UIImageView(image: background)
         let frame = button.superview?.convert(button.frame, to: self.view) ?? .zero
@@ -120,8 +119,9 @@ extension DashboardDelegate where Self: ParallaxViewController {
         
         let imageMenuDelayMultiplier: Double = 0.45
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + duration * imageMenuDelayMultiplier) {
-            self.backgroundImage.image = background
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration * imageMenuDelayMultiplier) { [weak self] in
+            self?.backgroundImage.image = background
+            self?.imageMenu.prepareToShow()
             let fade = UIViewPropertyAnimator(duration: 0.2, curve: .linear){
                 imageView.alpha = 0
             }
@@ -129,7 +129,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
                 imageView.removeFromSuperview()
             }
             fade.startAnimation()
-            self.imageMenuIsVisible = true
+            self?.imageMenuIsVisible = true
         }
     }
     

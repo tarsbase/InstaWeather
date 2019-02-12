@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2806E96F22124EC80051C836 /* UIColor+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2806E96E22124EC80051C836 /* UIColor+Codable.swift */; };
 		2807A91D216A6A9C003DA8D6 /* ImageMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2807A91C216A6A9C003DA8D6 /* ImageMenu.xib */; };
 		2807A91F216A6CF3003DA8D6 /* ImageMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807A91E216A6CF3003DA8D6 /* ImageMenu.swift */; };
 		2807A921216A7077003DA8D6 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807A920216A7077003DA8D6 /* CustomSlider.swift */; };
@@ -134,6 +135,7 @@
 		09808961610CA42FB6E0C66E /* Pods-InstaWeatherTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaWeatherTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InstaWeatherTests/Pods-InstaWeatherTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1D3016E15023B4D1C7088105 /* Pods-InstaWeatherUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaWeatherUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-InstaWeatherUITests/Pods-InstaWeatherUITests.release.xcconfig"; sourceTree = "<group>"; };
 		237C6CE99104E30C5AA80DF9 /* Pods-InstaWeatherToday.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaWeatherToday.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InstaWeatherToday/Pods-InstaWeatherToday.debug.xcconfig"; sourceTree = "<group>"; };
+		2806E96E22124EC80051C836 /* UIColor+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Codable.swift"; sourceTree = "<group>"; };
 		2807A91C216A6A9C003DA8D6 /* ImageMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageMenu.xib; sourceTree = "<group>"; };
 		2807A91E216A6CF3003DA8D6 /* ImageMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMenu.swift; sourceTree = "<group>"; };
 		2807A920216A7077003DA8D6 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
@@ -502,6 +504,7 @@
 			isa = PBXGroup;
 			children = (
 				28890DBF21FD5EF7004C963A /* UIView Extension.swift */,
+				2806E96E22124EC80051C836 /* UIColor+Codable.swift */,
 				289D194F215DA9A6006339D9 /* EnumKeys.swift */,
 				28BFE2C42164447F000F44C3 /* AppLaunch.swift */,
 				28EEB910201C44300090D0D3 /* Secrets.swift */,
@@ -914,6 +917,7 @@
 				287DFB0D217558D7005086A3 /* DisplaySizes.swift in Sources */,
 				28E58C062201681F006A67EF /* ConfirmBackgroundButton.swift in Sources */,
 				2822A03A2021485F0007D9E9 /* ForecastObject.swift in Sources */,
+				2806E96F22124EC80051C836 /* UIColor+Codable.swift in Sources */,
 				28E58C0A22028F15006A67EF /* ColorPicker.swift in Sources */,
 				28E58C0222015C5C006A67EF /* ImageMenuDismissButton.swift in Sources */,
 				289D1950215DA9A6006339D9 /* EnumKeys.swift in Sources */,

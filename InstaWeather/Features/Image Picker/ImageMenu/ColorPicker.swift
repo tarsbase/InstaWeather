@@ -8,39 +8,47 @@
 
 import UIKit
 
+protocol ColorPickerDelegate {
+    func hideColorPicker()
+    func colorWasUpdatedTo(_ color: UIColor)
+    func shadowsToggled(visible: Bool)
+    
+    func updateSavedTextBrightnessSettings(to value: Float)
+    func updateSavedTextColorSettings(to color: UIColor)
+}
+
 class ColorPicker: UIView {
     
     @IBOutlet weak var pickedColorView: UIView! { didSet { pickedColorView.clipToCircle() }}
     @IBOutlet weak var colorPickerContainer: UIView!
-    @IBOutlet weak var brightnessSlider: UISlider!
+    @IBOutlet weak var brightnessSlider: UISlider! {
+        didSet { brightnessSlider.addTarget(self, action: #selector(updateSavedTextBrightnessSettings), for: .touchUpInside) }}
     @IBOutlet weak var okButton: UIButton!
     @IBOutlet weak var shadowsSwitch: UISwitch!
-    
-    var hideHandler: (() -> Void)?
-    var colorWasUpdated: ((UIColor) -> Void)?
     var colorPickerView = ColorPickerView()
-    var shadowsToggled: ((Bool) -> Void)?
+    
+    var delegate: ColorPickerDelegate?
     
     var brightnessValue: CGFloat {
         let value = CGFloat(brightnessSlider.value)
         return (value * 2) - 1
     }
     
-    var colorValue: UIColor = .red { didSet { updateColor() }}
+    var colorValue: UIColor = .red { didSet { colorUpdated() }}
+    
     var adjustedColorValue: UIColor {
         return colorValue.setBrightnessTo(brightnessValue)
     }
     
-    static func createByView(_ view: UIView, hideHandler: @escaping (() -> Void)) -> ColorPicker {
+    static func createByView<T: UIView & ColorPickerDelegate> (_ delegate: T) -> ColorPicker {
         guard let picker = UINib(nibName: "ColorPicker", bundle: nil)
             .instantiate(withOwner: self, options: nil)[0] as? ColorPicker else { fatalError() }
-        picker.frame = CGRect(x: 0, y: view.bounds.height - 133, width: view.bounds.width, height: 150)
+        picker.frame = CGRect(x: 0, y: delegate.bounds.height - 133, width: delegate.bounds.width, height: 150)
         
         picker.createColorPicker()
-        
         picker.alpha = 0
-        picker.hideHandler = hideHandler
-        view.addSubview(picker)
+        picker.delegate = delegate
+        delegate.addSubview(picker)
         return picker
     }
     
@@ -62,23 +70,45 @@ class ColorPicker: UIView {
             ])
         
         colorPickerView.didChangeColor = { [weak self] color in
-            self?.colorValue = color ?? .red
+            if let color = color {
+                self?.colorSliderMoved(to: color)
+            }
+        }
+        
+        colorPickerView.touchUpHandler = { [weak self] in
+            self?.updateSavedTextColorSettings()
         }
         
         self.colorPickerView = colorPickerView
     }
     
-    func updateColor() {
+    func colorSliderMoved(to color: UIColor) {
+        if brightnessSlider.value == 1 {
+            brightnessSlider.value = 0.5
+            updateSavedTextBrightnessSettings()
+        }
+        self.colorValue = color
+    }
+    
+    func colorUpdated() {
         pickedColorView.backgroundColor = adjustedColorValue
-        colorWasUpdated?(adjustedColorValue)
+        delegate?.colorWasUpdatedTo(adjustedColorValue)
+    }
+    
+    func updateSavedTextColorSettings() {
+        delegate?.updateSavedTextColorSettings(to: colorValue)
+    }
+        
+    @objc func updateSavedTextBrightnessSettings() {
+        delegate?.updateSavedTextBrightnessSettings(to: brightnessSlider.value)
     }
     
     @IBAction func okTapped(_ sender: UIButton) {
-        hideHandler?()
+        delegate?.hideColorPicker()
     }
     
     @IBAction func shadowSwitchToggled(_ sender: UISwitch) {
-        shadowsToggled?(sender.isOn)
+        delegate?.shadowsToggled(visible: sender.isOn)
     }
     
     func show() {
@@ -90,7 +120,7 @@ class ColorPicker: UIView {
     }
     
     @IBAction func brightnessChanged(_ sender: UISlider) {
-        updateColor()
+        colorUpdated()
     }
     
     private func changeVisibility(visible: Bool) {

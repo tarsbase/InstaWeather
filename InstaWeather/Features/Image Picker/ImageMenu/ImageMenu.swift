@@ -73,6 +73,10 @@ class ImageMenu: UIView {
         savedSettings.brightnessSetting = brightnessSlider.value
     }
     
+    func pickedNewColor(_ color: UIColor) {
+        delegate?.pickedNewTextColor(color)
+    }
+    
     @IBAction func cameraButton(_ sender: Any) {
         imagePicker.selectPictureFromCamera(for: hostType)
     }
@@ -101,6 +105,13 @@ class ImageMenu: UIView {
         blurChanged(blurSlider)
         brightnessSlider.value = savedSettings.brightnessSetting
         brightnessChanged(brightnessSlider)
+        
+        delegate?.toggleShadows(on: savedSettings.enableShadows)
+        
+        print("Brightness is at \(savedSettings.textBrightness)")
+        colorPicker.brightnessSlider.value = savedSettings.textBrightness
+        colorPicker.colorValue = savedSettings.textColor
+        colorPicker.shadowsSwitch.isOn = savedSettings.enableShadows
     }
     
     func toggleOverlay(visible: Bool) {
@@ -147,10 +158,6 @@ class ImageMenu: UIView {
         visible ? colorPicker.show() : colorPicker.hide()
     }
     
-    func pickedNewColor(_ color: UIColor) {
-        delegate?.pickedNewTextColor(color)
-    }
-    
     func prepareToShow() {
         // update title
         self.titleLabel.alpha = 1
@@ -191,22 +198,36 @@ extension ImageMenu: ImagePickerHost {
     }
     
     func setupColorPicker() -> ColorPicker {
-        let picker = ColorPicker.createByView(self) { [weak self] in
-            self?.toggleColorPicker(visible: false)
-        }
-        picker.colorWasUpdated = { [weak self] color in
-            self?.pickedNewColor(color)
-        }
-        
-        picker.shadowsToggled = { [weak self] on in
-           self?.delegate?.toggleShadows(on: on)
-        }
+        let picker = ColorPicker.createByView(self)
         
         return picker
     }
     
     func updateCustomImageSetting() {
         savedSettings.customBackground = true
+    }
+}
+
+extension ImageMenu: ColorPickerDelegate {
+    func hideColorPicker() {
+        self.toggleColorPicker(visible: false)
+    }
+    
+    func colorWasUpdatedTo(_ color: UIColor) {
+        self.pickedNewColor(color)
+    }
+    
+    func shadowsToggled(visible: Bool) {
+        self.delegate?.toggleShadows(on: visible)
+        savedSettings.enableShadows = visible
+    }
+    
+    func updateSavedTextBrightnessSettings(to value: Float) {
+        savedSettings.textBrightness = value
+    }
+    
+    func updateSavedTextColorSettings(to color: UIColor) {
+        savedSettings.textColor = color
     }
 }
 
