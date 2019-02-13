@@ -83,7 +83,6 @@ class Dashboard: UIView {
         layer.shadowRadius = 25
         layer.shadowOffset = .zero
         layer.shadowOpacity = 0.3
-        
     }
     
     func createMaskingPolygon() -> CAShapeLayer {
@@ -122,14 +121,17 @@ class Dashboard: UIView {
             if !fadeOut { self?.showTextLabels(show: true) }
         }
         anim.startAnimation()
+        
+        
+        updateButtonsLayout()
     }
     
     func showTextLabels(show: Bool) {
         labels.forEach { $0.isHidden = !show }
+//        imageCenter.toggleRingVisible(show)
     }
     
     override func layoutSubviews() {
-        updateButtonsLayout()
         blurEffectView.layer.masksToBounds = true
     }
     
@@ -169,6 +171,14 @@ class Dashboard: UIView {
     func showImageMenu(from button: DashboardButton?) {
         guard let button = button else { return }
         previewBackground?(button)
+    }
+    
+    func dashboardAnimationStarted(show: Bool) {
+        if show {
+            imageCenter.updateAllConditionsButton()
+        } else {
+//            imageCenter.removeRing()
+        }
     }
     
     func addShadow(opacity: Float = 0.5, _ views: [UIView]) {

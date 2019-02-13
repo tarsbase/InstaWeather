@@ -8,7 +8,7 @@
 
 import UIKit
 
-var imgCounter = 0
+fileprivate var imgCounter = 0
 
 class ImageButton: UIControl {
     
@@ -22,7 +22,13 @@ class ImageButton: UIControl {
     
     
     var imageView: UIImageView?
-    var imageType: PickerHostType = .mainScreen(.clear)
+    var ringView: UIView?
+    var hostType: PickerHostType = .mainScreen(.clear)
+    
+    var savedSettings: Background {
+        get { return hostType.savedSettings }
+        set { hostType.savedSettings = newValue }
+    }
     
     lazy var initialSetupOnce: Void = initialSetup()
     
@@ -30,7 +36,7 @@ class ImageButton: UIControl {
     var imageHeightConstraint: NSLayoutConstraint?
     
     var isCustomImageSelected: Bool {
-        return ImageManager.customBackgroundFor(host: imageType)
+        return ImageManager.customBackgroundFor(host: hostType)
     }
     
     override func layoutSubviews() {
@@ -53,6 +59,7 @@ class ImageButton: UIControl {
         // size
         growAnimator = UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.4) { [weak self] in
             self?.transform = CGAffineTransform(scaleX: scale, y: scale)
+            self?.ringView?.transform = CGAffineTransform(scaleX: scale, y: scale)
         }
         growAnimator.startAnimation()
     }
@@ -64,6 +71,7 @@ class ImageButton: UIControl {
         // size
         growAnimator = UIViewPropertyAnimator(duration: 0.08, curve: .easeOut, animations: { [weak self] in
             self?.transform = CGAffineTransform(scaleX: scale, y: scale)
+            self?.ringView?.transform = CGAffineTransform(scaleX: scale, y: scale)
         })
         growAnimator.startAnimation()
     }
@@ -74,7 +82,7 @@ class ImageButton: UIControl {
     }
     
     func setupImage(with type: PickerHostType, action: @escaping (() -> Void)) {
-        self.imageType = type
+        self.hostType = type
         
         let image = UIImageView(frame: self.frame)
         
@@ -110,6 +118,45 @@ class ImageButton: UIControl {
         addSelector(action: action)
     }
     
+    func updateAllConditionsButton() {
+        guard hostType.weather == .all else { return }
+        
+        if hostType.savedBackgrounds.oneBackgroundForAllConditions {
+            setupRing()
+        } else {
+            removeRing()
+        }
+    }
+    
+    func setupRing() {
+        removeRing()
+        
+        let ringWidth: CGFloat = bounds.width * 0.05
+        
+        let ring = UIView(frame: self.bounds.insetBy(dx: -ringWidth, dy: -ringWidth))
+        
+        superview?.insertSubview(ring, belowSubview: self)
+        ring.backgroundColor = .green
+        ring.center = center
+        ring.clipToCircle()
+        
+        ring.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate( [
+            ring.widthAnchor.constraint(equalToConstant: ring.bounds.width),
+            ring.heightAnchor.constraint(equalToConstant: ring.bounds.height),
+            ring.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            ring.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            ])
+        
+        self.ringView = ring
+    }
+    
+    func removeRing() {
+        self.ringView?.removeFromSuperview()
+        self.ringView = nil
+    }
+    
     func updateImageSize() {
         guard let imageView = self.imageView else { return }
         let dimensions = imageView.image?.size ?? .zero
@@ -136,21 +183,21 @@ class ImageButton: UIControl {
             
             // otherwise load default image
         } else {
-            return ImageManager.loadDashboardDefaultImage(weather: imageType.weather)
+            return ImageManager.loadDashboardDefaultImage(weather: hostType.weather)
         }
     }
     
     private func updateCustomDashboardImage() -> UIImage {
-        let image = ImageManager.getDashboardIconImage(for: imageType, size: self.bounds.size)
-        return image ?? ImageManager.loadDashboardDefaultImage(weather: imageType.weather)
+        let image = ImageManager.getDashboardIconImage(for: hostType, size: self.bounds.size)
+        return image ?? ImageManager.loadDashboardDefaultImage(weather: hostType.weather)
     }
     
     func getFullSizedImage() -> UIImage {
         if isCustomImageSelected {
-            let image = ImageManager.getBackgroundImage(for: imageType)
-            return image ?? ImageManager.loadImage(named: imageType.weather.defaultBackground)
+            let image = ImageManager.getBackgroundImage(for: hostType)
+            return image ?? ImageManager.loadImage(named: hostType.weather.defaultBackground)
         } else {
-            return ImageManager.loadImage(named: imageType.weather.defaultBackground)
+            return ImageManager.loadImage(named: hostType.weather.defaultBackground)
         }
     }
     

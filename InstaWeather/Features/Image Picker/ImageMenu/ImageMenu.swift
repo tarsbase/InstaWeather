@@ -15,37 +15,14 @@ class ImageMenu: UIView {
     @IBOutlet weak var verticalStackView: UIStackView!
     
     var hostType = PickerHostType.mainScreen(.clear)
+    var savedSettings: Background {
+        get { return hostType.savedSettings }
+        set { hostType.savedSettings = newValue }
+    }
     var overlay: Overlay?
     
     @IBOutlet weak var blurEffectView: UIVisualEffectView!
     lazy var colorPicker: ColorPicker = setupColorPicker()
-    
-    var savedSettings: Background {
-        get {
-            switch hostType {
-            case .mainScreen(let weather):
-                return AppSettings.mainscreenBackgrounds.background(for: weather)
-            case .changeCity(let weather):
-                return AppSettings.changecityBackgrounds.background(for: weather)
-            case .weeklyForecast(let weather):
-                return AppSettings.weeklyForecastBackgrounds.background(for: weather)
-            case .detailedForecast(let weather):
-                return AppSettings.detailedForecastBackgrounds.background(for: weather)
-            }
-        }
-        set {
-            switch hostType {
-            case .mainScreen(let weather):
-                AppSettings.mainscreenBackgrounds.setSettings(newValue, for: weather)
-            case .changeCity(let weather):
-                AppSettings.changecityBackgrounds.setSettings(newValue, for: weather)
-            case .weeklyForecast(let weather):
-                AppSettings.weeklyForecastBackgrounds.setSettings(newValue, for: weather)
-            case .detailedForecast(let weather):
-                AppSettings.detailedForecastBackgrounds.setSettings(newValue, for: weather)
-            }
-        }
-    }
     
     lazy var imagePicker = setupImagePicker()
     var confirmButton: ConfirmBackgroundButton?
@@ -250,7 +227,15 @@ extension ImageMenu {
         let ac = UIAlertController(title: "Reset Selection", message: nil, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Reset background and effects", style: .destructive, handler: { [weak self] (action) in
             guard let self = self else { return }
-            self.delegate?.present(self.resetBackgroundAndEffectsAlert(), animated: true, completion: nil)
+            self.savedSettings.customBackground = false
+            self.savedSettings.brightnessSetting = 0.8
+            self.savedSettings.blurSetting = 0
+            self.savedSettings.textColor = UIColor.white
+            self.savedSettings.textBrightness = 1
+            self.savedSettings.enableShadows = true
+            self.resetBackgroundImage()
+            self.dismissIfAllWeather()
+            self.updateSliders()
         }))
         
         if savedSettings.customBackground {
@@ -288,24 +273,6 @@ extension ImageMenu {
             }))
         }
         
-        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        return ac
-    }
-    
-    func resetBackgroundAndEffectsAlert() -> UIAlertController {
-        let ac = UIAlertController(title: "Reset Background?", message: "Are you sure you want to reset the background and effects to their default values?", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "Yes", style: .default, handler: { [weak self] (action) in
-            guard let self = self else { return }
-            self.savedSettings.customBackground = false
-            self.savedSettings.brightnessSetting = 0.8
-            self.savedSettings.blurSetting = 0
-            self.savedSettings.textColor = UIColor.white
-            self.savedSettings.textBrightness = 1
-            self.savedSettings.enableShadows = true
-            self.resetBackgroundImage()
-            self.dismissIfAllWeather()
-            self.updateSliders()
-        }))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         return ac
     }

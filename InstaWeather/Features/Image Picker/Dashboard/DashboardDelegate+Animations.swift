@@ -25,11 +25,12 @@ extension DashboardDelegate where Self: ParallaxViewController {
     }
     
     func animateDashboard(dashboard: Dashboard, fromButton button: UIButton, show: Bool) {
-        
         if case DashboardStatus.animating = dashboardMenu.dashboardStatus { return }
         dashboardMenu.dashboardStatus = .animating
         // disable paging while menu is visible
         statusBarUpdater?.pageViewDataSourceIsActive(!show)
+        
+        dashboard.dashboardAnimationStarted(show: show)
         
         if show { createOverlayFor(dashboard: dashboard) }
         
@@ -39,7 +40,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
         
         let duration: TimeInterval = 0.8
         
-        UIViewPropertyAnimator(duration: duration, dampingRatio: 0.9) { [weak self] in
+        let anim = UIViewPropertyAnimator(duration: duration, dampingRatio: 0.9) { [weak self] in
             dashboard.center = endCenter
             self?.applyTransformTo(dashboard, big: show)
             let rotationAngle: CGFloat = show ? .pi / 2 : .pi / 4
@@ -48,7 +49,13 @@ extension DashboardDelegate where Self: ParallaxViewController {
                 dashboard.transform = dashboard.transform.concatenating(rotation)
             }
             show ? dashboard.fadeInOverlay() : dashboard.fadeOutOverlay()
-            }.startAnimation()
+            }
+        
+        anim.addCompletion { (_) in
+            
+        }
+        
+        anim.startAnimation()
         
         // hide camera towards the end
         let fadeCameraTime = duration * 0.4
@@ -93,7 +100,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
         dashboardMenu.dashboardStatus = .animating
         
         // update image menu
-        imageMenu.hostType = button.imageType
+        imageMenu.hostType = button.hostType
         
         let imageView = UIImageView(image: background)
         let frame = button.superview?.convert(button.frame, to: self.view) ?? .zero
@@ -146,6 +153,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
         
         dashboardMenu.dashboardStatus = .animating
         dashboardMenu.updateButtonsLayout()
+        dashboardMenu.imageCenter.updateAllConditionsButton()
         
         let imageView = UIImageView(image: background)
         imageView.layer.minificationFilter = .trilinear

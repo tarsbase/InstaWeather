@@ -67,6 +67,47 @@ enum PickerHostType {
             return x
         }
     }
+    
+    var savedBackgrounds: SavedBackgrounds {
+        switch self {
+        case .mainScreen:
+            return AppSettings.mainscreenBackgrounds
+        case .changeCity:
+            return AppSettings.changecityBackgrounds
+        case .weeklyForecast:
+            return AppSettings.weeklyForecastBackgrounds
+        case .detailedForecast:
+            return AppSettings.detailedForecastBackgrounds
+        }
+    }
+    
+    // Saved Settings
+    var savedSettings: Background {
+        get {
+            switch self {
+            case .mainScreen(let weather):
+                return AppSettings.mainscreenBackgrounds.background(for: weather)
+            case .changeCity(let weather):
+                return AppSettings.changecityBackgrounds.background(for: weather)
+            case .weeklyForecast(let weather):
+                return AppSettings.weeklyForecastBackgrounds.background(for: weather)
+            case .detailedForecast(let weather):
+                return AppSettings.detailedForecastBackgrounds.background(for: weather)
+            }
+        }
+        set {
+            switch self {
+            case .mainScreen(let weather):
+                AppSettings.mainscreenBackgrounds.setSettings(newValue, for: weather)
+            case .changeCity(let weather):
+                AppSettings.changecityBackgrounds.setSettings(newValue, for: weather)
+            case .weeklyForecast(let weather):
+                AppSettings.weeklyForecastBackgrounds.setSettings(newValue, for: weather)
+            case .detailedForecast(let weather):
+                AppSettings.detailedForecastBackgrounds.setSettings(newValue, for: weather)
+            }
+        }
+    }
 }
 
 enum ImageWeatherType: String, CaseIterable {
