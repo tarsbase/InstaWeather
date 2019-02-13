@@ -105,7 +105,6 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         backgroundContainer.clipsToBounds = true
         CustomImageButton.buttonsArray.insert(changeImageButton)
         animateCameraButton()
-        requestReview()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -261,6 +260,10 @@ extension WeatherViewController: DashboardDelegate {
     }
     
     func requestReview() {
+        // skip if already presenting
+        if self.presentedViewController != nil {
+            return
+        }
         if AppSettings.appLaunchCount > 1 && !AppSettings.alreadySubmittedReview {
             AppSettings.alreadySubmittedReview = true
             SKStoreReviewController.requestReview()

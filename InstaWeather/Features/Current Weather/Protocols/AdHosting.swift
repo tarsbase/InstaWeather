@@ -15,9 +15,19 @@ extension AdHosting where Self: UIViewController {
     func launchAds() {
         let twoWeeks: Double = 1_209_600
         
-        // don't show ads if user already has app
-        if (UIApplication.shared.canOpenURL(URL(string:"dwmath:")!)) {
+        // skip if already presenting something else
+        if self.presentedViewController != nil {
             return
+        }
+        
+        // don't show ads if user already has app
+        if UIApplication.shared.canOpenURL(URL(string:"dwmath:")!) {
+            return
+        }
+        
+        // don't show on first launch
+        if AppSettings.appLaunchCount <= 1 {
+            return 
         }
         
         // don't show ads if it was shown less than 2 weeks ago

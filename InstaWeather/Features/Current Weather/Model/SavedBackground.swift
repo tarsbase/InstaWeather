@@ -51,13 +51,20 @@ struct SavedBackgrounds: Codable {
 }
 
 struct Background {
-    
     var customBackground: Bool = false
     var brightnessSetting: Float = 0.8
     var blurSetting: Float = 0
     var enableShadows: Bool = true
     var textColor: UIColor = .white
     var textBrightness: Float = 1
+    
+    var defaultBrightness: Bool { return brightnessSetting == 0.8 }
+    var defaultBlur: Bool { return blurSetting == 0 }
+    var defaultTextColor: Bool { return textColor == .white && textBrightness == 1 }
+    
+    var allDefaultValues: Bool {
+        return defaultBrightness && defaultBlur && defaultTextColor && (customBackground == false)
+    }
 }
 
 extension Background: Codable {

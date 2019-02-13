@@ -85,7 +85,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     let locationManager = CLLocationManager()
     var todayModel = TodayDataModel()
     let defaults = UserDefaults(suiteName: "group.com.besher.InstaWeather")
-    let updateCooldown: Double = 120
+    let updateCooldown: Double = 180
     var lastUpdate: Date? {
         set {
             defaults?.set(newValue, forKey: "lastUpdate")
