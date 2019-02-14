@@ -28,7 +28,7 @@ class CustomImageButton: LargeTapAreaButton {
         if let imageView = self.imageView {
             imageView.contentMode = .scaleAspectFit
             imageView.layer.minificationFilter = .trilinear
-            imageView.tintColor = .white
+            imageView.tintColor = nil
             setImage(imageView.image, for: .normal)
             layer.minificationFilter = .trilinear
         }

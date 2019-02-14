@@ -31,7 +31,10 @@ enum AppStoreAppsKeys: String {
         switch self {
         case .findMyLatte: return "https://itunes.apple.com/us/app/find-my-latte/id1435110287?ls=1&mt=8"
         case .drawWithMath: return "https://itunes.apple.com/us/app/draw-with-math/id1447996733?ls=1&mt=8"
-        default: return ""
+        case .twitter: return "https://itunes.apple.com/ca/app/twitter/id333903271?mt=8"
+        case .facebook: return "https://itunes.apple.com/ca/app/facebook/id284882215?mt=8"
+        case .instagram: return "https://itunes.apple.com/ca/app/instagram/id389801252"
+        case .snapchat: return "https://itunes.apple.com/ca/app/snapchat/id447188370"
         }
     }
 }

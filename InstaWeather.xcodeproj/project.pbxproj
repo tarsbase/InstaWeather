@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2806E96F22124EC80051C836 /* UIColor+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2806E96E22124EC80051C836 /* UIColor+Codable.swift */; };
 		2807A91D216A6A9C003DA8D6 /* ImageMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2807A91C216A6A9C003DA8D6 /* ImageMenu.xib */; };
 		2807A91F216A6CF3003DA8D6 /* ImageMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807A91E216A6CF3003DA8D6 /* ImageMenu.swift */; };
 		2807A921216A7077003DA8D6 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807A920216A7077003DA8D6 /* CustomSlider.swift */; };
@@ -32,6 +31,9 @@
 		28359A57201C41E3005AAFF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28359A55201C41E3005AAFF4 /* LaunchScreen.storyboard */; };
 		28359A62201C41E3005AAFF4 /* InstaWeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28359A61201C41E3005AAFF4 /* InstaWeatherTests.swift */; };
 		28359A6D201C41E3005AAFF4 /* InstaWeatherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28359A6C201C41E3005AAFF4 /* InstaWeatherUITests.swift */; };
+		28392E512214F69900789A2A /* SocialExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28392E4F2214F69800789A2A /* SocialExport.swift */; };
+		28392E522214F69900789A2A /* ActivitySharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28392E502214F69900789A2A /* ActivitySharing.swift */; };
+		28392E542214F81100789A2A /* LiveInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28392E532214F81100789A2A /* LiveInstance.swift */; };
 		284574F5216AF1C900996AC4 /* FahrenheitProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2873AED02027A55C00C3ABCE /* FahrenheitProtocol.swift */; };
 		284574F7216B075E00996AC4 /* CustomImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284574F6216B075E00996AC4 /* CustomImageButton.swift */; };
 		28481F16201E8FA3004A89B6 /* ContainmentExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28481F15201E8FA3004A89B6 /* ContainmentExtension.swift */; };
@@ -135,7 +137,6 @@
 		09808961610CA42FB6E0C66E /* Pods-InstaWeatherTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaWeatherTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InstaWeatherTests/Pods-InstaWeatherTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1D3016E15023B4D1C7088105 /* Pods-InstaWeatherUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaWeatherUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-InstaWeatherUITests/Pods-InstaWeatherUITests.release.xcconfig"; sourceTree = "<group>"; };
 		237C6CE99104E30C5AA80DF9 /* Pods-InstaWeatherToday.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaWeatherToday.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InstaWeatherToday/Pods-InstaWeatherToday.debug.xcconfig"; sourceTree = "<group>"; };
-		2806E96E22124EC80051C836 /* UIColor+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Codable.swift"; sourceTree = "<group>"; };
 		2807A91C216A6A9C003DA8D6 /* ImageMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageMenu.xib; sourceTree = "<group>"; };
 		2807A91E216A6CF3003DA8D6 /* ImageMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMenu.swift; sourceTree = "<group>"; };
 		2807A920216A7077003DA8D6 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
@@ -163,6 +164,9 @@
 		28359A68201C41E3005AAFF4 /* InstaWeatherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InstaWeatherUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28359A6C201C41E3005AAFF4 /* InstaWeatherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstaWeatherUITests.swift; sourceTree = "<group>"; };
 		28359A6E201C41E3005AAFF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28392E4F2214F69800789A2A /* SocialExport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialExport.swift; sourceTree = "<group>"; };
+		28392E502214F69900789A2A /* ActivitySharing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivitySharing.swift; sourceTree = "<group>"; };
+		28392E532214F81100789A2A /* LiveInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveInstance.swift; sourceTree = "<group>"; };
 		284574F6216B075E00996AC4 /* CustomImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageButton.swift; sourceTree = "<group>"; };
 		28481F15201E8FA3004A89B6 /* ContainmentExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainmentExtension.swift; sourceTree = "<group>"; };
 		28481F17201E9199004A89B6 /* RecentPicksTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentPicksTable.swift; sourceTree = "<group>"; };
@@ -406,6 +410,15 @@
 			path = InstaWeatherUITests;
 			sourceTree = "<group>";
 		};
+		28392E4E2214F68B00789A2A /* Social Export */ = {
+			isa = PBXGroup;
+			children = (
+				28392E502214F69900789A2A /* ActivitySharing.swift */,
+				28392E4F2214F69800789A2A /* SocialExport.swift */,
+			);
+			path = "Social Export";
+			sourceTree = "<group>";
+		};
 		285D412F20A133370040F6BE /* InstaWeatherToday */ = {
 			isa = PBXGroup;
 			children = (
@@ -449,6 +462,7 @@
 		28B5CD2321694FE9004331DA /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				28392E4E2214F68B00789A2A /* Social Export */,
 				28890DC321FE14EE004C963A /* Custom Controls */,
 				280A03EA21841FC400F71B6A /* Parallax */,
 				2807A929216AF0EE003DA8D6 /* Storyboards */,
@@ -504,8 +518,8 @@
 			isa = PBXGroup;
 			children = (
 				28890DBF21FD5EF7004C963A /* UIView Extension.swift */,
-				2806E96E22124EC80051C836 /* UIColor+Codable.swift */,
 				289D194F215DA9A6006339D9 /* EnumKeys.swift */,
+				28392E532214F81100789A2A /* LiveInstance.swift */,
 				28BFE2C42164447F000F44C3 /* AppLaunch.swift */,
 				28EEB910201C44300090D0D3 /* Secrets.swift */,
 				287DFB0C217558D7005086A3 /* DisplaySizes.swift */,
@@ -553,6 +567,7 @@
 				023CC942800E1C647B935501 /* [CP] Embed Pods Frameworks */,
 				28243636209E6B9C002D3142 /* ShellScript */,
 				285D413C20A133370040F6BE /* Embed App Extensions */,
+				E43385BABB0108C084F4E7F8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -737,19 +752,35 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-InstaWeather/Pods-InstaWeather-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
 				"${BUILT_PRODUCTS_DIR}/PryntTrimmerView/PryntTrimmerView.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+				"${PODS_ROOT}/SnapSDK/SCSDKCreativeKit.framework",
+				"${PODS_ROOT}/SnapSDK/SCSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SteviaLayout/Stevia.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
 				"${BUILT_PRODUCTS_DIR}/YPImagePicker/YPImagePicker.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PryntTrimmerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSDKCreativeKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stevia.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YPImagePicker.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -886,6 +917,24 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-InstaWeatherTests/Pods-InstaWeatherTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E43385BABB0108C084F4E7F8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-InstaWeather/Pods-InstaWeather-resources.sh",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-InstaWeather/Pods-InstaWeather-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -897,12 +946,14 @@
 				28A0619D20E004CD00BF9112 /* DetailedContainerViewController.swift in Sources */,
 				2807A91F216A6CF3003DA8D6 /* ImageMenu.swift in Sources */,
 				28D1A0FB220E8DD500B4928C /* SavedBackground.swift in Sources */,
+				28392E512214F69900789A2A /* SocialExport.swift in Sources */,
 				28EEB91B201C50EC0090D0D3 /* LocationExtension.swift in Sources */,
 				28481F18201E9199004A89B6 /* RecentPicksTable.swift in Sources */,
 				28A176C020E15294006A056F /* CoreAnimationObject.swift in Sources */,
 				28EEB917201C44CD0090D0D3 /* WeatherDataModel.swift in Sources */,
 				284574F7216B075E00996AC4 /* CustomImageButton.swift in Sources */,
 				28481F16201E8FA3004A89B6 /* ContainmentExtension.swift in Sources */,
+				28392E522214F69900789A2A /* ActivitySharing.swift in Sources */,
 				2885EE5F2023F62500CD4CC4 /* DetailedForecastTable.swift in Sources */,
 				280C4C2121FFEEC700430ED3 /* ImageMenuDelegate.swift in Sources */,
 				28B5CD262169501D004331DA /* ImagePicker.swift in Sources */,
@@ -910,6 +961,7 @@
 				280A03E92183FDCD00F71B6A /* ParallaxHost.swift in Sources */,
 				287A5DD1201D62D1008E71CF /* ChangeCityViewController.swift in Sources */,
 				28BFE2C52164447F000F44C3 /* AppLaunch.swift in Sources */,
+				28392E542214F81100789A2A /* LiveInstance.swift in Sources */,
 				28EEB911201C44300090D0D3 /* Secrets.swift in Sources */,
 				28BB175E201D589D006E14A0 /* UpdateWeatherExtension.swift in Sources */,
 				28890DC521FE14F5004C963A /* ImageButton.swift in Sources */,
@@ -917,7 +969,6 @@
 				287DFB0D217558D7005086A3 /* DisplaySizes.swift in Sources */,
 				28E58C062201681F006A67EF /* ConfirmBackgroundButton.swift in Sources */,
 				2822A03A2021485F0007D9E9 /* ForecastObject.swift in Sources */,
-				2806E96F22124EC80051C836 /* UIColor+Codable.swift in Sources */,
 				28E58C0A22028F15006A67EF /* ColorPicker.swift in Sources */,
 				28E58C0222015C5C006A67EF /* ImageMenuDismissButton.swift in Sources */,
 				289D1950215DA9A6006339D9 /* EnumKeys.swift in Sources */,

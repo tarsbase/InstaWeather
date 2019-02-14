@@ -187,10 +187,23 @@
                                     <action selector="imageManager:" destination="uP8-yZ-nbf" eventType="touchUpInside" id="K6i-Bi-ZaY"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p3A-CI-fEJ">
+                                <rect key="frame" x="207" y="31.666666666666671" width="45" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="aDc-7P-00t"/>
+                                    <constraint firstAttribute="width" constant="45" id="ddP-Pw-exJ"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="export"/>
+                                <connections>
+                                    <action selector="exportButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1Id-h9-1OC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="AKo-Sr-Pkc" secondAttribute="trailing" constant="24" id="0Tn-mP-a7P"/>
+                            <constraint firstItem="zHM-T8-vMf" firstAttribute="leading" secondItem="p3A-CI-fEJ" secondAttribute="trailing" constant="25" id="0sv-Gd-xDe"/>
                             <constraint firstItem="Lmb-yW-zjc" firstAttribute="top" secondItem="vAj-J9-u1b" secondAttribute="bottom" constant="-4.5" id="0xa-g5-6mt"/>
                             <constraint firstItem="7Zn-TH-NC0" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="2hV-kH-kIG"/>
                             <constraint firstItem="AKo-Sr-Pkc" firstAttribute="top" secondItem="zHM-T8-vMf" secondAttribute="bottom" constant="23" id="3G4-aZ-Xlu"/>
@@ -207,6 +220,7 @@
                             </constraint>
                             <constraint firstAttribute="trailing" secondItem="WnI-Iz-KeK" secondAttribute="trailing" id="RHG-Xh-qeR"/>
                             <constraint firstItem="F5t-8A-yQd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="S5n-Ir-qiv"/>
+                            <constraint firstItem="p3A-CI-fEJ" firstAttribute="centerY" secondItem="7Zn-TH-NC0" secondAttribute="centerY" id="T6y-mg-6pW"/>
                             <constraint firstItem="78W-x0-Gdl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="22" id="TD3-Jf-eb5"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zHM-T8-vMf" secondAttribute="trailing" constant="24" id="U0Z-En-YbW"/>
                             <constraint firstItem="AKo-Sr-Pkc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="VUM-Ab-j5F"/>
@@ -252,6 +266,7 @@
                         <outlet property="changeImageButton" destination="7Zn-TH-NC0" id="qGL-7b-bww"/>
                         <outlet property="cityLabel" destination="F5t-8A-yQd" id="q83-TC-cxl"/>
                         <outlet property="conditionImage" destination="Lmb-yW-zjc" id="ksq-kp-eGN"/>
+                        <outlet property="exportButton" destination="p3A-CI-fEJ" id="6lq-sk-4Zf"/>
                         <outlet property="feelsLikeLabel" destination="8Og-9d-KTk" id="sAQ-aB-5ZY"/>
                         <outlet property="humidityLabel" destination="tda-rG-UmG" id="pp1-LS-ON5"/>
                         <outlet property="lastUpdated" destination="8IA-Mv-nD6" id="4WK-Iv-JCq"/>
@@ -996,6 +1011,7 @@
         <image name="bgselect3" width="1271" height="715"/>
         <image name="camera" width="40" height="40"/>
         <image name="cameraDashboard" width="265" height="235"/>
+        <image name="export" width="85" height="85"/>
         <image name="forecast" width="1166" height="777"/>
         <image name="light gradient" width="1242" height="2208"/>
         <image name="overcast" width="222" height="133"/>

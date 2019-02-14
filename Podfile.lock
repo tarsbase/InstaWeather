@@ -1,36 +1,71 @@
 PODS:
   - Alamofire (4.8.1)
+  - Bolts (1.9.0):
+    - Bolts/AppLinks (= 1.9.0)
+    - Bolts/Tasks (= 1.9.0)
+  - Bolts/AppLinks (1.9.0):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.9.0)
+  - FBSDKCoreKit (4.40.0):
+    - Bolts (~> 1.9)
+  - FBSDKLoginKit (4.40.0):
+    - FBSDKCoreKit
+  - FBSDKShareKit (4.40.0):
+    - FBSDKCoreKit
   - PryntTrimmerView (3.0.0)
+  - SnapSDK/SCSDKCreativeKit (1.2.0)
   - SteviaLayout (4.4.3)
   - SVProgressHUD (2.2.5)
   - SwiftyJSON (4.2.0)
+  - TwitterCore (3.2.0)
+  - TwitterKit (3.4.2):
+    - TwitterCore (>= 3.2.0)
   - YPImagePicker (3.5.3):
     - PryntTrimmerView (~> 3.0.0)
     - SteviaLayout (~> 4.4.1)
 
 DEPENDENCIES:
   - Alamofire
+  - FBSDKCoreKit
+  - FBSDKLoginKit
+  - FBSDKShareKit
+  - SnapSDK/SCSDKCreativeKit
   - SVProgressHUD
   - SwiftyJSON
+  - TwitterKit
   - YPImagePicker
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - Bolts
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKShareKit
     - PryntTrimmerView
+    - SnapSDK
     - SteviaLayout
     - SVProgressHUD
     - SwiftyJSON
+    - TwitterCore
+    - TwitterKit
     - YPImagePicker
 
 SPEC CHECKSUMS:
   Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  FBSDKCoreKit: ae214474b25033399c131dc81d258e412582a2ba
+  FBSDKLoginKit: 7a1e411d46acc8834588eca437daf34de42e1d52
+  FBSDKShareKit: 0e45916f4150da485928ae2a17ca021950b194f5
   PryntTrimmerView: 53ac64053c7ce63cb3e27f54090f52da0734891d
+  SnapSDK: ab99c79e619067da4ed60c98ea5a04a288b83dc0
   SteviaLayout: ae5ee66101e03607a93c9b3773b84ab7ba7b3d17
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
+  TwitterCore: 8cbc9ad34d91c63a0035ea05bfbfc0d7ca72a28c
+  TwitterKit: 5e4f41d70b9abdb41df5467f52d7aa2c0fd26ebb
   YPImagePicker: 5dd3814b47b1208e9c8cc8f6ef77fe90db3723b6
 
-PODFILE CHECKSUM: faf235ea15a7e5ac5fa9c799a40593d2c3595476
+PODFILE CHECKSUM: cf630b3e2b41e5525d782857975ae1881782ec79
 
 COCOAPODS: 1.5.3

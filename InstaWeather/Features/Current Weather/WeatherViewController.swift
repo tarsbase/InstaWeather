@@ -27,7 +27,9 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     @IBOutlet weak var lastUpdated: UILabel!
     @IBOutlet weak var changeImageButton: CustomImageButton!
     @IBOutlet weak var backgroundContainer: UIView!
+    @IBOutlet weak var exportButton: UIButton!
     
+    var socialExport: SocialExport?
     let locationManager = CLLocationManager()
     var weatherDataModel = WeatherDataModel()
     var preloadForecastTable: (() -> Void)?
@@ -281,5 +283,17 @@ extension WeatherViewController: DashboardDelegate {
         shadowsToRemove.forEach {
             $0?.layer.shadowOpacity = 0
         }
+    }
+}
+
+extension WeatherViewController {
+    @IBAction func exportButtonPressed(_ sender: UIButton) {
+        
+        // TODO take picture before presenting popup
+        // hide elements before and after
+        
+        let social = SocialExport(delegate: self, source: sender)
+        social.showAlert()
+        self.socialExport = social
     }
 }

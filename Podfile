@@ -9,6 +9,11 @@ target 'InstaWeather' do
   pod 'Alamofire'
   pod 'SVProgressHUD'
   pod 'YPImagePicker'
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKShareKit'
+  pod 'FBSDKLoginKit'
+  pod 'SnapSDK' , :subspecs => ['SCSDKCreativeKit']
+  pod 'TwitterKit'
 
   target 'InstaWeatherTests' do
     inherit! :search_paths
