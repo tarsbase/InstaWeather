@@ -58,6 +58,10 @@ class SocialExport: NSObject, FBSDKSharingDelegate {
             self?.snapchatShare()
         }))
         
+        ac.addAction(UIAlertAction(title: "Other...", style: .default, handler: { [weak self] _ in
+            ShareDocumentHost.share(self?.image, by: self?.vcDelegate)
+        }))
+        
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         vcDelegate?.present(ac, animated: true)

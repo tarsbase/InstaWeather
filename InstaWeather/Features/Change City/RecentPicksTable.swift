@@ -10,6 +10,8 @@ import UIKit
 
 class RecentPicksTable: UITableViewController {
     
+    var cellsColor: UIColor = .red
+    
     lazy var changeCityVC: ChangeCityViewController = {
         guard let changeCityVC = parent as? ChangeCityViewController else { fatalError() }
         return changeCityVC
@@ -21,7 +23,7 @@ class RecentPicksTable: UITableViewController {
     
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
         let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.textColor = UIColor.white
+        header.textLabel?.textColor = .white
         if #available(iOS 11.0, *) {
             header.backgroundView?.backgroundColor = UIColor(named: "RecentPicksHeader")
         } else {
@@ -35,7 +37,7 @@ class RecentPicksTable: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         cell.textLabel?.text = changeCityVC.recentPicks[indexPath.row]
-        cell.textLabel?.textColor = UIColor.white
+        cell.textLabel?.textColor = cellsColor
         cell.backgroundColor = UIColor.clear
         return cell
     }
@@ -53,6 +55,16 @@ class RecentPicksTable: UITableViewController {
             tableView.deleteRows(at: [index], with: .automatic)
         }
         return [delete]
+    }
+    
+    func changeCellsColorTo(_ color: UIColor) {
+        self.cellsColor = color
+        for cell in tableView.visibleCells {
+            let subviews = cell.contentView.subviews
+            subviews.forEach { $0.tintColor = color }
+            _ = subviews.map { $0 as? UILabel }.compactMap { $0?.textColor = color }
+            _ = subviews.map { $0 as? UIButton }.compactMap { $0?.setTitleColor(color, for: .normal) }
+        }
     }
     
 }

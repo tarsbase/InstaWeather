@@ -86,6 +86,8 @@ class ImageMenu: UIView {
         
         delegate?.toggleShadows(on: savedSettings.enableShadows)
         
+        print("Brightness is: \(savedSettings.textBrightness) and Color is: \(savedSettings.textColor)")
+        
         colorPicker.brightnessSlider.value = savedSettings.textBrightness
         colorPicker.colorValue = savedSettings.textColor
         colorPicker.shadowsSwitch.isOn = savedSettings.enableShadows
@@ -230,7 +232,7 @@ extension ImageMenu {
             self.savedSettings.customBackground = false
             self.savedSettings.brightnessSetting = 0.8
             self.savedSettings.blurSetting = 0
-            self.savedSettings.textColor = UIColor.white
+            self.savedSettings.textColor = UIColor.red
             self.savedSettings.textBrightness = 1
             self.savedSettings.enableShadows = true
             self.resetBackgroundImage()
@@ -250,8 +252,7 @@ extension ImageMenu {
         if savedSettings.defaultTextColor == false {
             ac.addAction(UIAlertAction(title: "Reset colors", style: .default, handler: { [weak self] (action) in
                 guard let self = self else { return }
-                self.savedSettings.customBackground = false
-                self.savedSettings.textColor = .white
+                self.savedSettings.textColor = .red
                 self.savedSettings.textBrightness = 1
                 self.updateSliders()
             }))

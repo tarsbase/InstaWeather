@@ -55,12 +55,12 @@ struct Background {
     var brightnessSetting: Float = 0.8
     var blurSetting: Float = 0
     var enableShadows: Bool = true
-    var textColor: UIColor = .white
+    var textColor: UIColor = .red
     var textBrightness: Float = 1
     
     var defaultBrightness: Bool { return brightnessSetting == 0.8 }
     var defaultBlur: Bool { return blurSetting == 0 }
-    var defaultTextColor: Bool { return textColor == .white && textBrightness == 1 }
+    var defaultTextColor: Bool { return textColor == .red && textBrightness == 1 }
     
     var allDefaultValues: Bool {
         return defaultBrightness && defaultBlur && defaultTextColor && (customBackground == false)
@@ -88,7 +88,7 @@ extension Background: Codable {
         textBrightness = try container.decode(Float.self, forKey: .textBrightness)
         
         let colorData = try container.decode(Data.self, forKey: .color)
-        textColor = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(colorData) as? UIColor ?? UIColor.white
+        textColor = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(colorData) as? UIColor ?? UIColor.red
 //        NSLog("Decoding \(textBrightness)")
     }
     

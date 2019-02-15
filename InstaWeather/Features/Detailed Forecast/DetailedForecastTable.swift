@@ -11,7 +11,7 @@ import UIKit
 class DetailedForecastTable: UITableViewController {
 
     var model: WeatherDataModel?
-    var cellsColor: UIColor = .white
+    var cellsColor: UIColor = .red
     var cellsShadow: Bool = false
     let backgroundAlpha: CGFloat = 0.5
     

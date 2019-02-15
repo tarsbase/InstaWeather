@@ -54,7 +54,11 @@ class ImageProvider: NSObject, UIActivityItemSource {
 }
 
 struct ShareDocumentHost {
-    func share(_ image: UIImage, by viewController: UIViewController) {
+    
+    private init(){}
+    
+    static func share(_ image: UIImage?, by viewController: UIViewController?) {
+        guard let image = image, let viewController = viewController else { return }
         let vc = UIActivityViewController(activityItems: [ImageProvider(image: image), TextProvider()], applicationActivities: [])
         viewController.present(vc, animated: true)
     }
