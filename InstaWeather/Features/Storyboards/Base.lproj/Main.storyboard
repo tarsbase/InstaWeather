@@ -190,6 +190,9 @@
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="memories"/>
+                                <connections>
+                                    <action selector="memoriesPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vd3-ry-NOJ"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Zn-TH-NC0" customClass="CustomImageButton" customModule="InstaWeather" customModuleProvider="target">
                                 <rect key="frame" x="15" y="35" width="45" height="45"/>

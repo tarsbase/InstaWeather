@@ -287,6 +287,8 @@ extension WeatherViewController: DashboardDelegate {
     }
 }
 
+// MARK: - Export
+
 extension WeatherViewController: ExportHost {
     
     var viewsExcludedFromScreenshot: [UIView] {
@@ -298,9 +300,51 @@ extension WeatherViewController: ExportHost {
     }
 }
 
+// MARK: - Memories
+
 extension WeatherViewController {
     func getMemoriesSnapshot() -> UIImage? {
         let image = view.imageRepresentation()
         return image
+    }
+    
+    @IBAction func memoriesPressed(_ sender: UIButton) {
+        launchMemories()
+    }
+    
+    func launchMemories() {
+        let inset: CGFloat = -30
+        var swipeableView = ZLSwipeableView(frame: self.view.frame)
+        
+        let count: UInt = 25
+        
+        swipeableView.numberOfActiveView = count
+        
+        for _ in 0..<25 {
+            
+            let aspectRatio = view.bounds.height / view.bounds.width
+            
+            let minWidth: CGFloat = view.bounds.width - 100
+            let maxWidth: CGFloat = view.bounds.width - 25
+            
+            let width = CGFloat.random(in: minWidth...maxWidth)
+            
+            let height = width * aspectRatio
+            
+            let scale = CGSize(width: width, height: height)
+            
+            let screenshot = UIImageView(image: view.imageRepresentation()?.image(scaledTo: scale))
+            
+            screenshot.layer.cornerRadius = 12
+            screenshot.layer.masksToBounds = true
+            
+            
+            swipeableView.nextView = {
+                return screenshot
+            }
+            
+        }
+        swipeableView.loadViews()
+        view.addSubview(swipeableView)
     }
 }
