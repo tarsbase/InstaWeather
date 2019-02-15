@@ -20,7 +20,7 @@ class SocialExport: NSObject, FBSDKSharingDelegate {
     private var instagramShareFile: UIDocumentInteractionController?
     private var image: UIImage?
     
-    init(delegate: UIViewController, source: UIView) {
+    init(delegate: UIViewController, source: UIView, image: UIImage?) {
         self.vcDelegate = delegate
         self.sourceButton = source
         
@@ -30,11 +30,11 @@ class SocialExport: NSObject, FBSDKSharingDelegate {
         self.anchor = anchor
         vcDelegate?.view.addSubview(anchor)
         
-        self.image = delegate.view.imageRepresentation()
+        self.image = image
     }
 
     private func getSocialMessage() -> String {
-        return "Captured in #InstaWeather"
+        return "#InstaWeather"
     }
     
     func showAlert() {

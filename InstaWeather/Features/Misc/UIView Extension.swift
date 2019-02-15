@@ -40,12 +40,9 @@ extension UIView {
     func imageRepresentation() -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.isOpaque, 0.0)
         defer { UIGraphicsEndImageContext() }
-        if let context = UIGraphicsGetCurrentContext() {
-            self.layer.render(in: context)
-            let image = UIGraphicsGetImageFromCurrentImageContext()
-            return image
-        }
-        return nil
+        drawHierarchy(in: self.bounds, afterScreenUpdates: true)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        return image
     }
     
 }

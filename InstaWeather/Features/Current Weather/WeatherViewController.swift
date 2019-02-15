@@ -28,8 +28,9 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     @IBOutlet weak var changeImageButton: CustomImageButton!
     @IBOutlet weak var backgroundContainer: UIView!
     @IBOutlet weak var exportButton: UIButton!
+    @IBOutlet weak var memoriesButton: CustomImageButton!
     
-    var socialExport: SocialExport?
+    var socialExport: SocialExport? // holds reference to activity sheets
     let locationManager = CLLocationManager()
     var weatherDataModel = WeatherDataModel()
     var preloadForecastTable: (() -> Void)?
@@ -70,7 +71,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     var viewsToColor: [UIView] {
         return [conditionImage, tempLabel, maxTempLabel, minTempLabel, windIcon,
                 windLabel, cityLabel, segmentedControl, changeCityButton,
-                changeImageButton, humidityLabel
+                changeImageButton, humidityLabel, exportButton, memoriesButton
         ]
     }
     
@@ -286,14 +287,20 @@ extension WeatherViewController: DashboardDelegate {
     }
 }
 
-extension WeatherViewController {
+extension WeatherViewController: ExportHost {
+    
+    var viewsExcludedFromScreenshot: [UIView] {
+        return [exportButton, memoriesButton, changeCityButton, segmentedControl, changeImageButton]
+    }
+    
     @IBAction func exportButtonPressed(_ sender: UIButton) {
-        
-        // TODO take picture before presenting popup
-        // hide elements before and after
-        
-        let social = SocialExport(delegate: self, source: sender)
-        social.showAlert()
-        self.socialExport = social
+        exportBy(sender)
+    }
+}
+
+extension WeatherViewController {
+    func getMemoriesSnapshot() -> UIImage? {
+        let image = view.imageRepresentation()
+        return image
     }
 }

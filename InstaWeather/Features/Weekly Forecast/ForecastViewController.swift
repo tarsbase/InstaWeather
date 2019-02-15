@@ -14,9 +14,11 @@ class ForecastViewController: ParallaxViewController {
     @IBOutlet weak var backgroundContainer: UIView!
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var changeImageButton: CustomImageButton!
+    @IBOutlet weak var exportButton: CustomImageButton!
     
     var subStacks = [UIStackView]()
     var model: WeatherDataModel?
+    var socialExport: SocialExport?
     var preloading = true // ensures no animation during preloading
     
     lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
@@ -238,5 +240,16 @@ extension ForecastViewController: ImageMenuDelegate {
                 view.layer.shadowOpacity = 0
             }
         }
+    }
+}
+
+extension ForecastViewController: ExportHost {
+    
+    var viewsExcludedFromScreenshot: [UIView] {
+        return [changeImageButton, exportButton]
+    }
+    
+    @IBAction func exportButtonPressed(_ sender: UIButton) {
+        exportBy(sender)
     }
 }

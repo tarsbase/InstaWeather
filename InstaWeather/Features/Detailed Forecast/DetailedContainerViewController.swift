@@ -14,6 +14,7 @@ class DetailedContainerViewController: ParallaxViewController {
     @IBOutlet weak var backgroundContainer: UIView!
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var changeImageButton: CustomImageButton!
+    @IBOutlet weak var exportButton: CustomImageButton!
     
     lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
@@ -25,6 +26,7 @@ class DetailedContainerViewController: ParallaxViewController {
         }
     }
     weak var statusBarUpdater: StatusBarUpdater?
+    var socialExport: SocialExport?
     
     var detailedForecast: DetailedForecastTable?
     var gestureView = UIView()
@@ -64,6 +66,7 @@ class DetailedContainerViewController: ParallaxViewController {
         }
         view.bringSubviewToFront(gestureView)
         view.bringSubviewToFront(changeImageButton)
+        view.bringSubviewToFront(exportButton)
         view.bringSubviewToFront(imageMenu)
         super.viewWillAppear(animated)
     }
@@ -132,5 +135,16 @@ extension DetailedContainerViewController: ImageMenuDelegate {
             cells.forEach { $0.layer.shadowOpacity = 0 }
         }
         detailedForecast?.cellsShadow = false
+    }
+}
+
+extension DetailedContainerViewController: ExportHost {
+    
+    var viewsExcludedFromScreenshot: [UIView] {
+        return [changeImageButton, exportButton]
+    }
+    
+    @IBAction func exportButtonPressed(_ sender: UIButton) {
+        exportBy(sender)
     }
 }

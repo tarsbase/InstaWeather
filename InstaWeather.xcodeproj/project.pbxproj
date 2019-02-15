@@ -89,6 +89,7 @@
 		28F679EF2210C55100383ED6 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D194A215DA1AE006339D9 /* AppSettings.swift */; };
 		28F679F02210C55600383ED6 /* SavedBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D1A0FA220E8DD500B4928C /* SavedBackground.swift */; };
 		28F75B11220D2D02007BD618 /* UIView Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28890DBF21FD5EF7004C963A /* UIView Extension.swift */; };
+		28F7658C221652ED00114D2B /* ExportHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F7658B221652ED00114D2B /* ExportHost.swift */; };
 		387D8750D216082EA0A1C75D /* Pods_InstaWeatherUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98231A4D7CDBF3C78BCBB14D /* Pods_InstaWeatherUITests.framework */; };
 		5FC369B7141958CDA2A1F92A /* Pods_InstaWeatherToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712CE70B02265FD71C44FFAA /* Pods_InstaWeatherToday.framework */; };
 		6AB74F83067294B275C7EF51 /* Pods_InstaWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42CB567C9021980F2ECCCB48 /* Pods_InstaWeather.framework */; };
@@ -211,6 +212,7 @@
 		28EEB916201C44CD0090D0D3 /* WeatherDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataModel.swift; sourceTree = "<group>"; };
 		28EEB91A201C50EC0090D0D3 /* LocationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationExtension.swift; sourceTree = "<group>"; };
 		28F63D91220BC981000DF609 /* ImageLazyLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLazyLoader.swift; sourceTree = "<group>"; };
+		28F7658B221652ED00114D2B /* ExportHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportHost.swift; sourceTree = "<group>"; };
 		42CB567C9021980F2ECCCB48 /* Pods_InstaWeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstaWeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		712CE70B02265FD71C44FFAA /* Pods_InstaWeatherToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstaWeatherToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		98231A4D7CDBF3C78BCBB14D /* Pods_InstaWeatherUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstaWeatherUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -414,6 +416,7 @@
 			isa = PBXGroup;
 			children = (
 				28392E502214F69900789A2A /* ActivitySharing.swift */,
+				28F7658B221652ED00114D2B /* ExportHost.swift */,
 				28392E4F2214F69800789A2A /* SocialExport.swift */,
 			);
 			path = "Social Export";
@@ -462,7 +465,6 @@
 		28B5CD2321694FE9004331DA /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				28392E4E2214F68B00789A2A /* Social Export */,
 				28890DC321FE14EE004C963A /* Custom Controls */,
 				280A03EA21841FC400F71B6A /* Parallax */,
 				2807A929216AF0EE003DA8D6 /* Storyboards */,
@@ -471,6 +473,7 @@
 				2807A926216AF036003DA8D6 /* Weekly Forecast */,
 				2807A925216AF02E003DA8D6 /* Detailed Forecast */,
 				28B5CD2421694FEE004331DA /* Image Picker */,
+				28392E4E2214F68B00789A2A /* Social Export */,
 				28EEB914201C44940090D0D3 /* Misc */,
 			);
 			path = Features;
@@ -985,6 +988,7 @@
 				2807A923216AED4A003DA8D6 /* DashboardDelegate.swift in Sources */,
 				28F63D92220BC981000DF609 /* ImageLazyLoader.swift in Sources */,
 				2807A921216A7077003DA8D6 /* CustomSlider.swift in Sources */,
+				28F7658C221652ED00114D2B /* ExportHost.swift in Sources */,
 				289D194E215DA32C006339D9 /* AdHosting.swift in Sources */,
 				28359A4D201C41E3005AAFF4 /* AppDelegate.swift in Sources */,
 				2882D6892020116F00B40082 /* ForecastViewController.swift in Sources */,

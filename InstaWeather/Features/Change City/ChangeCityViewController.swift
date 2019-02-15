@@ -25,6 +25,7 @@ class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, U
     
     @IBOutlet weak var hideCamerasButton: LargeTapAreaButton!
     @IBOutlet weak var changeImageButton: CustomImageButton!
+    @IBOutlet weak var exportButton: CustomImageButton!
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var currentLocationButton: UIButton!
     @IBOutlet weak var autoCompleteContainer: UIView!
@@ -39,6 +40,7 @@ class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, U
     var delegate: ChangeCityDelegate?
     var picksTable: RecentPicksTable?
     var autoCompleteTable: AutoCompleterTable?
+    var socialExport: SocialExport?
     var recentPicks = [String]() {
         didSet {
             UserDefaults.standard.set(recentPicks, forKey: "recentPicks")
@@ -288,5 +290,16 @@ extension ChangeCityViewController: ImageMenuDelegate {
     
     func removeAllShadows() {
         viewsToColor.forEach { $0.layer.shadowOpacity = 0 }
+    }
+}
+
+extension ChangeCityViewController: ExportHost {
+    
+    var viewsExcludedFromScreenshot: [UIView] {
+        return [poweredByLabel, backButton, changeImageButton, exportButton]
+    }
+    
+    @IBAction func exportButtonPressed(_ sender: UIButton) {
+        exportBy(sender)
     }
 }

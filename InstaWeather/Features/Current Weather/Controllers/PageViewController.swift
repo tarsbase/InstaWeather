@@ -36,6 +36,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
                 scrollView.delaysContentTouches = false
             } else if view is UIPageControl {
                 view.backgroundColor = UIColor.clear
+                view.isUserInteractionEnabled = false
             }
         }
     }

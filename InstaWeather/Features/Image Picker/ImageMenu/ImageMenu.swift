@@ -86,8 +86,6 @@ class ImageMenu: UIView {
         
         delegate?.toggleShadows(on: savedSettings.enableShadows)
         
-        print("Brightness is: \(savedSettings.textBrightness) and Color is: \(savedSettings.textColor)")
-        
         colorPicker.brightnessSlider.value = savedSettings.textBrightness
         colorPicker.colorValue = savedSettings.textColor
         colorPicker.shadowsSwitch.isOn = savedSettings.enableShadows
