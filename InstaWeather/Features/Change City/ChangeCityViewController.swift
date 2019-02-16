@@ -263,7 +263,7 @@ extension ChangeCityViewController: ImageMenuDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        handleTouch(by: touches)
+//        handleTouch(by: touches)
     }
     
     @IBAction func hideCameras(_ sender: UIButton) {

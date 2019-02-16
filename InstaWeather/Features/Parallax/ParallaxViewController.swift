@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import StoreKit
 
 class ParallaxViewController: UIViewController, ParallaxHost {
     var parallaxImage: UIImageView?
@@ -27,6 +28,28 @@ class ParallaxViewController: UIViewController, ParallaxHost {
         super.viewDidAppear(animated)
         if let backgroundImage = parallaxImage {
             self.addParallaxToView(vw: backgroundImage)
+        }
+    }
+    
+    func requestReviewAfterLaunchCount() {
+        // skip if already presenting
+        if self.presentedViewController != nil {
+            return
+        }
+        if AppSettings.appLaunchCount > 1 {
+            SKStoreReviewController.requestReview()
+        }
+    }
+    
+    func requestReview() {
+        // skip if already presenting
+        if self.presentedViewController != nil {
+            return
+        }
+        
+        if !AppSettings.alreadySubmittedReview {
+            AppSettings.alreadySubmittedReview = true
+            SKStoreReviewController.requestReview()
         }
     }
 

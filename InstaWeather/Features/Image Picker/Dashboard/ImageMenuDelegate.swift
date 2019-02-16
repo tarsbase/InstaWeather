@@ -95,11 +95,17 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
             self.statusBarUpdater?.pageViewDataSourceIsActive(false)
         }
         
-        let yValue: CGFloat = visible ? 33.5 : -168.5
+        let yValue: CGFloat = visible ? 33.5 : -175.5
         
-        let anim = UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.9) { [weak self] in
+        let curve: UIView.AnimationCurve = visible ? .easeOut : .easeIn
+        
+        let anim = UIViewPropertyAnimator(duration: 0.25, curve: curve) { [weak self] in 
             self?.imageMenu.center.y = yValue
         }
+        
+//        let anim = UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.9) { [weak self] in
+//            self?.imageMenu.center.y = yValue
+//        }
         anim.addCompletion { [weak self] (_) in
             guard let self = self else { return }
             if !visible {

@@ -25,7 +25,7 @@ extension WeatherViewController {
         // display ad
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             self?.launchAds()
-            self?.requestReview()
+            self?.requestReviewAfterLaunchCount()
         }
     }
     

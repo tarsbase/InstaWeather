@@ -207,7 +207,7 @@ extension ForecastViewController: ImageMenuDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        handleTouch(by: touches)
+//        handleTouch(by: touches)
     }
     
     @IBAction func changeImage(_ sender: Any) {

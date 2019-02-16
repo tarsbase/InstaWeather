@@ -144,6 +144,8 @@ extension DashboardDelegate where Self: ParallaxViewController {
         guard case DashboardStatus.preview(let button) = dashboardMenu.dashboardStatus else { return }
         let background = button.getFullSizedImage()
         
+        launchReviewIfValid()
+        
         // reflect new change
         button.imageView?.image = button.updateDashboardImage()
         
@@ -192,6 +194,12 @@ extension DashboardDelegate where Self: ParallaxViewController {
                 imageView.removeFromSuperview()
             }
             fade.startAnimation()
+        }
+    }
+    
+    fileprivate func launchReviewIfValid() {
+        if AppSettings.mainscreenBackgrounds.adjusted {
+            requestReview()
         }
     }
 }

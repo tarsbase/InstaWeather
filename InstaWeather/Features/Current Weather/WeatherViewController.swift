@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreLocation
-import StoreKit
 
 class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosting {
 
@@ -262,17 +261,6 @@ extension WeatherViewController: DashboardDelegate {
         _ = viewsToColor.map { $0 as? UIButton }.compactMap { $0?.setTitleColor(color, for: .normal) }
     }
     
-    func requestReview() {
-        // skip if already presenting
-        if self.presentedViewController != nil {
-            return
-        }
-        if AppSettings.appLaunchCount > 1 && !AppSettings.alreadySubmittedReview {
-            AppSettings.alreadySubmittedReview = true
-            SKStoreReviewController.requestReview()
-        }
-    }
-    
     func addAllShadows() {
         addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon, lastUpdated)
         addShadow(opacity: 0.3, changeImageButton)
@@ -303,48 +291,38 @@ extension WeatherViewController: ExportHost {
 // MARK: - Memories
 
 extension WeatherViewController {
-    func getMemoriesSnapshot() -> UIImage? {
-        let image = view.imageRepresentation()
-        return image
-    }
     
     @IBAction func memoriesPressed(_ sender: UIButton) {
-        launchMemories()
+        
+        var images = [UIImage]()
+        for _ in 0...25 {
+            if let image = getRandomizedSize(from: view.imageRepresentation()) {
+                images.append(image)
+//                images.append(self.backgroundImage.image ?? UIImage())
+            }
+        }
+        
+        MemoriesViewController.createBy(self, images: images, background: view.imageRepresentation())
+//        launchMemories()
     }
     
-    func launchMemories() {
-        let inset: CGFloat = -30
-        var swipeableView = ZLSwipeableView(frame: self.view.frame)
+    
+    
+    func getRandomizedSize(from image: UIImage?) -> UIImage? {
+        let aspectRatio = view.bounds.height / view.bounds.width
         
-        let count: UInt = 25
+        let decrease: CGFloat = 100
         
-        swipeableView.numberOfActiveView = count
+        let minWidth: CGFloat = view.bounds.width - decrease
+        let maxWidth: CGFloat = view.bounds.width - (decrease - 10)
         
-        for _ in 0..<25 {
-            
-            let aspectRatio = view.bounds.height / view.bounds.width
-            
-            let minWidth: CGFloat = view.bounds.width - 100
-            let maxWidth: CGFloat = view.bounds.width - 25
-            
-            let width = CGFloat.random(in: minWidth...maxWidth)
-            
-            let height = width * aspectRatio
-            
-            let scale = CGSize(width: width, height: height)
-            
-            let screenshot = UIImageView(image: view.imageRepresentation()?.image(scaledTo: scale))
-            
-            screenshot.layer.cornerRadius = 12
-            screenshot.layer.masksToBounds = true
-            
-            
-            swipeableView.nextView = {
-                return screenshot
-            }
-            
-        }
-        swipeableView.loadViews()
-        view.addSubview(swipeableView)
+        let width = CGFloat.random(in: minWidth...maxWidth)
+        
+        let height = width * aspectRatio
+        
+        let scale = CGSize(width: width, height: height)
+        return image?.image(scaledTo: scale)
     }
+    
+
 }
