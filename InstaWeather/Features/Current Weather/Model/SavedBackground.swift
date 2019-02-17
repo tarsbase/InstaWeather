@@ -89,7 +89,6 @@ extension Background: Codable {
         
         let colorData = try container.decode(Data.self, forKey: .color)
         textColor = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(colorData) as? UIColor ?? UIColor.red
-//        NSLog("Decoding \(textBrightness)")
     }
     
     func encode(to encoder: Encoder) throws {
@@ -103,7 +102,6 @@ extension Background: Codable {
         
         if #available(iOSApplicationExtension 11.0, *) {
             let colorData = try NSKeyedArchiver.archivedData(withRootObject: textColor, requiringSecureCoding: false)
-//            NSLog("Encoding \(textBrightness)")
             try container.encode(colorData, forKey: .color)
         }
     }

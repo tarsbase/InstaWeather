@@ -11,8 +11,8 @@ import UIKit
 class MemoriesViewController: UIViewController, MemoriesHost {
     
     /// Constructor that accepts an array of backgrounds to show
-    static func createBy(_ parentController: UIViewController, images: [UIImage], background: UIImage?) {
-        let memories = MemoriesViewController(images: images, background: background)
+    static func createBy(_ parentController: UIViewController, snapshots: [MemoriesSnapshot], background: UIImage?) {
+        let memories = MemoriesViewController(snapshots: snapshots, background: background)
         
         let navigationController = UINavigationController(rootViewController: memories)
         
@@ -21,20 +21,23 @@ class MemoriesViewController: UIViewController, MemoriesHost {
         parentController.present(navigationController, animated: false)
     }
     
-    var images = [UIImage]()
+    var snapshots = [MemoriesSnapshot]()
+    var scaledSnapshots = [MemoriesSnapshot]()
+    var scalingTimer: Timer? 
     var background: UIImage?
     var backgroundView: UIImageView?
     var blurView: UIVisualEffectView?
     var swipeableView: ZLSwipeableView?
+    var socialExport: SocialExport?
     var activeViewsCount: Int {
-        return swipeableView?.activeViews().count ?? images.count
+        return swipeableView?.activeViews().count ?? snapshots.count
     }
     
     var cardsLongAnimationInProgress: Bool = false
     
-    private init(images: [UIImage], background: UIImage?) {
+    private init(snapshots: [MemoriesSnapshot], background: UIImage?) {
         super.init(nibName: nil, bundle: nil)
-        self.images = images
+        self.snapshots = snapshots
         self.background = background
     }
     
@@ -52,7 +55,6 @@ class MemoriesViewController: UIViewController, MemoriesHost {
         launchMemories()
         
         toggleControllerIsVisible(true)
-        
         swipeableView?.didSwipe = { [weak self] view, direction, vector in
             self?.updateTitle()
         }
@@ -61,6 +63,7 @@ class MemoriesViewController: UIViewController, MemoriesHost {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         toggleToolbars(hidden: false)
+        updateTitle()
     }
     
     private func addBackground() {
@@ -68,7 +71,7 @@ class MemoriesViewController: UIViewController, MemoriesHost {
         backgroundView.frame = view.frame
         view.addSubview(backgroundView)
         let blurView = UIVisualEffectView(frame: view.frame)
-        blurView.effect = UIBlurEffect(style: .regular)
+        blurView.effect = UIBlurEffect(style: .light)
         blurView.alpha = 0
         view.addSubview(blurView)
         
@@ -77,12 +80,18 @@ class MemoriesViewController: UIViewController, MemoriesHost {
     }
     
     private func setupToolbars() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(dismissSelf))
+        navigationController?.navigationBar.barStyle = .black
+        navigationController?.toolbar.barStyle = .black
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(dismissSelf))
+        
+        doneButton.tintColor = .white
         
         let exportButton = UIButton(type: .custom)
         exportButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         exportButton.setImage(UIImage(named: "export"), for: .normal)
-        exportButton.addTarget(self, action: #selector(export), for: .touchUpInside)
+        exportButton.tintColor = .white
+        exportButton.addTarget(self, action: #selector(exportButtonPressed(_:)), for: .touchUpInside)
         
         let exportBarButton = UIBarButtonItem(customView: exportButton)
         
@@ -93,16 +102,23 @@ class MemoriesViewController: UIViewController, MemoriesHost {
                 ])
         }
         
-        navigationItem.rightBarButtonItem = exportBarButton
-        
         let rewindButton = UIBarButtonItem(title: "Rewind", style: .plain, target: self, action: #selector(rewind))
+        
+        rewindButton.tintColor = .white
         
         let oldestButton = UIBarButtonItem(title: "Oldest", style: .plain, target: self, action: #selector(oldest))
         
+        oldestButton.tintColor = .white
+        
         let newestButton = UIBarButtonItem(title: "Newest", style: .plain, target: self, action: #selector(newest))
+        
+        newestButton.tintColor = .white
         
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         
+        navigationItem.leftBarButtonItem = doneButton
+        
+        navigationItem.rightBarButtonItem = exportBarButton
         
         toolbarItems = [oldestButton, flexibleSpace, rewindButton, flexibleSpace, newestButton]
     }
@@ -112,10 +128,6 @@ class MemoriesViewController: UIViewController, MemoriesHost {
 // MARK: - Animations
 
 extension MemoriesViewController {
-    
-    @objc private func export() {
-        
-    }
     
     @objc private func dismissSelf() {
         toggleToolbars(hidden: true)
@@ -168,6 +180,10 @@ extension MemoriesViewController {
         for i in 0..<active {
             DispatchQueue.main.asyncAfter(deadline: .now() + (interval * Double(i))) { [weak self] in
                 guard let self = self else { return }
+                guard self.activeViewsCount > 1 else {
+                    self.cardsLongAnimationInProgress = false
+                    return }
+                
                 let direction: Direction = Bool.random() ? .Left : .Right
                 self.swipeableView?.swipeTopView(inDirection: direction)
                 
@@ -184,22 +200,47 @@ extension MemoriesViewController {
         cardsLongAnimationInProgress = true
         
         let duration: TimeInterval = 0.75
-        let interval: TimeInterval = duration / Double(images.count)
+        let interval: TimeInterval = duration / Double(snapshots.count)
         
-        for i in 0..<images.count {
+        for i in 0..<snapshots.count {
             DispatchQueue.main.asyncAfter(deadline: .now() + (interval * Double(i))) { [weak self] in
                 guard let self = self else { return }
                 self.swipeableView?.rewind()
 
                 self.updateTitle()
-                if i == (self.images.count - 1) {
+                if i == (self.snapshots.count - 1) {
                     self.cardsLongAnimationInProgress = false
                 }
             }
         }
     }
     
-    func updateTitle() {
-        self.title = String(swipeableView?.activeViews().count ?? 0)
+    private func updateTitle() {
+//        self.title = String(swipeableView?.activeViews().count ?? 0)
+        
+        let date = getCurrentCardDate()
+        let dateFormatter = DateFormatter()
+//        dateFormatter.dateStyle = .medium
+//        dateFormatter.timeStyle = .medium
+        
+        dateFormatter.dateFormat = "MMM dd, yyyy h:mm a"
+        
+        self.title = dateFormatter.string(from: date)
+    }
+    
+    private func getCurrentCardDate() -> Date {
+        let difference = scaledSnapshots.count - activeViewsCount
+        if difference < scaledSnapshots.count {
+            let date = scaledSnapshots[difference].date
+            return date
+        } else {
+            return Date()
+        }
+    }
+}
+
+extension MemoriesViewController: MemoriesExport {
+    @objc func exportButtonPressed(_ sender: UIButton) {
+        exportBy(sender)
     }
 }

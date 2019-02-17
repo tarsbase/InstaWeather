@@ -29,6 +29,7 @@ class AppSettings: NSObject {
         case detailedForecastCustomImage
         
         case hideCameras
+        case memoriesSnapshots
     }
     
     static var appLaunchCount: Int! {
@@ -211,7 +212,7 @@ class AppSettings: NSObject {
         }
     }
     
-    @objc dynamic static var hideCameras: Bool {
+    static var hideCameras: Bool {
         get {
             return UserDefaults.standard.bool(forKey: SettingKey.hideCameras.rawValue)
         }
@@ -219,6 +220,28 @@ class AppSettings: NSObject {
             let defaults = UserDefaults.standard
             let key = SettingKey.hideCameras.rawValue
                 defaults.set(newValue, forKey: key)
+        }
+    }
+    
+    static var memoriesSnapshots: MemoriesSnapshotsArray {
+        get {
+            if let object = UserDefaults.standard.object(forKey:
+                SettingKey.memoriesSnapshots.rawValue) as? Data {
+                if let memories = try? JSONDecoder().decode(MemoriesSnapshotsArray.self, from: object) {
+                    return memories
+                }
+                return MemoriesSnapshotsArray()
+            } else {
+                return MemoriesSnapshotsArray()
+            }
+        }
+        set {
+            let defaults = UserDefaults.standard
+            let key = SettingKey.memoriesSnapshots.rawValue
+            
+            if let data = try? JSONEncoder().encode(newValue) {
+                defaults.set(data, forKey: key)
+            }
         }
     }
 }

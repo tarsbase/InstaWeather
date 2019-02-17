@@ -173,7 +173,7 @@
                                 <size key="shadowOffset" width="2" height="2"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p3A-CI-fEJ" customClass="CustomImageButton" customModule="InstaWeather" customModuleProvider="target">
-                                <rect key="frame" x="264.5" y="512.5" width="40.5" height="40.5"/>
+                                <rect key="frame" x="269" y="517" width="36" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="p3A-CI-fEJ" secondAttribute="height" multiplier="1:1" id="c6L-Tv-h5z"/>
                                 </constraints>
@@ -184,7 +184,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ctl-Vr-elT" customClass="CustomImageButton" customModule="InstaWeather" customModuleProvider="target">
-                                <rect key="frame" x="15" y="515" width="38.5" height="38"/>
+                                <rect key="frame" x="15" y="519.5" width="34" height="33.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Ctl-Vr-elT" secondAttribute="height" multiplier="1:1" id="xeL-Pv-EoE"/>
                                 </constraints>
@@ -236,11 +236,11 @@
                             <constraint firstItem="Ctl-Vr-elT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="SJ8-5L-UZi"/>
                             <constraint firstItem="78W-x0-Gdl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="22" id="TD3-Jf-eb5"/>
                             <constraint firstItem="WnI-Iz-KeK" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="arl-C0-v4R"/>
-                            <constraint firstItem="p3A-CI-fEJ" firstAttribute="width" secondItem="7Zn-TH-NC0" secondAttribute="width" multiplier="0.9" id="bnT-2V-3FH"/>
+                            <constraint firstItem="p3A-CI-fEJ" firstAttribute="width" secondItem="7Zn-TH-NC0" secondAttribute="width" multiplier="0.8" id="bnT-2V-3FH"/>
                             <constraint firstItem="xFi-1g-bni" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="cBd-Ku-oLV"/>
                             <constraint firstItem="vAj-J9-u1b" firstAttribute="centerY" secondItem="3Hs-fA-2wq" secondAttribute="centerY" id="d1s-Z1-WCN"/>
                             <constraint firstItem="3Hs-fA-2wq" firstAttribute="leading" secondItem="vAj-J9-u1b" secondAttribute="trailing" constant="12.666666030883789" id="eRw-JB-OGK"/>
-                            <constraint firstItem="Ctl-Vr-elT" firstAttribute="width" secondItem="7Zn-TH-NC0" secondAttribute="width" multiplier="0.85" id="eyN-xh-m33"/>
+                            <constraint firstItem="Ctl-Vr-elT" firstAttribute="width" secondItem="7Zn-TH-NC0" secondAttribute="width" multiplier="0.75" id="eyN-xh-m33"/>
                             <constraint firstItem="8IA-Mv-nD6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fOm-rP-DwB"/>
                             <constraint firstItem="TKH-jL-2NC" firstAttribute="top" secondItem="AKo-Sr-Pkc" secondAttribute="bottom" constant="31" id="iqX-0p-eUC"/>
                             <constraint firstItem="xFi-1g-bni" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="jE2-QV-xqS"/>

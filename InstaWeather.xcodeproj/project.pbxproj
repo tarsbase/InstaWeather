@@ -48,6 +48,9 @@
 		2871C19D20B5085900326A4C /* TodayDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2871C19C20B5085900326A4C /* TodayDataModel.swift */; };
 		2873ABF2221791DB00E186B9 /* MemoriesHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2873ABF1221791DB00E186B9 /* MemoriesHost.swift */; };
 		2873ABF42217937600E186B9 /* MemoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2873ABF32217937600E186B9 /* MemoriesViewController.swift */; };
+		2873ABF6221904D200E186B9 /* MemoriesExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2873ABF5221904D200E186B9 /* MemoriesExport.swift */; };
+		2873ABF82219078F00E186B9 /* MemoriesSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2873ABF72219078F00E186B9 /* MemoriesSnapshot.swift */; };
+		2873ABF922190FAD00E186B9 /* MemoriesSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2873ABF72219078F00E186B9 /* MemoriesSnapshot.swift */; };
 		287A5DD1201D62D1008E71CF /* ChangeCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A5DD0201D62D1008E71CF /* ChangeCityViewController.swift */; };
 		287DFB0D217558D7005086A3 /* DisplaySizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287DFB0C217558D7005086A3 /* DisplaySizes.swift */; };
 		287DFB0E217558D7005086A3 /* DisplaySizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287DFB0C217558D7005086A3 /* DisplaySizes.swift */; };
@@ -184,6 +187,8 @@
 		2871C19C20B5085900326A4C /* TodayDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDataModel.swift; sourceTree = "<group>"; };
 		2873ABF1221791DB00E186B9 /* MemoriesHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesHost.swift; sourceTree = "<group>"; };
 		2873ABF32217937600E186B9 /* MemoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesViewController.swift; sourceTree = "<group>"; };
+		2873ABF5221904D200E186B9 /* MemoriesExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesExport.swift; sourceTree = "<group>"; };
+		2873ABF72219078F00E186B9 /* MemoriesSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesSnapshot.swift; sourceTree = "<group>"; };
 		2873AED02027A55C00C3ABCE /* FahrenheitProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FahrenheitProtocol.swift; sourceTree = "<group>"; };
 		287A5DD0201D62D1008E71CF /* ChangeCityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeCityViewController.swift; sourceTree = "<group>"; };
 		287DFB0C217558D7005086A3 /* DisplaySizes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplaySizes.swift; sourceTree = "<group>"; };
@@ -560,6 +565,8 @@
 			children = (
 				2873ABF1221791DB00E186B9 /* MemoriesHost.swift */,
 				2873ABF32217937600E186B9 /* MemoriesViewController.swift */,
+				2873ABF5221904D200E186B9 /* MemoriesExport.swift */,
+				2873ABF72219078F00E186B9 /* MemoriesSnapshot.swift */,
 			);
 			path = Memories;
 			sourceTree = "<group>";
@@ -994,6 +1001,7 @@
 				2885EE5F2023F62500CD4CC4 /* DetailedForecastTable.swift in Sources */,
 				280C4C2121FFEEC700430ED3 /* ImageMenuDelegate.swift in Sources */,
 				28B5CD262169501D004331DA /* ImagePicker.swift in Sources */,
+				2873ABF6221904D200E186B9 /* MemoriesExport.swift in Sources */,
 				28359A4F201C41E3005AAFF4 /* WeatherViewController.swift in Sources */,
 				280A03E92183FDCD00F71B6A /* ParallaxHost.swift in Sources */,
 				287A5DD1201D62D1008E71CF /* ChangeCityViewController.swift in Sources */,
@@ -1020,6 +1028,7 @@
 				28E58BFF22014E09006A67EF /* PickerHost.swift in Sources */,
 				280C4C1F21FED29B00430ED3 /* Overlay.swift in Sources */,
 				287DFB102175597D005086A3 /* YPImagePicker+Extension.swift in Sources */,
+				2873ABF82219078F00E186B9 /* MemoriesSnapshot.swift in Sources */,
 				28890DBA21FD47CB004C963A /* Dashboard.swift in Sources */,
 				28890DC021FD5EF7004C963A /* UIView Extension.swift in Sources */,
 				2807A923216AED4A003DA8D6 /* DashboardDelegate.swift in Sources */,
@@ -1062,6 +1071,7 @@
 			files = (
 				285D413120A133370040F6BE /* TodayViewController.swift in Sources */,
 				287DFB0E217558D7005086A3 /* DisplaySizes.swift in Sources */,
+				2873ABF922190FAD00E186B9 /* MemoriesSnapshot.swift in Sources */,
 				28CDAE2120B1C2EE003CE837 /* Secrets.swift in Sources */,
 				28F679F02210C55600383ED6 /* SavedBackground.swift in Sources */,
 				28BFE2C6216444CC000F44C3 /* AppLaunch.swift in Sources */,

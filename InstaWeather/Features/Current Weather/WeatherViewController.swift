@@ -45,6 +45,9 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
             return delegate?.reconnectTimer
         }
     }
+    
+    lazy var captureSnapshotOnce: Void = addMemory()
+    
     lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
@@ -294,35 +297,37 @@ extension WeatherViewController {
     
     @IBAction func memoriesPressed(_ sender: UIButton) {
         
-        var images = [UIImage]()
-        for _ in 0...25 {
-            if let image = getRandomizedSize(from: view.imageRepresentation()) {
-                images.append(image)
-//                images.append(self.backgroundImage.image ?? UIImage())
-            }
+        var snapshots = [MemoriesSnapshot]()
+
+        let memories = AppSettings.memoriesSnapshots.getMemories()
+        
+        for memory in memories {
+            snapshots.append(memory)
         }
         
-        MemoriesViewController.createBy(self, images: images, background: view.imageRepresentation())
-//        launchMemories()
+        let background = view.imageRepresentation()
+        MemoriesViewController.createBy(self, snapshots: snapshots, background: background)
+    }
+    
+    func addMemory() {
+        if let image = getExportImageNoDate() {
+            MemoriesSnapshot.addNewSnapshot(image)
+        }
     }
     
     
+    // Memories helpers
     
-    func getRandomizedSize(from image: UIImage?) -> UIImage? {
-        let aspectRatio = view.bounds.height / view.bounds.width
-        
-        let decrease: CGFloat = 100
-        
-        let minWidth: CGFloat = view.bounds.width - decrease
-        let maxWidth: CGFloat = view.bounds.width - (decrease - 10)
-        
-        let width = CGFloat.random(in: minWidth...maxWidth)
-        
-        let height = width * aspectRatio
-        
-        let scale = CGSize(width: width, height: height)
-        return image?.image(scaledTo: scale)
+    var viewsExludedNoDate: [UIView] {
+        var views = viewsExcludedFromScreenshot
+        views.append(lastUpdated)
+        return views
     }
     
-
+    func getExportImageNoDate() -> UIImage? {
+        hideViews(viewsExludedNoDate)
+        let image = view.imageRepresentation()
+        unHideViews(viewsExludedNoDate)
+        return image
+    }
 }

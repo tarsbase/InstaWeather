@@ -212,6 +212,11 @@ extension WeatherViewController {
         windLabel.text = "\(windDirection) \(windSpeed) \(scale)"
         updateLabel(humidityLabel, toValue: weatherDataModel.humidity, forType: .humidity)
         lastUpdateWasUpdated()
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+            _ = self?.captureSnapshotOnce
+        }
     }
     
     func updateMinMaxLabels() {
