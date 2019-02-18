@@ -165,35 +165,54 @@ struct ImageManager {
         
         for host in PickerHostType.allCases {
             _ = getBackgroundImage(for: host)
-            
-            _ = ImageManager.getBackgroundImage(for: .mainScreen(.clear))
-            _ = ImageManager.getBackgroundImage(for: .mainScreen(.all))
-            _ = ImageManager.getBackgroundImage(for: .mainScreen(.cloudy))
-            _ = ImageManager.getBackgroundImage(for: .mainScreen(.snowy))
-            _ = ImageManager.getBackgroundImage(for: .mainScreen(.stormy))
-            _ = ImageManager.getBackgroundImage(for: .mainScreen(.rainy))
-            
-            _ = ImageManager.getBackgroundImage(for: .weeklyForecast(.clear))
-            _ = ImageManager.getBackgroundImage(for: .weeklyForecast(.all))
-            _ = ImageManager.getBackgroundImage(for: .weeklyForecast(.cloudy))
-            _ = ImageManager.getBackgroundImage(for: .weeklyForecast(.snowy))
-            _ = ImageManager.getBackgroundImage(for: .weeklyForecast(.stormy))
-            _ = ImageManager.getBackgroundImage(for: .weeklyForecast(.rainy))
-            
-            _ = ImageManager.getBackgroundImage(for: .detailedForecast(.clear))
-            _ = ImageManager.getBackgroundImage(for: .detailedForecast(.all))
-            _ = ImageManager.getBackgroundImage(for: .detailedForecast(.cloudy))
-            _ = ImageManager.getBackgroundImage(for: .detailedForecast(.snowy))
-            _ = ImageManager.getBackgroundImage(for: .detailedForecast(.stormy))
-            _ = ImageManager.getBackgroundImage(for: .detailedForecast(.rainy))
-            
-            _ = ImageManager.getBackgroundImage(for: .changeCity(.clear))
-            _ = ImageManager.getBackgroundImage(for: .changeCity(.all))
-            _ = ImageManager.getBackgroundImage(for: .changeCity(.cloudy))
-            _ = ImageManager.getBackgroundImage(for: .changeCity(.snowy))
-            _ = ImageManager.getBackgroundImage(for: .changeCity(.stormy))
-            _ = ImageManager.getBackgroundImage(for: .changeCity(.rainy))
         }
+        _ = ImageManager.getBackgroundImage(for: .mainScreen(.clear))
+        _ = ImageManager.getBackgroundImage(for: .mainScreen(.all))
+        _ = ImageManager.getBackgroundImage(for: .mainScreen(.cloudy))
+        _ = ImageManager.getBackgroundImage(for: .mainScreen(.snowy))
+        _ = ImageManager.getBackgroundImage(for: .mainScreen(.stormy))
+        _ = ImageManager.getBackgroundImage(for: .mainScreen(.rainy))
+        
+        _ = ImageManager.getBackgroundImage(for: .weeklyForecast(.clear))
+        _ = ImageManager.getBackgroundImage(for: .weeklyForecast(.all))
+        _ = ImageManager.getBackgroundImage(for: .weeklyForecast(.cloudy))
+        _ = ImageManager.getBackgroundImage(for: .weeklyForecast(.snowy))
+        _ = ImageManager.getBackgroundImage(for: .weeklyForecast(.stormy))
+        _ = ImageManager.getBackgroundImage(for: .weeklyForecast(.rainy))
+        
+        _ = ImageManager.getBackgroundImage(for: .detailedForecast(.clear))
+        _ = ImageManager.getBackgroundImage(for: .detailedForecast(.all))
+        _ = ImageManager.getBackgroundImage(for: .detailedForecast(.cloudy))
+        _ = ImageManager.getBackgroundImage(for: .detailedForecast(.snowy))
+        _ = ImageManager.getBackgroundImage(for: .detailedForecast(.stormy))
+        _ = ImageManager.getBackgroundImage(for: .detailedForecast(.rainy))
+        
+        _ = ImageManager.getBackgroundImage(for: .changeCity(.clear))
+        _ = ImageManager.getBackgroundImage(for: .changeCity(.all))
+        _ = ImageManager.getBackgroundImage(for: .changeCity(.cloudy))
+        _ = ImageManager.getBackgroundImage(for: .changeCity(.snowy))
+        _ = ImageManager.getBackgroundImage(for: .changeCity(.stormy))
+        _ = ImageManager.getBackgroundImage(for: .changeCity(.rainy))
     }
+    
+    static var potentialBackgrounds: [UIImage] {
+        var backgrounds = [UIImage]()
+        
+        let names = [
+            "bg1clear", "bg1clearnight", "bg1cloudy2night", "bg1fog", "bg1snow", "bg2clear", "bg2clearnight", "bg2cloudy", "bg2cloudy2night", "bg2fog", "bg2snow", "bg3clear", "bglight_rain", "bgstorm"
+        ]
+        
+        for _ in 0...0 {
+            for name in names.shuffled() {
+                if let image = UIImage(named: name) {
+                    backgrounds.append(image)
+                }
+            }
+        }
+        
+        return backgrounds
+    }
+    
+    
 }
 

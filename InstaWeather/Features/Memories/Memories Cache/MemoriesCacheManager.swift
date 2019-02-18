@@ -26,9 +26,13 @@ struct MemoriesCacheManager {
         return container
     }()
     
+//    static func getCountOfMemories() -> Int {
+//        return loadAllImagesFromCache().count
+//    }
+    
     static func getDateForLastMemory() -> Date {
         let lastSnapshot = loadLastImageFromCache()
-        return lastSnapshot?.date ?? Date()
+        return lastSnapshot?.date ?? Date.distantPast
     }
 
     static func loadMemory(from url: URL, completion: @escaping (UIImage?) -> Void) {

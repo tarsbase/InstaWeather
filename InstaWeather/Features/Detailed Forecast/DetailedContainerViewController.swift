@@ -118,11 +118,12 @@ extension DetailedContainerViewController: ImageMenuDelegate {
     
     func pickedNewTextColor(_ color: UIColor) {
         changeImageButton.tintColor = color
+        exportButton.tintColor = color
         detailedForecast?.changeCellsColorTo(color)
     }
     
     func addAllShadows() {
-        addShadow(changeImageButton)
+        addShadow(opacity: 0.3, changeImageButton, exportButton)
         if let cells = detailedForecast?.getCellsToShade() {
             cells.forEach { addShadow($0) }
         }
@@ -131,6 +132,7 @@ extension DetailedContainerViewController: ImageMenuDelegate {
     
     func removeAllShadows() {
         changeImageButton.layer.shadowOpacity = 0
+        exportButton.layer.shadowOpacity = 0
         if let cells = detailedForecast?.getCellsToShade() {
             cells.forEach { $0.layer.shadowOpacity = 0 }
         }

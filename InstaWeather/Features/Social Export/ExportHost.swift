@@ -16,9 +16,6 @@ protocol ExportHost: AnyObject {
 
 extension ExportHost where Self: UIViewController {
     func exportBy(_ sender: UIButton) {
-        
-        // TODO take picture before presenting popup
-        // hide elements before and after
         let image = getExportImage()
         let social = SocialExport(delegate: self, source: sender, image: image)
         social.showAlert()

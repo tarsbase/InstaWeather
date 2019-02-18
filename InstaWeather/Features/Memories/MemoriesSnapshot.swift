@@ -26,17 +26,25 @@ class MemoriesSnapshot {
     
     static func addNewSnapshot(_ image: UIImage) {
         // we snap one memory per calendar day
+        if memoryWasLastCalendarDay() {
+            let newSnapshot = MemoriesSnapshot(image: image)
+            MemoriesCacheManager.saveMemoryToCoreData(newSnapshot)
+        }
+    }
+    
+    private static func memoryWasLastCalendarDay() -> Bool {
+        if LiveInstance.simulatorEnvironment { return true }
         let lastDate = MemoriesCacheManager.getDateForLastMemory()
         let calendar = Calendar.current
         if let memoryNextDay = calendar.date(byAdding: .day, value: 1, to: lastDate) {
             let memoryNextDayStart = calendar.startOfDay(for: memoryNextDay)
             let currentTime = Date()
             if currentTime >= memoryNextDayStart {
-                let newSnapshot = MemoriesSnapshot(image: image)
-                MemoriesCacheManager.saveMemoryToCoreData(newSnapshot)
+                return true
             } else {
                 print("Too early to record another memory")
             }
         }
+        return false
     }
 }

@@ -10,13 +10,23 @@ import UIKit
 
 protocol MemoriesExport: ExportHost {
     var swipeableView: ZLSwipeableView? { get set }
+    func getCurrentCard() -> MemoriesSnapshot
 }
 
-extension MemoriesExport {
+extension MemoriesExport where Self: UIViewController {
     var viewsExcludedFromScreenshot: [UIView] {
         return []
     }
-    func getExportImage() -> UIImage? {
-        return swipeableView?.topView()?.imageRepresentation()
+    
+    func exportBy(_ sender: UIButton) {
+        let image = getExportImage()
+        let social = SocialExport(delegate: self, source: sender, image: image)
+        social.showAlert()
+        self.socialExport = social
     }
+    
+    func getExportImage() -> UIImage? {
+        return getCurrentCard().image
+    }
+    
 }

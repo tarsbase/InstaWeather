@@ -241,7 +241,7 @@ class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, U
 // MARK: - Image Manager
 extension ChangeCityViewController: ImageMenuDelegate {
     var viewsToColor: [UIView] {
-        return [changeImageButton, checkBtn, currentLocationButton, backButton, poweredByLabel]
+        return [changeImageButton, checkBtn, currentLocationButton, backButton, poweredByLabel, exportButton]
     }
     
     

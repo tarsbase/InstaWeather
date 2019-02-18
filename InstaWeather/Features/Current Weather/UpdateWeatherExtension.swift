@@ -214,7 +214,7 @@ extension WeatherViewController {
         lastUpdateWasUpdated()
         
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) { [weak self] in
             _ = self?.captureSnapshotOnce
         }
     }

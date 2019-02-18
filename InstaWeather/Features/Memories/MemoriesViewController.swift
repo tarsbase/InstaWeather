@@ -11,12 +11,13 @@ import UIKit
 class MemoriesViewController: UIViewController, MemoriesHost {
     
     /// Constructor that accepts an array of backgrounds to show
-    static func createBy(_ parentController: UIViewController, snapshots: [MemoriesSnapshot], background: UIImage?) {
+    static func createBy(_ parentController: UIViewController, snapshots: [MemoriesSnapshot], background: UIImage?, demo: Bool) {
         let memories = MemoriesViewController(snapshots: snapshots, background: background)
         
         let navigationController = UINavigationController(rootViewController: memories)
         
         memories.navigationController?.isNavigationBarHidden = true
+        memories.demo = demo
         
         parentController.present(navigationController, animated: false)
     }
@@ -29,6 +30,7 @@ class MemoriesViewController: UIViewController, MemoriesHost {
     var blurView: UIVisualEffectView?
     var swipeableView: ZLSwipeableView?
     var socialExport: SocialExport?
+    var demo = false
     var activeViewsCount: Int {
         return swipeableView?.activeViews().count ?? snapshots.count
     }
@@ -58,6 +60,8 @@ class MemoriesViewController: UIViewController, MemoriesHost {
         swipeableView?.didSwipe = { [weak self] view, direction, vector in
             self?.updateTitle()
         }
+        
+        showDemoAlertIfNeeded()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -216,31 +220,51 @@ extension MemoriesViewController {
     }
     
     private func updateTitle() {
-//        self.title = String(swipeableView?.activeViews().count ?? 0)
         
         let date = getCurrentCardDate()
         let dateFormatter = DateFormatter()
-//        dateFormatter.dateStyle = .medium
-//        dateFormatter.timeStyle = .medium
         
         dateFormatter.dateFormat = "MMM dd, yyyy h:mm a"
         
         self.title = dateFormatter.string(from: date)
     }
     
-    private func getCurrentCardDate() -> Date {
+    func getCurrentCard() -> MemoriesSnapshot {
         let difference = scaledSnapshots.count - activeViewsCount
+        // safety check
         if difference < scaledSnapshots.count {
-            let date = scaledSnapshots[difference].date
-            return date
+            return scaledSnapshots[difference]
         } else {
-            return Date()
+            // must never pass here
+            return MemoriesSnapshot(image: UIImage())
         }
+    }
+    
+    private func getCurrentCardDate() -> Date {
+        return getCurrentCard().date
     }
 }
 
 extension MemoriesViewController: MemoriesExport {
     @objc func exportButtonPressed(_ sender: UIButton) {
         exportBy(sender)
+    }
+}
+
+
+// MARK: - Demo mode
+extension MemoriesViewController {
+    func showDemoAlertIfNeeded() {
+        if demo {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                let ac = UIAlertController(title: "Memories", message: "Every day you launch InstaWeather, a new entry is added to this screen", preferredStyle: .alert)
+                
+                self?.present(ac, animated: true, completion: nil)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
+                    ac.dismiss(animated: true, completion: nil)
+                }
+            }
+        }
     }
 }

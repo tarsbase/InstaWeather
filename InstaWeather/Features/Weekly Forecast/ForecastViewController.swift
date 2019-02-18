@@ -221,11 +221,12 @@ extension ForecastViewController: ImageMenuDelegate {
             _ = subviews.map { $0 as? UILabel }.compactMap { $0?.textColor = color }
             _ = subviews.map { $0 as? UIButton }.compactMap { $0?.setTitleColor(color, for: .normal) }
             changeImageButton.tintColor = color
+            exportButton.tintColor = color
         }
     }
     
     func addAllShadows() {
-        addShadow(changeImageButton)
+        addShadow(opacity: 0.3, changeImageButton, exportButton)
         for stack in subStacks {
             for view in stack.arrangedSubviews where view.tag == 1 {
                 addShadow(view)
@@ -235,6 +236,7 @@ extension ForecastViewController: ImageMenuDelegate {
     
     func removeAllShadows() {
         changeImageButton.layer.shadowOpacity = 0
+        exportButton.layer.shadowOpacity = 0
         for stack in subStacks {
             for view in stack.arrangedSubviews where view.tag == 1 {
                 view.layer.shadowOpacity = 0

@@ -16,4 +16,12 @@ struct LiveInstance {
     
     static let fullAppStoreURL = "https://itunes.apple.com/us/app/instaweather/id1341392811?ls=1&mt=8"
     static let shortAppStoreURL = "http://bit.ly/instaWeather"
+    
+    static var simulatorEnvironment: Bool {
+        var isSimulator = false
+        #if targetEnvironment(simulator)
+        isSimulator = true
+        #endif
+        return isSimulator
+    }
 }

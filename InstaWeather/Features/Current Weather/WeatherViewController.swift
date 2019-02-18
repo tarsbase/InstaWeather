@@ -266,11 +266,11 @@ extension WeatherViewController: DashboardDelegate {
     
     func addAllShadows() {
         addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon, lastUpdated)
-        addShadow(opacity: 0.3, changeImageButton)
+        addShadow(opacity: 0.3, changeImageButton, exportButton, memoriesButton)
     }
     
     func removeAllShadows() {
-        let shadowsToRemove = [segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon, lastUpdated, changeImageButton]
+        let shadowsToRemove = [segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon, lastUpdated, changeImageButton, exportButton, memoriesButton]
         
         shadowsToRemove.forEach {
             $0?.layer.shadowOpacity = 0
@@ -297,18 +297,52 @@ extension WeatherViewController {
     
     @IBAction func memoriesPressed(_ sender: UIButton) {
         
-        let snapshots = MemoriesCacheManager.loadAllMemories()
+        var snapshots = MemoriesCacheManager.loadAllMemories()
+        var demo = false
+        if snapshots.count < 4 {
+            demo = true
+            snapshots.append(contentsOf: generateDemoSnapshots())
+        }
         
         let background = view.imageRepresentation()
-        MemoriesViewController.createBy(self, snapshots: snapshots, background: background)
+        MemoriesViewController.createBy(self, snapshots: snapshots, background: background, demo: demo)
     }
     
     func addMemory() {
-        if let image = getExportImageNoDate() {
+        if let image = getExportImage() {
             MemoriesSnapshot.addNewSnapshot(image)
         }
     }
     
+    func generateDemoSnapshots() -> [MemoriesSnapshot] {
+        let originalBackground = self.backgroundImage.image
+        let demoLabel = generateDemoLabel()
+        var demos = [MemoriesSnapshot]()
+        for background in ImageManager.potentialBackgrounds {
+            self.backgroundImage.image = background
+            if let demoSnap = getExportImage() {
+                let date = Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date()
+                let demo = MemoriesSnapshot(image: demoSnap, date: date)
+                demos.append(demo)
+            }
+        }
+        self.backgroundImage.image = originalBackground
+        
+        demoLabel.removeFromSuperview()
+        return demos
+    }
+    
+    func generateDemoLabel() -> UILabel {
+        let label = UILabel()
+        label.textColor = .white
+        label.text = "DEMO CARD"
+        label.font = UIFont.systemFont(ofSize: 33, weight: .bold)
+        label.sizeToFit()
+        view.addSubview(label)
+        label.center.x = view.center.x
+        label.center.y = view.center.y - (view.bounds.height / 3)
+        return label
+    }
     
     // Memories helpers
     
