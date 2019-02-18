@@ -30,8 +30,6 @@ extension MemoriesHost where Self: UIViewController {
         
         swipeableView.numberOfActiveView = UInt(snapshots.count)
         swipeableView.numberOfHistoryItem = UInt(snapshots.count)
-
-        startScalingTimer()
         
         addCustomAnimationTo(swipeableView)
         swipeableView.shouldSwipeView = customShouldSwipeViewHandler()
@@ -40,31 +38,45 @@ extension MemoriesHost where Self: UIViewController {
         swipeableView.loadViews()
         view.addSubview(swipeableView)
         self.swipeableView = swipeableView
+        
+        startScalingTimer()
     }
     
     private func startScalingTimer() {
+//        for snap in snapshots {
+//            scaleNextImage()
+//        }
+        
+        
         let interval: TimeInterval = 0.01
         let timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true, block: { [weak self] _ in
             self?.scaleNextImage()
         })
-        
+
         timer.tolerance = 0.2
         RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
         self.scalingTimer = timer
     }
     
     private func scaleNextImage() {
+        guard snapshots.isEmpty == false else {
+            scalingTimer?.invalidate()
+            scalingTimer = nil
+            return
+        }
+        
         guard scaledSnapshots.count <= snapshots.count else {
             scalingTimer?.invalidate()
             scalingTimer = nil
             return
         }
         
-        let nextImageToScale = snapshots.dropFirst(scaledSnapshots.count).first
-        if let scaled = getRandomizedSize(from: nextImageToScale?.image), let date = nextImageToScale?.date {
+        let next = snapshots.dropFirst(scaledSnapshots.count).first
+        
+        if let scaled = self.getRandomizedSize(from: next?.image), let date = next?.date {
             let scaledSnapshot = MemoriesSnapshot(image: scaled, date: date)
-            scaledSnapshots.append(scaledSnapshot)
-            createCardFrom(scaled)
+            self.scaledSnapshots.append(scaledSnapshot)
+            self.createCardFrom(scaled)
         }
     }
     

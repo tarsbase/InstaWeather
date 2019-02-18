@@ -45,6 +45,15 @@
 		285D413420A133370040F6BE /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 285D413220A133370040F6BE /* MainInterface.storyboard */; };
 		285D413820A133370040F6BE /* InstaWeatherToday.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 285D412C20A133360040F6BE /* InstaWeatherToday.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		285D413E20A136F50040F6BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 285D413D20A136F40040F6BE /* Assets.xcassets */; };
+		286A3187221A0CDE00298030 /* LiveInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28392E532214F81100789A2A /* LiveInstance.swift */; };
+		286A31A1221A2E1F00298030 /* MemoriesCache+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286A319F221A2E1F00298030 /* MemoriesCache+CoreDataClass.swift */; };
+		286A31A2221A2E1F00298030 /* MemoriesCache+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286A319F221A2E1F00298030 /* MemoriesCache+CoreDataClass.swift */; };
+		286A31A3221A2E1F00298030 /* MemoriesCache+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286A31A0221A2E1F00298030 /* MemoriesCache+CoreDataProperties.swift */; };
+		286A31A4221A2E1F00298030 /* MemoriesCache+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286A31A0221A2E1F00298030 /* MemoriesCache+CoreDataProperties.swift */; };
+		286A31A5221A2EC800298030 /* MemoriesCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286A319C221A2D3C00298030 /* MemoriesCacheManager.swift */; };
+		286A31A6221A2EC900298030 /* MemoriesCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286A319C221A2D3C00298030 /* MemoriesCacheManager.swift */; };
+		286A31A7221A2ECE00298030 /* MemoriesCacheModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 286A319A221A2D3C00298030 /* MemoriesCacheModel.xcdatamodeld */; };
+		286A31A8221A2ECF00298030 /* MemoriesCacheModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 286A319A221A2D3C00298030 /* MemoriesCacheModel.xcdatamodeld */; };
 		2871C19D20B5085900326A4C /* TodayDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2871C19C20B5085900326A4C /* TodayDataModel.swift */; };
 		2873ABF2221791DB00E186B9 /* MemoriesHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2873ABF1221791DB00E186B9 /* MemoriesHost.swift */; };
 		2873ABF42217937600E186B9 /* MemoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2873ABF32217937600E186B9 /* MemoriesViewController.swift */; };
@@ -184,6 +193,10 @@
 		285D413320A133370040F6BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		285D413520A133370040F6BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		285D413D20A136F40040F6BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		286A319B221A2D3C00298030 /* ImageCacheModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ImageCacheModel.xcdatamodel; sourceTree = "<group>"; };
+		286A319C221A2D3C00298030 /* MemoriesCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesCacheManager.swift; sourceTree = "<group>"; };
+		286A319F221A2E1F00298030 /* MemoriesCache+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemoriesCache+CoreDataClass.swift"; sourceTree = "<group>"; };
+		286A31A0221A2E1F00298030 /* MemoriesCache+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemoriesCache+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2871C19C20B5085900326A4C /* TodayDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDataModel.swift; sourceTree = "<group>"; };
 		2873ABF1221791DB00E186B9 /* MemoriesHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesHost.swift; sourceTree = "<group>"; };
 		2873ABF32217937600E186B9 /* MemoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesViewController.swift; sourceTree = "<group>"; };
@@ -452,6 +465,17 @@
 			path = InstaWeatherToday;
 			sourceTree = "<group>";
 		};
+		286A3188221A2C2600298030 /* Memories Cache */ = {
+			isa = PBXGroup;
+			children = (
+				286A319A221A2D3C00298030 /* MemoriesCacheModel.xcdatamodeld */,
+				286A319C221A2D3C00298030 /* MemoriesCacheManager.swift */,
+				286A319F221A2E1F00298030 /* MemoriesCache+CoreDataClass.swift */,
+				286A31A0221A2E1F00298030 /* MemoriesCache+CoreDataProperties.swift */,
+			);
+			path = "Memories Cache";
+			sourceTree = "<group>";
+		};
 		28890DC321FE14EE004C963A /* Custom Controls */ = {
 			isa = PBXGroup;
 			children = (
@@ -567,6 +591,7 @@
 				2873ABF32217937600E186B9 /* MemoriesViewController.swift */,
 				2873ABF5221904D200E186B9 /* MemoriesExport.swift */,
 				2873ABF72219078F00E186B9 /* MemoriesSnapshot.swift */,
+				286A3188221A2C2600298030 /* Memories Cache */,
 			);
 			path = Memories;
 			sourceTree = "<group>";
@@ -995,6 +1020,7 @@
 				28481F18201E9199004A89B6 /* RecentPicksTable.swift in Sources */,
 				28A176C020E15294006A056F /* CoreAnimationObject.swift in Sources */,
 				28EEB917201C44CD0090D0D3 /* WeatherDataModel.swift in Sources */,
+				286A31A1221A2E1F00298030 /* MemoriesCache+CoreDataClass.swift in Sources */,
 				284574F7216B075E00996AC4 /* CustomImageButton.swift in Sources */,
 				28481F16201E8FA3004A89B6 /* ContainmentExtension.swift in Sources */,
 				28392E522214F69900789A2A /* ActivitySharing.swift in Sources */,
@@ -1013,12 +1039,15 @@
 				28890DC521FE14F5004C963A /* ImageButton.swift in Sources */,
 				288F60D920FACD7100B91054 /* AutoCompleterTable.swift in Sources */,
 				287DFB0D217558D7005086A3 /* DisplaySizes.swift in Sources */,
+				286A31A6221A2EC900298030 /* MemoriesCacheManager.swift in Sources */,
 				28E58C062201681F006A67EF /* ConfirmBackgroundButton.swift in Sources */,
 				28F7659A2216679700114D2B /* ViewManager.swift in Sources */,
 				28F7659C2216679700114D2B /* Scheduler.swift in Sources */,
 				2822A03A2021485F0007D9E9 /* ForecastObject.swift in Sources */,
 				28E58C0A22028F15006A67EF /* ColorPicker.swift in Sources */,
+				286A31A3221A2E1F00298030 /* MemoriesCache+CoreDataProperties.swift in Sources */,
 				28E58C0222015C5C006A67EF /* ImageMenuDismissButton.swift in Sources */,
+				286A31A7221A2ECE00298030 /* MemoriesCacheModel.xcdatamodeld in Sources */,
 				289D1950215DA9A6006339D9 /* EnumKeys.swift in Sources */,
 				280C4C2321FFEF1F00430ED3 /* DashboardDelegate+Animations.swift in Sources */,
 				289D194B215DA1AE006339D9 /* AppSettings.swift in Sources */,
@@ -1069,6 +1098,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				286A31A4221A2E1F00298030 /* MemoriesCache+CoreDataProperties.swift in Sources */,
 				285D413120A133370040F6BE /* TodayViewController.swift in Sources */,
 				287DFB0E217558D7005086A3 /* DisplaySizes.swift in Sources */,
 				2873ABF922190FAD00E186B9 /* MemoriesSnapshot.swift in Sources */,
@@ -1077,12 +1107,16 @@
 				28BFE2C6216444CC000F44C3 /* AppLaunch.swift in Sources */,
 				287DFB112175597D005086A3 /* YPImagePicker+Extension.swift in Sources */,
 				28CDAE1F20B1C2EE003CE837 /* ForecastObject.swift in Sources */,
+				286A31A8221A2ECF00298030 /* MemoriesCacheModel.xcdatamodeld in Sources */,
 				284574F5216AF1C900996AC4 /* FahrenheitProtocol.swift in Sources */,
+				286A3187221A0CDE00298030 /* LiveInstance.swift in Sources */,
+				286A31A5221A2EC800298030 /* MemoriesCacheManager.swift in Sources */,
 				28F75B11220D2D02007BD618 /* UIView Extension.swift in Sources */,
 				28F679EF2210C55100383ED6 /* AppSettings.swift in Sources */,
 				2871C19D20B5085900326A4C /* TodayDataModel.swift in Sources */,
 				284AE559220A91B0004A19DE /* PickerHost.swift in Sources */,
 				28F5B0F7220D0AFF00C927CE /* ImageManager.swift in Sources */,
+				286A31A2221A2E1F00298030 /* MemoriesCache+CoreDataClass.swift in Sources */,
 				28F5B0F8220D0B2300C927CE /* ImageLazyLoader.swift in Sources */,
 				28CDAE1E20B1C2EE003CE837 /* WeatherDataModel.swift in Sources */,
 			);
@@ -1450,6 +1484,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		286A319A221A2D3C00298030 /* MemoriesCacheModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				286A319B221A2D3C00298030 /* ImageCacheModel.xcdatamodel */,
+			);
+			currentVersion = 286A319B221A2D3C00298030 /* ImageCacheModel.xcdatamodel */;
+			path = MemoriesCacheModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 28359A41201C41E3005AAFF4 /* Project object */;
 }

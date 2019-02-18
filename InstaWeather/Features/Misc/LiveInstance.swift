@@ -9,6 +9,11 @@
 import Foundation
 
 struct LiveInstance {
+    
+    static var currentVersion: String {
+        return Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String ?? "1"
+    }
+    
     static let fullAppStoreURL = "https://itunes.apple.com/us/app/instaweather/id1341392811?ls=1&mt=8"
     static let shortAppStoreURL = "http://bit.ly/instaWeather"
 }

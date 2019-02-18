@@ -12,7 +12,6 @@ class AppSettings: NSObject {
     
     private enum SettingKey: String {
         case appLaunchCount
-        case alreadySubmittedReview
         case ShowedFindMyLatteAd
         case DateForFindMylatteAd
         
@@ -29,7 +28,10 @@ class AppSettings: NSObject {
         case detailedForecastCustomImage
         
         case hideCameras
-        case memoriesSnapshots
+    }
+    
+    private static var alreadySubmittedReviewKey: String {
+        return "alreadySubmittedReview\(LiveInstance.currentVersion)"
     }
     
     static var appLaunchCount: Int! {
@@ -51,7 +53,7 @@ class AppSettings: NSObject {
     static var alreadySubmittedReview: Bool! {
         get {
             if let object = UserDefaults.standard.object(forKey:
-                SettingKey.alreadySubmittedReview.rawValue) as? Bool {
+                alreadySubmittedReviewKey) as? Bool {
                 return object
             } else {
                 return false
@@ -59,7 +61,7 @@ class AppSettings: NSObject {
         }
         set {
             let defaults = UserDefaults.standard
-            let key = SettingKey.alreadySubmittedReview.rawValue
+            let key = alreadySubmittedReviewKey
             
             if let alreadySubmittedReview = newValue {
                 defaults.set(alreadySubmittedReview, forKey: key)
@@ -220,28 +222,6 @@ class AppSettings: NSObject {
             let defaults = UserDefaults.standard
             let key = SettingKey.hideCameras.rawValue
                 defaults.set(newValue, forKey: key)
-        }
-    }
-    
-    static var memoriesSnapshots: MemoriesSnapshotsArray {
-        get {
-            if let object = UserDefaults.standard.object(forKey:
-                SettingKey.memoriesSnapshots.rawValue) as? Data {
-                if let memories = try? JSONDecoder().decode(MemoriesSnapshotsArray.self, from: object) {
-                    return memories
-                }
-                return MemoriesSnapshotsArray()
-            } else {
-                return MemoriesSnapshotsArray()
-            }
-        }
-        set {
-            let defaults = UserDefaults.standard
-            let key = SettingKey.memoriesSnapshots.rawValue
-            
-            if let data = try? JSONEncoder().encode(newValue) {
-                defaults.set(data, forKey: key)
-            }
         }
     }
 }

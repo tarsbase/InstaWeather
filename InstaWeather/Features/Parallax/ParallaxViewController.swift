@@ -36,7 +36,9 @@ class ParallaxViewController: UIViewController, ParallaxHost {
         if self.presentedViewController != nil {
             return
         }
-        if AppSettings.appLaunchCount > 1 {
+        
+        if !AppSettings.alreadySubmittedReview && AppSettings.appLaunchCount > 1 {
+            AppSettings.alreadySubmittedReview = true
             SKStoreReviewController.requestReview()
         }
     }

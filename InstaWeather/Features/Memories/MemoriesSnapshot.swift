@@ -8,47 +8,35 @@
 
 import UIKit
 
-struct MemoriesSnapshotsArray: Codable {
-    private var array: [MemoriesSnapshot] = [MemoriesSnapshot]()
+class MemoriesSnapshot {
     
-    mutating func add(_ shot: MemoriesSnapshot) {
-        array.insert(shot, at: 0)
-    }
-    
-    func getMemories() -> [MemoriesSnapshot] {
-        return array
-    }
-}
-
-struct MemoriesSnapshot {
-    let image: UIImage
+    var image: UIImage?
     let date: Date
     
+    
+    init(image: UIImage) {
+        self.date = Date()
+        self.image = image
+    }
+    
+    init(image: UIImage, date: Date) {
+        self.date = date
+        self.image = image
+    }
+    
     static func addNewSnapshot(_ image: UIImage) {
-        let newSnapshot = MemoriesSnapshot(image: image, date: Date())
-        AppSettings.memoriesSnapshots.add(newSnapshot)
-    }
-}
-
-extension MemoriesSnapshot: Codable {
-    enum CodingKeys: String, CodingKey {
-        case image
-        case date
-    }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        self.date = try container.decode(Date.self, forKey: .date)
-        
-        let imageData = try container.decode(Data.self, forKey: .image)
-        self.image = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(imageData) as? UIImage ?? UIImage()
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(date, forKey: .date)
-        let imageData = NSKeyedArchiver.archivedData(withRootObject: image)
-        try container.encode(imageData, forKey: .image)
+        // we snap one memory per calendar day
+        let lastDate = MemoriesCacheManager.getDateForLastMemory()
+        let calendar = Calendar.current
+        if let memoryNextDay = calendar.date(byAdding: .day, value: 1, to: lastDate) {
+            let memoryNextDayStart = calendar.startOfDay(for: memoryNextDay)
+            let currentTime = Date()
+            if currentTime >= memoryNextDayStart {
+                let newSnapshot = MemoriesSnapshot(image: image)
+                MemoriesCacheManager.saveMemoryToCoreData(newSnapshot)
+            } else {
+                print("Too early to record another memory")
+            }
+        }
     }
 }

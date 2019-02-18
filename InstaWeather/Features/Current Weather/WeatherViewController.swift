@@ -297,13 +297,7 @@ extension WeatherViewController {
     
     @IBAction func memoriesPressed(_ sender: UIButton) {
         
-        var snapshots = [MemoriesSnapshot]()
-
-        let memories = AppSettings.memoriesSnapshots.getMemories()
-        
-        for memory in memories {
-            snapshots.append(memory)
-        }
+        let snapshots = MemoriesCacheManager.loadAllMemories()
         
         let background = view.imageRepresentation()
         MemoriesViewController.createBy(self, snapshots: snapshots, background: background)
