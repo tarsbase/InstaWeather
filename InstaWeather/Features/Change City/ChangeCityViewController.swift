@@ -50,7 +50,7 @@ class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, U
     lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
-    lazy var imageMenu: ImageMenu = createImageMenuFor(host: .changeCity(.clear))
+    lazy var imageMenu: ImageMenu = createImageMenuFor(host: .changeCity(.all))
     var imageMenuIsVisible = false {
         didSet { toggleImageMenu(visible: imageMenuIsVisible) }
     }
@@ -246,9 +246,8 @@ extension ChangeCityViewController: ImageMenuDelegate {
     
     
     func loadBackgroundImage() {
-        
-        if AppSettings.changecityBackgrounds.allWeather.customBackground {
-            loadCustomImage()
+        if let savedBackground = ImageManager.getBackgroundImage(for: .changeCity(.all)) {
+            backgroundImage.image = savedBackground
         } else {
             resetBackgroundImage()
         }

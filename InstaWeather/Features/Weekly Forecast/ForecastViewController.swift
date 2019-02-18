@@ -24,7 +24,7 @@ class ForecastViewController: ParallaxViewController {
     lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
-    lazy var imageMenu: ImageMenu = createImageMenuFor(host: .weeklyForecast(.clear))
+    lazy var imageMenu: ImageMenu = createImageMenuFor(host: .weeklyForecast(.all))
     var imageMenuIsVisible = false {
         didSet { toggleImageMenu(visible: imageMenuIsVisible) }
     }
@@ -195,8 +195,9 @@ extension ForecastViewController: ImageMenuDelegate {
     }
     
     func loadBackgroundImage() {
-        if AppSettings.weeklyForecastBackgrounds.allWeather.customBackground {
-            loadCustomImage()
+        
+        if let savedBackground = ImageManager.getBackgroundImage(for: .weeklyForecast(.all)) {
+            backgroundImage.image = savedBackground
         } else {
             resetBackgroundImage()
         }

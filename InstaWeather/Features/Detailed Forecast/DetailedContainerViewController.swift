@@ -19,7 +19,7 @@ class DetailedContainerViewController: ParallaxViewController {
     lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
-    lazy var imageMenu: ImageMenu = createImageMenuFor(host: .detailedForecast(.clear))
+    lazy var imageMenu: ImageMenu = createImageMenuFor(host: .detailedForecast(.all))
     var imageMenuIsVisible = false {
         didSet { toggleImageMenu(visible: imageMenuIsVisible)
             gestureView.isHidden = !imageMenuIsVisible
@@ -93,8 +93,8 @@ extension DetailedContainerViewController: ImageMenuDelegate {
     }
     
     func loadBackgroundImage() {
-        if AppSettings.detailedForecastBackgrounds.allWeather.customBackground {
-            loadCustomImage()
+        if let savedBackground = ImageManager.getBackgroundImage(for: .detailedForecast(.all)) {
+            backgroundImage.image = savedBackground
         } else {
             resetBackgroundImage()
         }
