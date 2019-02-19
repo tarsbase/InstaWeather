@@ -30,6 +30,7 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         config.library.onlySquare  = false
         config.onlySquareImagesFromCamera = false
         config.targetImageSize = .original
+        
 //        config.usesFrontCamera = true
         config.showsFilters = true
         config.shouldSaveNewPicturesToAlbum = true
@@ -41,6 +42,9 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
 //        config.overlayView = myOverlayView
         config.library.numberOfItemsInRow = 4
         config.library.spacingBetweenItems = 2
+        config.library.maxNumberOfItems = 1
+        config.library.minNumberOfItems = 1
+        
         config.isScrollToChangeModesEnabled = true
         
         // Build a picker with your configuration
@@ -60,6 +64,7 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
     func selectPicture(for host: PickerHostType, using picker: YPImagePicker) {
         picker.didFinishPicking { [unowned picker] items, cancelled in
             if let photo = items.singlePhoto {
+                AnalyticsEvents.logEvent(.changedBackground)
                 ImageManager.saveBackground(image: photo.image, for: host)
                 self.imageHost?.updateCustomImageSetting()
                 if let savedImage = ImageManager.getBackgroundImage(for: host) {

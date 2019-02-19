@@ -37,6 +37,7 @@ extension MemoriesHost where Self: UIViewController {
         swipeableView.alpha = 0
         swipeableView.loadViews()
         view.addSubview(swipeableView)
+        
         self.swipeableView = swipeableView
         
         startScalingTimer()
@@ -85,6 +86,7 @@ extension MemoriesHost where Self: UIViewController {
         
         screenshot.layer.cornerRadius = 12
         screenshot.layer.masksToBounds = true
+        screenshot.contentMode = .scaleAspectFit
         
         swipeableView?.nextView = {
             return screenshot
@@ -99,19 +101,38 @@ extension MemoriesHost where Self: UIViewController {
 extension MemoriesHost where Self: UIViewController {
     
     private func getRandomizedSize(from image: UIImage?) -> UIImage? {
-        let aspectRatio = view.bounds.height / view.bounds.width
+        guard let image = image else { return nil }
         
-        let decrease: CGFloat = 100
+        let imageAspectRatio = image.size.height / image.size.width
+        let screenAspectRatio = view.bounds.height / view.bounds.width
+        
+        let bothAboveOne = imageAspectRatio > 1 && screenAspectRatio > 1
+        let bothBelowOne = imageAspectRatio < 1 && screenAspectRatio < 1
+        
+        let match = bothAboveOne || bothBelowOne
+        
+        let longDimension = max(Display.height, Display.width)
+        
+        let decreaseConstant: CGFloat = Display.phone ? 0.15 : 0.2
+        
+        let decrease: CGFloat = longDimension * decreaseConstant
         
         let minWidth: CGFloat = view.bounds.width - decrease
         let maxWidth: CGFloat = view.bounds.width - (decrease - 10)
         
         let width = CGFloat.random(in: minWidth...maxWidth)
         
-        let height = width * aspectRatio
+        let height = width * screenAspectRatio
         
-        let scale = CGSize(width: width, height: height)
-        return image?.image(scaledTo: scale)
+        if match {
+            let scale = CGSize(width: width, height: height)
+            return image.image(scaledTo: scale)
+        } else {
+            
+            let scale = CGSize(width: height * 0.75, height: width * 0.75)
+            
+            return image.image(scaledTo: scale)
+        }
     }
     
     private func addCustomAnimationTo(_ swipeableView: ZLSwipeableView) {

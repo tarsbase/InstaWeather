@@ -11,6 +11,7 @@ import Fabric
 import Crashlytics
 import TwitterKit
 import FBSDKCoreKit
+import Firebase
 
 
 @UIApplicationMain
@@ -25,6 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let pageControl = UIPageControl.appearance()
         pageControl.backgroundColor = UIColor.clear
         Fabric.with([Crashlytics.self])
+        FirebaseApp.configure()
+        AnalyticsEvents.setUserPropertyForDevice()
         incrementLaunchCount()
         TWTRTwitter.sharedInstance().start(withConsumerKey: TWTR_CONSUMER_KEY, consumerSecret: TWTR_API_SECRET)
         return true

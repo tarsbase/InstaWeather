@@ -24,4 +24,12 @@ struct LiveInstance {
         #endif
         return isSimulator
     }
+    
+    static var debugMode: Bool {
+        var debug = false
+        #if DEBUG
+        debug = true
+        #endif
+        return debug
+    }
 }

@@ -37,6 +37,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     var recentPicksDataSource: RecentPicksDataSource?
     var debugBackgroundCounter = 0
     let delegate = UIApplication.shared.delegate as? AppDelegate
+    var memoriesDemoImages = [MemoriesSnapshot]()
     var reconnectTimer: Timer? {
         set {
             delegate?.reconnectTimer = newValue
@@ -51,8 +52,8 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
-    lazy var imageMenu: ImageMenu = createImageMenuFor(host: .mainScreen(.clear))
-    lazy var dashboardMenu: Dashboard = createDashboardFor(host: .mainScreen(.clear))
+    lazy var imageMenu: ImageMenu = createImageMenuFor(host: hostType)
+    lazy var dashboardMenu: Dashboard = createDashboardFor(host: hostType)
     var imageMenuIsVisible = false {
         didSet { toggleImageMenu(visible: imageMenuIsVisible) }
     }
@@ -145,6 +146,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "changeCity" {
+            AnalyticsEvents.logEvent(.changeCity)
             if let destination = segue.destination as? ChangeCityViewController {
                 destination.delegate = self
                 recentPicksDataSource = destination
@@ -232,6 +234,7 @@ extension WeatherViewController: DashboardDelegate {
     }
     
     @IBAction func imageChangePressed(_ sender: Any) {
+        AnalyticsEvents.logEvent(.dashboardTapped)
         showDashboard()
     }
     
@@ -296,12 +299,12 @@ extension WeatherViewController: ExportHost {
 extension WeatherViewController {
     
     @IBAction func memoriesPressed(_ sender: UIButton) {
-        
+        AnalyticsEvents.logEvent(.memoriesTapped)
         var snapshots = MemoriesCacheManager.loadAllMemories()
         var demo = false
-        if snapshots.count < 4 {
+        if snapshots.count < 3 {
             demo = true
-            snapshots.append(contentsOf: generateDemoSnapshots())
+            snapshots.append(contentsOf: memoriesDemoImages)
         }
         
         let background = view.imageRepresentation()
@@ -314,22 +317,44 @@ extension WeatherViewController {
         }
     }
     
-    func generateDemoSnapshots() -> [MemoriesSnapshot] {
-        let originalBackground = self.backgroundImage.image
-        let demoLabel = generateDemoLabel()
-        var demos = [MemoriesSnapshot]()
-        for background in ImageManager.potentialBackgrounds {
-            self.backgroundImage.image = background
-            if let demoSnap = getExportImage() {
-                let date = Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date()
-                let demo = MemoriesSnapshot(image: demoSnap, date: date)
-                demos.append(demo)
+    // TODO pre-generate demo sliders to avoid slowdown
+    
+    func generateDemoSnapshots() {
+        guard memoriesDemoImages.isEmpty else { return }
+        guard MemoriesCacheManager.loadAllMemories().count < 3 else { return }
+        
+        let totalDuration: TimeInterval = 0.07
+        let numberOfDemos = ImageManager.potentialBackgrounds.count
+        let interval = totalDuration / Double(numberOfDemos)
+        
+        for (index, background) in ImageManager.potentialBackgrounds.dropFirst(6).enumerated() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + (Double(index) * interval)) { [weak self] in
+                guard let self = self else { return }
+                NSLog("Generating Demo")
+                
+                let originalBackground = self.backgroundImage.image
+                self.backgroundImage.image = background
+                
+                let demoLabel = self.generateDemoLabel()
+                if let demoSnap = self.getDemoImage() {
+                    let date = Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date()
+                    let demo = MemoriesSnapshot(image: demoSnap, date: date)
+                    self.memoriesDemoImages.append(demo)
+                }
+                
+                demoLabel.removeFromSuperview()
+                self.backgroundImage.image = originalBackground
             }
         }
-        self.backgroundImage.image = originalBackground
         
-        demoLabel.removeFromSuperview()
-        return demos
+        
+    }
+    
+    func getDemoImage() -> UIImage? {
+        hideViews(viewsExcludedFromScreenshot)
+        let image = view.imageRepresentation()
+        unHideViews(viewsExcludedFromScreenshot)
+        return image
     }
     
     func generateDemoLabel() -> UILabel {

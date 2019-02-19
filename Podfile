@@ -14,6 +14,7 @@ target 'InstaWeather' do
   pod 'FBSDKLoginKit'
   pod 'SnapSDK' , :subspecs => ['SCSDKCreativeKit']
   pod 'TwitterKit'
+  pod 'Firebase/Core'
 
   target 'InstaWeatherTests' do
     inherit! :search_paths

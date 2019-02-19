@@ -42,6 +42,8 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
     
     var width: CGFloat { return self.view.bounds.width }
     
+    var imageMenuDisplacement: CGFloat { return 10 }
+    
     var imageMenu: ImageMenu {
         return ImageMenu()
     }
@@ -90,12 +92,15 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
     func toggleImageMenu(visible: Bool) {
         
         if visible {
+            AnalyticsEvents.logEvent(.imageMenuTapped, parameters: ["controller" : String(describing: self)])
             self.imageMenu.alpha = 1
             self.imageMenu.toggleOverlay(visible: true)
             self.statusBarUpdater?.pageViewDataSourceIsActive(false)
+        } else {
+            self.imageMenu.removeConfirmButton()
         }
         
-        let yValue: CGFloat = visible ? 33.5 : -175.5
+        let yValue: CGFloat = visible ? imageMenuDisplacement : -175.5
         
         let curve: UIView.AnimationCurve = visible ? .easeOut : .easeIn
         
@@ -103,9 +108,6 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
             self?.imageMenu.center.y = yValue
         }
         
-//        let anim = UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.9) { [weak self] in
-//            self?.imageMenu.center.y = yValue
-//        }
         anim.addCompletion { [weak self] (_) in
             guard let self = self else { return }
             if !visible {
@@ -194,12 +196,14 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
     }
     
     func recreateMenus(){
+        imageMenuIsVisible = false
         UIView.animate(withDuration: 0.1, animations: { [weak self] in
             guard let self = self else { return }
             self.imageMenu.alpha = 0
             }, completion: {[weak self] finish in
                 guard let self = self else { return }
                 self.imageMenu.removeFromSuperview()
+                self.imageMenu.overlay?.removeFromSuperview()
                 self.imageMenu = self.createImageMenuFor(host: self.imageMenu.hostType)
         })
     }

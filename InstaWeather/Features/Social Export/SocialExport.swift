@@ -59,7 +59,7 @@ class SocialExport: NSObject, FBSDKSharingDelegate {
         }))
         
         ac.addAction(UIAlertAction(title: "Other...", style: .default, handler: { [weak self] _ in
-            ShareDocumentHost.share(self?.image, by: self?.vcDelegate)
+            ShareDocumentHost.share(self?.image, by: self?.vcDelegate, source: self?.anchor)
         }))
         
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -70,6 +70,7 @@ class SocialExport: NSObject, FBSDKSharingDelegate {
     // MARK: - Facebook
 
     private func facebookShare() {
+        AnalyticsEvents.logEvent(.exportFacebook)
         if (UIApplication.shared.canOpenURL(URL(string: "fb://")!)) {
             nativePhotoFacebookSheet()
         } else {
@@ -121,6 +122,7 @@ class SocialExport: NSObject, FBSDKSharingDelegate {
 
     // MARK: - Twitter
     func twitterShare() {
+        AnalyticsEvents.logEvent(.exportTwitter)
         if UIApplication.shared.canOpenURL(URL(string: "twitter://app")!) {
             shareTwitter()
         } else {
@@ -152,6 +154,7 @@ extension SocialExport: UIDocumentInteractionControllerDelegate {
     // MARK: - Instagram
 
     private func instagramShare() {
+        AnalyticsEvents.logEvent(.exportInstagram)
         if UIApplication.shared.canOpenURL(URL(string: "instagram://app")!) {
             shareInstagram()
         } else {
@@ -192,6 +195,7 @@ extension SocialExport {
     // MARK: - SnapChat
 
     private func snapchatShare() {
+        AnalyticsEvents.logEvent(.exportSnapchat)
         if UIApplication.shared.canOpenURL(URL(string: "snapchat://app")!) {
             snapchatCreativeShare()
         } else {

@@ -30,6 +30,7 @@ class MemoriesViewController: UIViewController, MemoriesHost {
     var blurView: UIVisualEffectView?
     var swipeableView: ZLSwipeableView?
     var socialExport: SocialExport?
+    var demoAlert: UIAlertController?
     var demo = false
     var activeViewsCount: Int {
         return swipeableView?.activeViews().count ?? snapshots.count
@@ -125,6 +126,11 @@ class MemoriesViewController: UIViewController, MemoriesHost {
         navigationItem.rightBarButtonItem = exportBarButton
         
         toolbarItems = [oldestButton, flexibleSpace, rewindButton, flexibleSpace, newestButton]
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        self.dismiss(animated: false)
     }
     
 }
@@ -257,14 +263,28 @@ extension MemoriesViewController {
     func showDemoAlertIfNeeded() {
         if demo {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                guard let self = self else { return }
                 let ac = UIAlertController(title: "Memories", message: "Every day you launch InstaWeather, a new entry is added to this screen", preferredStyle: .alert)
                 
-                self?.present(ac, animated: true, completion: nil)
+                self.present(ac, animated: true, completion: nil)
+                let overlay = UIView(frame: CGRect(x: 0, y: 0, width: 5000, height: 5000))
+                ac.view.addSubview(overlay)
+                overlay.center = ac.view.center
+                overlay.isUserInteractionEnabled = true
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
-                    ac.dismiss(animated: true, completion: nil)
+                let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.dismissAlert))
+                overlay.addGestureRecognizer(dismissTap)
+                
+                self.demoAlert = ac
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak ac] in
+                    ac?.dismiss(animated: true, completion: nil)
                 }
             }
         }
+    }
+    
+    @objc func dismissAlert() {
+        demoAlert?.dismiss(animated: true, completion: nil)
+        demoAlert = nil
     }
 }

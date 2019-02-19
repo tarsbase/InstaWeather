@@ -16,6 +16,37 @@ protocol DashboardDelegate: ImageMenuDelegate {
 // MARK: - override parent protocol
 
 extension DashboardDelegate where Self: ParallaxViewController {
+    
+    var imageMenuDisplacement: CGFloat { return 33.5 }
+    
+    func toggleImageMenu(visible: Bool) {
+        
+        if visible {
+            self.imageMenu.alpha = 1
+            self.imageMenu.toggleOverlay(visible: true)
+            self.statusBarUpdater?.pageViewDataSourceIsActive(false)
+        } else {
+            self.imageMenu.removeConfirmButton()
+        }
+        
+        let yValue: CGFloat = visible ? imageMenuDisplacement : -175.5
+        
+        let curve: UIView.AnimationCurve = visible ? .easeOut : .easeIn
+        
+        let anim = UIViewPropertyAnimator(duration: 0.25, curve: curve) { [weak self] in
+            self?.imageMenu.center.y = yValue
+        }
+        
+        anim.addCompletion { [weak self] (_) in
+            guard let self = self else { return }
+            if !visible {
+                self.imageMenu.dismissalWrapUp()
+            }
+        }
+        createImageMenuConfirmButton(imageMenu: imageMenu, visible: visible)
+        anim.startAnimation()
+    }
+    
     func dismissImageMenu() {
         imageMenuIsVisible = false
         restoreBackground()
@@ -93,6 +124,9 @@ extension DashboardDelegate where Self: ParallaxViewController {
     }
     
     func recreateMenus(){
+        imageMenuIsVisible = false
+        resetBackgroundImage()
+        hideDashboard()
         UIView.animate(withDuration: 0.1, animations: { [weak self] in
             guard let self = self else { return }
             self.imageMenu.alpha = 0
@@ -100,6 +134,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
             }, completion: {[weak self] finish in
                 guard let self = self else { return }
                 self.imageMenu.removeFromSuperview()
+                self.imageMenu.overlay?.removeFromSuperview()
                 self.imageMenu = self.createImageMenuFor(host: self.imageMenu.hostType)
                 self.dashboardMenu.removeFromSuperview()
                 self.dashboardMenu = self.createDashboardFor(host: self.dashboardMenu.hostType)

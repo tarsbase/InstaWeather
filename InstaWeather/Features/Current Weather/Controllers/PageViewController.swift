@@ -13,7 +13,7 @@ protocol StatusBarUpdater: AnyObject {
     func pageViewDataSourceIsActive(_ active: Bool)
 }
 
-class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
+class PageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
     var deviceFrame: CGRect?
     var lightStatusBar: Bool = true
@@ -105,6 +105,11 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
         vcToLoad = self.orderedViewControllers[1]
         self.setViewControllers([vcToLoad], direction: .forward, animated: false)
         dataSource = self
+        delegate = self
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        AnalyticsEvents.logEvent(.swipedPage)
     }
     
 }

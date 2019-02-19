@@ -65,6 +65,11 @@
 		287DFB0E217558D7005086A3 /* DisplaySizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287DFB0C217558D7005086A3 /* DisplaySizes.swift */; };
 		287DFB102175597D005086A3 /* YPImagePicker+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287DFB0F2175597D005086A3 /* YPImagePicker+Extension.swift */; };
 		287DFB112175597D005086A3 /* YPImagePicker+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287DFB0F2175597D005086A3 /* YPImagePicker+Extension.swift */; };
+		28812959221B9D77002F765A /* AnalyticsEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28812958221B9D77002F765A /* AnalyticsEvents.swift */; };
+		2881295B221BA1AA002F765A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2881295A221BA1A9002F765A /* GoogleService-Info.plist */; };
+		2881295C221BA1AA002F765A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2881295A221BA1A9002F765A /* GoogleService-Info.plist */; };
+		2881295F221BA375002F765A /* AnalyticsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2881295E221BA375002F765A /* AnalyticsKeys.swift */; };
+		28812960221BA38B002F765A /* AnalyticsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2881295E221BA375002F765A /* AnalyticsKeys.swift */; };
 		2882D6892020116F00B40082 /* ForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2882D6882020116F00B40082 /* ForecastViewController.swift */; };
 		2885EE5F2023F62500CD4CC4 /* DetailedForecastTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2885EE5E2023F62500CD4CC4 /* DetailedForecastTable.swift */; };
 		28890DBA21FD47CB004C963A /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28890DB921FD47CB004C963A /* Dashboard.swift */; };
@@ -206,6 +211,9 @@
 		287A5DD0201D62D1008E71CF /* ChangeCityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeCityViewController.swift; sourceTree = "<group>"; };
 		287DFB0C217558D7005086A3 /* DisplaySizes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplaySizes.swift; sourceTree = "<group>"; };
 		287DFB0F2175597D005086A3 /* YPImagePicker+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YPImagePicker+Extension.swift"; sourceTree = "<group>"; };
+		28812958221B9D77002F765A /* AnalyticsEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEvents.swift; sourceTree = "<group>"; };
+		2881295A221BA1A9002F765A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2881295E221BA375002F765A /* AnalyticsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsKeys.swift; sourceTree = "<group>"; };
 		2882D6882020116F00B40082 /* ForecastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewController.swift; sourceTree = "<group>"; };
 		2885EE5E2023F62500CD4CC4 /* DetailedForecastTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedForecastTable.swift; sourceTree = "<group>"; };
 		28890DB921FD47CB004C963A /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
@@ -476,6 +484,15 @@
 			path = "Memories Cache";
 			sourceTree = "<group>";
 		};
+		28812957221B9D5E002F765A /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				28812958221B9D77002F765A /* AnalyticsEvents.swift */,
+				2881295E221BA375002F765A /* AnalyticsKeys.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
 		28890DC321FE14EE004C963A /* Custom Controls */ = {
 			isa = PBXGroup;
 			children = (
@@ -506,6 +523,7 @@
 		28B5CD2321694FE9004331DA /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				28812957221B9D5E002F765A /* Analytics */,
 				28890DC321FE14EE004C963A /* Custom Controls */,
 				280A03EA21841FC400F71B6A /* Parallax */,
 				2807A929216AF0EE003DA8D6 /* Storyboards */,
@@ -578,6 +596,7 @@
 			children = (
 				28F7658E2216679700114D2B /* ZLSwipeableViewSwift */,
 				28359A58201C41E3005AAFF4 /* Info.plist */,
+				2881295A221BA1A9002F765A /* GoogleService-Info.plist */,
 				28243637209E6BC9002D3142 /* Crashlytics.framework */,
 				28243638209E6BC9002D3142 /* Fabric.framework */,
 			);
@@ -777,6 +796,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28359A57201C41E3005AAFF4 /* LaunchScreen.storyboard in Resources */,
+				2881295B221BA1AA002F765A /* GoogleService-Info.plist in Resources */,
 				289D3E0E20E8046300D3D5DD /* LaunchBackground.jpg in Resources */,
 				28E58C04220167BA006A67EF /* ConfirmBackgroundButton.xib in Resources */,
 				28359A54201C41E3005AAFF4 /* Assets.xcassets in Resources */,
@@ -806,6 +826,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				285D413E20A136F50040F6BE /* Assets.xcassets in Resources */,
+				2881295C221BA1AA002F765A /* GoogleService-Info.plist in Resources */,
 				285D413420A133370040F6BE /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -932,6 +953,7 @@
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/PryntTrimmerView/PryntTrimmerView.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${PODS_ROOT}/SnapSDK/SCSDKCreativeKit.framework",
@@ -941,6 +963,7 @@
 				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
 				"${BUILT_PRODUCTS_DIR}/YPImagePicker/YPImagePicker.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -949,6 +972,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PryntTrimmerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSDKCreativeKit.framework",
@@ -958,6 +982,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YPImagePicker.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1048,6 +1073,7 @@
 				286A31A3221A2E1F00298030 /* MemoriesCache+CoreDataProperties.swift in Sources */,
 				28E58C0222015C5C006A67EF /* ImageMenuDismissButton.swift in Sources */,
 				286A31A7221A2ECE00298030 /* MemoriesCacheModel.xcdatamodeld in Sources */,
+				28812959221B9D77002F765A /* AnalyticsEvents.swift in Sources */,
 				289D1950215DA9A6006339D9 /* EnumKeys.swift in Sources */,
 				280C4C2321FFEF1F00430ED3 /* DashboardDelegate+Animations.swift in Sources */,
 				289D194B215DA1AE006339D9 /* AppSettings.swift in Sources */,
@@ -1068,6 +1094,7 @@
 				28F7659B2216679700114D2B /* ZLSwipeableView.swift in Sources */,
 				289D194E215DA32C006339D9 /* AdHosting.swift in Sources */,
 				28359A4D201C41E3005AAFF4 /* AppDelegate.swift in Sources */,
+				2881295F221BA375002F765A /* AnalyticsKeys.swift in Sources */,
 				2882D6892020116F00B40082 /* ForecastViewController.swift in Sources */,
 				28E58C0822028DBC006A67EF /* ColorPickerView.swift in Sources */,
 				28F7659E2216679700114D2B /* Direction.swift in Sources */,
@@ -1112,6 +1139,7 @@
 				286A3187221A0CDE00298030 /* LiveInstance.swift in Sources */,
 				286A31A5221A2EC800298030 /* MemoriesCacheManager.swift in Sources */,
 				28F75B11220D2D02007BD618 /* UIView Extension.swift in Sources */,
+				28812960221BA38B002F765A /* AnalyticsKeys.swift in Sources */,
 				28F679EF2210C55100383ED6 /* AppSettings.swift in Sources */,
 				2871C19D20B5085900326A4C /* TodayDataModel.swift in Sources */,
 				284AE559220A91B0004A19DE /* PickerHost.swift in Sources */,

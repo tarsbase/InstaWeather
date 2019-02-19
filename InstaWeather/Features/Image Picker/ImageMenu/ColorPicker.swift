@@ -43,7 +43,9 @@ class ColorPicker: UIView {
     static func createByView<T: UIView & ColorPickerDelegate> (_ delegate: T) -> ColorPicker {
         guard let picker = UINib(nibName: "ColorPicker", bundle: nil)
             .instantiate(withOwner: self, options: nil)[0] as? ColorPicker else { fatalError() }
-        picker.frame = CGRect(x: 0, y: delegate.bounds.height - 133, width: delegate.bounds.width, height: 150)
+        let offset: CGFloat = Display.typeIsLike == .iphoneXFamily ? 119 : 133
+        
+        picker.frame = CGRect(x: 0, y: delegate.bounds.height - offset, width: delegate.bounds.width, height: 150)
         
         picker.createColorPicker()
         picker.alpha = 0

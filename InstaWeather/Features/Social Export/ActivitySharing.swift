@@ -57,9 +57,11 @@ struct ShareDocumentHost {
     
     private init(){}
     
-    static func share(_ image: UIImage?, by viewController: UIViewController?) {
-        guard let image = image, let viewController = viewController else { return }
+    static func share(_ image: UIImage?, by viewController: UIViewController?, source: UIView?) {
+        guard let image = image, let viewController = viewController, let source = source else { return }
+        AnalyticsEvents.logEvent(.exportOther)
         let vc = UIActivityViewController(activityItems: [ImageProvider(image: image), TextProvider()], applicationActivities: [])
+        vc.popoverPresentationController?.sourceView = source
         viewController.present(vc, animated: true)
     }
 }

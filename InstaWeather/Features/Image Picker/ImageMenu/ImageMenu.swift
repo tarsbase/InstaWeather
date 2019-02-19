@@ -43,10 +43,12 @@ class ImageMenu: UIView {
     
     
     @objc func updateBlurSettings() {
+        AnalyticsEvents.logEvent(.blurChanged)
         savedSettings.blurSetting = blurSlider.value
     }
     
     @objc func updateBrightnessSettings() {
+        AnalyticsEvents.logEvent(.brightnessChanged)
         savedSettings.brightnessSetting = brightnessSlider.value
     }
     
@@ -55,18 +57,22 @@ class ImageMenu: UIView {
     }
     
     @IBAction func cameraButton(_ sender: Any) {
+        AnalyticsEvents.logEvent(.cameraTapped)
         imagePicker.selectPictureFromCamera(for: hostType)
     }
     
     @IBAction func albumButton(_ sender: Any) {
+        AnalyticsEvents.logEvent(.albumTapped)
         imagePicker.selectPictureFromAlbum(for: hostType)
     }
     @IBAction func resetButton(_ sender: Any) {
         if savedSettings.allDefaultValues { return }
+        AnalyticsEvents.logEvent(.resetTapped)
         delegate?.present(generalResetAlert(), animated: true, completion: nil)
     }
     
     @IBAction func textColorButton(_ sender: Any) {
+        AnalyticsEvents.logEvent(.textColorTapped)
         toggleColorPicker(visible: true)
     }
     
@@ -97,7 +103,7 @@ class ImageMenu: UIView {
     
     func createButton(controller: UIViewController) -> ConfirmBackgroundButton {
         deleteConfirmButton()
-        let confirmButton = ConfirmBackgroundButton.createFor(controller: controller) {
+        let confirmButton = ConfirmBackgroundButton.createFor(controller: controller, type: hostType) {
             [weak self] in
             self?.delegate?.dismissImageMenu()
             self?.removeConfirmButton()
@@ -164,7 +170,6 @@ class ImageMenu: UIView {
     
     func dismissalWrapUp() {
         self.alpha = 0
-        self.removeConfirmButton()
         self.toggleOverlay(visible: false)
         self.toggleColorPicker(visible: false)
     }
@@ -206,15 +211,18 @@ extension ImageMenu: ColorPickerDelegate {
     }
     
     func shadowsToggled(visible: Bool) {
+        AnalyticsEvents.logEvent(.shadowsToggled)
         self.delegate?.toggleShadows(on: visible)
         savedSettings.enableShadows = visible
     }
     
     func updateSavedTextBrightnessSettings(to value: Float) {
+        AnalyticsEvents.logEvent(.textBrightnessChanged)
         savedSettings.textBrightness = value
     }
     
     func updateSavedTextColorSettings(to color: UIColor) {
+        AnalyticsEvents.logEvent(.textColorChanged)
         savedSettings.textColor = color
     }
 }

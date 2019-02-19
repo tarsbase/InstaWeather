@@ -137,26 +137,32 @@ class Dashboard: UIView {
     
     func createButtons() {
         imageCenter.setupImage(with: .setup(weatherType: .all, from: hostType)) { [weak self] in
+            AnalyticsEvents.logEvent(.dashboardAll)
             self?.showImageMenu(from: self?.imageCenter)
         }
         
         clearImage.setupImage(with: .setup(weatherType: .clear, from: hostType)) { [weak self] in
+            AnalyticsEvents.logEvent(.dashboardClear)
             self?.showImageMenu(from: self?.clearImage)
         }
         
         cloudyImage.setupImage(with: .setup(weatherType: .cloudy, from: hostType)) { [weak self] in
+            AnalyticsEvents.logEvent(.dashboardCloudy)
             self?.showImageMenu(from: self?.cloudyImage)
         }
         
         rainyImage.setupImage(with: .setup(weatherType: .rainy, from: hostType)) { [weak self] in
+            AnalyticsEvents.logEvent(.dashboardRainy)
             self?.showImageMenu(from: self?.rainyImage)
         }
         
         stormyImage.setupImage(with: .setup(weatherType: .stormy, from: hostType)) { [weak self] in
+            AnalyticsEvents.logEvent(.dashboardStormy)
             self?.showImageMenu(from: self?.stormyImage)
         }
         
         snowyImage.setupImage(with: .setup(weatherType: .snowy, from: hostType)) { [weak self] in
+            AnalyticsEvents.logEvent(.dashboardSnowy)
             self?.showImageMenu(from: self?.snowyImage)
         }
     }

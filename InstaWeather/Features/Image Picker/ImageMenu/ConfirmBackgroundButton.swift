@@ -14,10 +14,10 @@ class ConfirmBackgroundButton: UIView {
     @IBOutlet weak var button: UIButton!
     var confirmAction: (() -> Void)?
     
-    static func createFor(controller: UIViewController, action: @escaping () -> Void) -> ConfirmBackgroundButton {
+    static func createFor(controller: UIViewController, type: PickerHostType, action: @escaping () -> Void) -> ConfirmBackgroundButton {
         guard let confirmButton = UINib(nibName: "ConfirmBackgroundButton", bundle: nil)
             .instantiate(withOwner: self, options: nil)[0] as? ConfirmBackgroundButton else { fatalError() }
-        let yOffset: CGFloat = Display.typeIsLike == .iphoneXFamily ? 242 : 230
+        let yOffset: CGFloat = getYOffset(type: type)
         confirmButton.center = CGPoint(x: controller.view.center.x, y: yOffset)
         confirmButton.confirmAction = action
         confirmButton.button.addTarget(confirmButton, action: #selector(performAction), for: .touchUpInside)
@@ -26,7 +26,16 @@ class ConfirmBackgroundButton: UIView {
         return confirmButton
     }
     
-    func fadeIn() {
+    private static func getYOffset(type: PickerHostType) -> CGFloat {
+        let initialValue: CGFloat = Display.typeIsLike == .iphoneXFamily ? 242 : 230
+        if case PickerHostType.mainScreen = type {
+            return initialValue
+        } else {
+            return initialValue - 23.5
+        }
+    }
+    
+    private func fadeIn() {
         UIViewPropertyAnimator(duration: 0.2, curve: .linear) { [weak self] in
             self?.alpha = 1
         }.startAnimation(afterDelay: 0.35)

@@ -45,6 +45,7 @@ class RecentPicksTable: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let city = changeCityVC.recentPicks[indexPath.row]
+        AnalyticsEvents.logEvent(.tappedPreviousCity)
         changeCityVC.checkWeatherFromAutocomplete(for: city)
     }
     
