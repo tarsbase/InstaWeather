@@ -174,6 +174,9 @@ extension MemoriesViewController {
     
     
     @objc private func rewind() {
+        AnalyticsEvents.logEvent(.memoriesRewind)
+        let count = MemoriesCacheManager.loadAllMemories().count
+        AnalyticsEvents.logEvent(.memoriesRewind, parameters: ["memories" : count])
         swipeableView?.rewind()
         updateTitle()
     }
@@ -182,6 +185,9 @@ extension MemoriesViewController {
         // ensure no overlapping animations
         guard cardsLongAnimationInProgress == false else { return }
         cardsLongAnimationInProgress = true
+        
+        let count = MemoriesCacheManager.loadAllMemories().count
+        AnalyticsEvents.logEvent(.memoriesOldest, parameters: ["memories" : count])
         
         let active = activeViewsCount
         let duration: TimeInterval = 1.5
@@ -208,6 +214,9 @@ extension MemoriesViewController {
         // ensure no overlapping animations
         guard cardsLongAnimationInProgress == false else { return }
         cardsLongAnimationInProgress = true
+        
+        let count = MemoriesCacheManager.loadAllMemories().count
+        AnalyticsEvents.logEvent(.memoriesNewest, parameters: ["memories" : count])
         
         let duration: TimeInterval = 0.75
         let interval: TimeInterval = duration / Double(snapshots.count)

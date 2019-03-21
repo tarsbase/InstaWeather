@@ -246,11 +246,14 @@ extension ChangeCityViewController: ImageMenuDelegate {
     
     
     func loadBackgroundImage() {
-        if let savedBackground = ImageManager.getBackgroundImage(for: .changeCity(.all)) {
-            backgroundImage.image = savedBackground
-        } else {
-            resetBackgroundImage()
+        let hostType: PickerHostType = .changeCity(.all)
+        if let savedBackground = ImageManager.getBackgroundImage(for: hostType) {
+            if ImageManager.customBackgroundFor(host: hostType) {
+                backgroundImage.image = savedBackground
+                return
+            }
         }
+        resetBackgroundImage()
     }
     
     func resetBackgroundImage() {

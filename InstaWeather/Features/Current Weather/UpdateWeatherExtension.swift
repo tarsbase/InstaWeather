@@ -228,29 +228,6 @@ extension WeatherViewController {
         updateLabel(maxTempLabel, toValue: weatherDataModel.maxTemp, forType: .maxTemp)
     }
     
-//    func updateYahooData(with json: JSON) {
-//
-//
-//
-//        weatherDataModel.temperature = json["query"]["results"]["channel"]["item"]["condition"]["temp"].intValue
-//
-//        weatherDataModel.minTemp = json["query"]["results"]["channel"]["item"]["forecast"][0]["low"].intValue
-//        weatherDataModel.maxTemp = json["query"]["results"]["channel"]["item"]["forecast"][0]["high"].intValue
-//
-//        let condition = json["query"]["results"]["channel"]["item"]["condition"]["code"].intValue
-//        weatherDataModel.weatherIconName = weatherDataModel.updateYahooWeatherIcon(condition: condition)
-//
-//        weatherDataModel.feelsLike = json["query"]["results"]["channel"]["wind"]["chill"].intValue
-//        weatherDataModel.windSpeed = json["query"]["results"]["channel"]["wind"]["speed"].intValue
-//        weatherDataModel.windDirection = json["query"]["results"]["channel"]["wind"]["direction"].stringValue
-//        weatherDataModel.humidity = json["query"]["results"]["channel"]["atmosphere"]["humidity"].intValue
-//        saveValues(forYahoo: true)
-//
-//
-//        updateUIWithWeatherData()
-//        self.updateYahooLabels()
-//    }
-    
     func updateYahooLabels() {
         let feelsLikeTemp = weatherDataModel.feelsLike
         let scale = segmentedControl.selectedSegmentIndex == 0 ? "km/h" : "mph"
@@ -294,6 +271,7 @@ extension WeatherViewController {
             defaults.set(weatherDataModel.minTempCelsius, forKey: "minTemp")
             defaults.set(weatherDataModel.maxTempCelsius, forKey: "maxTemp")
             defaults.set(weatherDataModel.city, forKey: "city")
+            weatherDataModel.lastUpdated = Date()
             defaults.set(weatherDataModel.lastUpdated, forKey: "lastUpdated")
         } else {
             defaults.set(weatherDataModel.feelsLikeCelsius, forKey: "feelsLike")

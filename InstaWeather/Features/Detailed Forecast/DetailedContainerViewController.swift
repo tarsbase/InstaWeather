@@ -93,11 +93,14 @@ extension DetailedContainerViewController: ImageMenuDelegate {
     }
     
     func loadBackgroundImage() {
-        if let savedBackground = ImageManager.getBackgroundImage(for: .detailedForecast(.all)) {
-            backgroundImage.image = savedBackground
-        } else {
-            resetBackgroundImage()
+        let hostType: PickerHostType = .detailedForecast(.all)
+        if let savedBackground = ImageManager.getBackgroundImage(for: hostType) {
+            if ImageManager.customBackgroundFor(host: hostType) {
+                backgroundImage.image = savedBackground
+                return
+            }
         }
+        resetBackgroundImage()
     }
     
     func resetBackgroundImage() {

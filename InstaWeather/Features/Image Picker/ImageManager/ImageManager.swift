@@ -38,14 +38,12 @@ struct ImageManager {
         switch host {
         case .mainScreen(let weather):
             return AppSettings.mainscreenBackgrounds.background(for: weather).customBackground
-            // TODO
-            //        case .changeCity:
-            //            return AppSettings.changeCityBackgrounds.adjusted
-            //        case .weeklyForecast:
-            //            return AppSettings.weeklyForecastBackgrounds.adjusted
-            //        case .detailedForecast:
-        //            return AppSettings.detailedForecastBackgrounds.adjusted
-        default: return false
+        case .changeCity:
+            return AppSettings.changecityBackgrounds.adjusted
+        case .weeklyForecast:
+            return AppSettings.weeklyForecastBackgrounds.adjusted
+        case .detailedForecast:
+            return AppSettings.detailedForecastBackgrounds.adjusted
         }
     }
     

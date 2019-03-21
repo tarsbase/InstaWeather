@@ -198,8 +198,11 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     }
     
     func updateLastLabel(withDate date: Date) {
-        let dateString = weatherDataModel.lastUpdatedFormatter.string(from: date)
-        lastUpdated.text = "Last updated: \(dateString)"
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        let dateString = formatter.string(from: date)
+        lastUpdated.text = "Last update: \(dateString)"
     }
     
     func deactivateTimer() {
@@ -230,7 +233,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
 extension WeatherViewController: DashboardDelegate {
     
     func resetBackgroundImage() {
-        updateLabelsNoAnimation()
+        updateBackgroundWithForecastImage()
     }
     
     @IBAction func imageChangePressed(_ sender: Any) {
@@ -299,7 +302,10 @@ extension WeatherViewController: ExportHost {
 extension WeatherViewController {
     
     @IBAction func memoriesPressed(_ sender: UIButton) {
-        AnalyticsEvents.logEvent(.memoriesTapped)
+        
+        let count = MemoriesCacheManager.loadAllMemories().count
+        AnalyticsEvents.logEvent(.memoriesTapped, parameters: ["memories" : count])
+        
         var snapshots = MemoriesCacheManager.loadAllMemories()
         var demo = false
         if snapshots.count < 3 {

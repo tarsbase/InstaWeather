@@ -195,12 +195,14 @@ extension ForecastViewController: ImageMenuDelegate {
     }
     
     func loadBackgroundImage() {
-        
-        if let savedBackground = ImageManager.getBackgroundImage(for: .weeklyForecast(.all)) {
-            backgroundImage.image = savedBackground
-        } else {
-            resetBackgroundImage()
+        let hostType: PickerHostType = .weeklyForecast(.all)
+        if let savedBackground = ImageManager.getBackgroundImage(for: hostType) {
+            if ImageManager.customBackgroundFor(host: hostType) {
+                backgroundImage.image = savedBackground
+                return
+            }
         }
+        resetBackgroundImage()
     }
     
     func resetBackgroundImage() {
