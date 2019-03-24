@@ -14,19 +14,23 @@ import SafariServices
 
 class SocialExport: NSObject, FBSDKSharingDelegate {
 
+    enum AnchorSide {
+        case top, bottom
+    }
+    
     private weak var vcDelegate: UIViewController?
     private weak var sourceButton: UIView?
     private var anchor: UIView
     private var instagramShareFile: UIDocumentInteractionController?
     private var image: UIImage?
     
-    init(delegate: UIViewController, source: UIView, image: UIImage?) {
+    init(delegate: UIViewController, source: UIView, image: UIImage?, anchorSide: AnchorSide) {
         self.vcDelegate = delegate
         self.sourceButton = source
         
         let anchor = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
         anchor.center.x = source.center.x
-        anchor.frame.origin.y = source.frame.maxY
+        anchor.frame.origin.y = anchorSide == .bottom ? source.frame.maxY : source.frame.minY
         self.anchor = anchor
         vcDelegate?.view.addSubview(anchor)
         
@@ -41,6 +45,8 @@ class SocialExport: NSObject, FBSDKSharingDelegate {
         
         let ac = UIAlertController(title: "Share image", message: nil, preferredStyle: .actionSheet)
         ac.popoverPresentationController?.sourceView = anchor
+        ac.popoverPresentationController?.permittedArrowDirections = [.up, .down]
+        
         
         ac.addAction(UIAlertAction(title: "Facebook", style: .default, handler: { [weak self] _ in
             self?.facebookShare()
@@ -74,7 +80,7 @@ class SocialExport: NSObject, FBSDKSharingDelegate {
         if (UIApplication.shared.canOpenURL(URL(string: "fb://")!)) {
             nativePhotoFacebookSheet()
         } else {
-            nativeURLFacebookSheet()
+            launchAppStorePage(for: .facebook)
         }
     }
 

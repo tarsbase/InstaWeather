@@ -293,7 +293,7 @@ extension WeatherViewController: ExportHost {
     }
     
     @IBAction func exportButtonPressed(_ sender: UIButton) {
-        exportBy(sender)
+        exportBy(sender, anchorSide: .top)
     }
 }
 
@@ -303,7 +303,7 @@ extension WeatherViewController {
     
     @IBAction func memoriesPressed(_ sender: UIButton) {
         
-        let count = MemoriesCacheManager.loadAllMemories().count
+        let count = String(MemoriesCacheManager.loadAllMemories().count)
         AnalyticsEvents.logEvent(.memoriesTapped, parameters: ["memories" : count])
         
         var snapshots = MemoriesCacheManager.loadAllMemories()

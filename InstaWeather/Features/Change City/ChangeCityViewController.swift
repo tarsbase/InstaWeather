@@ -264,10 +264,6 @@ extension ChangeCityViewController: ImageMenuDelegate {
         imageMenuIsVisible = true
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        handleTouch(by: touches)
-    }
-    
     @IBAction func hideCameras(_ sender: UIButton) {
         if AppSettings.hideCameras {
             AppSettings.hideCameras = false
@@ -302,6 +298,6 @@ extension ChangeCityViewController: ExportHost {
     }
     
     @IBAction func exportButtonPressed(_ sender: UIButton) {
-        exportBy(sender)
+        exportBy(sender, anchorSide: .top)
     }
 }

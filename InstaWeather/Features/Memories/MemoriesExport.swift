@@ -18,9 +18,9 @@ extension MemoriesExport where Self: UIViewController {
         return []
     }
     
-    func exportBy(_ sender: UIButton) {
+    func exportBy(_ sender: UIView) {
         let image = getExportImage()
-        let social = SocialExport(delegate: self, source: sender, image: image)
+        let social = SocialExport(delegate: self, source: sender, image: image, anchorSide: .bottom)
         social.showAlert()
         self.socialExport = social
     }

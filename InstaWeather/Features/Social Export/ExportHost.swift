@@ -15,10 +15,11 @@ protocol ExportHost: AnyObject {
 }
 
 extension ExportHost where Self: UIViewController {
-    func exportBy(_ sender: UIButton) {
-        AnalyticsEvents.logEvent(.exportButtonTapped, parameters: ["controller":String(describing: self)])
+    func exportBy(_ sender: UIButton, anchorSide: SocialExport.AnchorSide) {
+        AnalyticsEvents.LogEvent(.exportButtonTapped, controllerString: String(describing: self))
+        
         let image = getExportImage()
-        let social = SocialExport(delegate: self, source: sender, image: image)
+        let social = SocialExport(delegate: self, source: sender, image: image, anchorSide: anchorSide)
         social.showAlert()
         self.socialExport = social
     }

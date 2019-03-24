@@ -19,6 +19,7 @@ enum Event: String {
     case memoriesNewest = "memories_newest"
     case memoriesOldest = "memories_oldest"
     case memoriesRewind = "memories_rewind"
+    case memoriesSwipe = "memories_swipe"
     case changeCity = "change_city"
     case tappedAutoCompleteResult = "change_autocomplete"
     case tappedPreviousCity = "change_previous_city"

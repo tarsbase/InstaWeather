@@ -59,6 +59,7 @@ class MemoriesViewController: UIViewController, MemoriesHost {
         
         toggleControllerIsVisible(true)
         swipeableView?.didSwipe = { [weak self] view, direction, vector in
+            AnalyticsEvents.logEvent(.memoriesSwipe)
             self?.updateTitle()
         }
         
@@ -175,7 +176,7 @@ extension MemoriesViewController {
     
     @objc private func rewind() {
         AnalyticsEvents.logEvent(.memoriesRewind)
-        let count = MemoriesCacheManager.loadAllMemories().count
+        let count = String(MemoriesCacheManager.loadAllMemories().count)
         AnalyticsEvents.logEvent(.memoriesRewind, parameters: ["memories" : count])
         swipeableView?.rewind()
         updateTitle()
@@ -186,7 +187,7 @@ extension MemoriesViewController {
         guard cardsLongAnimationInProgress == false else { return }
         cardsLongAnimationInProgress = true
         
-        let count = MemoriesCacheManager.loadAllMemories().count
+        let count = String(MemoriesCacheManager.loadAllMemories().count)
         AnalyticsEvents.logEvent(.memoriesOldest, parameters: ["memories" : count])
         
         let active = activeViewsCount
@@ -215,7 +216,7 @@ extension MemoriesViewController {
         guard cardsLongAnimationInProgress == false else { return }
         cardsLongAnimationInProgress = true
         
-        let count = MemoriesCacheManager.loadAllMemories().count
+        let count = String(MemoriesCacheManager.loadAllMemories().count)
         AnalyticsEvents.logEvent(.memoriesNewest, parameters: ["memories" : count])
         
         let duration: TimeInterval = 0.75
@@ -262,7 +263,12 @@ extension MemoriesViewController {
 
 extension MemoriesViewController: MemoriesExport {
     @objc func exportButtonPressed(_ sender: UIButton) {
-        exportBy(sender)
+        if let superview = sender.superview {
+            let fakeView = UIView(frame: superview.frame.insetBy(dx: -20, dy: -20))
+            superview.addSubview(fakeView)
+            fakeView.center = superview.center
+            exportBy(fakeView)
+        }
     }
 }
 

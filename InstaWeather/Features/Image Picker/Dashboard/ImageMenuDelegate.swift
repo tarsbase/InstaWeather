@@ -92,7 +92,7 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
     func toggleImageMenu(visible: Bool) {
         
         if visible {
-            AnalyticsEvents.logEvent(.imageMenuTapped, parameters: ["controller" : String(describing: self)])
+            AnalyticsEvents.LogEvent(.imageMenuTapped, controllerString: String(describing: self))
             self.imageMenu.alpha = 1
             self.imageMenu.toggleOverlay(visible: true)
             self.statusBarUpdater?.pageViewDataSourceIsActive(false)
@@ -127,14 +127,6 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
     
     func hideContainers() {
         dismissImageMenu()
-    }
-    
-    func handleTouch(by touches: Set<UITouch>) {
-        if let location = touches.first?.location(in: self.view) {
-            if !imageMenu.frame.contains(location) {
-                hideContainers()
-            }
-        }
     }
     
     func changeBlurValueTo(value: CGFloat) {

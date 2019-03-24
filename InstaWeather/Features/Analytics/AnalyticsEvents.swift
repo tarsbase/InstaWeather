@@ -14,8 +14,26 @@ struct AnalyticsEvents {
     private init() {}
     
     static func logEvent(_ event: Event, parameters: [String: Any]? = nil) {
-        guard !LiveInstance.simulatorEnvironment && !LiveInstance.debugMode else { return }
+//        guard !LiveInstance.simulatorEnvironment else { return }
         Analytics.logEvent(event.rawValue, parameters: parameters)
+    }
+    
+    static func LogEvent(_ event: Event, controllerString: String) {
+        let controllerName = getControllerFromString(controllerString)
+        logEvent(event, parameters: ["controller": controllerName])
+    }
+    
+    private static func getControllerFromString(_ string: String) -> String {
+        if string.contains("Detailed") {
+            return "DetailedWeatherViewController"
+        } else if string.contains("Forecast") {
+            return "WeeklyWeatherViewController"
+        } else if string.contains("Change") {
+            return "ChangeCityViewController"
+        } else if string.contains("Weather") {
+            return "MainViewController"
+        }
+        return string
     }
     
     static func setUserPropertyForDevice() {

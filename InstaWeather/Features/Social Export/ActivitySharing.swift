@@ -62,6 +62,7 @@ struct ShareDocumentHost {
         AnalyticsEvents.logEvent(.exportOther)
         let vc = UIActivityViewController(activityItems: [ImageProvider(image: image), TextProvider()], applicationActivities: [])
         vc.popoverPresentationController?.sourceView = source
+        vc.popoverPresentationController?.permittedArrowDirections = [.up, .down]
         viewController.present(vc, animated: true)
     }
 }

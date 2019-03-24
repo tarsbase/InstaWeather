@@ -111,10 +111,6 @@ extension DetailedContainerViewController: ImageMenuDelegate {
         imageMenuIsVisible = true
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        handleTouch(by: touches)
-    }
-    
     @objc func dismissImageTap() {
         dismissImageMenu()
     }
@@ -150,6 +146,6 @@ extension DetailedContainerViewController: ExportHost {
     }
     
     @IBAction func exportButtonPressed(_ sender: UIButton) {
-        exportBy(sender)
+        exportBy(sender, anchorSide: .bottom)
     }
 }

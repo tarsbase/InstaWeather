@@ -209,10 +209,6 @@ extension ForecastViewController: ImageMenuDelegate {
         backgroundImage.image = ImageManager.loadImage(named: "bgselect1")
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        handleTouch(by: touches)
-    }
-    
     @IBAction func changeImage(_ sender: Any) {
         self.imageMenuIsVisible = true
     }
@@ -255,6 +251,6 @@ extension ForecastViewController: ExportHost {
     }
     
     @IBAction func exportButtonPressed(_ sender: UIButton) {
-        exportBy(sender)
+        exportBy(sender, anchorSide: .bottom)
     }
 }
