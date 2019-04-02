@@ -33,8 +33,16 @@ class Dashboard: UIView {
     
     var overlay: UIView?
     
-    var images: [DashboardButton] { return [imageCenter, clearImage, cloudyImage, rainyImage, stormyImage, snowyImage] }
-    var labels: [UILabel] { return [labelCenter, clearLabel, cloudyLabel, rainyLabel, stormyLabel, snowyLabel]}
+    var allImages: [DashboardButton] { return [imageCenter, clearImage, cloudyImage, rainyImage, stormyImage, snowyImage] }
+    var allLabels: [UILabel] { return [labelCenter, clearLabel, cloudyLabel, rainyLabel, stormyLabel, snowyLabel] }
+    
+    var visibleLabels: [UILabel] {
+        return singleImage ? [labelCenter] : weatherLabels
+    }
+    
+    // shown during off switch
+    var weatherImages: [DashboardButton] { return [clearImage, cloudyImage, rainyImage, stormyImage, snowyImage] }
+    var weatherLabels: [UILabel] { return [clearLabel, cloudyLabel, rainyLabel, stormyLabel, snowyLabel]}
     
     var hostType: PickerHostType = .mainScreen(.clear)
     var dashboardStatus: DashboardStatus = .hidden {
@@ -51,6 +59,11 @@ class Dashboard: UIView {
     var previewBackground: ((DashboardButton) -> Void)?
     var dismissSelf: (() -> Void)?
     
+    var singleImage = false {
+        didSet {
+            performChangesFor(singleImage)
+        }
+    }
     var dashboardSwitch: DashboardSwitch?
     
     lazy var createButtonsOnce: Void = createButtons()
@@ -67,6 +80,7 @@ class Dashboard: UIView {
         setupLabels()
         setupShadow()
         _ = createButtonsOnce
+        performChangesFor(singleImage)
     }
     
     private func setupMaskingPolygon() {
@@ -77,8 +91,8 @@ class Dashboard: UIView {
     }
     
     func setupLabels() {
-        labels.forEach { $0.isHidden = true }
-        addShadow(opacity: 0.4, labels)
+        allLabels.forEach { $0.isHidden = true }
+        addShadow(opacity: 0.4, allLabels)
     }
     
     func attachOverlay(_ overlay: Overlay) {
@@ -137,8 +151,7 @@ class Dashboard: UIView {
     }
     
     func showTextLabels(show: Bool) {
-        labels.forEach { $0.isHidden = !show }
-//        imageCenter.toggleRingVisible(show)
+        visibleLabels.forEach { $0.isHidden = !show }
     }
     
     override func layoutSubviews() {
@@ -178,7 +191,7 @@ class Dashboard: UIView {
     }
     
     func updateButtonsLayout() {
-        images.forEach {
+        allImages.forEach {
             $0.clipToCircle()
             $0.updateImageSize()
         }
@@ -226,6 +239,15 @@ extension Dashboard {
     }
     
     func switchedToSingleImage(_ single: Bool) {
+        singleImage = single
+    }
+    
+    func performChangesFor(_ singleImage: Bool) {
+        
+            weatherImages.forEach { $0.isHidden = singleImage }
+            weatherLabels.forEach { $0.isHidden = singleImage }
+            imageCenter.isHidden = !singleImage
+            labelCenter.isHidden = !singleImage
         
     }
     

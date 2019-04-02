@@ -14,6 +14,7 @@ class DashboardSwitch: UIView {
     
     @IBOutlet private weak var effectsView: UIVisualEffectView!
     @IBOutlet private weak var imageSwitch: UISwitch!
+    @IBOutlet weak var label: UILabel!
     
     func setupWith(switchToggled: ((Bool) -> Void)?) {
         self.switchToggled = switchToggled
@@ -24,11 +25,17 @@ class DashboardSwitch: UIView {
     }
     
     override func layoutSubviews() {
-        effectsView.layer.cornerRadius = 12
+        effectsView.layer.cornerRadius = 15
         effectsView.layer.masksToBounds = true
+        setupShadow()
     }
     
-    
+    func setupShadow() {
+        label.layer.shadowColor = UIColor.black.cgColor
+        label.layer.shadowOffset = CGSize(width: 0, height: 2)
+        label.layer.shadowOpacity = 0.5
+        label.layer.shadowRadius = 1.0
+    }
 }
 
 

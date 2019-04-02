@@ -113,11 +113,11 @@ extension DashboardDelegate where Self: ParallaxViewController {
     
     func createOverlayFor(dashboard: Dashboard) {
         guard dashboard.overlay == nil else { return }
-//        let overlay = Overlay.setupOverlayBy(vc: self) { [weak self] in
-//            self?.hideContainers()
-//        }
-//        dashboard.attachOverlay(overlay)
-//        view.insertSubview(overlay, belowSubview: dashboard)
+        let overlay = Overlay.setupOverlayBy(vc: self) { [weak self] in
+            self?.hideContainers()
+        }
+        dashboard.attachOverlay(overlay)
+        view.insertSubview(overlay, belowSubview: dashboard)
     }
     
     func recreateMenusIfNotVisible() {
