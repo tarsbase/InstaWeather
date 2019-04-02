@@ -37,11 +37,21 @@ class Dashboard: UIView {
     var labels: [UILabel] { return [labelCenter, clearLabel, cloudyLabel, rainyLabel, stormyLabel, snowyLabel]}
     
     var hostType: PickerHostType = .mainScreen(.clear)
-    var dashboardStatus: DashboardStatus = .hidden
+    var dashboardStatus: DashboardStatus = .hidden {
+        didSet {
+            if case .displayed = dashboardStatus {
+                addSwitch()
+            } else {
+                removeSwitch()
+            }
+        }
+    }
     var maskingLayer: CAShapeLayer?
     
     var previewBackground: ((DashboardButton) -> Void)?
     var dismissSelf: (() -> Void)?
+    
+    var dashboardSwitch: DashboardSwitch?
     
     lazy var createButtonsOnce: Void = createButtons()
     
@@ -194,6 +204,46 @@ class Dashboard: UIView {
             view.layer.shadowOpacity = opacity
             view.layer.shadowRadius = 1.0
         }
+    }
+
+}
+
+extension Dashboard {
+    func addSwitch() {
+        guard let switchView = UINib(nibName: "DashboardSwitch", bundle: nil)
+                .instantiate(withOwner: self, options: nil)[0] as? DashboardSwitch else { fatalError() }
+        switchView.setupWith { [weak self] single in self?.switchedToSingleImage(single) }
+        super.addSubview(switchView)
+        switchView.center = self.center
+        switchView.center.y = self.frame.minY - (self.bounds.height * 0.5)
+        switchView.layer.cornerRadius = 15
+        self.dashboardSwitch = switchView
+    }
+    
+    func removeSwitch() {
+        self.dashboardSwitch?.removeFromSuperview()
+        self.dashboardSwitch = nil
+    }
+    
+    func switchedToSingleImage(_ single: Bool) {
+        
+    }
+    
+    func contains(_ point: CGPoint, in view: UIView) -> Bool {
+        let convertedPoint = self.convert(point, from: view)
+        let switchContains = dashboardSwitch?.frame.contains(convertedPoint) ?? false
+        let dashboardContains = frame.contains(point)
+        return dashboardContains || switchContains
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        
+        let found = super.hitTest(point, with: event)
+        
+        let converted = self.convert(point, to: dashboardSwitch)
+        
+        let switchFound = dashboardSwitch?.hitTest(converted, with: event)
+        return found ?? switchFound
     }
 }
 

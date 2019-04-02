@@ -14,7 +14,7 @@ struct AnalyticsEvents {
     private init() {}
     
     static func logEvent(_ event: Event, parameters: [String: Any]? = nil) {
-//        guard !LiveInstance.simulatorEnvironment else { return }
+        guard !LiveInstance.simulatorEnvironment else { return }
         Analytics.logEvent(event.rawValue, parameters: parameters)
     }
     

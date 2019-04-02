@@ -64,7 +64,9 @@ extension DashboardDelegate where Self: ParallaxViewController {
     
     func handleTouch(by touches: Set<UITouch>) {
         if let location = touches.first?.location(in: self.view) {
-            if !imageMenu.frame.contains(location) && !dashboardMenu.frame.contains(location) {
+            let dashboardOrSwitchContains = dashboardMenu.contains(location, in: self.view)
+            
+            if !imageMenu.frame.contains(location) && dashboardOrSwitchContains == false {
                 hideContainers()
             } else if !imageMenu.frame.contains(location) {
                 if case DashboardStatus.preview = dashboardMenu.dashboardStatus {
@@ -111,11 +113,11 @@ extension DashboardDelegate where Self: ParallaxViewController {
     
     func createOverlayFor(dashboard: Dashboard) {
         guard dashboard.overlay == nil else { return }
-        let overlay = Overlay.setupOverlayBy(vc: self) { [weak self] in
-            self?.hideContainers()
-        }
-        dashboard.attachOverlay(overlay)
-        view.insertSubview(overlay, belowSubview: dashboard)
+//        let overlay = Overlay.setupOverlayBy(vc: self) { [weak self] in
+//            self?.hideContainers()
+//        }
+//        dashboard.attachOverlay(overlay)
+//        view.insertSubview(overlay, belowSubview: dashboard)
     }
     
     func recreateMenusIfNotVisible() {
