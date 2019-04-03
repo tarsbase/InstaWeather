@@ -232,17 +232,23 @@ extension Dashboard {
                 .instantiate(withOwner: self, options: nil)[0] as? DashboardSwitch else { fatalError() }
         switchView.setupWith { [weak self] single in self?.switchedToSingleImage(single) }
         super.addSubview(switchView)
-        switchView.center = self.center
+        switchView.center.x = imageCenter.center.x
         switchView.center.y = -switchView.bounds.height + 15
         print(self.bounds)
         switchView.layer.cornerRadius = 15
         switchView.toggleSwitchTo(singleImage)
+        switchView.alpha = 0
+        animateSwitch(switchView, visible: true)
         self.dashboardSwitch = switchView
     }
     
     func removeSwitch() {
-        self.dashboardSwitch?.removeFromSuperview()
-        self.dashboardSwitch = nil
+        if let switchView = self.dashboardSwitch {
+            animateSwitch(switchView, visible: false) { [weak self] in
+                self?.dashboardSwitch?.removeFromSuperview()
+                self?.dashboardSwitch = nil
+            }
+        }
     }
     
     func switchedToSingleImage(_ single: Bool) {
@@ -251,10 +257,7 @@ extension Dashboard {
     
     func performUIChangesFor(_ singleImage: Bool) {
         // UI Changes
-        weatherImages.forEach { $0.isHidden = singleImage }
-        weatherLabels.forEach { $0.isHidden = singleImage }
-        imageCenter.isHidden = !singleImage
-        labelCenter.isHidden = !singleImage
+        singleImage ? animateButtonsInwards() : animateButtonsOutwards()
         delegate?.resetBackgroundImage()
     }
     
@@ -274,6 +277,84 @@ extension Dashboard {
         let switchFound = dashboardSwitch?.hitTest(converted, with: event)
         return found ?? switchFound
     }
+}
+
+// MARK: - Animations
+extension Dashboard {
+    func animateSwitch(_ switchView: UIView, visible: Bool, completion: (() -> Void)? = nil) {
+        let endAlpha: CGFloat = visible ? 1.0 : 0.0
+        let duration: TimeInterval = visible ? 0.2 : 0.0
+        let delay: TimeInterval = visible ? 0.3 : 0.0
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            UIView.animate(withDuration: duration, animations: {
+                switchView.alpha = endAlpha
+            }, completion: { _ in
+                completion?()
+            })
+        }
+    }
+    
+    var buttonsDampingRatio: CGFloat { return 0.6
+        
+    }
+    var buttonsAnimationDuration: TimeInterval { return 0.8 }
+    
+    func animateButtonsInwards() {
+        self.weatherLabels.forEach { $0.alpha = 0 }
+        self.imageCenter.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+        let anim = UIViewPropertyAnimator(duration: buttonsAnimationDuration, dampingRatio: buttonsDampingRatio) { [weak self] in
+            guard let self = self else { return }
+            for image in self.weatherImages {
+                let (x, y) = self.getDistanceFromCenter(forView: image)
+                image.transform = CGAffineTransform(translationX: x, y: y)
+            }
+            self.imageCenter.alpha = 1
+        }
+        
+        UIViewPropertyAnimator(duration: buttonsAnimationDuration * 1.3, dampingRatio: buttonsDampingRatio * 0.8) { [weak self] in
+            guard let self = self else { return }
+            self.imageCenter.transform = .identity
+        }.startAnimation()
+        
+        anim.addCompletion { [weak self] (_) in
+            guard let self = self else { return }
+            self.labelCenter.alpha = 1
+            self.weatherImages.forEach { $0.alpha = 0 }
+        }
+        
+        anim.startAnimation()
+    }
+    
+    func animateButtonsOutwards() {
+        self.weatherImages.forEach { $0.alpha = 1 }
+        
+        UIView.animate(withDuration: 0.1) { [weak self] in
+            guard let self = self else { return }
+            self.labelCenter.alpha = 0
+            self.imageCenter.alpha = 0
+        }
+        
+        let anim = UIViewPropertyAnimator(duration: buttonsAnimationDuration, dampingRatio: buttonsDampingRatio) { [weak self] in
+            guard let self = self else { return }
+            self.imageCenter.transform = .identity
+            for image in self.weatherImages {
+                image.transform = .identity
+            }
+        }
+        
+        anim.addCompletion { [weak self] (_) in
+            guard let self = self else { return }
+            self.weatherLabels.forEach { $0.alpha = 1; $0.isHidden = false }
+        }
+        
+        anim.startAnimation()
+    }
+    
+    func getDistanceFromCenter(forView view: UIView) -> (x: CGFloat, y: CGFloat) {
+        return ((imageCenter.center.x - view.center.x), (imageCenter.center.y - view.center.y))
+    }
+    
 }
 
 class DashboardBlurEffect: UIVisualEffectView {

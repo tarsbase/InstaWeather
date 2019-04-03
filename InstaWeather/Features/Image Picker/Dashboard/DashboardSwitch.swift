@@ -16,11 +16,20 @@ class DashboardSwitch: UIView {
     @IBOutlet private weak var imageSwitch: UISwitch!
     @IBOutlet weak var label: UILabel!
     
+    var lastSwitchTime = Date() - 1000
+    
     func setupWith(switchToggled: ((Bool) -> Void)?) {
         self.switchToggled = switchToggled
     }
     
     @IBAction private func imageSwitchToggled(_ sender: UISwitch) {
+        // prevent spamming the switch
+        guard Date().timeIntervalSince(lastSwitchTime) > 1.0 else {
+            sender.isOn = AppSettings.mainscreenBackgrounds.singleBackground
+            return
+        }
+        AnalyticsEvents.logEvent(.swipedPage)
+        lastSwitchTime = Date()
         switchToggled?(sender.isOn)
     }
     

@@ -14,7 +14,7 @@ import UIKit
 extension UIImage {
     
     var scaledToSafeThumbnailSize: UIImage? {
-        let maxImageSideLength: CGFloat = 150
+        let maxImageSideLength: CGFloat = Display.phone ? 150 : 350
         
         let largerSide: CGFloat = max(size.width, size.height)
         let ratioScale: CGFloat = largerSide > maxImageSideLength ? largerSide / maxImageSideLength : 1

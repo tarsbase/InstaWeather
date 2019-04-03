@@ -42,4 +42,5 @@ enum Event: String {
     case brightnessChanged = "im_brightness_changed"
     case swipedPage = "swiped_page"
     case imageMenuTapped = "image_menu_tapped" // case screen from whence it came
+    case dashboardSwitchToSingle = "dashboard_switch_to_single"
 }
