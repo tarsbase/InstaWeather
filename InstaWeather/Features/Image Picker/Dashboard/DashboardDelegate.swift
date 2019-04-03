@@ -105,6 +105,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
         dashboard.initialSetup()
         dashboard.previewBackground = { [weak self] button in self?.previewBackground(by: button) }
         dashboard.dismissSelf = { [weak self] in self?.hideContainers() }
+        dashboard.delegate = self
         view.addSubview(dashboard)
 
         print("Creating dashboard for \(host)")

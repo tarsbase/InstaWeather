@@ -19,10 +19,10 @@ struct ImageManager {
         return paths[0]
     }()
     
-    static func oneBackgroundFor(host: PickerHostType) -> Bool {
+    static func singleBackgroundFor(host: PickerHostType) -> Bool {
         switch host {
         case .mainScreen:
-            return AppSettings.mainscreenBackgrounds.oneBackgroundForAllConditions
+            return AppSettings.mainscreenBackgrounds.singleBackground
             // TODO
             //        case .changeCity:
             //            return AppSettings.changeCityBackgrounds.adjusted

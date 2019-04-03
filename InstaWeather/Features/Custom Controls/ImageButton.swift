@@ -25,11 +25,6 @@ class ImageButton: UIControl {
     var ringView: UIView?
     var hostType: PickerHostType = .mainScreen(.clear)
     
-    var savedSettings: Background {
-        get { return hostType.savedSettings }
-        set { hostType.savedSettings = newValue }
-    }
-    
     lazy var initialSetupOnce: Void = initialSetup()
     
     var imageWidthConstraint: NSLayoutConstraint?
@@ -118,45 +113,35 @@ class ImageButton: UIControl {
         addSelector(action: action)
     }
     
-    func updateAllConditionsButton() {
-        guard hostType.weather == .all else { return }
-        
-        if hostType.savedBackgrounds.oneBackgroundForAllConditions {
-            setupRing()
-        } else {
-            removeRing()
-        }
-    }
-    
-    func setupRing() {
-        removeRing()
-        
-        let ringWidth: CGFloat = bounds.width * 0.05
-        
-        let ring = UIView(frame: self.bounds.insetBy(dx: -ringWidth, dy: -ringWidth))
-        
-        superview?.insertSubview(ring, belowSubview: self)
-        ring.backgroundColor = .green
-        ring.center = center
-        ring.clipToCircle()
-        
-        ring.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate( [
-            ring.widthAnchor.constraint(equalToConstant: ring.bounds.width),
-            ring.heightAnchor.constraint(equalToConstant: ring.bounds.height),
-            ring.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            ring.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-            ])
-        
-        self.ringView = ring
-    }
-    
-    func removeRing() {
-        self.ringView?.removeFromSuperview()
-        self.ringView = nil
-    }
-    
+//    func setupRing() {
+//        removeRing()
+//        
+//        let ringWidth: CGFloat = bounds.width * 0.05
+//        
+//        let ring = UIView(frame: self.bounds.insetBy(dx: -ringWidth, dy: -ringWidth))
+//        
+//        superview?.insertSubview(ring, belowSubview: self)
+//        ring.backgroundColor = .green
+//        ring.center = center
+//        ring.clipToCircle()
+//        
+//        ring.translatesAutoresizingMaskIntoConstraints = false
+//        
+//        NSLayoutConstraint.activate( [
+//            ring.widthAnchor.constraint(equalToConstant: ring.bounds.width),
+//            ring.heightAnchor.constraint(equalToConstant: ring.bounds.height),
+//            ring.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+//            ring.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+//            ])
+//        
+//        self.ringView = ring
+//    }
+//    
+//    func removeRing() {
+//        self.ringView?.removeFromSuperview()
+//        self.ringView = nil
+//    }
+//    
     func updateImageSize() {
         guard let imageView = self.imageView else { return }
         let dimensions = imageView.image?.size ?? .zero

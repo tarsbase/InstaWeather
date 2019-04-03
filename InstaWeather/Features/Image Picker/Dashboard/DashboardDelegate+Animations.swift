@@ -155,7 +155,6 @@ extension DashboardDelegate where Self: ParallaxViewController {
         
         dashboardMenu.dashboardStatus = .animating
         dashboardMenu.updateButtonsLayout()
-        dashboardMenu.imageCenter.updateAllConditionsButton()
         
         let imageView = UIImageView(image: background)
         imageView.layer.minificationFilter = .trilinear

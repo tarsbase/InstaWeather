@@ -16,9 +16,7 @@ class ImageMenu: UIView {
     
     var hostType = PickerHostType.mainScreen(.clear)
     var savedSettings: Background {
-        get {
-            print(hostType)
-            return hostType.savedSettings }
+        get { return hostType.savedSettings }
         set { hostType.savedSettings = newValue }
     }
     var overlay: Overlay?

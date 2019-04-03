@@ -24,6 +24,11 @@ class DashboardSwitch: UIView {
         switchToggled?(sender.isOn)
     }
     
+    func toggleSwitchTo(_ on: Bool) {
+        imageSwitch.isOn = on
+    }
+    
+    
     override func layoutSubviews() {
         effectsView.layer.cornerRadius = 15
         effectsView.layer.masksToBounds = true

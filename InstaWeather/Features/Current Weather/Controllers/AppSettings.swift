@@ -100,8 +100,11 @@ class AppSettings: NSObject {
                 
                 // otherwise proceed as normal
             } else if let data = defaults.object(forKey: newKey) as? Data {
-                if let backgrounds = try? JSONDecoder().decode(SavedBackgrounds.self, from: data) {
+                do {
+                    let backgrounds = try JSONDecoder().decode(SavedBackgrounds.self, from: data)
                     return backgrounds
+                } catch {
+                    print(error.localizedDescription)
                 }
             }
             return SavedBackgrounds()

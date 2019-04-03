@@ -60,7 +60,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     weak var statusBarUpdater: StatusBarUpdater?
     
     var hostType: PickerHostType {
-        if AppSettings.mainscreenBackgrounds.oneBackgroundForAllConditions {
+        if AppSettings.mainscreenBackgrounds.singleBackground {
             return PickerHostType.setup(weatherType: .all, from: .mainScreen(.all))
         } else {
             return PickerHostType.setup(weatherType: weatherDataModel.weatherType, from: .mainScreen(.all))

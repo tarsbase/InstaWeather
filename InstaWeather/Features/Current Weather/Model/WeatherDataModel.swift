@@ -323,12 +323,16 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         
         let host = PickerHostType.setup(weatherType: weatherType, from: host)
         
-        if ImageManager.oneBackgroundFor(host: host) {
-            return ImageManager.getBackgroundImage(for: .mainScreen(.all))
+        if ImageManager.singleBackgroundFor(host: host) {
+            
+            if AppSettings.mainscreenBackgrounds.allWeather.customBackground {
+                return ImageManager.getBackgroundImage(for: .mainScreen(.all))
+            } else {
+                return ImageManager.loadImage(named: ImageWeatherType.all.defaultBackground)
+            }
 
             // then check if custom user images
-        } else
-            if ImageManager.customBackgroundFor(host: host) {
+        } else if ImageManager.customBackgroundFor(host: host) {
             return ImageManager.getBackgroundImage(for: host)
             
             // some images are custom, this one isn't

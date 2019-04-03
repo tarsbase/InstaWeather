@@ -21,6 +21,7 @@ enum PickerHostType {
         }
     }
     
+    // convenience enum creation
     static func setup(weatherType: ImageWeatherType, from host: PickerHostType) -> PickerHostType {
         switch host {
         case .mainScreen: return PickerHostType.mainScreen(weatherType)

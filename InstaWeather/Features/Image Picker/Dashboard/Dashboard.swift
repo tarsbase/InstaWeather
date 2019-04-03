@@ -45,6 +45,11 @@ class Dashboard: UIView {
     var weatherLabels: [UILabel] { return [clearLabel, cloudyLabel, rainyLabel, stormyLabel, snowyLabel]}
     
     var hostType: PickerHostType = .mainScreen(.clear)
+    var generalSettings: SavedBackgrounds {
+        get { return AppSettings.mainscreenBackgrounds }
+        set { AppSettings.mainscreenBackgrounds = newValue }
+    }
+    
     var dashboardStatus: DashboardStatus = .hidden {
         didSet {
             if case .displayed = dashboardStatus {
@@ -59,12 +64,16 @@ class Dashboard: UIView {
     var previewBackground: ((DashboardButton) -> Void)?
     var dismissSelf: (() -> Void)?
     
-    var singleImage = false {
-        didSet {
-            performChangesFor(singleImage)
+    var singleImage: Bool {
+        get { return generalSettings.singleBackground }
+        set {
+            generalSettings.singleBackground = newValue
+            performUIChangesFor(newValue)
         }
     }
+    
     var dashboardSwitch: DashboardSwitch?
+    weak var delegate: DashboardDelegate?
     
     lazy var createButtonsOnce: Void = createButtons()
     
@@ -80,7 +89,7 @@ class Dashboard: UIView {
         setupLabels()
         setupShadow()
         _ = createButtonsOnce
-        performChangesFor(singleImage)
+        performUIChangesFor(AppSettings.mainscreenBackgrounds.singleBackground)
     }
     
     private func setupMaskingPolygon() {
@@ -203,11 +212,7 @@ class Dashboard: UIView {
     }
     
     func dashboardAnimationStarted(show: Bool) {
-        if show {
-            imageCenter.updateAllConditionsButton()
-        } else {
-//            imageCenter.removeRing()
-        }
+        
     }
     
     func addShadow(opacity: Float = 0.5, _ views: [UIView]) {
@@ -228,8 +233,10 @@ extension Dashboard {
         switchView.setupWith { [weak self] single in self?.switchedToSingleImage(single) }
         super.addSubview(switchView)
         switchView.center = self.center
-        switchView.center.y = self.frame.minY - (self.bounds.height * 0.5)
+        switchView.center.y = -switchView.bounds.height - 5
+        print(self.bounds)
         switchView.layer.cornerRadius = 15
+        switchView.toggleSwitchTo(singleImage)
         self.dashboardSwitch = switchView
     }
     
@@ -242,13 +249,13 @@ extension Dashboard {
         singleImage = single
     }
     
-    func performChangesFor(_ singleImage: Bool) {
-        
-            weatherImages.forEach { $0.isHidden = singleImage }
-            weatherLabels.forEach { $0.isHidden = singleImage }
-            imageCenter.isHidden = !singleImage
-            labelCenter.isHidden = !singleImage
-        
+    func performUIChangesFor(_ singleImage: Bool) {
+        // UI Changes
+        weatherImages.forEach { $0.isHidden = singleImage }
+        weatherLabels.forEach { $0.isHidden = singleImage }
+        imageCenter.isHidden = !singleImage
+        labelCenter.isHidden = !singleImage
+        delegate?.resetBackgroundImage()
     }
     
     func contains(_ point: CGPoint, in view: UIView) -> Bool {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct SavedBackgrounds: Codable {
+struct SavedBackgrounds {
     
     var allWeather = Background(), clearWeather = Background(), cloudyWeather = Background()
     var rainyWeather = Background(), stormyWeather = Background(), snowyWeather = Background()
@@ -23,8 +23,12 @@ struct SavedBackgrounds: Codable {
         })
     }
     
-    var oneBackgroundForAllConditions: Bool {
-        return allWeather.customBackground
+    // helps avoid JSONDecoder errors when loading old user settings
+    var singleBackground_preMigration: Bool? = false
+    
+    var singleBackground: Bool {
+        get { return singleBackground_preMigration ?? false }
+        set { singleBackground_preMigration = newValue }
     }
     
     func background(for weather: ImageWeatherType) -> Background {
@@ -49,6 +53,8 @@ struct SavedBackgrounds: Codable {
         }
     }
 }
+
+extension SavedBackgrounds: Codable {}
 
 struct Background {
     var customBackground: Bool = false
