@@ -233,7 +233,7 @@ extension Dashboard {
         switchView.setupWith { [weak self] single in self?.switchedToSingleImage(single) }
         super.addSubview(switchView)
         switchView.center = self.center
-        switchView.center.y = -switchView.bounds.height - 5
+        switchView.center.y = -switchView.bounds.height + 15
         print(self.bounds)
         switchView.layer.cornerRadius = 15
         switchView.toggleSwitchTo(singleImage)
