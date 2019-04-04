@@ -45,6 +45,14 @@ extension UIView {
         return image
     }
     
+    func imageRepresentationTransparent() -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, 0.0)
+        defer { UIGraphicsEndImageContext() }
+        drawHierarchy(in: self.bounds, afterScreenUpdates: true)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        return image
+    }
+    
 }
 
 extension UIView {

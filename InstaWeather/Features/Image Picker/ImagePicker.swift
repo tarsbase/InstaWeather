@@ -24,14 +24,21 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
     
     weak var imageHost: ImagePickerHost?
     
-    func setupYPImagePicker(camera: Bool) -> YPImagePicker {
+    func setupYPImagePicker(camera: Bool, addOverlay: Bool = false) -> YPImagePicker {
+        
         var config = YPImagePickerConfiguration()
+        
+        if addOverlay {
+            let overlay = imageHost?.delegate?.getCameraOverlay()
+            overlay?.contentMode = .scaleAspectFit
+            overlay?.alpha = 0.6
+            config.overlayView = overlay
+        }
+            
         config.library.mediaType = .photo
         config.library.onlySquare  = false
         config.onlySquareImagesFromCamera = false
         config.targetImageSize = .original
-        
-//        config.usesFrontCamera = true
         config.showsFilters = true
         config.shouldSaveNewPicturesToAlbum = true
         config.albumName = "InstaWeather"
@@ -39,7 +46,6 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         config.startOnScreen = camera ? .photo : .library
         config.wordings.libraryTitle = "Gallery"
         config.hidesStatusBar = false
-//        config.overlayView = myOverlayView
         config.library.numberOfItemsInRow = 4
         config.library.spacingBetweenItems = 2
         config.library.maxNumberOfItems = 1
@@ -51,8 +57,9 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         return YPImagePicker(configuration: config)
     }
     
-    func selectPictureFromCamera(for host: PickerHostType) {
-        let picker = setupYPImagePicker(camera: true)
+    func selectPictureFromCamera(for host: PickerHostType, addOverlay: Bool) {
+        AnalyticsEvents.logEvent(addOverlay ? .withOverlay : .withoutOverlay)
+        let picker = setupYPImagePicker(camera: true, addOverlay: addOverlay)
         selectPicture(for: host, using: picker)
     }
     

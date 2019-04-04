@@ -27,7 +27,15 @@ struct SavedBackgrounds {
     var singleBackground_preMigration: Bool? = false
     
     var singleBackground: Bool {
-        get { return singleBackground_preMigration ?? false }
+        get {
+            if let dataExists = singleBackground_preMigration {
+                return dataExists
+            } else {
+                // old data, needs migration
+                return allWeather.customBackground
+            }
+            
+        }
         set { singleBackground_preMigration = newValue }
     }
     

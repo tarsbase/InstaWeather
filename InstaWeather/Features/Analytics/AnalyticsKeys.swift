@@ -30,6 +30,8 @@ enum Event: String {
     case dashboardStormy = "dashboard_stormy"
     case dashboardSnowy = "dashboard_snowy"
     case dashboardAll = "dashboard_all"
+    case withOverlay = "im_camera_with_overlay"
+    case withoutOverlay = "im_camera_without_overlay"
     case changedBackground = "im_changed_background"
     case textColorTapped = "im_text_color_tapped"
     case textColorChanged = "im_text_color_changed"

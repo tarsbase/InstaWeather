@@ -58,7 +58,7 @@ class ImageMenu: UIView {
     
     @IBAction func cameraButton(_ sender: Any) {
         AnalyticsEvents.logEvent(.cameraTapped)
-        imagePicker.selectPictureFromCamera(for: hostType)
+        delegate?.present(addOverlayToCameraAlert(), animated: true, completion: nil)
     }
     
     @IBAction func albumButton(_ sender: Any) {
@@ -199,6 +199,11 @@ extension ImageMenu: ImagePickerHost {
     func updateCustomImageSetting() {
         savedSettings.customBackground = true
     }
+    
+    func hideWithConfirmButton(hidden: Bool) {
+        self.isHidden = hidden
+        confirmButton?.isHidden = hidden
+    }
 }
 
 extension ImageMenu: ColorPickerDelegate {
@@ -230,6 +235,22 @@ extension ImageMenu: ColorPickerDelegate {
 // MARK: - Alerts
 
 extension ImageMenu {
+    
+    func addOverlayToCameraAlert() -> UIAlertController {
+        let ac = UIAlertController(title: "Add Overlay?", message: "Overlay the weather on top of the camera to see how the picture would fit?", preferredStyle: .alert)
+        
+        ac.addAction(UIAlertAction(title: "Camera only", style: .default, handler: { [weak self] (action) in
+            guard let self = self else { return }
+            self.imagePicker.selectPictureFromCamera(for: self.hostType, addOverlay: false)
+        }))
+        
+        ac.addAction(UIAlertAction(title: "Add overlay", style: .default, handler: { [weak self] (action) in
+            guard let self = self else { return }
+            self.imagePicker.selectPictureFromCamera(for: self.hostType, addOverlay: true)
+        }))
+        
+        return ac
+    }
     
     func generalResetAlert() -> UIAlertController {
         let ac = UIAlertController(title: "Reset Selection", message: nil, preferredStyle: .alert)

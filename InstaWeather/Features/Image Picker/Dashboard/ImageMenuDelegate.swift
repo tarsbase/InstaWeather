@@ -21,6 +21,7 @@ protocol ImageMenuDelegate: AnyObject {
     var width: CGFloat { get }
     var viewsToColor: [UIView] { get }
     
+    func getCameraOverlay() -> UIImageView
     func addAllShadows()
     func removeAllShadows()
     
@@ -43,6 +44,17 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
     var width: CGFloat { return self.view.bounds.width }
     
     var imageMenuDisplacement: CGFloat { return 10 }
+    
+    func getCameraOverlay() -> UIImageView {
+        self.backgroundBlur.isHidden = true
+        self.backgroundImage.isHidden = true
+        self.imageMenu.hideWithConfirmButton(hidden: true)
+        let overlay = UIImageView(image: view.imageRepresentationTransparent())
+        self.imageMenu.hideWithConfirmButton(hidden: false)
+        self.backgroundBlur.isHidden = false
+        self.backgroundImage.isHidden = false
+        return overlay
+    }
     
     var imageMenu: ImageMenu {
         return ImageMenu()
