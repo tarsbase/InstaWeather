@@ -30,33 +30,16 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     @IBOutlet weak var memoriesButton: CustomImageButton!
     
     var socialExport: SocialExport? // holds reference to activity sheets
-    var weatherDataModel = WeatherDataModel()
-    var preloadForecastTable: (() -> Void)?
-    var preloadedForecastTable = false
-    var recentPicksDataSource: RecentPicksDataSource?
-    var debugBackgroundCounter = 0
-    let delegate = UIApplication.shared.delegate as? AppDelegate
-    var memoriesDemoImages = [MemoriesSnapshot]()
-    var reconnectTimer: Timer? {
-        set {
-            delegate?.reconnectTimer = newValue
-        }
-        get {
-            return delegate?.reconnectTimer
-        }
-    }
+    var weatherUpdater = WeatherUpdater()
+    var memoriesDemoImages = [MemoriesSnapshot]() // maybe move to Memories object?
     
-    lazy var captureSnapshotOnce: Void = addMemory()
+    lazy var captureSnapshotOnce: Void = addMemory() // maybe move to Memories object?
     lazy var locationManager = LocationManager(withDelegate: self)
     lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: hostType)
     lazy var dashboardMenu: Dashboard = createDashboardFor(host: hostType)
-    var imageMenuIsVisible = false {
-        didSet { toggleImageMenu(visible: imageMenuIsVisible) }
-    }
-    weak var statusBarUpdater: StatusBarUpdater?
     
     var hostType: PickerHostType {
         if AppSettings.mainscreenBackgrounds.singleBackground {
@@ -111,23 +94,13 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         animateCameraButton()
     }
     
+    func setupWeatherUpdaterWith(loadPages: (() -> Void)?) {
+        weatherUpdater.setup(loadPages: loadPages)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         // add check for last updated here
-        let feelsLikeScale:CGFloat = 1.06
-        let conditionScale:CGFloat = 1.03
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-            [unowned self] in
-            self.lastUpdated.alpha = 1
-            self.conditionImage.transform = CGAffineTransform(scaleX: conditionScale, y: conditionScale)
-            self.feelsLikeLabel.transform = CGAffineTransform(scaleX: feelsLikeScale, y: feelsLikeScale)
-            }, completion: {
-                [unowned self] boolean in
-                UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
-                    [unowned self] in
-                    self.conditionImage.transform = CGAffineTransform(scaleX: 1, y: 1)
-                    self.feelsLikeLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
-                    }, completion: nil)
-        })
+        animateLabels()
         super.viewDidAppear(animated)
         CustomImageButton.buttonsArray.forEach { $0.isHidden = AppSettings.hideCameras }
         recreateMenusIfNotVisible()
@@ -147,7 +120,6 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
             AnalyticsEvents.logEvent(.changeCity)
             if let destination = segue.destination as? ChangeCityViewController {
                 destination.delegate = self
-                recentPicksDataSource = destination
             }
         }
     }
@@ -200,26 +172,28 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     }
     
     func deactivateTimer() {
-        delegate?.deactivateTimer()
+        weatherUpdater.deactivateTimer()
     }
-    
-//    @IBAction func debugBackground(_ sender: Any) {
-//
-//        let names = ["bg3clear"]
-//
-//        // keep 1,2,4
-//
-//        backgroundImage.image = UIImage(named: names[debugBackgroundCounter])
-//
-//        if (debugBackgroundCounter + 1) == names.count {
-//            debugBackgroundCounter = 0
-//        } else {
-//            debugBackgroundCounter += 1
-//        }
-//    }
     
     func backgroundWasResetInImageMenu() {
         dismissImageMenu()
+    }
+    
+    func animateLabels() {
+        let feelsLikeScale:CGFloat = 1.06
+        let conditionScale:CGFloat = 1.03
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            [weak self] in
+            self?.lastUpdated.alpha = 1
+            self?.conditionImage.transform = CGAffineTransform(scaleX: conditionScale, y: conditionScale)
+            self?.feelsLikeLabel.transform = CGAffineTransform(scaleX: feelsLikeScale, y: feelsLikeScale)
+            }, completion: { _ in
+                UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
+                    [weak self] in
+                    self?.conditionImage.transform = CGAffineTransform(scaleX: 1, y: 1)
+                    self?.feelsLikeLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
+                    }, completion: nil)
+        })
     }
 }
 

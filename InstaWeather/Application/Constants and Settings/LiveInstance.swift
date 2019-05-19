@@ -32,4 +32,6 @@ struct LiveInstance {
         #endif
         return debug
     }
+    
+    private init() {}
 }

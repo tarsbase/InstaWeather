@@ -14,12 +14,20 @@ class ImageMenu: UIView {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var verticalStackView: UIStackView!
     
+    var isVisible: Bool = false {
+        didSet {
+            toggleImageMenu?(isVisible)
+        }
+    }
+    
     var hostType = PickerHostType.mainScreen(.clear)
     var savedSettings: Background {
         get { return hostType.savedSettings }
         set { hostType.savedSettings = newValue }
     }
+    
     var overlay: Overlay?
+    var toggleImageMenu: ((Bool) -> Void)?
     
     @IBOutlet weak var blurEffectView: UIVisualEffectView!
     lazy var colorPicker: ColorPicker = setupColorPicker()
@@ -82,6 +90,13 @@ class ImageMenu: UIView {
     
     @IBAction func brightnessChanged(_ sender: UISlider) {
         delegate?.changeBrightnessValueTo(value: CGFloat(sender.value))
+    }
+    
+    func initialSetup(delegate: ImageMenuDelegate, host: PickerHostType, toggleImageMenu: ((Bool) -> Void)?) {
+        self.toggleImageMenu = toggleImageMenu
+        self.delegate = delegate
+        self.hostType = host
+        self.alpha = 0
     }
     
     func updateSliders() {

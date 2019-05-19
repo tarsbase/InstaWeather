@@ -27,6 +27,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
     func animateDashboard(dashboard: Dashboard, fromButton button: UIButton, show: Bool) {
         if case DashboardStatus.animating = dashboardMenu.dashboardStatus { return }
         dashboardMenu.dashboardStatus = .animating
+    
         // disable paging while menu is visible
         statusBarUpdater?.pageViewDataSourceIsActive(!show)
         
@@ -136,7 +137,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
                 imageView.removeFromSuperview()
             }
             fade.startAnimation()
-            self?.imageMenuIsVisible = true
+            self?.imageMenu.isVisible = true
         }
     }
     
@@ -172,7 +173,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
         let duration: TimeInterval = 0.6
         
         resetBackgroundImage() // to be amended later
-        self.imageMenuIsVisible = false
+        self.imageMenu.isVisible = false
         
         let anim = UIViewPropertyAnimator(duration: duration, dampingRatio: 0.9) {
             imageView.frame = buttonFrame

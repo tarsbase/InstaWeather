@@ -20,12 +20,6 @@ class DetailedContainerViewController: ParallaxViewController {
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .detailedForecast(.all))
-    var imageMenuIsVisible = false {
-        didSet { toggleImageMenu(visible: imageMenuIsVisible)
-            gestureView.isHidden = !imageMenuIsVisible
-        }
-    }
-    weak var statusBarUpdater: StatusBarUpdater?
     var socialExport: SocialExport?
     
     var detailedForecast: DetailedForecastTable?
@@ -61,9 +55,8 @@ class DetailedContainerViewController: ParallaxViewController {
             if let detailed = detailedForecast {
                 add(detailed, frame: tableContainer.frame)
             }
-        } else {
-            detailedForecast?.refreshModel()
-        }
+        } 
+        detailedForecast?.model = weatherDataModel
         view.bringSubviewToFront(gestureView)
         view.bringSubviewToFront(changeImageButton)
         view.bringSubviewToFront(exportButton)
@@ -108,7 +101,8 @@ extension DetailedContainerViewController: ImageMenuDelegate {
     }
     
     @IBAction func imageChangePressed(_ sender: Any) {
-        imageMenuIsVisible = true
+        imageMenu.isVisible = true
+//         gestureView.isHidden = false
     }
     
     @objc func dismissImageTap() {

@@ -16,11 +16,7 @@ protocol ChangeCityDelegate {
     var locationManager: LocationManager { get }
 }
 
-protocol RecentPicksDataSource {
-    func removeLastRecentPick()
-}
-
-class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, UITextFieldDelegate {
+class ChangeCityViewController: ParallaxViewController, UITextFieldDelegate {
     
     @IBOutlet weak var hideCamerasButton: LargeTapAreaButton!
     @IBOutlet weak var changeImageButton: CustomImageButton!
@@ -50,10 +46,6 @@ class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, U
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .changeCity(.all))
-    var imageMenuIsVisible = false {
-        didSet { toggleImageMenu(visible: imageMenuIsVisible) }
-    }
-    weak var statusBarUpdater: StatusBarUpdater?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -259,7 +251,7 @@ extension ChangeCityViewController: ImageMenuDelegate {
     }
     
     @IBAction func imageChangePressed(_ sender: Any) {
-        imageMenuIsVisible = true
+        imageMenu.isVisible = true
     }
     
     @IBAction func hideCameras(_ sender: UIButton) {

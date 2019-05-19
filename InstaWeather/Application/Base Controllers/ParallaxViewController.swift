@@ -9,8 +9,31 @@
 import UIKit
 import StoreKit
 
+typealias UpdateModelHandler = ((WeatherDataModel) -> Void)
+typealias GetModelHandler = (() -> WeatherDataModel)
+
 class ParallaxViewController: UIViewController, ParallaxHost {
+    
     var parallaxImage: UIImageView?
+    weak var statusBarUpdater: StatusBarUpdater?
+    
+    var weatherDataModel: WeatherDataModel {
+        get {
+        return getDataModel?() ?? WeatherDataModel()
+        }
+        set {
+            updateDataModel?(newValue)
+        }
+    }
+    
+    var getDataModel: GetModelHandler?
+    var updateDataModel: UpdateModelHandler?
+    
+    func initialSetup(updateModel: @escaping UpdateModelHandler, getModel: @escaping GetModelHandler, updater: StatusBarUpdater) {
+        self.updateDataModel = updateModel
+        self.getDataModel = getModel
+        self.statusBarUpdater = updater
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

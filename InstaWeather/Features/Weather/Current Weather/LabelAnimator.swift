@@ -16,12 +16,12 @@ enum LabelType {
     case humidity
 }
 
-class CoreAnimationObject: NSObject {
+class LabelAnimator: NSObject {
     
     let label: UILabel
     var startValue: Int = 0
     let endValue: Int
-    let animationDuration: Double = 0.8 // was 0.8
+    let animationDuration: Double = 0.8
     let animationStartDate: Date
     var displayLink: CADisplayLink?
     let labelType: LabelType

@@ -217,6 +217,7 @@ class AppSettings: NSObject {
         }
     }
     
+    // deprecated
     static var hideCameras: Bool {
         get {
             return UserDefaults.standard.bool(forKey: SettingKey.hideCameras.rawValue)

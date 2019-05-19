@@ -17,7 +17,6 @@ class ForecastViewController: ParallaxViewController {
     @IBOutlet weak var exportButton: CustomImageButton!
     
     var subStacks = [UIStackView]()
-    var model: WeatherDataModel?
     var socialExport: SocialExport?
     var preloading = true // ensures no animation during preloading
     
@@ -25,10 +24,6 @@ class ForecastViewController: ParallaxViewController {
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .weeklyForecast(.all))
-    var imageMenuIsVisible = false {
-        didSet { toggleImageMenu(visible: imageMenuIsVisible) }
-    }
-    weak var statusBarUpdater: StatusBarUpdater?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -62,11 +57,6 @@ class ForecastViewController: ParallaxViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let parent = self.parent as? PageViewController {
-            for case let weatherVC as WeatherViewController in parent.orderedViewControllers {
-                model = weatherVC.weatherDataModel
-            }
-        }
         parseForecast()
         
         if stackBottomConstraint.constant != 500 {
@@ -134,9 +124,9 @@ class ForecastViewController: ParallaxViewController {
     
     func parseForecast() {
         var tag = 0
-        guard let weekdayObjects = model?.weekdayObjects, var currentModel = model else { return }
+        let weekdayObjects = weatherDataModel.weekdayObjects
         for (index, dayObject) in weekdayObjects.enumerated() {
-            parseDay(dayObject, tag: tag, model: &currentModel, index: index)
+            parseDay(dayObject, tag: tag, model: &weatherDataModel, index: index)
             tag += 1
         }
     }
@@ -172,7 +162,7 @@ class ForecastViewController: ParallaxViewController {
         for stack in subStacks {
             if stack.tag == tag {
                 for case let imageView as UIImageView in stack.arrangedSubviews {
-                    let iconName = model?.updateOpenWeatherIcon(condition: icon, objectTime: 0) ?? ""
+                    let iconName = weatherDataModel.updateOpenWeatherIcon(condition: icon, objectTime: 0)
                     imageView.image = ImageManager.loadImage(named: iconName)
                 }
                 for case let label as UILabel in stack.arrangedSubviews {
@@ -210,7 +200,7 @@ extension ForecastViewController: ImageMenuDelegate {
     }
     
     @IBAction func changeImage(_ sender: Any) {
-        self.imageMenuIsVisible = true
+        imageMenu.isVisible = true
     }
     
     func pickedNewTextColor(_ color: UIColor) {

@@ -17,6 +17,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     
     var deviceFrame: CGRect?
     var lightStatusBar: Bool = true
+    var model: WeatherDataModel = WeatherDataModel()
     
     private(set) var orderedViewControllers = [UIViewController]()
 
@@ -52,10 +53,17 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
             let third = storyboard?.instantiateViewController(withIdentifier: "third") as? ForecastViewController else { fatalError() }
         orderedViewControllers = [first, second, third]
         
-        second.preloadForecastTable = preloadForecastTable
-        first.statusBarUpdater = self
-        second.statusBarUpdater = self
-        third.statusBarUpdater = self
+        second.setupWeatherUpdaterWith(loadPages: loadAllWeatherPages)
+        
+        for case let viewController as ParallaxViewController in orderedViewControllers {
+            
+            viewController.initialSetup(updateModel: { [weak self] model in
+                self?.updateDataModel(model: model)
+                }, getModel: { [weak self] in
+                    return self?.getDataModel() ?? WeatherDataModel()
+                }, updater: self)
+        }
+        
         super.viewDidLoad()
         
         
@@ -97,7 +105,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         return firstViewControllerIndex
     }
     
-    func preloadForecastTable() {
+    func loadAllWeatherPages() {
         var vcToLoad = self.orderedViewControllers[0]
         self.setViewControllers([vcToLoad], direction: .reverse, animated: false)
         vcToLoad = self.orderedViewControllers[2]
@@ -128,5 +136,17 @@ extension PageViewController: StatusBarUpdater {
         for case let view as UIScrollView in self.view.subviews {
             view.isScrollEnabled = enabled
         }
+    }
+}
+
+
+// data model manipulation
+extension PageViewController {
+    func getDataModel() -> WeatherDataModel {
+        return model
+    }
+    
+    func updateDataModel(model: WeatherDataModel) {
+        self.model = model
     }
 }

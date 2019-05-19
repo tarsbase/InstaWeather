@@ -9,7 +9,7 @@
 import UIKit
 
 class DetailedForecastTable: UITableViewController {
-
+    
     var model: WeatherDataModel?
     var cellsColor: UIColor = .red
     var cellsShadow: Bool = false
@@ -17,7 +17,6 @@ class DetailedForecastTable: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        refreshModel()
         tableView.reloadData()
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
             [weak self] in
@@ -57,17 +56,8 @@ class DetailedForecastTable: UITableViewController {
         super.viewDidLoad()
         tableView.showsVerticalScrollIndicator = true
     }
-    
-    func refreshModel() {
-        if let parent = self.parent?.parent as? PageViewController {
-            for case let weatherVC as WeatherViewController in parent.orderedViewControllers {
-                model = weatherVC.weatherDataModel
-            }
-        }
-    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        refreshModel()
         return model?.forecastDayTitles.count ?? 0
     }
     

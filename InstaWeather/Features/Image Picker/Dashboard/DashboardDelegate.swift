@@ -48,14 +48,14 @@ extension DashboardDelegate where Self: ParallaxViewController {
     }
     
     func dismissImageMenu() {
-        imageMenuIsVisible = false
+        imageMenu.isVisible = false
         restoreBackground()
     }
     
     func hideContainers() {
         if case DashboardStatus.animating = dashboardMenu.dashboardStatus { return }
         
-        if imageMenuIsVisible {
+        if imageMenu.isVisible {
             dismissImageMenu()
         } else {
             hideDashboard()
@@ -122,12 +122,12 @@ extension DashboardDelegate where Self: ParallaxViewController {
     }
     
     func recreateMenusIfNotVisible() {
-        guard !imageMenuIsVisible, case DashboardStatus.hidden = dashboardMenu.dashboardStatus else { return }
+        guard !imageMenu.isVisible, case DashboardStatus.hidden = dashboardMenu.dashboardStatus else { return }
         recreateMenus()
     }
     
     func recreateMenus(){
-        imageMenuIsVisible = false
+        imageMenu.isVisible = false
         resetBackgroundImage()
         hideDashboard()
         UIView.animate(withDuration: 0.1, animations: { [weak self] in

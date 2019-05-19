@@ -15,9 +15,7 @@ protocol ImageMenuDelegate: AnyObject {
     var backgroundBrightness: UIView { get set }
     var blurAnimator: UIViewPropertyAnimator { get set }
     var imageMenu: ImageMenu { get set }
-    var imageMenuIsVisible: Bool { get set }
     var changeImageButton: CustomImageButton! { get }
-    var statusBarUpdater: StatusBarUpdater? { get set }
     var width: CGFloat { get }
     var viewsToColor: [UIView] { get }
     
@@ -25,7 +23,6 @@ protocol ImageMenuDelegate: AnyObject {
     func addAllShadows()
     func removeAllShadows()
     
-    func toggleImageMenu(visible: Bool)
     func toggleShadows(on: Bool) 
     
     func updateBackgroundImageTo(_ image: UIImage)
@@ -56,10 +53,6 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
         return overlay
     }
     
-    var imageMenu: ImageMenu {
-        return ImageMenu()
-    }
-    
     func loadCustomImage() {
         if let savedImage = ImageManager.getBackgroundImage(for: imageMenu.hostType) {
             backgroundImage.image = savedImage
@@ -80,13 +73,13 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
         
         imageMenu.frame = CGRect(x: xValue, y: -287, width: width, height: 300)
         view.addSubview(imageMenu)
-        imageMenu.hostType = host
-        imageMenu.delegate = self
-        imageMenu.alpha = 0
         let overlay = Overlay.setupOverlayBy(vc: self) { [weak self] in
             self?.hideContainers()
         }
         imageMenu.overlay = overlay
+        imageMenu.initialSetup(delegate: self, host: host, toggleImageMenu: { [weak self] isVisible in
+            self?.toggleImageMenu(visible:isVisible)
+        })
         view.insertSubview(overlay, belowSubview: imageMenu)
         return imageMenu
     }
@@ -131,7 +124,7 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
     }
     
     func dismissImageMenu() {
-        imageMenuIsVisible = false
+        imageMenu.isVisible = false
         
         // restore paging
         statusBarUpdater?.pageViewDataSourceIsActive(true)
@@ -195,12 +188,12 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
     }
     
     func recreateMenusIfNotVisible() {
-        guard !imageMenuIsVisible else { return }
+        guard !imageMenu.isVisible else { return }
         recreateMenus()
     }
     
     func recreateMenus(){
-        imageMenuIsVisible = false
+        imageMenu.isVisible = false
         UIView.animate(withDuration: 0.1, animations: { [weak self] in
             guard let self = self else { return }
             self.imageMenu.alpha = 0

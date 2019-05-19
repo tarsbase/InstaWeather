@@ -60,33 +60,9 @@ extension WeatherViewController {
                 })
                 timer.tolerance = 0.5
                 RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
-                self.reconnectTimer = timer
+                self.weatherUpdater.reconnectTimer = timer
             }
         }
-        
-//        Alamofire.request(url, method: .get, parameters: parameters).responseJSON {
-//            [unowned self] response in
-//            if response.result.isSuccess {
-//                self.deactivateTimer()
-//                let weatherJSON = JSON(response.result.value!)
-//                if self.updateWeatherData(json: weatherJSON) {
-//                    self.cityIsValid(parameters: parameters)
-//                }
-//                else { self.cityIsNotValid(restore: oldModel) }
-//            } else if !reconnecting {
-//                let ac = UIAlertController(title: "Error", message: response.result.error?.localizedDescription, preferredStyle: .alert)
-//                ac.addAction(UIAlertAction(title: "Dismiss", style: .default))
-//                self.present(ac, animated: true)
-//                self.deactivateTimer()
-//                self.reconnectTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { [unowned self] (timer) in
-//                    self.getWeatherData(url: url, parameters: parameters, location: location, reconnecting: true)
-//                })
-//                self.reconnectTimer?.tolerance = 0.5
-//                if let timer = self.reconnectTimer {
-//                    RunLoop.current.add(timer, forMode: .commonModes)
-//                }
-//            }
-//        }
 
     }
     
@@ -95,11 +71,6 @@ extension WeatherViewController {
         if let city = parameters["q"] {
             UserDefaults.standard.set(city, forKey: "cityChosen")
         }
-    }
-    
-    func cityIsNotValid(restore model: WeatherDataModel) {
-        weatherDataModel = model
-        recentPicksDataSource?.removeLastRecentPick()
     }
     
     func getWeatherForecast(url: String, parameters: [String: String]) {
@@ -116,22 +87,6 @@ extension WeatherViewController {
             }
         }
         
-//        let lat = String(weatherDataModel.latitude)
-//        let lon = String(weatherDataModel.longitude)
-//
-//        let location = "(" + lat + "," + lon + ")"
-//
-//        Alamofire.request(getYahooURL(forLocation: location), method: .get, parameters: nil).responseJSON {
-//            [unowned self] response in
-//            if response.result.isSuccess {
-//                let json = JSON(response.result.value!)
-//                self.updateYahooData(with:json)
-//            } else {
-//                print(response.result.error?.localizedDescription ?? "Error")
-//            }
-//        }
-        
-        
     }
     
     func updateWeatherData(json: JSON) {
@@ -141,8 +96,6 @@ extension WeatherViewController {
             weatherDataModel.currentTime = json["dt"].intValue
             weatherDataModel.sunriseTime = json["sys"]["sunrise"].intValue
             weatherDataModel.sunsetTime = json["sys"]["sunset"].intValue
-//            weatherDataModel.latitude = json["coord"]["lat"].doubleValue
-//            weatherDataModel.longitude = json["coord"]["lon"].doubleValue
             let humidity = json["main"]["humidity"].intValue
             weatherDataModel.humidity = humidity
             let meterPerSecond = json["wind"]["speed"].doubleValue
@@ -189,8 +142,7 @@ extension WeatherViewController {
         }
         weatherDataModel.filterDays()
         
-        if !self.preloadedForecastTable { self.preloadForecastTable?() }
-        self.preloadedForecastTable = true
+        weatherUpdater.loadAllPages()
         
         saveValues(forYahoo: false)
     }
@@ -232,8 +184,8 @@ extension WeatherViewController {
     }
     
     func updateLabel(_ label: UILabel, toValue value: Int, forType type: LabelType) {
-        let animationObject = CoreAnimationObject(label: label, endValue: value, labelType: type)
-        animationObject.start()
+        let labelAnimator = LabelAnimator(label: label, endValue: value, labelType: type)
+        labelAnimator.start()
     }
     
     func updateLabelsNoAnimation() {
