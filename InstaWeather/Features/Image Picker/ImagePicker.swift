@@ -39,7 +39,7 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         config.library.onlySquare  = false
         config.onlySquareImagesFromCamera = false
         config.targetImageSize = .original
-        config.showsFilters = true
+        config.showsPhotoFilters = true
         config.shouldSaveNewPicturesToAlbum = true
         config.albumName = "InstaWeather"
         config.screens = [.library, .photo]
@@ -50,6 +50,7 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         config.library.spacingBetweenItems = 2
         config.library.maxNumberOfItems = 1
         config.library.minNumberOfItems = 1
+        config.icons.capturePhotoImage = UIImage(named: "iconCapture") ?? config.icons.capturePhotoImage
         
         config.isScrollToChangeModesEnabled = true
         

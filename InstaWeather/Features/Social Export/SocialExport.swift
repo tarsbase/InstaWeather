@@ -12,7 +12,8 @@ import TwitterKit
 import SCSDKCreativeKit
 import SafariServices
 
-class SocialExport: NSObject, FBSDKSharingDelegate {
+class SocialExport: NSObject, SharingDelegate {
+    
 
     enum AnchorSide {
         case top, bottom
@@ -90,40 +91,37 @@ class SocialExport: NSObject, FBSDKSharingDelegate {
             return // No image selected.
         }
 
-        if let imageContent = FBSDKSharePhoto(image: imageToShare, userGenerated: true) {
-            let content = FBSDKSharePhotoContent()
-            content.photos = [imageContent]
-            content.hashtag = FBSDKHashtag(string: "#InstaWeather")
-
-            let dialog = FBSDKShareDialog()
-            dialog.shareContent = content
-            dialog.fromViewController = vcDelegate
-            dialog.mode = FBSDKShareDialogMode.shareSheet
-            dialog.delegate = self
-            dialog.show()
-        }
+        let imageContent = SharePhoto(image: imageToShare, userGenerated: true)
+        let content = SharePhotoContent()
+        content.photos = [imageContent]
+        content.hashtag = Hashtag("#InstaWeather")
+        
+        let dialog = ShareDialog()
+        dialog.shareContent = content
+        dialog.fromViewController = vcDelegate
+        dialog.mode = ShareDialog.Mode.shareSheet
+        dialog.delegate = self
+        dialog.show()
+        
     }
 
-    private func nativeURLFacebookSheet() {
-
-        let content = FBSDKShareLinkContent()
-        content.contentURL = URL(string: LiveInstance.shortAppStoreURL)
-        content.hashtag = FBSDKHashtag(string: "#InstaWeather")
-
-        FBSDKShareDialog.show(from: vcDelegate, with: content, delegate: nil)
-    }
-
-    func sharer(_ sharer: FBSDKSharing!, didCompleteWithResults results: [AnyHashable: Any]!) {
+    func sharer(_ sharer: Sharing!, didCompleteWithResults results: [AnyHashable: Any]!) {
         //TODO stop loading animation
         print("Finished loading")
     }
 
-    func sharer(_ sharer: FBSDKSharing!, didFailWithError error: Error!) {
-        //TODO present error dialog
+    
+    
+    func sharer(_ sharer: Sharing, didFailWithError error: Error) {
+        print(error.localizedDescription)
     }
-
-    func sharerDidCancel(_ sharer: FBSDKSharing!) {
-        // Do nothing for now
+    
+    func sharerDidCancel(_ sharer: Sharing) {
+        // TODO
+    }
+    
+    func sharer(_ sharer: Sharing, didCompleteWithResults results: [String : Any]) {
+        // TODO
     }
 
     // MARK: - Twitter
