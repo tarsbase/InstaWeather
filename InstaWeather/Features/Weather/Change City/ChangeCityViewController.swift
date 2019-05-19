@@ -12,9 +12,8 @@ import CoreLocation
 import MapKit
 
 protocol ChangeCityDelegate {
-    func assignDelegate()
     func getWeatherForCoordinates(latitude: String, longitude: String, location: CLLocation, city: String)
-    var locationManager: CLLocationManager { get }
+    var locationManager: LocationManager { get }
 }
 
 protocol RecentPicksDataSource {
@@ -169,7 +168,6 @@ class ChangeCityViewController: ParallaxViewController, RecentPicksDataSource, U
     }
     
     @IBAction func currentLocationButton(_ sender: Any) {
-        delegate?.assignDelegate()
         delegate?.locationManager.startUpdatingLocation()
         UserDefaults.standard.removeObject(forKey: "cityChosen")
         SVProgressHUD.show()

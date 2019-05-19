@@ -30,7 +30,6 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     @IBOutlet weak var memoriesButton: CustomImageButton!
     
     var socialExport: SocialExport? // holds reference to activity sheets
-    let locationManager = CLLocationManager()
     var weatherDataModel = WeatherDataModel()
     var preloadForecastTable: (() -> Void)?
     var preloadedForecastTable = false
@@ -48,7 +47,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     }
     
     lazy var captureSnapshotOnce: Void = addMemory()
-    
+    lazy var locationManager = LocationManager(withDelegate: self)
     lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
@@ -85,9 +84,9 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        assignDelegate()
-        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        locationManager.requestWhenInUseAuthorization()
+        
+        _ = locationManager
+        
         loadLastLocation()
         loadScale()
         
@@ -96,9 +95,8 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         
         // updates location when app goes to foreground
         NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main) {
-            [unowned self] _ in
-            self.assignDelegate()
-            self.loadLastLocation()
+            [weak self] _ in
+            self?.loadLastLocation()
         }
         setupStoryboard()
         
@@ -168,10 +166,6 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
             updateLabel(maxTempLabel, toValue: weatherDataModel.maxTemp, forType: .maxTemp)
             updateYahooLabels()
         }
-    }
-    
-    func assignDelegate() {
-        locationManager.delegate = self
     }
     
     func loadScale() { // takes migration into account
@@ -389,4 +383,22 @@ extension WeatherViewController {
         unHideViews(viewsExludedNoDate)
         return image
     }
+}
+
+extension WeatherViewController: LocationManagerDelegate {
+    func updateLabel(to string: String) {
+        self.cityLabel.text = string
+    }
+    
+    func didReceiveUpdatedLocation(latitude: String, longitude: String, location: CLLocation, withCity: Bool) {
+        let city = withCity ? weatherDataModel.city : ""
+        self.getWeatherForCoordinates(latitude: latitude, longitude: longitude, location: location, city: city)
+    }
+    
+    func didReverseGeocode(to city: String) {
+        self.weatherDataModel.city = city
+        self.cityLabel.text = city
+    }
+    
+    
 }

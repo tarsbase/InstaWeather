@@ -17,7 +17,7 @@ extension WeatherViewController {
         let params = ["lat": latitude, "lon": longitude, "appid": APP_ID]
         getWeatherData(parameters: params, location: location)
         if city == "" {
-            updateCityFromLocation(location: location)
+            locationManager.updateCityFromLocation(location: location)
         } else {
             weatherDataModel.city = city
         }
@@ -38,15 +38,12 @@ extension WeatherViewController {
         weatherDataModel.toggleScale(to: segmentedControl.selectedSegmentIndex)
         
         Alamofire.request(weatherDataModel.weatherURL, method: .get, parameters: parameters).responseJSON {
-            [unowned self] response in
+            [weak self] response in
+            guard let self = self else { return }
             if response.result.isSuccess {
                 self.deactivateTimer()
                 let json = JSON(response.result.value!)
-                
                 self.updateWeatherData(json: json)
-                
-//                self.updateYahooData(with:json)
-                
                 self.cityIsValid(parameters: parameters)
                 
             } else if !reconnecting {
@@ -54,22 +51,18 @@ extension WeatherViewController {
                 let ac = UIAlertController(title: "Error", message: response.result.error?.localizedDescription, preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "Dismiss", style: .default))
                 self.present(ac, animated: true)
-                self.deactivateTimer()
-                self.reconnectTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { [unowned self] (timer) in
-                    self.getWeatherData(parameters: parameters, location: location, reconnecting: true)
-                })
-                self.reconnectTimer?.tolerance = 0.5
-                if let timer = self.reconnectTimer {
-                    RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
-                }
-                
-                
-                
                 print(response.result.error?.localizedDescription ?? "Error")
+                
+                self.deactivateTimer()
+                // try again in 5 seconds
+                let timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { [weak self] (timer) in
+                    self?.getWeatherData(parameters: parameters, location: location, reconnecting: true)
+                })
+                timer.tolerance = 0.5
+                RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
+                self.reconnectTimer = timer
             }
         }
-        
-        
         
 //        Alamofire.request(url, method: .get, parameters: parameters).responseJSON {
 //            [unowned self] response in
@@ -299,8 +292,9 @@ extension WeatherViewController {
     }
     
     func loadLastLocation() {
-        if let loadObject = UserDefaults.standard.string(forKey: "cityChosen") {
-            performMapSearch(for: loadObject)
+        // reload last user location, otherwise get current location
+        if let city = UserDefaults.standard.string(forKey: "cityChosen") {
+            locationManager.performMapSearch(for: city)
         } else {
             locationManager.startUpdatingLocation()
         }
