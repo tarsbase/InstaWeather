@@ -126,12 +126,12 @@ class ForecastViewController: ParallaxViewController {
         var tag = 0
         let weekdayObjects = weatherDataModel.weekdayObjects
         for (index, dayObject) in weekdayObjects.enumerated() {
-            parseDay(dayObject, tag: tag, model: &weatherDataModel, index: index)
+            parseDay(dayObject, tag: tag, model: weatherDataModel, index: index)
             tag += 1
         }
     }
 
-    func parseDay(_ object: ForecastObject, tag: Int, model: inout WeatherDataModel, index: Int) {
+    func parseDay(_ object: ForecastObject, tag: Int, model: WeatherDataModel, index: Int) {
         let dayObject = object
         var dayOfWeek = ""
         switch dayObject.dayOfWeek {

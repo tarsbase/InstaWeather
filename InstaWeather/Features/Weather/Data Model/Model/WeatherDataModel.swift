@@ -108,9 +108,11 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     init(city: String, scale: Int, currentWeather: JSON, forecastWeather: JSON) {
         processCurrentWeatherData(city: city, scale: scale, json: currentWeather)
         processForecastWeatherData(json: forecastWeather)
+        DataModelPersistor.saveDataModel(model: self)
     }
     
     mutating func processCurrentWeatherData(city: String, scale: Int, json: JSON) {
+        self.lastUpdated = Date()
         self.toggleScale(to: scale)
         self.temperature = kelvinToCelsius(json["main"]["temp"].doubleValue)
         self.city = city
@@ -300,11 +302,11 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         return convertTempToCurrentScale(forecastSections[section].forecastChunks[row].maxTempCelsius)
     }
     
-    mutating func minTempForObject(_ object: Int) -> Int {
+    func minTempForObject(_ object: Int) -> Int {
         return convertTempToCurrentScale(weekdayObjects[object].minTempCelsius)
     }
     
-    mutating func maxTempForObject(_ object: Int) -> Int {
+    func maxTempForObject(_ object: Int) -> Int {
         return convertTempToCurrentScale(weekdayObjects[object].maxTempCelsius)
     }
     
@@ -378,16 +380,6 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         } else {
             return ImageManager.loadImage(named: defaultBackgroundName)
         }
-    }
-    
-    
-    // TODO move to shared location
-    func celsiusToKelvin(_ temp: Int) -> Double {
-        return Double(temp) + 273.15
-    }
-    
-    func kelvinToCelsius(_ temp: Double) -> Int {
-        return Int(temp - 273.15)
     }
     
 }

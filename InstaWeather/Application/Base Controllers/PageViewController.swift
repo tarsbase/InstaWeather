@@ -57,11 +57,14 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         
         for case let viewController as ParallaxViewController in orderedViewControllers {
             
-            viewController.initialSetup(updateModel: { [weak self] model in
-                self?.updateDataModel(model: model)
-                }, getModel: { [weak self] in
+            // weather struct can be manipulated by closures in child controllers
+            viewController.initialSetup(updateModel:
+                { [weak self] model in
+                    self?.updateDataModel(model: model)
+                }, getModel:
+                { [weak self] in
                     return self?.getDataModel() ?? WeatherDataModel()
-                }, updater: self)
+                }, statusBarUpdater: self)
         }
         
         super.viewDidLoad()

@@ -370,11 +370,4 @@ extension WeatherViewController: LocationManagerDelegate {
         let city = withCity ? weatherDataModel.city : ""
         self.getWeatherForCoordinates(latitude: latitude, longitude: longitude, location: location, city: city)
     }
-    
-    func didReverseGeocode(to city: String) {
-        self.weatherDataModel.city = city
-        self.cityLabel.text = city
-    }
-    
-    
 }

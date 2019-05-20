@@ -19,8 +19,8 @@ class ImageMenu: UIView {
             toggleImageMenu?(isVisible)
         }
     }
-    
     var hostType = PickerHostType.mainScreen(.clear)
+    
     var savedSettings: Background {
         get { return hostType.savedSettings }
         set { hostType.savedSettings = newValue }
@@ -48,7 +48,6 @@ class ImageMenu: UIView {
         didSet { brightnessSlider.addTarget(self, action: #selector(updateBrightnessSettings), for: .touchUpInside) }
     }
     @IBOutlet weak var constraintToTop: NSLayoutConstraint!
-    
     
     @objc func updateBlurSettings() {
         AnalyticsEvents.logEvent(.blurChanged)
@@ -94,8 +93,8 @@ class ImageMenu: UIView {
     
     func initialSetup(delegate: ImageMenuDelegate, host: PickerHostType, toggleImageMenu: ((Bool) -> Void)?) {
         self.toggleImageMenu = toggleImageMenu
-        self.delegate = delegate
         self.hostType = host
+        self.delegate = delegate
         self.alpha = 0
     }
     

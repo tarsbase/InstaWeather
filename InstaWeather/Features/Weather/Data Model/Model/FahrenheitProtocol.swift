@@ -9,10 +9,7 @@
 import Foundation
 
 protocol ConvertibleToFahrenheit {
-    var scaleIsCelsius: WeatherDataModel.Scale { mutating get }
-//    var temperatureFahrenheit: Int { get set }
-//    var minTempFahrenheit: Int { get set }
-//    var maxTempFahrenheit: Int { get set }
+    var scaleIsCelsius: WeatherDataModel.Scale { get }
     var temperatureCelsius: Int { get set }
     var minTempCelsius: Int { get set }
     var maxTempCelsius: Int { get set }
@@ -23,60 +20,40 @@ protocol ConvertibleToFahrenheit {
 extension ConvertibleToFahrenheit {
   
     var temperature: Int {
-        mutating get {
-            if scaleIsCelsius == .celsius {
-                return temperatureCelsius
-            } else {
-                return temperatureFahrenheit
-            }
+        get {
+            return scaleIsCelsius == .celsius ? temperatureCelsius : temperatureFahrenheit
         }
         set {
             temperatureCelsius = newValue
         }
     }
     var maxTemp: Int {
-        mutating get {
-            if scaleIsCelsius == .celsius {
-                return maxTempCelsius
-            } else {
-                return maxTempFahrenheit
-            }
+        get {
+            return scaleIsCelsius == .celsius ? maxTempCelsius : maxTempFahrenheit
         }
         set {
             maxTempCelsius = newValue
         }
     }
     var minTemp: Int {
-        mutating get {
-            if scaleIsCelsius == .celsius {
-                return minTempCelsius
-            } else {
-                return minTempFahrenheit
-            }
+        get {
+            return scaleIsCelsius == .celsius ? minTempCelsius : minTempFahrenheit
         }
         set {
             minTempCelsius = newValue
         }
     }
     var feelsLike: Int {
-        mutating get {
-            if scaleIsCelsius == .celsius {
-                return feelsLikeCelsius
-            } else {
-                return feelsLikeFahrenheit
-            }
+        get {
+            return scaleIsCelsius == .celsius ? feelsLikeCelsius : feelsLikeFahrenheit
         }
         set {
             feelsLikeFahrenheit = newValue
         }
     }
     var windSpeed: Int {
-        mutating get {
-            if scaleIsCelsius == .celsius {
-                return windSpeedKph
-            } else {
-                return windSpeedMph
-            }
+        get {
+            return scaleIsCelsius == .celsius ? windSpeedKph : windSpeedMph
         }
         set {
             windSpeedKph = newValue
@@ -107,7 +84,7 @@ extension ConvertibleToFahrenheit {
         return Int((Double(temp) - 32) * 0.5556)
     }
     
-    mutating func convertTempToCurrentScale(_ temp: Int) -> Int {
+    func convertTempToCurrentScale(_ temp: Int) -> Int {
         if scaleIsCelsius == .celsius {
             return temp
         } else {
@@ -119,4 +96,11 @@ extension ConvertibleToFahrenheit {
         return Int(Double(wind) * 0.6214)
     }
     
+    func celsiusToKelvin(_ temp: Int) -> Double {
+        return Double(temp) + 273.15
+    }
+    
+    func kelvinToCelsius(_ temp: Double) -> Int {
+        return Int(temp - 273.15)
+    }
 }
