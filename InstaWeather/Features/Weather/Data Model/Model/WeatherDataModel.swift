@@ -6,7 +6,6 @@
 //  Copyright © 2018 Besher Al Maleh. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import SwiftyJSON
 
@@ -85,44 +84,20 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         var forecastChunks: [ForecastObject]
     }
     
-    lazy var firstFormatter: DateFormatter = {
-        let formatter  = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return formatter
-    }()
+    var longFormatter: DateFormatter {
+        return OptimizedDateFormatter.getFormatter(.long)
+    }
+
+    var mediumFormatter: DateFormatter {
+        return OptimizedDateFormatter.getFormatter(.medium)
+    }
+
+    var shortFormatter: DateFormatter {
+        return OptimizedDateFormatter.getFormatter(.short)
+    }
     
     
-    lazy var secondFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "E MMM dd, yyyy"
-        return formatter
-    }()
-    
-    lazy var objectFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter
-    }()
-    
-    lazy var lastUpdatedFormatter: DateFormatter = {
-        let formatter  = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd, h:mm a"
-        return formatter
-    }()
-    
-    
-    lazy var forecastDayTitles: [String] = {
-        var forecastDays = [String]()
-        for day in forecast {
-            if let date = firstFormatter.date(from: day.date) {
-                let newDay = String(secondFormatter.string(from: date))
-                if !forecastDays.contains(newDay) {
-                    forecastDays.append(newDay)
-                }
-            } 
-        }
-        return forecastDays
-    }()
+    lazy var forecastDayTitles: [String] = createForecastDayTitles()
     
     lazy var forecastSections: [ForecastSection] = createForecastSections()
     
@@ -130,9 +105,14 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         toggleScale(to: scale)
     }
     
-    init?(json: JSON, scale: Int, city: String) {
-        guard let tempResult = json["main"]["temp"].double else { return nil }
-        self.temperature = kelvinToCelsius(tempResult)
+    init(city: String, scale: Int, currentWeather: JSON, forecastWeather: JSON) {
+        processCurrentWeatherData(city: city, scale: scale, json: currentWeather)
+        processForecastWeatherData(json: forecastWeather)
+    }
+    
+    mutating func processCurrentWeatherData(city: String, scale: Int, json: JSON) {
+        self.toggleScale(to: scale)
+        self.temperature = kelvinToCelsius(json["main"]["temp"].doubleValue)
         self.city = city
         self.condition = json["weather"][0]["id"].intValue
         self.currentTime = json["dt"].intValue
@@ -151,6 +131,28 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
                                                      objectSunset: sunsetTime)
         self.updateImageWeatherTypeWith(weatherIconName)
         self.updateBackgroundWith(weatherIconName)
+    }
+    
+    mutating func processForecastWeatherData(json: JSON) {
+        
+        var minTemp = celsiusToKelvin(temperatureCelsius)
+        var maxTemp = celsiusToKelvin(temperatureCelsius)
+        for i in 0...7 {
+            minTemp = min(minTemp, json["list"][i]["main"]["temp"].double ?? 0)
+            maxTemp = max(maxTemp, json["list"][i]["main"]["temp"].double ?? 0)
+        }
+        self.minTemp = kelvinToCelsius(minTemp)
+        self.maxTemp = kelvinToCelsius(maxTemp)
+        
+        for (_, value) in json["list"] {
+            let date = value["dt_txt"].stringValue
+            let condition = value["weather"][0]["id"].intValue
+            let max = kelvinToCelsius(value["main"]["temp_max"].double ?? 0)
+            let min = kelvinToCelsius(value["main"]["temp_min"].double ?? 0)
+            let forecastObject = ForecastObject(date: date, condition: condition, maxTemp: max, minTemp: min)
+            self.forecast.append(forecastObject)
+        }
+        self.filterDays()
     }
     
     func updateOpenWeatherIcon(condition: Int, objectTime: Int, objectSunrise: Int = 0, objectSunset: Int = 0) -> String {
@@ -245,7 +247,20 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         }
         let condition = common.condition
         let date = day.first?.date ?? ""
-        return ForecastObject(date: date, condition: condition, maxTemp: maxTemp, minTemp: minTemp, formatter: objectFormatter)
+        return ForecastObject(date: date, condition: condition, maxTemp: maxTemp, minTemp: minTemp)
+    }
+    
+    mutating func createForecastDayTitles() -> [String] {
+        var forecastDays = [String]()
+        for day in forecast {
+            if let date = longFormatter.date(from: day.date) {
+                let newDay = String(mediumFormatter.string(from: date))
+                if !forecastDays.contains(newDay) {
+                    forecastDays.append(newDay)
+                }
+            }
+        }
+        return forecastDays
     }
     
     mutating func createForecastSections() -> [ForecastSection] {
@@ -255,8 +270,8 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
             var dailyChunks = [ForecastObject]()
             var indicesToRemove = [Int]()
             for (index, chunk) in forecastObjects.enumerated() {
-                if let date = firstFormatter.date(from: chunk.date) {
-                    let chunkDay = String(secondFormatter.string(from: date))
+                if let date = longFormatter.date(from: chunk.date) {
+                    let chunkDay = String(mediumFormatter.string(from: date))
                     if chunkDay.prefix(3) == sectionDay.prefix(3) {
                         dailyChunks.append(chunk)
                         indicesToRemove.append(index)

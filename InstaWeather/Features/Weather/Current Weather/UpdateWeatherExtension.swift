@@ -32,50 +32,13 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
     
     func didReceiveWeatherData(data: (city: String, currentWeather: JSON, forecastWeather: JSON)) {
         
-        self.updateWeatherData(json: data.currentWeather, city: data.city)
-        self.updateMinMaxTemp(json: data.forecastWeather)
-        self.updateForecast(json: data.forecastWeather)
-    }
-    
-    // move this to model
-    func updateWeatherData(json: JSON, city: String) {
         
         let scale = segmentedControl.selectedSegmentIndex
-        if let model = WeatherDataModel(json: json, scale: scale, city: city) {
-            self.weatherDataModel = model
-            updateCurrentWeatherLabels(with: &self.weatherDataModel)
-        } else {
-            let ac = UIAlertController(title: "Invalid city", message: "You have entered an invalid city name", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "Ok", style: .default))
-            present(ac, animated: true)
-        }
-    }
-    
-    func updateMinMaxTemp(json: JSON) {
-        var minTemp = celsiusToKelvin(weatherDataModel.temperatureCelsius)
-        var maxTemp = celsiusToKelvin(weatherDataModel.temperatureCelsius)
-        for i in 0...7 {
-            minTemp = min(minTemp, json["list"][i]["main"]["temp"].double ?? 0)
-            maxTemp = max(maxTemp, json["list"][i]["main"]["temp"].double ?? 0)
-        }
-        weatherDataModel.minTemp = kelvinToCelsius(minTemp)
-        weatherDataModel.maxTemp = kelvinToCelsius(maxTemp)
-        updateMinMaxLabels()
-    }
-    
-    func updateForecast(json: JSON) {
-        for (_, value) in json["list"] {
-            let date = value["dt_txt"].stringValue
-            let condition = value["weather"][0]["id"].intValue
-            let max = kelvinToCelsius(value["main"]["temp_max"].double ?? 0)
-            let min = kelvinToCelsius(value["main"]["temp_min"].double ?? 0)
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
-            let forecastObject = ForecastObject(date: date, condition: condition, maxTemp: max, minTemp: min, formatter: formatter)
-
-            weatherDataModel.forecast.append(forecastObject)
-        }
-        weatherDataModel.filterDays()
+        self.weatherDataModel = WeatherDataModel(city: data.city, scale: scale,
+                                                 currentWeather: data.currentWeather,
+                                                 forecastWeather: data.forecastWeather)
+        
+        updateCurrentWeatherLabels(with: &self.weatherDataModel)
         
         weatherDataFetcher.loadAllPages()
         

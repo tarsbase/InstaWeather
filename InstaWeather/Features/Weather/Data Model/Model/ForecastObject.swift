@@ -17,7 +17,9 @@ struct ForecastObject {
     let condition: Int
     var sunrise = 5
     var sunset = 19
-    let formatter: DateFormatter
+    var formatter: DateFormatter {
+        return OptimizedDateFormatter.getFormatter(.short)
+    }
     
     var currentDay: Int {
         let currentDate = formatter.string(from: Date())
@@ -36,10 +38,9 @@ struct ForecastObject {
         return formatAmPm(date: date)
     }
     
-    init(date: String, condition: Int, maxTemp: Int, minTemp: Int, formatter: DateFormatter) {
+    init(date: String, condition: Int, maxTemp: Int, minTemp: Int) {
         self.date = date
         self.condition = condition
-        self.formatter = formatter
         self.maxTempCelsius = maxTemp
         self.minTempCelsius = minTemp
     }
