@@ -12,8 +12,7 @@ import SwiftyJSON
 import CoreLocation
 
 protocol WeatherDataFetcherDelegate: AnyObject {
-    func didReceiveCurrentWeatherData(data: JSON)
-    func didReceiveForecastWeatherData(data: JSON)
+    func didReceiveWeatherData(data: (city: String, currentWeather: JSON, forecastWeather: JSON))
 }
 
 class WeatherDataFetcher {
@@ -63,24 +62,26 @@ extension WeatherDataFetcher {
         let params = ["lat": latitude, "lon": longitude, "appid": APP_ID]
         
         let weatherURL = LiveInstance.weatherURL
+        var weatherJSON = (city: city, currentWeather: JSON(), forecastWeather: JSON())
+        let dispatchGroup = DispatchGroup()
+        var requestFailure = false
         
+        // get current weather
+        dispatchGroup.enter()
         Alamofire.request(weatherURL, method: .get, parameters: params).responseJSON {
             [weak self] response in
             guard let self = self else { return }
             if response.result.isSuccess {
                 self.deactivateTimer()
                 let json = JSON(response.result.value!)
-                self.delegate?.didReceiveCurrentWeatherData(data: json)
-                self.saveCityAndGetForecast(parameters: params)
+                weatherJSON.currentWeather = json
             } else if !reconnecting {
-                
-                let ac = UIAlertController(title: "Error", message: response.result.error?.localizedDescription, preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "Dismiss", style: .default))
-                self.alertPresenter?.showAlert(controller: ac)
+                requestFailure = true
+                self.alertPresenter?.updateLabel(to: "Weather Unavailable")
                 print(response.result.error?.localizedDescription ?? "Error")
                 
-                self.deactivateTimer()
                 // try again in 5 seconds
+                self.deactivateTimer()
                 let timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { [weak self] (timer) in
                     self?.getWeatherData(latitude: latitude, longitude: longitude, location: location, city: city, reconnecting: true)
                 })
@@ -88,27 +89,43 @@ extension WeatherDataFetcher {
                 RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
                 self.reconnectTimer = timer
             }
+            dispatchGroup.leave()
         }
-    }
-
-    func saveCityAndGetForecast(parameters: [String: String]) {
-        getWeatherForecast(parameters: parameters)
-        if let city = parameters["q"] {
+        
+        // get forecast weather
+        dispatchGroup.enter()
+        if let city = params["q"] {
             UserDefaults.standard.set(city, forKey: "cityChosen")
         }
-    }
-
-    func getWeatherForecast(parameters: [String: String]) {
         let forecastURL = LiveInstance.forecastURL
-        Alamofire.request(forecastURL, method: .get, parameters: parameters).responseJSON {
+        Alamofire.request(forecastURL, method: .get, parameters: params).responseJSON {
             [weak self] response in
+            guard let self = self else { return }
             if response.result.isSuccess {
-                let weatherJSON = JSON(response.result.value!)
-                self?.delegate?.didReceiveForecastWeatherData(data: weatherJSON)
+                let forecast = JSON(response.result.value!)
+                weatherJSON.forecastWeather = forecast
             } else {
-                let ac = UIAlertController(title: "Error", message: response.result.error?.localizedDescription, preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "Dismiss", style: .default))
-                self?.alertPresenter?.showAlert(controller: ac)
+                requestFailure = true
+                self.alertPresenter?.updateLabel(to: "Weather Unavailable")
+                print(response.result.error?.localizedDescription ?? "Error")
+            }
+            dispatchGroup.leave()
+        }
+        
+        // get city
+        dispatchGroup.enter()
+        if weatherJSON.city == "" {
+            locationManager?.updateCityFromLocation(location: location) { city in
+                weatherJSON.city = city
+                dispatchGroup.leave()
+            }
+        } else {
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
+            if requestFailure == false {
+                self?.delegate?.didReceiveWeatherData(data: weatherJSON)
             }
         }
     }

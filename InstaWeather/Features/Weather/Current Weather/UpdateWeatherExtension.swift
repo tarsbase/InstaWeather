@@ -15,14 +15,7 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
     
     func getWeatherForCoordinates(latitude: String, longitude: String, location: CLLocation, city: String = "") {
         
-        weatherDataModel = WeatherDataModel(scale: segmentedControl.selectedSegmentIndex)
         weatherDataFetcher.getWeatherData(latitude: latitude, longitude: longitude, location: location, city: city)
-        
-        if city == "" {
-            locationManager.updateCityFromLocation(location: location)
-        } else {
-            weatherDataModel.city = city
-        }
         
         // TODO move to separate object
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
@@ -37,34 +30,20 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
         }
     }
     
-    func didReceiveCurrentWeatherData(data: JSON) {
-        self.updateWeatherData(json: data)
-    }
-    
-    func didReceiveForecastWeatherData(data: JSON) {
-        self.updateMinMaxTemp(json: data)
-        self.updateForecast(json: data)
+    func didReceiveWeatherData(data: (city: String, currentWeather: JSON, forecastWeather: JSON)) {
+        
+        self.updateWeatherData(json: data.currentWeather, city: data.city)
+        self.updateMinMaxTemp(json: data.forecastWeather)
+        self.updateForecast(json: data.forecastWeather)
     }
     
     // move this to model
-    func updateWeatherData(json: JSON) {
-        if let tempResult = json["main"]["temp"].double {
-            weatherDataModel.temperature = kelvinToCelsius(tempResult)
-            weatherDataModel.condition = json["weather"][0]["id"].intValue
-            weatherDataModel.currentTime = json["dt"].intValue
-            weatherDataModel.sunriseTime = json["sys"]["sunrise"].intValue
-            weatherDataModel.sunsetTime = json["sys"]["sunset"].intValue
-            let humidity = json["main"]["humidity"].intValue
-            weatherDataModel.humidity = humidity
-            let meterPerSecond = json["wind"]["speed"].doubleValue
-            let kphSpeed = Int(meterPerSecond * 3.6)
-            weatherDataModel.windSpeedKph = kphSpeed
-            let windDirection = json["wind"]["deg"].doubleValue
-            weatherDataModel.windDirectionInDegrees = windDirection
-            
-            
-            weatherDataModel.weatherIconName = weatherDataModel.updateOpenWeatherIcon(condition: weatherDataModel.condition, objectTime: weatherDataModel.currentTime, objectSunrise: weatherDataModel.sunriseTime, objectSunset: weatherDataModel.sunsetTime)
-            updateCurrentWeatherLabels()
+    func updateWeatherData(json: JSON, city: String) {
+        
+        let scale = segmentedControl.selectedSegmentIndex
+        if let model = WeatherDataModel(json: json, scale: scale, city: city) {
+            self.weatherDataModel = model
+            updateCurrentWeatherLabels(with: &self.weatherDataModel)
         } else {
             let ac = UIAlertController(title: "Invalid city", message: "You have entered an invalid city name", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Ok", style: .default))
@@ -92,7 +71,6 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
             let min = kelvinToCelsius(value["main"]["temp_min"].double ?? 0)
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
-            print("Min is \(min) and max is \(max)")
             let forecastObject = ForecastObject(date: date, condition: condition, maxTemp: max, minTemp: min, formatter: formatter)
 
             weatherDataModel.forecast.append(forecastObject)
@@ -107,16 +85,16 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
     
 
     
-    func updateCurrentWeatherLabels() {
-        updateLabel(tempLabel, toValue: weatherDataModel.temperature, forType: .mainTemperature)
-        conditionImage.image = ImageManager.loadImage(named: weatherDataModel.weatherIconName)
+    func updateCurrentWeatherLabels(with model: inout WeatherDataModel) {
+        updateLabel(tempLabel, toValue: model.temperature, forType: .mainTemperature)
+        conditionImage.image = ImageManager.loadImage(named: model.weatherIconName)
         updateBackgroundWithForecastImage()
-        cityLabel.text = weatherDataModel.city
+        cityLabel.text = model.city
         let scale = segmentedControl.selectedSegmentIndex == 0 ? "km/h" : "mph"
-        let windSpeed = weatherDataModel.windSpeed
-        let windDirection = weatherDataModel.windDirection
+        let windSpeed = model.windSpeed
+        let windDirection = model.windDirection
         windLabel.text = "\(windDirection) \(windSpeed) \(scale)"
-        updateLabel(humidityLabel, toValue: weatherDataModel.humidity, forType: .humidity)
+        updateLabel(humidityLabel, toValue: model.humidity, forType: .humidity)
         lastUpdateWasUpdated()
         
         
@@ -210,7 +188,7 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
     }
     
     func updateBackgroundWithForecastImage() {
-        backgroundImage.image = weatherDataModel.getBackground(host: .mainScreen(.all))
+        backgroundImage.image = weatherDataModel.getBackground()
         updateBlurAndBrightness()
     }
     

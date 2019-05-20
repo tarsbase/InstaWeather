@@ -53,15 +53,17 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         delegate?.updateLabel(to: "Location unavailable")
     }
     
-    func updateCityFromLocation(location: CLLocation){
+    func updateCityFromLocation(location: CLLocation, completion: @escaping ((String) -> Void)){
         CLGeocoder().reverseGeocodeLocation(location, completionHandler:
             {
-                [weak self] (placemarks, error) in
-                guard let pm = placemarks, let possibleCity = pm.first, let city = possibleCity.locality else { return }
+                (placemarks, error) in
+                guard let pm = placemarks, let possibleCity = pm.first, let city = possibleCity.locality else {
+                    completion("")
+                    return }
                 if let error = error {
                     print("Reverse geocode failed: \(error.localizedDescription)")
                 }
-                self?.delegate?.didReverseGeocode(to: city)
+                completion(city)
         })
     }
 

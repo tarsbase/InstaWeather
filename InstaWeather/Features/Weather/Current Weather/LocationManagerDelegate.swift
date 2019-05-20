@@ -11,6 +11,7 @@ import CoreLocation
 
 protocol AlertPresenter: AnyObject {
     func showAlert(controller: UIAlertController)
+    func updateLabel(to string: String)
 }
 
 extension AlertPresenter where Self: UIViewController {
@@ -20,7 +21,5 @@ extension AlertPresenter where Self: UIViewController {
 }
 
 protocol LocationManagerDelegate: AlertPresenter {
-    func updateLabel(to string: String)
     func didReceiveUpdatedLocation(latitude: String, longitude: String, location: CLLocation, withCity: Bool)
-    func didReverseGeocode(to city: String)
 }
