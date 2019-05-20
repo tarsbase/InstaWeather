@@ -9,16 +9,18 @@
 import UIKit
 import CoreLocation
 
-
-protocol LocationManagerDelegate: AnyObject {
+protocol AlertPresenter: AnyObject {
     func showAlert(controller: UIAlertController)
-    func updateLabel(to string: String)
-    func didReceiveUpdatedLocation(latitude: String, longitude: String, location: CLLocation, withCity: Bool)
-    func didReverseGeocode(to city: String)
 }
 
-extension LocationManagerDelegate where Self: UIViewController {
+extension AlertPresenter where Self: UIViewController {
     func showAlert(controller: UIAlertController) {
         present(controller, animated: true)
     }
+}
+
+protocol LocationManagerDelegate: AlertPresenter {
+    func updateLabel(to string: String)
+    func didReceiveUpdatedLocation(latitude: String, longitude: String, location: CLLocation, withCity: Bool)
+    func didReverseGeocode(to city: String)
 }

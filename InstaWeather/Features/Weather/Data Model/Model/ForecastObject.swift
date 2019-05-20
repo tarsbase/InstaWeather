@@ -36,7 +36,7 @@ struct ForecastObject {
         return formatAmPm(date: date)
     }
     
-    init(date: String, condition: Int, maxTemp: Int, minTemp: Int, scaleIsCelsius: Bool, formatter: DateFormatter) {
+    init(date: String, condition: Int, maxTemp: Int, minTemp: Int, formatter: DateFormatter) {
         self.date = date
         self.condition = condition
         self.formatter = formatter

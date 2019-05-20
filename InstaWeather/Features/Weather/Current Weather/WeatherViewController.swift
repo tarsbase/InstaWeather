@@ -30,11 +30,12 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     @IBOutlet weak var memoriesButton: CustomImageButton!
     
     var socialExport: SocialExport? // holds reference to activity sheets
-    var weatherUpdater = WeatherUpdater()
+    
     var memoriesDemoImages = [MemoriesSnapshot]() // maybe move to Memories object?
     
     lazy var captureSnapshotOnce: Void = addMemory() // maybe move to Memories object?
     lazy var locationManager = LocationManager(withDelegate: self)
+    lazy var weatherDataFetcher = WeatherDataFetcher(manager: locationManager, alertPresenter: self, delegate: self)
     lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
@@ -94,8 +95,9 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         animateCameraButton()
     }
     
+    // closure will setup all pageViewController pages once we receive weather data
     func setupWeatherUpdaterWith(loadPages: (() -> Void)?) {
-        weatherUpdater.setup(loadPages: loadPages)
+        weatherDataFetcher.setup(loadPages: loadPages)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -172,7 +174,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     }
     
     func deactivateTimer() {
-        weatherUpdater.deactivateTimer()
+        weatherDataFetcher.deactivateTimer()
     }
     
     func backgroundWasResetInImageMenu() {

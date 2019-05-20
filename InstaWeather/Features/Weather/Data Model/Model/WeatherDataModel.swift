@@ -11,8 +11,9 @@ import UIKit
 
 public struct WeatherDataModel: ConvertibleToFahrenheit {
     
-    let weatherURL = "http://api.openweathermap.org/data/2.5/weather"
-    let forecastURL = "http://api.openweathermap.org/data/2.5/forecast"
+    enum Scale: Int {
+        case celsius = 0, fahrenheit
+    }
 
     var condition = 0
     var city = ""
@@ -54,7 +55,7 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     var fiveDaysObject: ForecastObject?
     var weekdayObjects = [ForecastObject]()
     
-    private(set) var scaleIsCelsius = true
+    private(set) var scaleIsCelsius = Scale.celsius
     private var _windDirection = 0.0
 //    var temperatureFahrenheit = 0
 //    var maxTempFahrenheit = 0
@@ -154,6 +155,10 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         return forecastSections
     }()
     
+    init(scale: Int = 0) {
+        toggleScale(to: scale)
+    }
+    
     func updateOpenWeatherIcon(condition: Int, objectTime: Int, objectSunrise: Int = 0, objectSunset: Int = 0) -> String {
             switch condition {
             case 0...300 : return "tstorm1"
@@ -246,14 +251,12 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         }
         let condition = common.condition
         let date = day.first?.date ?? ""
-        return ForecastObject(date: date, condition: condition, maxTemp: maxTemp, minTemp: minTemp, scaleIsCelsius: scaleIsCelsius, formatter: objectFormatter)
+        return ForecastObject(date: date, condition: condition, maxTemp: maxTemp, minTemp: minTemp, formatter: objectFormatter)
     }
 
-    mutating func toggleScale(to: Int) {
-        if to == 1 {
-            scaleIsCelsius = false
-        } else {
-            scaleIsCelsius = true
+    mutating func toggleScale(to scale: Int) {
+        if let scale = WeatherDataModel.Scale(rawValue: scale) {
+            self.scaleIsCelsius = scale
         }
     }
     

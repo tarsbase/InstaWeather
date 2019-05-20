@@ -9,7 +9,7 @@
 import Foundation
 
 protocol ConvertibleToFahrenheit {
-    var scaleIsCelsius: Bool { mutating get }
+    var scaleIsCelsius: WeatherDataModel.Scale { mutating get }
 //    var temperatureFahrenheit: Int { get set }
 //    var minTempFahrenheit: Int { get set }
 //    var maxTempFahrenheit: Int { get set }
@@ -24,7 +24,7 @@ extension ConvertibleToFahrenheit {
   
     var temperature: Int {
         mutating get {
-            if scaleIsCelsius {
+            if scaleIsCelsius == .celsius {
                 return temperatureCelsius
             } else {
                 return temperatureFahrenheit
@@ -36,7 +36,7 @@ extension ConvertibleToFahrenheit {
     }
     var maxTemp: Int {
         mutating get {
-            if scaleIsCelsius {
+            if scaleIsCelsius == .celsius {
                 return maxTempCelsius
             } else {
                 return maxTempFahrenheit
@@ -48,7 +48,7 @@ extension ConvertibleToFahrenheit {
     }
     var minTemp: Int {
         mutating get {
-            if scaleIsCelsius {
+            if scaleIsCelsius == .celsius {
                 return minTempCelsius
             } else {
                 return minTempFahrenheit
@@ -60,7 +60,7 @@ extension ConvertibleToFahrenheit {
     }
     var feelsLike: Int {
         mutating get {
-            if scaleIsCelsius {
+            if scaleIsCelsius == .celsius {
                 return feelsLikeCelsius
             } else {
                 return feelsLikeFahrenheit
@@ -72,7 +72,7 @@ extension ConvertibleToFahrenheit {
     }
     var windSpeed: Int {
         mutating get {
-            if scaleIsCelsius {
+            if scaleIsCelsius == .celsius {
                 return windSpeedKph
             } else {
                 return windSpeedMph
@@ -108,7 +108,7 @@ extension ConvertibleToFahrenheit {
     }
     
     mutating func convertTempToCurrentScale(_ temp: Int) -> Int {
-        if scaleIsCelsius {
+        if scaleIsCelsius == .celsius {
             return temp
         } else {
             return celsiusToFahrenheit(temp)

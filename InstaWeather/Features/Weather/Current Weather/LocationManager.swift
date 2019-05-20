@@ -21,7 +21,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         super.init()
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestWhenInUseAuthorization()
-        startUpdatingLocation()
     }
     
     func startUpdatingLocation() {

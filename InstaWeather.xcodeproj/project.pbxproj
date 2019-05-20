@@ -93,7 +93,7 @@
 		28CDAE1F20B1C2EE003CE837 /* ForecastObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822A0392021485F0007D9E9 /* ForecastObject.swift */; };
 		28D1A0FB220E8DD500B4928C /* SavedBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D1A0FA220E8DD500B4928C /* SavedBackground.swift */; };
 		28E4B67F2291E6A60023FA32 /* ContainmentExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28481F15201E8FA3004A89B6 /* ContainmentExtension.swift */; };
-		28E4B6812291EA390023FA32 /* WeatherUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E4B6802291EA390023FA32 /* WeatherUpdater.swift */; };
+		28E4B6812291EA390023FA32 /* WeatherDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E4B6802291EA390023FA32 /* WeatherDataFetcher.swift */; };
 		28E58BFF22014E09006A67EF /* PickerHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58BFE22014E09006A67EF /* PickerHost.swift */; };
 		28E58C0222015C5C006A67EF /* ImageMenuDismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58C0122015C5B006A67EF /* ImageMenuDismissButton.swift */; };
 		28E58C04220167BA006A67EF /* ConfirmBackgroundButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28E58C03220167BA006A67EF /* ConfirmBackgroundButton.xib */; };
@@ -243,7 +243,7 @@
 		28BFE2C42164447F000F44C3 /* AppLaunch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLaunch.swift; sourceTree = "<group>"; };
 		28CD21862169D1F700BBFA62 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		28D1A0FA220E8DD500B4928C /* SavedBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedBackground.swift; sourceTree = "<group>"; };
-		28E4B6802291EA390023FA32 /* WeatherUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherUpdater.swift; sourceTree = "<group>"; };
+		28E4B6802291EA390023FA32 /* WeatherDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataFetcher.swift; sourceTree = "<group>"; };
 		28E58BFE22014E09006A67EF /* PickerHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerHost.swift; sourceTree = "<group>"; };
 		28E58C0122015C5B006A67EF /* ImageMenuDismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMenuDismissButton.swift; sourceTree = "<group>"; };
 		28E58C03220167BA006A67EF /* ConfirmBackgroundButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConfirmBackgroundButton.xib; sourceTree = "<group>"; };
@@ -343,7 +343,7 @@
 				289D194C215DA311006339D9 /* Protocols */,
 				28359A4E201C41E3005AAFF4 /* WeatherViewController.swift */,
 				28BB175D201D589D006E14A0 /* UpdateWeatherExtension.swift */,
-				28E4B6802291EA390023FA32 /* WeatherUpdater.swift */,
+				28E4B6802291EA390023FA32 /* WeatherDataFetcher.swift */,
 				28FE389E2291C03D009158EC /* LocationManager.swift */,
 				28FE38A02291C161009158EC /* LocationManagerDelegate.swift */,
 				28A176BF20E15294006A056F /* LabelAnimator.swift */,
@@ -1123,7 +1123,7 @@
 				280C4C2321FFEF1F00430ED3 /* DashboardDelegate+Animations.swift in Sources */,
 				289D194B215DA1AE006339D9 /* AppSettings.swift in Sources */,
 				2807A92A216AF123003DA8D6 /* FahrenheitProtocol.swift in Sources */,
-				28E4B6812291EA390023FA32 /* WeatherUpdater.swift in Sources */,
+				28E4B6812291EA390023FA32 /* WeatherDataFetcher.swift in Sources */,
 				289D1948215DA14F006339D9 /* PageViewController.swift in Sources */,
 				280A03EC21841FD600F71B6A /* ParallaxViewController.swift in Sources */,
 				28E58BFF22014E09006A67EF /* PickerHost.swift in Sources */,

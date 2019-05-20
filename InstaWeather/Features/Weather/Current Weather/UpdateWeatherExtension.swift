@@ -11,21 +11,25 @@ import Alamofire
 import SwiftyJSON
 import CoreLocation
 
-extension WeatherViewController {
+extension WeatherViewController: WeatherDataFetcherDelegate {
     
     func getWeatherForCoordinates(latitude: String, longitude: String, location: CLLocation, city: String = "") {
-        let params = ["lat": latitude, "lon": longitude, "appid": APP_ID]
-        getWeatherData(parameters: params, location: location)
+        
+        weatherDataModel = WeatherDataModel(scale: segmentedControl.selectedSegmentIndex)
+        weatherDataFetcher.getWeatherData(latitude: latitude, longitude: longitude, location: location, city: city)
+        
         if city == "" {
             locationManager.updateCityFromLocation(location: location)
         } else {
             weatherDataModel.city = city
         }
         
+        // TODO move to separate object
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             self?.generateDemoSnapshots()
         }
         
+        // TODO move to separate object
         // display ad
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             self?.launchAds()
@@ -33,62 +37,16 @@ extension WeatherViewController {
         }
     }
     
-    func getWeatherData(parameters: [String: String], location: CLLocation, reconnecting: Bool = false) {
-        weatherDataModel = WeatherDataModel()
-        weatherDataModel.toggleScale(to: segmentedControl.selectedSegmentIndex)
-        
-        Alamofire.request(weatherDataModel.weatherURL, method: .get, parameters: parameters).responseJSON {
-            [weak self] response in
-            guard let self = self else { return }
-            if response.result.isSuccess {
-                self.deactivateTimer()
-                let json = JSON(response.result.value!)
-                self.updateWeatherData(json: json)
-                self.cityIsValid(parameters: parameters)
-                
-            } else if !reconnecting {
-                
-                let ac = UIAlertController(title: "Error", message: response.result.error?.localizedDescription, preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "Dismiss", style: .default))
-                self.present(ac, animated: true)
-                print(response.result.error?.localizedDescription ?? "Error")
-                
-                self.deactivateTimer()
-                // try again in 5 seconds
-                let timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { [weak self] (timer) in
-                    self?.getWeatherData(parameters: parameters, location: location, reconnecting: true)
-                })
-                timer.tolerance = 0.5
-                RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
-                self.weatherUpdater.reconnectTimer = timer
-            }
-        }
-
+    func didReceiveCurrentWeatherData(data: JSON) {
+        self.updateWeatherData(json: data)
     }
     
-    func cityIsValid(parameters: [String: String]) {
-        getWeatherForecast(url: weatherDataModel.forecastURL, parameters: parameters)
-        if let city = parameters["q"] {
-            UserDefaults.standard.set(city, forKey: "cityChosen")
-        }
+    func didReceiveForecastWeatherData(data: JSON) {
+        self.updateMinMaxTemp(json: data)
+        self.updateForecast(json: data)
     }
     
-    func getWeatherForecast(url: String, parameters: [String: String]) {
-        Alamofire.request(url, method: .get, parameters: parameters).responseJSON {
-            [unowned self] response in
-            if response.result.isSuccess {
-                let weatherJSON = JSON(response.result.value!)
-                self.updateMinMaxTemp(json: weatherJSON)
-                self.updateForecast(json: weatherJSON)
-            } else {
-                let ac = UIAlertController(title: "Error", message: response.result.error?.localizedDescription, preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "Dismiss", style: .default))
-                self.present(ac, animated: true)
-            }
-        }
-        
-    }
-    
+    // move this to model
     func updateWeatherData(json: JSON) {
         if let tempResult = json["main"]["temp"].double {
             weatherDataModel.temperature = kelvinToCelsius(tempResult)
@@ -127,8 +85,6 @@ extension WeatherViewController {
     }
     
     func updateForecast(json: JSON) {
-        var scaleIsCelsius = true
-        if segmentedControl.selectedSegmentIndex == 1 { scaleIsCelsius = false }
         for (_, value) in json["list"] {
             let date = value["dt_txt"].stringValue
             let condition = value["weather"][0]["id"].intValue
@@ -136,13 +92,14 @@ extension WeatherViewController {
             let min = kelvinToCelsius(value["main"]["temp_min"].double ?? 0)
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
-            let forecastObject = ForecastObject(date: date, condition: condition, maxTemp: max, minTemp: min, scaleIsCelsius: scaleIsCelsius, formatter: formatter)
+            print("Min is \(min) and max is \(max)")
+            let forecastObject = ForecastObject(date: date, condition: condition, maxTemp: max, minTemp: min, formatter: formatter)
 
             weatherDataModel.forecast.append(forecastObject)
         }
         weatherDataModel.filterDays()
         
-        weatherUpdater.loadAllPages()
+        weatherDataFetcher.loadAllPages()
         
         saveValues(forYahoo: false)
     }
@@ -244,7 +201,7 @@ extension WeatherViewController {
     }
     
     func loadLastLocation() {
-        // reload last user location, otherwise get current location
+        // load weather for last user location, otherwise get current location
         if let city = UserDefaults.standard.string(forKey: "cityChosen") {
             locationManager.performMapSearch(for: city)
         } else {
