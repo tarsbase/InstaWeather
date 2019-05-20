@@ -18,22 +18,28 @@ enum LabelType {
 
 class LabelAnimator: NSObject {
     
-    let label: UILabel
+    weak var label: UILabel?
     var startValue: Int = 0
     let endValue: Int
-    let animationDuration: Double = 0.8
+    var animationDuration: Double = 0.8
     let animationStartDate: Date
     var displayLink: CADisplayLink?
     let labelType: LabelType
     
-    init(label: UILabel, endValue: Int, labelType: LabelType) {
+    @discardableResult
+    init(label: UILabel, endValue: Int, labelType: LabelType, instant: Bool) {
         self.label = label
         self.endValue = endValue
         self.animationStartDate = Date()
         self.labelType = labelType
         super.init()
-        if let start = label.text {
+        
+        if instant {
+            self.label?.text = self.getLabelText(forValue: String(self.endValue))
+            
+        } else if let start = label.text {
             self.startValue = getOldValue(from: start)
+            self.start()
         }
     }
     
@@ -49,7 +55,7 @@ class LabelAnimator: NSObject {
         if elapsedTime > animationDuration {
             DispatchQueue.main.asyncAfter(deadline: .now() + animationDuration / 12) {
                 [weak self] in
-                self?.label.text = self?.getLabelText(forValue: String(self?.endValue ?? 0 ))
+                self?.label?.text = self?.getLabelText(forValue: String(self?.endValue ?? 0 ))
                 self?.displayLink?.invalidate()
                 self?.displayLink = nil
             }
@@ -59,7 +65,7 @@ class LabelAnimator: NSObject {
             percentage = 1 - (percentage * percentage)
             let value = startValue + Int(percentage * Double((endValue - startValue)))
             if (value != endValue) {
-                label.text = getLabelText(forValue: String(value))
+                label?.text = getLabelText(forValue: String(value))
             }
         }
     }

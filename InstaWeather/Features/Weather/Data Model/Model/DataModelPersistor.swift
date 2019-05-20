@@ -9,8 +9,10 @@
 import UIKit
 
 enum DataModelPersistor {
+    
+    static let defaults = UserDefaults.standard
+    
     static func saveDataModel(model: WeatherDataModel) {
-        let defaults = UserDefaults.standard
         defaults.set(model.weatherIconName, forKey: "conditionImage")
         defaults.set(model.defaultBackgroundName, forKey: "backgroundName")
         defaults.set(model.temperatureCelsius, forKey: "temperature")
@@ -27,7 +29,6 @@ enum DataModelPersistor {
     }
     
     static func loadDataModel() -> WeatherDataModel {
-        let defaults = UserDefaults.standard
         let scale = defaults.integer(forKey: "temperatureScale")
         var model = WeatherDataModel(scale: scale)
         model.windSpeed = defaults.integer(forKey: "windSpeed")

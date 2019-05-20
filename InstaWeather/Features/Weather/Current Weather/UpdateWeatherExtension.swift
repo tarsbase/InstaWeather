@@ -38,65 +38,39 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
                                                  currentWeather: data.currentWeather,
                                                  forecastWeather: data.forecastWeather)
         
-        updateCurrentWeatherLabels(with: self.weatherDataModel)
+        updateWeatherLabels(with: self.weatherDataModel)
         
         weatherDataFetcher.loadAllPages()
     }
     
-    func updateCurrentWeatherLabels(with model: WeatherDataModel) {
-        updateLabel(tempLabel, toValue: model.temperature, forType: .mainTemperature)
+    func updateLabel(_ label: UILabel, toValue value: Int, forType type: LabelType, instant: Bool = false) {
+        LabelAnimator(label: label, endValue: value, labelType: type, instant: instant)
+    }
+    
+    func updateWeatherLabels(with model: WeatherDataModel, instant: Bool = false) {
         conditionImage.image = ImageManager.loadImage(named: model.weatherIconName)
         updateBackgroundWithForecastImage()
         cityLabel.text = model.city
-        let scale = segmentedControl.selectedSegmentIndex == 0 ? "km/h" : "mph"
+        let scale = model.scaleIsCelsius == .celsius ? "km/h" : "mph"
         let windSpeed = model.windSpeed
         let windDirection = model.windDirection
         windLabel.text = "\(windDirection) \(windSpeed) \(scale)"
-        updateLabel(humidityLabel, toValue: model.humidity, forType: .humidity)
         lastUpdateWasUpdated()
         
+        updateLabel(tempLabel, toValue: model.temperature, forType: .mainTemperature, instant: instant)
+        updateLabel(humidityLabel, toValue: model.humidity, forType: .humidity, instant: instant)
+        updateLabel(minTempLabel, toValue: weatherDataModel.minTemp, forType: .minTemp, instant: instant)
+        updateLabel(maxTempLabel, toValue: weatherDataModel.maxTemp, forType: .maxTemp, instant: instant)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) { [weak self] in
-            _ = self?.captureSnapshotOnce
+            _ = self?.captureSnapshotForMemories
         }
     }
     
-    func updateMinMaxLabels() {
-        updateLabel(minTempLabel, toValue: weatherDataModel.minTemp, forType: .minTemp)
-        updateLabel(maxTempLabel, toValue: weatherDataModel.maxTemp, forType: .maxTemp)
-    }
-    
-    func updateYahooLabels() {
-        let feelsLikeTemp = weatherDataModel.feelsLike
-        let scale = segmentedControl.selectedSegmentIndex == 0 ? "km/h" : "mph"
-        let windSpeed = weatherDataModel.windSpeed
-        let windDirection = weatherDataModel.windDirection
-        windLabel.text = "\(windDirection) \(windSpeed) \(scale)"
-        updateLabel(feelsLikeLabel, toValue: feelsLikeTemp, forType: .feelsLike)
-        updateLabel(humidityLabel, toValue: weatherDataModel.humidity, forType: .humidity)
-    }
-    
-    func updateLabel(_ label: UILabel, toValue value: Int, forType type: LabelType) {
-        let labelAnimator = LabelAnimator(label: label, endValue: value, labelType: type)
-        labelAnimator.start()
-    }
-    
-    func updateLabelsNoAnimation() {
+    func updateLabelsInstantly() {
     
         self.weatherDataModel = DataModelPersistor.loadDataModel()
-        
-        let scale = weatherDataModel.scaleIsCelsius == .celsius ? "km/h" : "mph"
-        let windSpeed = weatherDataModel.windSpeed
-        let windDirection = weatherDataModel.windDirection
-        windLabel.text = "\(windDirection) \(windSpeed) \(scale)"
-        conditionImage.image = ImageManager.loadImage(named: weatherDataModel.weatherIconName)
-        updateBackgroundWithForecastImage()
-        tempLabel.text = "\(weatherDataModel.temperature)°"
-        minTempLabel.text = "↓\(weatherDataModel.minTemp)"
-        maxTempLabel.text = "↑\(weatherDataModel.maxTemp)"
-        feelsLikeLabel.text = "Feels like \(weatherDataModel.feelsLike)°"
-        humidityLabel.text = "Humidity: \(weatherDataModel.humidity)%"
-        cityLabel.text = weatherDataModel.city
+        updateWeatherLabels(with: self.weatherDataModel, instant: true)
         if let date = weatherDataModel.lastUpdated {
             updateLastLabel(withDate: date)
         }

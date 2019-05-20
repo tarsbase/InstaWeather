@@ -33,7 +33,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     
     var memoriesDemoImages = [MemoriesSnapshot]() // maybe move to Memories object?
     
-    lazy var captureSnapshotOnce: Void = addMemory() // maybe move to Memories object?
+    lazy var captureSnapshotForMemories: Void = addMemory() // maybe move to Memories object?
     lazy var locationManager = LocationManager(withDelegate: self)
     lazy var weatherDataFetcher = WeatherDataFetcher(manager: locationManager, alertPresenter: self, delegate: self)
     lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
@@ -75,7 +75,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         loadScale()
         
         // load saved data here
-        updateLabelsNoAnimation()
+        updateLabelsInstantly()
         
         // updates location when app goes to foreground
         NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main) {
@@ -135,10 +135,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     func evaluateSegment(onStartup: Bool = false) {
         weatherDataModel.toggleScale(to: segmentedControl.selectedSegmentIndex)
         if !onStartup {
-            updateLabel(tempLabel, toValue: weatherDataModel.temperature, forType: .mainTemperature)
-            updateLabel(minTempLabel, toValue: weatherDataModel.minTemp, forType: .minTemp)
-            updateLabel(maxTempLabel, toValue: weatherDataModel.maxTemp, forType: .maxTemp)
-            updateYahooLabels()
+            updateWeatherLabels(with: self.weatherDataModel)
         }
     }
     
