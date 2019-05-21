@@ -75,7 +75,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         loadScale()
         
         // load saved data here
-        updateLabelsInstantly()
+        updateWeatherLabelsInstantly()
         
         // updates location when app goes to foreground
         NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main) {

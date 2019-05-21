@@ -12,23 +12,18 @@ enum DataModelPersistor {
     
     static let defaults = UserDefaults.standard
     
-    static func saveDataModel(model: WeatherDataModel) {
-        defaults.set(model.weatherIconName, forKey: "conditionImage")
-        defaults.set(model.defaultBackgroundName, forKey: "backgroundName")
-        defaults.set(model.temperatureCelsius, forKey: "temperature")
-        defaults.set(model.minTempCelsius, forKey: "minTemp")
-        defaults.set(model.maxTempCelsius, forKey: "maxTemp")
-        defaults.set(model.city, forKey: "city")
-        defaults.set(model.lastUpdated, forKey: "lastUpdated")
-        defaults.set(model.feelsLikeCelsius, forKey: "feelsLike")
-        defaults.set(model.humidity, forKey: "humidity")
-        defaults.set(model.windSpeed, forKey: "windSpeed")
-        defaults.set(model.windDirectionInDegrees, forKey: "windDirection")
-        let scale = model.scaleIsCelsius.rawValue
-        defaults.set(scale, forKey: "temperatureScale")
-    }
-    
     static func loadDataModel() -> WeatherDataModel {
+        let decoder = JSONDecoder()
+        if let object = defaults.object(forKey: "dataModel") as? Data {
+            do {
+                return try decoder.decode(WeatherDataModel.self, from: object)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        
+        
+        // fallback code for migration
         let scale = defaults.integer(forKey: "temperatureScale")
         var model = WeatherDataModel(scale: scale)
         model.windSpeed = defaults.integer(forKey: "windSpeed")
@@ -45,5 +40,13 @@ enum DataModelPersistor {
             model.lastUpdated = date
         }
         return model
+        // end of migration code
+    }
+    
+    static func saveDataModel(model: WeatherDataModel) {
+        let encoder = JSONEncoder()
+        if let data = try? encoder.encode(model) {
+            defaults.set(data, forKey: "dataModel")
+        }
     }
 }

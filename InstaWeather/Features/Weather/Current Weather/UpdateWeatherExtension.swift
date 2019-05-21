@@ -51,7 +51,7 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
         conditionImage.image = ImageManager.loadImage(named: model.weatherIconName)
         updateBackgroundWithForecastImage()
         cityLabel.text = model.city
-        let scale = model.scaleIsCelsius == .celsius ? "km/h" : "mph"
+        let scale = model.tempScale == .celsius ? "km/h" : "mph"
         let windSpeed = model.windSpeed
         let windDirection = model.windDirection
         windLabel.text = "\(windDirection) \(windSpeed) \(scale)"
@@ -67,7 +67,7 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
         }
     }
     
-    func updateLabelsInstantly() {
+    func updateWeatherLabelsInstantly() {
     
         self.weatherDataModel = DataModelPersistor.loadDataModel()
         updateWeatherLabels(with: self.weatherDataModel, instant: true)

@@ -27,8 +27,8 @@ class ParallaxViewController: UIViewController, ParallaxHost {
     }
     
     // closures to manipulate weather data struct in parent controller
-    var getDataModel: GetModelHandler?
-    var updateDataModel: UpdateModelHandler?
+    private var getDataModel: GetModelHandler?
+    private var updateDataModel: UpdateModelHandler?
     
     func initialSetup(updateModel: @escaping UpdateModelHandler, getModel: @escaping GetModelHandler, statusBarUpdater: StatusBarUpdater) {
         self.updateDataModel = updateModel

@@ -49,7 +49,7 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     var fiveDaysObject: ForecastObject?
     var weekdayObjects = [ForecastObject]()
     
-    private(set) var scaleIsCelsius = Scale.celsius
+    private(set) var tempScale = Scale.celsius
     private var _windDirection = 0.0
     var temperatureCelsius = 0
     var maxTempCelsius = 0
@@ -96,10 +96,8 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         return OptimizedDateFormatter.getFormatter(.short)
     }
     
-    
-    lazy var forecastDayTitles: [String] = createForecastDayTitles()
-    
-    lazy var forecastSections: [ForecastSection] = createForecastSections()
+    var forecastDayTitles = [String]()
+    var forecastSections = [ForecastSection]()
     
     init(scale: Int = 0) {
         toggleScale(to: scale)
@@ -155,6 +153,9 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
             self.forecast.append(forecastObject)
         }
         self.filterDays()
+        
+        self.forecastDayTitles = createForecastDayTitles()
+        self.forecastSections = createForecastSections()
     }
     
     func updateOpenWeatherIcon(condition: Int, objectTime: Int, objectSunrise: Int = 0, objectSunset: Int = 0) -> String {
@@ -290,7 +291,7 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
 
     mutating func toggleScale(to scale: Int) {
         if let scale = WeatherDataModel.Scale(rawValue: scale) {
-            self.scaleIsCelsius = scale
+            self.tempScale = scale
         }
     }
     
@@ -382,4 +383,59 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         }
     }
     
+}
+extension WeatherDataModel: Codable {
+    enum CodingKeys: String, CodingKey {
+        case temperatureScale
+        case weatherIconName
+        case defaultBackgroundName
+        case temperature
+        case minTemp
+        case maxTemp
+        case city
+        case lastUpdated
+        case feelsLike
+        case humidity
+        case windSpeed
+        case windDirection
+    }
+    
+    public init(from decoder: Decoder) throws {
+        do {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        let scaleInt = try container.decode(Int.self, forKey: .temperatureScale)
+        toggleScale(to: scaleInt)
+        weatherIconName = try container.decode(String.self, forKey: .weatherIconName)
+        defaultBackgroundName = try container.decode(String.self, forKey: .defaultBackgroundName)
+        temperatureCelsius = try container.decode(Int.self, forKey: .temperature)
+        minTempCelsius = try container.decode(Int.self, forKey: .minTemp)
+        maxTempCelsius = try container.decode(Int.self, forKey: .maxTemp)
+        city = try container.decode(String.self, forKey: .city)
+        lastUpdated = try container.decode(Date.self, forKey: .lastUpdated)
+        feelsLike = try container.decode(Int.self, forKey: .feelsLike)
+        humidity = try container.decode(Int.self, forKey: .humidity)
+        windSpeed = try container.decode(Int.self, forKey: .windSpeed)
+        windDirectionInDegrees = try container.decode(Double.self, forKey: .windDirection)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        let scaleInt = tempScale.rawValue
+        try container.encode(scaleInt, forKey: .temperatureScale)
+        try container.encode(weatherIconName, forKey: .weatherIconName)
+        try container.encode(defaultBackgroundName, forKey: .defaultBackgroundName)
+        try container.encode(temperatureCelsius, forKey: .temperature)
+        try container.encode(minTempCelsius, forKey: .minTemp)
+        try container.encode(maxTempCelsius, forKey: .maxTemp)
+        try container.encode(city, forKey: .city)
+        try container.encode(lastUpdated, forKey: .lastUpdated)
+        try container.encode(feelsLike, forKey: .feelsLike)
+        try container.encode(humidity, forKey: .humidity)
+        try container.encode(windSpeed, forKey: .windSpeed)
+        try container.encode(windDirectionInDegrees, forKey: .windDirection)
+    }
 }
