@@ -55,28 +55,17 @@ class ParallaxViewController: UIViewController, ParallaxHost {
         }
     }
     
-    func requestReviewAfterLaunchCount() {
-        // skip if already presenting
-        if self.presentedViewController != nil {
-            return
-        }
-        
-        if !AppSettings.alreadySubmittedReview && AppSettings.appLaunchCount > 1 {
-            AppSettings.alreadySubmittedReview = true
-            SKStoreReviewController.requestReview()
-        }
-    }
-    
-    func requestReview() {
-        // skip if already presenting
-        if self.presentedViewController != nil {
-            return
-        }
-        
-        if !AppSettings.alreadySubmittedReview {
-            AppSettings.alreadySubmittedReview = true
-            SKStoreReviewController.requestReview()
+    func requestReviewIfReadyAfter(delay: TimeInterval) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+            // skip if already presenting
+            if self?.presentedViewController != nil {
+                return
+            }
+            
+            if !AppSettings.alreadySubmittedReview && AppSettings.appLaunchCount > 1 {
+                AppSettings.alreadySubmittedReview = true
+                SKStoreReviewController.requestReview()
+            }
         }
     }
-
 }

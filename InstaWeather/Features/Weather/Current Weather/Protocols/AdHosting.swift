@@ -12,7 +12,14 @@ import SafariServices
 protocol AdHosting {}
 
 extension AdHosting where Self: UIViewController {
-    func launchAds() {
+    
+    func launchAdsAfter(delay: TimeInterval) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+            self?.launchAds()
+        }
+    }
+    
+    private func launchAds() {
         let twoWeeks: Double = 1_209_600
         
         // skip if already presenting something else

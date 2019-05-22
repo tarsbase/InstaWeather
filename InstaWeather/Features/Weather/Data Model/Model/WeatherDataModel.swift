@@ -49,7 +49,7 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     var fiveDaysObject: ForecastObject?
     var weekdayObjects = [ForecastObject]()
     
-    private(set) var tempScale = Scale.celsius
+    private(set) var temperatureScale = Scale.celsius
     private var _windDirection = 0.0
     var temperatureCelsius = 0
     var maxTempCelsius = 0
@@ -291,7 +291,7 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
 
     mutating func toggleScale(to scale: Int) {
         if let scale = WeatherDataModel.Scale(rawValue: scale) {
-            self.tempScale = scale
+            self.temperatureScale = scale
         }
     }
     
@@ -424,7 +424,7 @@ extension WeatherDataModel: Codable {
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        let scaleInt = tempScale.rawValue
+        let scaleInt = temperatureScale.rawValue
         try container.encode(scaleInt, forKey: .temperatureScale)
         try container.encode(weatherIconName, forKey: .weatherIconName)
         try container.encode(defaultBackgroundName, forKey: .defaultBackgroundName)

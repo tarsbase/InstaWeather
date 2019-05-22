@@ -168,14 +168,14 @@ extension MemoriesHost where Self: UIViewController {
             let bounds = swipeableView.bounds
             let minTranslationInPercent = swipeableView.minTranslationInPercent
             let minVelocityInPointPerSecond = swipeableView.minVelocityInPointPerSecond
-            let allowedDirection = swipeableView.allowedDirection
+            swipeableView.allowedDirection = .All
             
             func areTranslationAndVelocityInTheSameDirection() -> Bool {
                 return CGPoint.areInSameTheDirection(translation, p2: velocity)
             }
             
             func isDirectionAllowed() -> Bool {
-                return Direction.fromPoint(translation).intersection(allowedDirection) != .None
+                return Direction.fromPoint(translation).intersection(swipeableView.allowedDirection) != .None
             }
             
             func isTranslationLargeEnough() -> Bool {

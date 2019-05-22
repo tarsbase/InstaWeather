@@ -9,7 +9,7 @@
 import Foundation
 
 protocol ConvertibleToFahrenheit {
-    var tempScale: WeatherDataModel.Scale { get }
+    var temperatureScale: WeatherDataModel.Scale { get }
     var temperatureCelsius: Int { get set }
     var minTempCelsius: Int { get set }
     var maxTempCelsius: Int { get set }
@@ -21,7 +21,7 @@ extension ConvertibleToFahrenheit {
   
     var temperature: Int {
         get {
-            return tempScale == .celsius ? temperatureCelsius : temperatureFahrenheit
+            return temperatureScale == .celsius ? temperatureCelsius : temperatureFahrenheit
         }
         set {
             temperatureCelsius = newValue
@@ -29,7 +29,7 @@ extension ConvertibleToFahrenheit {
     }
     var maxTemp: Int {
         get {
-            return tempScale == .celsius ? maxTempCelsius : maxTempFahrenheit
+            return temperatureScale == .celsius ? maxTempCelsius : maxTempFahrenheit
         }
         set {
             maxTempCelsius = newValue
@@ -37,7 +37,7 @@ extension ConvertibleToFahrenheit {
     }
     var minTemp: Int {
         get {
-            return tempScale == .celsius ? minTempCelsius : minTempFahrenheit
+            return temperatureScale == .celsius ? minTempCelsius : minTempFahrenheit
         }
         set {
             minTempCelsius = newValue
@@ -45,7 +45,7 @@ extension ConvertibleToFahrenheit {
     }
     var feelsLike: Int {
         get {
-            return tempScale == .celsius ? feelsLikeCelsius : feelsLikeFahrenheit
+            return temperatureScale == .celsius ? feelsLikeCelsius : feelsLikeFahrenheit
         }
         set {
             feelsLikeFahrenheit = newValue
@@ -53,7 +53,7 @@ extension ConvertibleToFahrenheit {
     }
     var windSpeed: Int {
         get {
-            return tempScale == .celsius ? windSpeedKph : windSpeedMph
+            return temperatureScale == .celsius ? windSpeedKph : windSpeedMph
         }
         set {
             windSpeedKph = newValue
@@ -85,7 +85,7 @@ extension ConvertibleToFahrenheit {
     }
     
     func convertTempToCurrentScale(_ temp: Int) -> Int {
-        if tempScale == .celsius {
+        if temperatureScale == .celsius {
             return temp
         } else {
             return celsiusToFahrenheit(temp)

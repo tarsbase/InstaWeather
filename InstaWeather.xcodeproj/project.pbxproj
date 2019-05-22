@@ -102,6 +102,8 @@
 		28E4B690229325170023FA32 /* DataModelPersistor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E4B68E229322270023FA32 /* DataModelPersistor.swift */; };
 		28E4B691229325170023FA32 /* DataModelPersistor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E4B68E229322270023FA32 /* DataModelPersistor.swift */; };
 		28E4B692229325180023FA32 /* DataModelPersistor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E4B68E229322270023FA32 /* DataModelPersistor.swift */; };
+		28E4B6992294D1A40023FA32 /* MemoriesDemoGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E4B6982294D1A40023FA32 /* MemoriesDemoGenerator.swift */; };
+		28E4B69B2294E2330023FA32 /* ScaleManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E4B69A2294E2330023FA32 /* ScaleManagement.swift */; };
 		28E58BFF22014E09006A67EF /* PickerHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58BFE22014E09006A67EF /* PickerHost.swift */; };
 		28E58C0222015C5C006A67EF /* ImageMenuDismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E58C0122015C5B006A67EF /* ImageMenuDismissButton.swift */; };
 		28E58C04220167BA006A67EF /* ConfirmBackgroundButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28E58C03220167BA006A67EF /* ConfirmBackgroundButton.xib */; };
@@ -254,6 +256,8 @@
 		28E4B6802291EA390023FA32 /* WeatherDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataFetcher.swift; sourceTree = "<group>"; };
 		28E4B689229319DD0023FA32 /* OptimizedDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptimizedDateFormatter.swift; sourceTree = "<group>"; };
 		28E4B68E229322270023FA32 /* DataModelPersistor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModelPersistor.swift; sourceTree = "<group>"; };
+		28E4B6982294D1A40023FA32 /* MemoriesDemoGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesDemoGenerator.swift; sourceTree = "<group>"; };
+		28E4B69A2294E2330023FA32 /* ScaleManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleManagement.swift; sourceTree = "<group>"; };
 		28E58BFE22014E09006A67EF /* PickerHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerHost.swift; sourceTree = "<group>"; };
 		28E58C0122015C5B006A67EF /* ImageMenuDismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMenuDismissButton.swift; sourceTree = "<group>"; };
 		28E58C03220167BA006A67EF /* ConfirmBackgroundButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConfirmBackgroundButton.xib; sourceTree = "<group>"; };
@@ -352,6 +356,7 @@
 			children = (
 				289D194C215DA311006339D9 /* Protocols */,
 				28359A4E201C41E3005AAFF4 /* WeatherViewController.swift */,
+				28E4B69A2294E2330023FA32 /* ScaleManagement.swift */,
 				28BB175D201D589D006E14A0 /* UpdateWeatherExtension.swift */,
 				28E4B6802291EA390023FA32 /* WeatherDataFetcher.swift */,
 				28FE389E2291C03D009158EC /* LocationManager.swift */,
@@ -601,6 +606,7 @@
 			isa = PBXGroup;
 			children = (
 				2873ABF1221791DB00E186B9 /* MemoriesHost.swift */,
+				28E4B6982294D1A40023FA32 /* MemoriesDemoGenerator.swift */,
 				2873ABF32217937600E186B9 /* MemoriesViewController.swift */,
 				2873ABF5221904D200E186B9 /* MemoriesExport.swift */,
 				2873ABF72219078F00E186B9 /* MemoriesSnapshot.swift */,
@@ -1134,6 +1140,7 @@
 				28812959221B9D77002F765A /* AnalyticsEvents.swift in Sources */,
 				289D1950215DA9A6006339D9 /* EnumKeys.swift in Sources */,
 				280C4C2321FFEF1F00430ED3 /* DashboardDelegate+Animations.swift in Sources */,
+				28E4B69B2294E2330023FA32 /* ScaleManagement.swift in Sources */,
 				289D194B215DA1AE006339D9 /* AppSettings.swift in Sources */,
 				2807A92A216AF123003DA8D6 /* FahrenheitProtocol.swift in Sources */,
 				28E4B6812291EA390023FA32 /* WeatherDataFetcher.swift in Sources */,
@@ -1151,6 +1158,7 @@
 				2807A921216A7077003DA8D6 /* CustomSlider.swift in Sources */,
 				2873ABF2221791DB00E186B9 /* MemoriesHost.swift in Sources */,
 				28FE38A12291C161009158EC /* LocationManagerDelegate.swift in Sources */,
+				28E4B6992294D1A40023FA32 /* MemoriesDemoGenerator.swift in Sources */,
 				28F7658C221652ED00114D2B /* ExportHost.swift in Sources */,
 				28F7659B2216679700114D2B /* ZLSwipeableView.swift in Sources */,
 				289D194E215DA32C006339D9 /* AdHosting.swift in Sources */,

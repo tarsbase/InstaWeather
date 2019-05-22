@@ -19,7 +19,6 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     @IBOutlet weak var conditionImage: UIImageView!
     @IBOutlet weak var maxTempLabel: UILabel!
     @IBOutlet weak var minTempLabel: UILabel!
-    @IBOutlet weak var feelsLikeLabel: UILabel!
     @IBOutlet weak var windLabel: UILabel!
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var windIcon: UIImageView!
@@ -72,7 +71,8 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         _ = locationManager
         
         loadLastLocation()
-        loadScale()
+        print(segmentedControl)
+        ScaleManagement.loadScale(control: segmentedControl) { [weak self] in self?.evaluateSegment() }
         
         // load saved data here
         updateWeatherLabelsInstantly()
@@ -92,16 +92,15 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         ImageMenu.imageMenusArray.append(imageMenu)
         backgroundContainer.clipsToBounds = true
         CustomImageButton.buttonsArray.insert(changeImageButton)
-        animateCameraButton()
+        changeImageButton.pulseAnimation()
     }
     
-    // closure will setup all pageViewController pages once we receive weather data
+    // this closure will setup all pageViewController pages once we receive weather data
     func setupWeatherUpdaterWith(loadPages: (() -> Void)?) {
         weatherDataFetcher.setup(loadPages: loadPages)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        // add check for last updated here
         animateLabels()
         super.viewDidAppear(animated)
         CustomImageButton.buttonsArray.forEach { $0.isHidden = AppSettings.hideCameras }
@@ -125,35 +124,18 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
             }
         }
     }
+    
     @IBAction func clickSegment(_ sender: Any) {
         evaluateSegment()
-        if let defaults = UserDefaults(suiteName: "group.com.besher.InstaWeather") {
-            defaults.set(segmentedControl.selectedSegmentIndex, forKey: "tempScale")
-        }
     }
     
     func evaluateSegment(onStartup: Bool = false) {
-        weatherDataModel.toggleScale(to: segmentedControl.selectedSegmentIndex)
+        let index = segmentedControl.selectedSegmentIndex
+        weatherDataModel.toggleScale(to: index)
         if !onStartup {
             updateWeatherLabels(with: self.weatherDataModel)
         }
-    }
-    
-    func loadScale() { // takes migration into account
-        if let defaults = UserDefaults(suiteName: "group.com.besher.InstaWeather") {
-            var scale: Int = 0
-            if let loadOBject = UserDefaults.standard.object(forKey: "tempScale") as? Int {
-                scale = loadOBject
-                segmentedControl.selectedSegmentIndex = scale
-                clickSegment(self)
-                UserDefaults.standard.removeObject(forKey: "tempScale")
-            }
-            if let loadObject = defaults.object(forKey: "tempScale") as? Int {
-                scale = loadObject
-            }
-            segmentedControl.selectedSegmentIndex = scale
-            evaluateSegment(onStartup: true)
-        }
+        ScaleManagement.saveScale(index: index)
     }
     
     func lastUpdateWasUpdated() {
@@ -179,18 +161,15 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     }
     
     func animateLabels() {
-        let feelsLikeScale:CGFloat = 1.06
         let conditionScale:CGFloat = 1.03
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             [weak self] in
             self?.lastUpdated.alpha = 1
             self?.conditionImage.transform = CGAffineTransform(scaleX: conditionScale, y: conditionScale)
-            self?.feelsLikeLabel.transform = CGAffineTransform(scaleX: feelsLikeScale, y: feelsLikeScale)
             }, completion: { _ in
                 UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
                     [weak self] in
                     self?.conditionImage.transform = CGAffineTransform(scaleX: 1, y: 1)
-                    self?.feelsLikeLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
                     }, completion: nil)
         })
     }
@@ -210,25 +189,6 @@ extension WeatherViewController: DashboardDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         handleTouch(by: touches)
-    }
-    
-    func animateCameraButton(counter: Int = 0) {
-        guard AppSettings.appLaunchCount < 3 else { return }
-        guard counter < 10 else { return }
-        let scale: CGFloat = 1.3
-        
-        UIView.animateKeyframes(withDuration: 1, delay: 0, options: [.calculationModeCubic, .allowUserInteraction], animations: {
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5, animations: { [ weak self] in
-                guard let self = self else { return }
-                self.changeImageButton.transform = CGAffineTransform(scaleX: scale, y: scale)
-            })
-            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5, animations: { [ weak self] in
-                guard let self = self else { return }
-                self.changeImageButton.transform = .identity
-            })
-        }) { [weak self] (finish) in
-            self?.animateCameraButton(counter: counter + 1)
-        }
     }
     
     func pickedNewTextColor(_ color: UIColor) {
@@ -290,71 +250,18 @@ extension WeatherViewController {
         }
     }
     
-    // TODO pre-generate demo sliders to avoid slowdown
-    
     func generateDemoSnapshots() {
-        guard memoriesDemoImages.isEmpty else { return }
-        guard MemoriesCacheManager.loadAllMemories().count < 3 else { return }
-        
-        let totalDuration: TimeInterval = 0.07
-        let numberOfDemos = ImageManager.potentialBackgrounds.count
-        let interval = totalDuration / Double(numberOfDemos)
-        
-        for (index, background) in ImageManager.potentialBackgrounds.dropFirst(6).enumerated() {
-            DispatchQueue.main.asyncAfter(deadline: .now() + (Double(index) * interval)) { [weak self] in
+        if memoriesDemoImages.isEmpty {
+            let concurrentQueue = DispatchQueue(label: "demos-queue", qos: .userInteractive, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil)
+            concurrentQueue.async { [weak self] in
                 guard let self = self else { return }
-                NSLog("Generating Demo")
-                
-                let originalBackground = self.backgroundImage.image
-                self.backgroundImage.image = background
-                
-                let demoLabel = self.generateDemoLabel()
-                if let demoSnap = self.getDemoImage() {
-                    let date = Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date()
-                    let demo = MemoriesSnapshot(image: demoSnap, date: date)
-                    self.memoriesDemoImages.append(demo)
-                }
-                
-                demoLabel.removeFromSuperview()
-                self.backgroundImage.image = originalBackground
+                self.memoriesDemoImages = DemoGenerator.generateDemoSnapshots(concurrentQueue: concurrentQueue,
+                                                                              backgroundImage: self.backgroundImage,
+                                                                              mainView: self.view,
+                                                                              hideViews: { [weak self] in self?.hideViews(self?.viewsExcludedFromScreenshot) },
+                                                                              unhideViews: { [weak self] in self?.unHideViews(self?.viewsExcludedFromScreenshot) })
             }
         }
-        
-        
-    }
-    
-    func getDemoImage() -> UIImage? {
-        hideViews(viewsExcludedFromScreenshot)
-        let image = view.imageRepresentation()
-        unHideViews(viewsExcludedFromScreenshot)
-        return image
-    }
-    
-    func generateDemoLabel() -> UILabel {
-        let label = UILabel()
-        label.textColor = .white
-        label.text = "DEMO CARD"
-        label.font = UIFont.systemFont(ofSize: 33, weight: .bold)
-        label.sizeToFit()
-        view.addSubview(label)
-        label.center.x = view.center.x
-        label.center.y = view.center.y - (view.bounds.height / 3)
-        return label
-    }
-    
-    // Memories helpers
-    
-    var viewsExludedNoDate: [UIView] {
-        var views = viewsExcludedFromScreenshot
-        views.append(lastUpdated)
-        return views
-    }
-    
-    func getExportImageNoDate() -> UIImage? {
-        hideViews(viewsExludedNoDate)
-        let image = view.imageRepresentation()
-        unHideViews(viewsExludedNoDate)
-        return image
     }
 }
 

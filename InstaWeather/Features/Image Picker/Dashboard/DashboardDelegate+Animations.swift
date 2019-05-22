@@ -199,7 +199,7 @@ extension DashboardDelegate where Self: ParallaxViewController {
     
     fileprivate func launchReviewIfValid() {
         if AppSettings.mainscreenBackgrounds.adjusted {
-            requestReview()
+            requestReviewIfReadyAfter(delay: 0.0)
         }
     }
 }

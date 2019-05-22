@@ -31,11 +31,11 @@ extension ExportHost where Self: UIViewController {
         return image
     }
     
-    func hideViews(_ views: [UIView]) {
-        views.forEach { $0.isHidden = true }
+    func hideViews(_ views: [UIView]?) {
+        views?.forEach { $0.isHidden = true }
     }
     
-    func unHideViews(_ views: [UIView]) {
-        views.forEach { $0.isHidden = false }
+    func unHideViews(_ views: [UIView]?) {
+        views?.forEach { $0.isHidden = false }
     }
 }

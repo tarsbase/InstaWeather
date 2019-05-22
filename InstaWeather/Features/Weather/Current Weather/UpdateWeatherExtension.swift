@@ -14,24 +14,10 @@ import CoreLocation
 extension WeatherViewController: WeatherDataFetcherDelegate {
     
     func getWeatherForCoordinates(latitude: String, longitude: String, location: CLLocation, city: String = "") {
-        
         weatherDataFetcher.getWeatherData(latitude: latitude, longitude: longitude, location: location, city: city)
-        
-        // TODO move to separate object
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            self?.generateDemoSnapshots()
-        }
-        
-        // TODO move to separate object
-        // display ad
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-            self?.launchAds()
-            self?.requestReviewAfterLaunchCount()
-        }
     }
     
     func didReceiveWeatherData(data: (city: String, currentWeather: JSON, forecastWeather: JSON)) {
-        
         
         let scale = segmentedControl.selectedSegmentIndex
         self.weatherDataModel = WeatherDataModel(city: data.city, scale: scale,
@@ -39,8 +25,18 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
                                                  forecastWeather: data.forecastWeather)
         
         updateWeatherLabels(with: self.weatherDataModel)
-        
+        dataWasRefreshed()
+    }
+    
+    func dataWasRefreshed() {
         weatherDataFetcher.loadAllPages()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) { [weak self] in
+            _ = self?.captureSnapshotForMemories
+            // we generate demo if not enough snapshots have been captured yet
+            self?.generateDemoSnapshots()
+            self?.launchAdsAfter(delay: 2)
+            self?.requestReviewIfReadyAfter(delay: 2)
+        }
     }
     
     func updateLabel(_ label: UILabel, toValue value: Int, forType type: LabelType, instant: Bool = false) {
@@ -51,7 +47,7 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
         conditionImage.image = ImageManager.loadImage(named: model.weatherIconName)
         updateBackgroundWithForecastImage()
         cityLabel.text = model.city
-        let scale = model.tempScale == .celsius ? "km/h" : "mph"
+        let scale = model.temperatureScale == .celsius ? "km/h" : "mph"
         let windSpeed = model.windSpeed
         let windDirection = model.windDirection
         windLabel.text = "\(windDirection) \(windSpeed) \(scale)"
@@ -61,14 +57,9 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
         updateLabel(humidityLabel, toValue: model.humidity, forType: .humidity, instant: instant)
         updateLabel(minTempLabel, toValue: weatherDataModel.minTemp, forType: .minTemp, instant: instant)
         updateLabel(maxTempLabel, toValue: weatherDataModel.maxTemp, forType: .maxTemp, instant: instant)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) { [weak self] in
-            _ = self?.captureSnapshotForMemories
-        }
     }
     
     func updateWeatherLabelsInstantly() {
-    
         self.weatherDataModel = DataModelPersistor.loadDataModel()
         updateWeatherLabels(with: self.weatherDataModel, instant: true)
         if let date = weatherDataModel.lastUpdated {

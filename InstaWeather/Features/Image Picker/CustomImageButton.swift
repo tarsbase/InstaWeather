@@ -40,4 +40,23 @@ class CustomImageButton: LargeTapAreaButton {
             self?.alpha = alpha
             }.startAnimation()
     }
+    
+    func pulseAnimation(counter: Int = 0) {
+        guard AppSettings.appLaunchCount < 3 else { return }
+        guard counter < 10 else { return }
+        let scale: CGFloat = 1.3
+        
+        UIView.animateKeyframes(withDuration: 1, delay: 0, options: [.calculationModeCubic, .allowUserInteraction], animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5, animations: { [ weak self] in
+                guard let self = self else { return }
+                self.transform = CGAffineTransform(scaleX: scale, y: scale)
+            })
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5, animations: { [ weak self] in
+                guard let self = self else { return }
+                self.transform = .identity
+            })
+        }) { [weak self] (finish) in
+            self?.pulseAnimation(counter: counter + 1)
+        }
+    }
 }
