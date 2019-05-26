@@ -156,7 +156,6 @@ class ForecastViewController: ParallaxViewController {
     }
     
     func populateStack(tag: Int, day: String, icon: Int, temperature: String) {
-        
         for stack in subStacks {
             if stack.tag == tag {
                 for case let imageView as UIImageView in stack.arrangedSubviews {

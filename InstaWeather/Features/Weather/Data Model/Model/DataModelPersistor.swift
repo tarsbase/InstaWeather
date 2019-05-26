@@ -33,7 +33,6 @@ enum DataModelPersistor {
         model.temperature = defaults.integer(forKey: "temperature")
         model.minTemp = defaults.integer(forKey: "minTemp")
         model.maxTemp = defaults.integer(forKey: "maxTemp")
-        model.feelsLike = defaults.integer(forKey: "feelsLike")
         model.humidity = defaults.integer(forKey: "humidity")
         model.city = defaults.string(forKey: "city") ?? "Montreal"
         if let date = defaults.object(forKey: "lastUpdated") as? Date {

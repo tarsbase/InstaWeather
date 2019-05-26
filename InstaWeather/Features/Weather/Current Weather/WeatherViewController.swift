@@ -31,8 +31,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     @IBOutlet weak var memoriesButton: CustomImageButton!
     
     var socialExport: SocialExport? // holds reference to activity sheets
-    
-    var memoriesDemoImages = [MemoriesSnapshot]() // maybe move to Memories object?
+    var memoriesDemoImages = [MemoriesSnapshot]()
     
     lazy var locationManager = LocationManager(withDelegate: self)
     lazy var weatherDataFetcher = WeatherDataFetcher(manager: locationManager, alertPresenter: self, delegate: self)
@@ -46,7 +45,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         if AppSettings.mainscreenBackgrounds.singleBackground {
             return PickerHostType.setup(weatherType: .all, from: .mainScreen(.all))
         } else {
-            return PickerHostType.setup(weatherType: weatherDataModel.weatherType, from: .mainScreen(.all))
+            return weatherDataModel.getHostType()
         }
     }
     
@@ -108,8 +107,9 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     func evaluateSegment(onStartup: Bool = false) {
         let index = segmentedControl.selectedSegmentIndex
         weatherDataModel.toggleScale(to: index)
-        if !onStartup {
-            updateWeatherLabels(with: self.weatherDataModel, dataType: .scaleChange)
+        if onStartup == false {
+            updateWeatherLabels(with: weatherDataModel, dataType: .scaleChange)
+            weatherDataModel.saveToDisk()
         }
         ScaleManagement.saveScale(index: index)
     }

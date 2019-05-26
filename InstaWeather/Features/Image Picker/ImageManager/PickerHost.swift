@@ -111,7 +111,7 @@ enum PickerHostType {
     }
 }
 
-enum ImageWeatherType: String, CaseIterable {
+enum ImageWeatherType: String, CaseIterable, Codable {
     case all, clear, cloudy, rainy, stormy, snowy
     
     var title: String {

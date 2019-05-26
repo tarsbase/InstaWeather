@@ -9,7 +9,7 @@
 import Foundation
 struct ForecastObject {
     
-    var temperatureCelsius = 0
+    private var temperatureCelsius = 0
     var minTempCelsius = 0
     var maxTempCelsius = 0
 
@@ -17,7 +17,7 @@ struct ForecastObject {
     let condition: Int
     var sunrise = 5
     var sunset = 19
-    var formatter: DateFormatter {
+    private var formatter: DateFormatter {
         return OptimizedDateFormatter.getFormatter(.short)
     }
     
@@ -45,7 +45,7 @@ struct ForecastObject {
         self.minTempCelsius = minTemp
     }
     
-    func formatAmPm(date: String) -> String {
+    private func formatAmPm(date: String) -> String {
         var formattedDate = ""
         var start = date.startIndex
         start = date.index(start, offsetBy: 11)
@@ -81,7 +81,7 @@ struct ForecastObject {
         return digits
     }
     
-    func getDayOfWeek(day: String) -> Int? {
+    private func getDayOfWeek(day: String) -> Int? {
         guard let todayDate = formatter.date(from: day) else { return nil }
         let myCalendar = Calendar(identifier: .gregorian)
         let weekDay = myCalendar.component(.weekday, from: todayDate)

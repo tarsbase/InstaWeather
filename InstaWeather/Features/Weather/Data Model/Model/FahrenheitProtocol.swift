@@ -13,7 +13,6 @@ protocol ConvertibleToFahrenheit {
     var temperatureCelsius: Int { get set }
     var minTempCelsius: Int { get set }
     var maxTempCelsius: Int { get set }
-    var feelsLikeFahrenheit: Int { get set }
     var windSpeedKph: Int { get set }
 }
 
@@ -43,14 +42,6 @@ extension ConvertibleToFahrenheit {
             minTempCelsius = newValue
         }
     }
-    var feelsLike: Int {
-        get {
-            return temperatureScale == .celsius ? feelsLikeCelsius : feelsLikeFahrenheit
-        }
-        set {
-            feelsLikeFahrenheit = newValue
-        }
-    }
     var windSpeed: Int {
         get {
             return temperatureScale == .celsius ? windSpeedKph : windSpeedMph
@@ -60,27 +51,24 @@ extension ConvertibleToFahrenheit {
         }
     }
     
-    var temperatureFahrenheit: Int {
+    private var temperatureFahrenheit: Int {
         return celsiusToFahrenheit(temperatureCelsius)
     }
-    var maxTempFahrenheit: Int {
+    private var maxTempFahrenheit: Int {
         return celsiusToFahrenheit(maxTempCelsius)
     }
-    var minTempFahrenheit: Int {
+    private var minTempFahrenheit: Int {
         return celsiusToFahrenheit(minTempCelsius)
     }
-    var feelsLikeCelsius: Int {
-        return fahrenheitToCelsius(feelsLikeFahrenheit)
-    }
-    var windSpeedMph: Int {
+    private var windSpeedMph: Int {
         return kphToMph(windSpeedKph)
     }
     
-    func celsiusToFahrenheit(_ temp: Int) -> Int {
+    private func celsiusToFahrenheit(_ temp: Int) -> Int {
         return Int((Double(temp) * 1.8) + 32)
     }
     
-    func fahrenheitToCelsius(_ temp: Int) -> Int {
+    private func fahrenheitToCelsius(_ temp: Int) -> Int {
         return Int((Double(temp) - 32) * 0.5556)
     }
     
@@ -92,7 +80,7 @@ extension ConvertibleToFahrenheit {
         }
     }
     
-    func kphToMph(_ wind: Int) -> Int {
+    private func kphToMph(_ wind: Int) -> Int {
         return Int(Double(wind) * 0.6214)
     }
     

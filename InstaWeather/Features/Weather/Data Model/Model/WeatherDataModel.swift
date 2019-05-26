@@ -9,24 +9,55 @@
 import UIKit
 import SwiftyJSON
 
-public struct WeatherDataModel: ConvertibleToFahrenheit {
+struct WeatherDataModel: ConvertibleToFahrenheit {
+    
+    struct ForecastSection {
+        var forecastDay: String
+        var forecastChunks: [ForecastObject]
+    }
     
     enum Scale: Int {
         case celsius = 0, fahrenheit
     }
 
-    var condition = 0
-    var city = ""
-    var currentTime = 0
-    var sunriseTime = 0
-    var sunsetTime = 0
+    // Private Properties
     
-    var weatherIconName = ""
-    var defaultBackgroundName = ""
-    var weatherType: ImageWeatherType = .clear
-
+    private var condition = 0
+    private var currentTime = 0
+    private var sunriseTime = 0
+    private var sunsetTime = 0
+    private var latitude = 0.0
+    private var longitude = 0.0
+    private var _windDirection = 0.0
     private var _forecast = [ForecastObject]()
-    var forecast: [ForecastObject] {
+    
+    private var currentDay = 0
+    private var todayBucket = [ForecastObject]()
+    private var tomorrowBucket = [ForecastObject]()
+    private var twoDaysBucket = [ForecastObject]()
+    private var threeDaysBucket = [ForecastObject]()
+    private var fourDaysBucket = [ForecastObject]()
+    private var fiveDaysBucket = [ForecastObject]()
+    
+    private var tomorrowObject: ForecastObject?
+    private var twoDaysObject: ForecastObject?
+    private var threeDaysObject: ForecastObject?
+    private var fourDaysObject: ForecastObject?
+    private var fiveDaysObject: ForecastObject?
+    
+    private var longFormatter: DateFormatter {
+        return OptimizedDateFormatter.getFormatter(.long)
+    }
+    
+    private var mediumFormatter: DateFormatter {
+        return OptimizedDateFormatter.getFormatter(.medium)
+    }
+    
+    private var shortFormatter: DateFormatter {
+        return OptimizedDateFormatter.getFormatter(.short)
+    }
+    
+    private var forecast: [ForecastObject] {
         get {
             return _forecast
         }
@@ -34,36 +65,18 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
             _forecast = newValue
         }
     }
-    var currentDay = 0
-    var todayBucket = [ForecastObject]()
-    var tomorrowBucket = [ForecastObject]()
-    var twoDaysBucket = [ForecastObject]()
-    var threeDaysBucket = [ForecastObject]()
-    var fourDaysBucket = [ForecastObject]()
-    var fiveDaysBucket = [ForecastObject]()
     
-    var tomorrowObject: ForecastObject?
-    var twoDaysObject: ForecastObject?
-    var threeDaysObject: ForecastObject?
-    var fourDaysObject: ForecastObject?
-    var fiveDaysObject: ForecastObject?
+    // Public Properties
+    
+    var city = ""
+    var weatherIconName = ""
+    var defaultBackgroundName = ""
     var weekdayObjects = [ForecastObject]()
-    
-    private(set) var temperatureScale = Scale.celsius
-    private var _windDirection = 0.0
-    var temperatureCelsius = 0 {
-        didSet {
-            print("Temperatura equals \(temperatureCelsius)")
-        }
-    }
-    var maxTempCelsius = 0
-    var minTempCelsius = 0
-    var feelsLikeFahrenheit = 0
-    var windSpeedKph = 0
     var humidity = 0
-    var latitude = 0.0
-    var longitude = 0.0
     var lastUpdated: Date?
+    var forecastDayTitles = [String]()
+    var forecastSections = [ForecastSection]()
+    var weatherType: ImageWeatherType = .clear
     
     var windDirection: String {
         get {
@@ -82,26 +95,14 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
             return _windDirection
         }
     }
-
-    struct ForecastSection {
-        var forecastDay: String
-        var forecastChunks: [ForecastObject]
-    }
     
-    var longFormatter: DateFormatter {
-        return OptimizedDateFormatter.getFormatter(.long)
-    }
-
-    var mediumFormatter: DateFormatter {
-        return OptimizedDateFormatter.getFormatter(.medium)
-    }
-
-    var shortFormatter: DateFormatter {
-        return OptimizedDateFormatter.getFormatter(.short)
-    }
+    // Protocol Properties (Convertible to Fahrenheit)
+    private(set) var temperatureScale = Scale.celsius
+    var temperatureCelsius = 0
+    var maxTempCelsius = 0
+    var minTempCelsius = 0
+    var windSpeedKph = 0
     
-    var forecastDayTitles = [String]()
-    var forecastSections = [ForecastSection]()
     
     init(scale: Int = 0) {
         toggleScale(to: scale)
@@ -110,10 +111,10 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     init(city: String, scale: Int, currentWeather: JSON, forecastWeather: JSON) {
         processCurrentWeatherData(city: city, scale: scale, json: currentWeather)
         processForecastWeatherData(json: forecastWeather)
-        DataModelPersistor.saveDataModel(model: self)
+        saveToDisk()
     }
     
-    mutating func processCurrentWeatherData(city: String, scale: Int, json: JSON) {
+    private mutating func processCurrentWeatherData(city: String, scale: Int, json: JSON) {
         self.lastUpdated = Date()
         self.toggleScale(to: scale)
         self.temperature = kelvinToCelsius(json["main"]["temp"].doubleValue)
@@ -137,7 +138,7 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         self.updateBackgroundWith(weatherIconName)
     }
     
-    mutating func processForecastWeatherData(json: JSON) {
+    private mutating func processForecastWeatherData(json: JSON) {
         
         var minTemp = celsiusToKelvin(temperatureCelsius)
         var maxTemp = celsiusToKelvin(temperatureCelsius)
@@ -193,25 +194,7 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
             }
     }
     
-    func updateYahooWeatherIcon(condition: Int) -> String {
-        switch condition {
-        case 0...4, 37...39, 45, 47: return "tstorm1"
-        case 5...8: return "snow"
-        case 9...10, 35: return "light_rain"
-        case 11...12, 40: return "shower3"
-        case 13...18, 41...43, 46: return "snow"
-        case 19...23: return "fog"
-        case 24...25: return "wind"
-        case 26, 44: return "overcast"
-        case 28, 30: return "cloudy2"
-        case 27, 29: return "cloudy2night"
-        case 31, 33: return "clearnight"
-        case 32, 34, 36: return "clear"
-        default: return "none"
-        }
-    }
-    
-    mutating func filterDays() {
+    private mutating func filterDays() {
         currentDay = forecast.first?.currentDay ?? 0
         
         for day in forecast {
@@ -236,7 +219,7 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         weekdayObjects.append(getDailyForecastFor(fiveDaysBucket))
     }
     
-    mutating func getDailyForecastFor(_ day: [ForecastObject]) -> ForecastObject {
+    private mutating func getDailyForecastFor(_ day: [ForecastObject]) -> ForecastObject {
         let first = day.first
         var minTemp = first?.minTempCelsius ?? 99
         var maxTemp = first?.maxTempCelsius ?? 99
@@ -257,7 +240,7 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         return ForecastObject(date: date, condition: condition, maxTemp: maxTemp, minTemp: minTemp)
     }
     
-    mutating func createForecastDayTitles() -> [String] {
+    private mutating func createForecastDayTitles() -> [String] {
         var forecastDays = [String]()
         for day in forecast {
             if let date = longFormatter.date(from: day.date) {
@@ -270,7 +253,7 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         return forecastDays
     }
     
-    mutating func createForecastSections() -> [ForecastSection] {
+    private mutating func createForecastSections() -> [ForecastSection] {
         var forecastSections = [ForecastSection]()
         var forecastObjects = forecast
         for sectionDay in forecastDayTitles {
@@ -315,13 +298,17 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         return convertTempToCurrentScale(weekdayObjects[object].maxTempCelsius)
     }
     
-    func windDirectionFromDegrees(degrees : Double) -> String {
+    private func windDirectionFromDegrees(degrees : Double) -> String {
         let directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
         let i: Int = Int((degrees + 11.25)/22.5)
         return directions[i % 16]
     }
     
-    mutating func updateBackgroundWith(_ weatherIconName: String) {
+    func getHostType() -> PickerHostType {
+        return PickerHostType.setup(weatherType: weatherType, from: .mainScreen(.all))
+    }
+    
+    private mutating func updateBackgroundWith(_ weatherIconName: String) {
         switch weatherIconName {
         case "clear":
             defaultBackgroundName = "bg\(arc4random_uniform(3) + 1)\(weatherIconName)"
@@ -341,7 +328,7 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         }
     }
     
-    mutating func updateImageWeatherTypeWith(_ weatherIconName: String) {
+    private mutating func updateImageWeatherTypeWith(_ weatherIconName: String) {
         switch weatherIconName {
         case "clear", "clearnight":
             weatherType = .clear
@@ -359,11 +346,10 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     }
     
     // default value is set to .mainScreen temporarily, can be expanded later
-    func getBackground(initialHost: PickerHostType = .mainScreen(.all)) -> UIImage? {
+    func getBackground() -> UIImage? {
         
         // first check if image is used for all conditions
-        
-        let host = PickerHostType.setup(weatherType: self.weatherType, from: initialHost)
+        let host = getHostType()
         
         if ImageManager.singleBackgroundFor(host: host) {
             
@@ -387,59 +373,8 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
         }
     }
     
-}
-extension WeatherDataModel: Codable {
-    enum CodingKeys: String, CodingKey {
-        case temperatureScale
-        case weatherIconName
-        case defaultBackgroundName
-        case temperature
-        case minTemp
-        case maxTemp
-        case city
-        case lastUpdated
-        case feelsLike
-        case humidity
-        case windSpeed
-        case windDirection
+    func saveToDisk() {
+        DataModelPersistor.saveDataModel(model: self)
     }
     
-    public init(from decoder: Decoder) throws {
-        do {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        let scaleInt = try container.decode(Int.self, forKey: .temperatureScale)
-        toggleScale(to: scaleInt)
-        weatherIconName = try container.decode(String.self, forKey: .weatherIconName)
-        defaultBackgroundName = try container.decode(String.self, forKey: .defaultBackgroundName)
-        temperatureCelsius = try container.decode(Int.self, forKey: .temperature)
-        minTempCelsius = try container.decode(Int.self, forKey: .minTemp)
-        maxTempCelsius = try container.decode(Int.self, forKey: .maxTemp)
-        city = try container.decode(String.self, forKey: .city)
-        lastUpdated = try container.decode(Date.self, forKey: .lastUpdated)
-        feelsLike = try container.decode(Int.self, forKey: .feelsLike)
-        humidity = try container.decode(Int.self, forKey: .humidity)
-        windSpeed = try container.decode(Int.self, forKey: .windSpeed)
-        windDirectionInDegrees = try container.decode(Double.self, forKey: .windDirection)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        let scaleInt = temperatureScale.rawValue
-        try container.encode(scaleInt, forKey: .temperatureScale)
-        try container.encode(weatherIconName, forKey: .weatherIconName)
-        try container.encode(defaultBackgroundName, forKey: .defaultBackgroundName)
-        try container.encode(temperatureCelsius, forKey: .temperature)
-        try container.encode(minTempCelsius, forKey: .minTemp)
-        try container.encode(maxTempCelsius, forKey: .maxTemp)
-        try container.encode(city, forKey: .city)
-        try container.encode(lastUpdated, forKey: .lastUpdated)
-        try container.encode(feelsLike, forKey: .feelsLike)
-        try container.encode(humidity, forKey: .humidity)
-        try container.encode(windSpeed, forKey: .windSpeed)
-        try container.encode(windDirectionInDegrees, forKey: .windDirection)
-    }
 }
