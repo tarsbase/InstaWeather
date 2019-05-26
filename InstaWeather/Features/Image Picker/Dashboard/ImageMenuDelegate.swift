@@ -175,16 +175,16 @@ extension ImageMenuDelegate where Self: ParallaxViewController {
     }
     
     func addShadow(opacity: Float = 0.5, _ views: [UIView]) {
-        views.forEach { addShadow(opacity: opacity, $0)}
-    }
-    
-    func addShadow(opacity: Float = 0.5, _ views: UIView...) {
         for view in views {
             view.layer.shadowColor = UIColor.black.cgColor
             view.layer.shadowOffset = CGSize(width: 0, height: 2)
             view.layer.shadowOpacity = opacity
             view.layer.shadowRadius = 1.0
         }
+    }
+    
+    func addShadow(opacity: Float = 0.5, _ views: UIView...) {
+        addShadow(opacity: opacity, views)
     }
     
     func toggleShadows(on: Bool) {

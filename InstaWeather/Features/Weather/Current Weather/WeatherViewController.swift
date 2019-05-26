@@ -86,7 +86,8 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        lastUpdated.animate(.fade(direction: .fadeOut), duration: 0.4)
+        lastUpdated.animate(.fadeOut(duration: 0.4))
+        
         super.viewWillDisappear(animated)
     }
     
@@ -118,10 +119,11 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         let duration: TimeInterval = 0.2
         let scale: CGFloat = 1.03
         
-        lastUpdated.animate(.fade(direction: .fadeIn), duration: duration)
-        conditionImage.animate(.scale(endScale: scale), duration: duration) { [weak self] _ in
-            self?.conditionImage.animate(.scale(endScale: 1.0), duration: duration)
-        }
+        animate(inParallel:
+                lastUpdated.animate(.fadeIn(duration: duration)),
+                conditionImage.animate(.scale(to: scale, duration: duration),
+                                       .scale(to: 1.0, duration: duration))
+        )
     }
     
     // MARK: - Actions
