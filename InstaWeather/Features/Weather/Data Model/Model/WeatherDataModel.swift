@@ -51,7 +51,11 @@ public struct WeatherDataModel: ConvertibleToFahrenheit {
     
     private(set) var temperatureScale = Scale.celsius
     private var _windDirection = 0.0
-    var temperatureCelsius = 0
+    var temperatureCelsius = 0 {
+        didSet {
+            print("Temperatura equals \(temperatureCelsius)")
+        }
+    }
     var maxTempCelsius = 0
     var minTempCelsius = 0
     var feelsLikeFahrenheit = 0

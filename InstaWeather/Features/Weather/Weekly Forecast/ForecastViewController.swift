@@ -50,9 +50,7 @@ class ForecastViewController: ParallaxViewController {
         stackBottomConstraint.constant = 500
         
         loadBackgroundImage()
-        ImageMenu.imageMenusArray.append(imageMenu)
         backgroundContainer.clipsToBounds = true
-        CustomImageButton.buttonsArray.insert(changeImageButton)
     }
     
     override func viewWillAppear(_ animated: Bool) {

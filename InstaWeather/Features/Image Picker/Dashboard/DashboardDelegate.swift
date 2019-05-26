@@ -145,6 +145,22 @@ extension DashboardDelegate where Self: ParallaxViewController {
     }
 }
 
+// MARK: - Dashboard Default Actions (overridable)
+extension DashboardDelegate where Self: ParallaxViewController {
+    func pickedNewTextColor(_ color: UIColor) {
+        viewsToColor.forEach { $0.tintColor = color }
+        _ = viewsToColor.compactMap { $0 as? UILabel }.map { $0.textColor = color }
+        _ = viewsToColor.compactMap { $0 as? UIButton }.map { $0.setTitleColor(color, for: .normal) }
+    }
+    
+    func addAllShadows() {
+        viewsToColor.forEach { addShadow($0) }
+    }
+    
+    func removeAllShadows() {
+        viewsToColor.forEach { $0.layer.shadowOpacity = 0 }
+    }
+}
 
 
 enum DashboardStatus {

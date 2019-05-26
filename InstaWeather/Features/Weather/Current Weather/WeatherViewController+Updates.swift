@@ -24,14 +24,14 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
                                                  currentWeather: data.currentWeather,
                                                  forecastWeather: data.forecastWeather)
         
-        updateWeatherLabels(with: self.weatherDataModel)
+        updateWeatherLabels(with: self.weatherDataModel, dataType: .live)
         dataWasRefreshed()
     }
     
     func dataWasRefreshed() {
         weatherDataFetcher.loadAllPages()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) { [weak self] in
-            _ = self?.captureSnapshotForMemories
+            MemoriesSnapshot.addNewSnapshot(self?.getExportImage())
             // we generate demo if not enough snapshots have been captured yet
             self?.generateDemoSnapshots()
             self?.launchAdsAfter(delay: 2)
@@ -39,11 +39,11 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
         }
     }
     
-    func updateLabel(_ label: UILabel, toValue value: Int, forType type: LabelType, instant: Bool = false) {
-        LabelAnimator(label: label, endValue: value, labelType: type, instant: instant)
+    func updateLabel(_ label: UILabel, toValue value: Int, forLabelType labelType: LabelType, dataType: WeatherDataType) {
+        LabelAnimator(label: label, endValue: value, labelType: labelType, dataType: dataType)
     }
     
-    func updateWeatherLabels(with model: WeatherDataModel, instant: Bool = false) {
+    func updateWeatherLabels(with model: WeatherDataModel, dataType: WeatherDataType) {
         conditionImage.image = ImageManager.loadImage(named: model.weatherIconName)
         updateBackgroundWithForecastImage()
         cityLabel.text = model.city
@@ -51,19 +51,23 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
         let windSpeed = model.windSpeed
         let windDirection = model.windDirection
         windLabel.text = "\(windDirection) \(windSpeed) \(scale)"
-        lastUpdateWasUpdated()
         
-        updateLabel(tempLabel, toValue: model.temperature, forType: .mainTemperature, instant: instant)
-        updateLabel(humidityLabel, toValue: model.humidity, forType: .humidity, instant: instant)
-        updateLabel(minTempLabel, toValue: weatherDataModel.minTemp, forType: .minTemp, instant: instant)
-        updateLabel(maxTempLabel, toValue: weatherDataModel.maxTemp, forType: .maxTemp, instant: instant)
+        updateLabel(tempLabel, toValue: model.temperature, forLabelType: .mainTemperature, dataType: dataType)
+        updateLabel(humidityLabel, toValue: model.humidity, forLabelType: .humidity, dataType: dataType)
+        updateLabel(minTempLabel, toValue: weatherDataModel.minTemp, forLabelType: .minTemp, dataType: dataType)
+        updateLabel(maxTempLabel, toValue: weatherDataModel.maxTemp, forLabelType: .maxTemp, dataType: dataType)
+        
+        // we only refresh last updated label for live data
+        if (dataType == .live) {
+            self.weatherDataModel = lastUpdated.update(model: model)
+        }
     }
     
     func updateWeatherLabelsInstantly() {
         self.weatherDataModel = DataModelPersistor.loadDataModel()
-        updateWeatherLabels(with: self.weatherDataModel, instant: true)
+        updateWeatherLabels(with: self.weatherDataModel, dataType: .fromDisk)
         if let date = weatherDataModel.lastUpdated {
-            updateLastLabel(withDate: date)
+            lastUpdated.updateLabel(withDate: date)
         }
     }
     

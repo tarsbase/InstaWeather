@@ -10,7 +10,6 @@ import UIKit
 
 class ImageMenu: UIView {
     
-    static var imageMenusArray = [ImageMenu]()
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var verticalStackView: UIStackView!
     

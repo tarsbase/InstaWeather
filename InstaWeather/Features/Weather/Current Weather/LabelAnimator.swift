@@ -27,16 +27,15 @@ class LabelAnimator: NSObject {
     let labelType: LabelType
     
     @discardableResult
-    init(label: UILabel, endValue: Int, labelType: LabelType, instant: Bool) {
+    init(label: UILabel, endValue: Int, labelType: LabelType, dataType: WeatherDataType) {
         self.label = label
         self.endValue = endValue
         self.animationStartDate = Date()
         self.labelType = labelType
         super.init()
         
-        if instant {
+        if dataType == .fromDisk {
             self.label?.text = self.getLabelText(forValue: String(self.endValue))
-            
         } else if let start = label.text {
             self.startValue = getOldValue(from: start)
             self.start()

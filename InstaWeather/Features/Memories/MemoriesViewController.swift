@@ -11,13 +11,27 @@ import UIKit
 class MemoriesViewController: UIViewController, MemoriesHost {
     
     /// Constructor that accepts an array of backgrounds to show
-    static func createBy(_ parentController: UIViewController, snapshots: [MemoriesSnapshot], background: UIImage?, demo: Bool) {
+    static func presentBy(_ parentController: UIViewController, background: UIImage?, demos: [MemoriesSnapshot]) {
+        
+        let count = String(MemoriesCacheManager.loadAllMemories().count)
+        AnalyticsEvents.logEvent(.memoriesTapped, parameters: ["memories" : count])
+        
+        var snapshots = MemoriesCacheManager.loadAllMemories()
+        var isDemo = false
+        
+        if snapshots.count < 3 {
+            isDemo = true
+            snapshots.append(contentsOf: demos)
+        }
+        
         let memories = MemoriesViewController(snapshots: snapshots, background: background)
+        
+        
         
         let navigationController = UINavigationController(rootViewController: memories)
         
         memories.navigationController?.isNavigationBarHidden = true
-        memories.demo = demo
+        memories.demo = isDemo
         
         parentController.present(navigationController, animated: false)
     }

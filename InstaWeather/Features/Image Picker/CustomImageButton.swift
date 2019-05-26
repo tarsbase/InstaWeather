@@ -17,11 +17,6 @@ class LargeTapAreaButton: UIButton {
 }
 
 class CustomImageButton: LargeTapAreaButton {
-    static var buttonsArray: Set<CustomImageButton> = Set<CustomImageButton>() {
-        didSet {
-            print("Buttons array is now at \(buttonsArray.count)")
-        }
-    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

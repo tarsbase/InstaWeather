@@ -24,7 +24,8 @@ class MemoriesSnapshot {
         self.image = image
     }
     
-    static func addNewSnapshot(_ image: UIImage) {
+    static func addNewSnapshot(_ image: UIImage?) {
+        guard let image = image else { return }
         // we snap one memory per calendar day
         // except on simulator
         if memoryWasLastCalendarDay() {

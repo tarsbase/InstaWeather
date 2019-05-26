@@ -65,9 +65,7 @@ class ChangeCityViewController: ParallaxViewController, UITextFieldDelegate {
         SVProgressHUD.setBackgroundColor(UIColor.white)
         SVProgressHUD.setDefaultMaskType(.gradient)
         loadBackgroundImage()
-        ImageMenu.imageMenusArray.append(imageMenu)
         backgroundContainer.clipsToBounds = true
-        CustomImageButton.buttonsArray.insert(changeImageButton)
         let title = AppSettings.hideCameras ? "Show Camera Buttons" : "Hide Camera Buttons"
         hideCamerasButton.setTitle(title, for: .normal)
         changeImageButton.isHidden = AppSettings.hideCameras
@@ -107,7 +105,6 @@ class ChangeCityViewController: ParallaxViewController, UITextFieldDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         picksTable?.remove()
         autoCompleteTable?.remove()
-        CustomImageButton.buttonsArray.remove(changeImageButton)
         super.viewWillDisappear(animated)
     }
    
@@ -254,21 +251,10 @@ extension ChangeCityViewController: ImageMenuDelegate {
         imageMenu.isVisible = true
     }
     
-    @IBAction func hideCameras(_ sender: UIButton) {
-        if AppSettings.hideCameras {
-            AppSettings.hideCameras = false
-            sender.setTitle("Hide Camera Buttons", for: .normal)
-        } else {
-            AppSettings.hideCameras = true
-            sender.setTitle("Show Camera Buttons", for: .normal)
-        }
-        CustomImageButton.buttonsArray.forEach { $0.isHidden = AppSettings.hideCameras }
-    }
-    
     func pickedNewTextColor(_ color: UIColor) {
         viewsToColor.forEach { $0.tintColor = color }
-        _ = viewsToColor.map { $0 as? UILabel }.compactMap { $0?.textColor = color }
-        _ = viewsToColor.map { $0 as? UIButton }.compactMap { $0?.setTitleColor(color, for: .normal) }
+        _ = viewsToColor.compactMap { $0 as? UILabel }.map { $0.textColor = color }
+        _ = viewsToColor.compactMap { $0 as? UIButton }.map { $0.setTitleColor(color, for: .normal) }
         picksTable?.changeCellsColorTo(color)
     }
     

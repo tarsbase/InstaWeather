@@ -11,6 +11,8 @@ import CoreLocation
 
 class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosting {
 
+    // MARK - Properties
+    
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var changeCityButton: UIButton!
     @IBOutlet weak var backgroundImage: UIImageView!
@@ -22,7 +24,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     @IBOutlet weak var windLabel: UILabel!
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var windIcon: UIImageView!
-    @IBOutlet weak var lastUpdated: UILabel!
+    @IBOutlet weak var lastUpdated: UpdateTimestamp!
     @IBOutlet weak var changeImageButton: CustomImageButton!
     @IBOutlet weak var backgroundContainer: UIView!
     @IBOutlet weak var exportButton: UIButton!
@@ -32,7 +34,6 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     
     var memoriesDemoImages = [MemoriesSnapshot]() // maybe move to Memories object?
     
-    lazy var captureSnapshotForMemories: Void = addMemory() // maybe move to Memories object?
     lazy var locationManager = LocationManager(withDelegate: self)
     lazy var weatherDataFetcher = WeatherDataFetcher(manager: locationManager, alertPresenter: self, delegate: self)
     lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
@@ -53,12 +54,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         get { return backgroundImage } set { }
     }
     
-    var viewsToColor: [UIView] {
-        return [conditionImage, tempLabel, maxTempLabel, minTempLabel, windIcon,
-                windLabel, cityLabel, segmentedControl, changeCityButton,
-                changeImageButton, humidityLabel, exportButton, memoriesButton
-        ]
-    }
+    // MARK: - View Life Cycle
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -68,60 +64,73 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        _ = locationManager
-        
         loadLastLocation()
-        print(segmentedControl)
-        ScaleManagement.loadScale(control: segmentedControl) { [weak self] in self?.evaluateSegment() }
+        
+        // load last used scale unit
+        ScaleManagement.loadScale(control: segmentedControl) { [weak self] in self?.evaluateSegment(onStartup: true) }
         
         // load saved data here
         updateWeatherLabelsInstantly()
         
         // updates location when app goes to foreground
         NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main) {
-            [weak self] _ in
-            self?.loadLastLocation()
-        }
-        setupStoryboard()
+            [weak self] _ in self?.loadLastLocation() }
         
+        setupStoryboard()
         ImageManager.preloadAllImages()
-    }
-    
-    func setupStoryboard() {
-        addAllShadows()
-        ImageMenu.imageMenusArray.append(imageMenu)
-        backgroundContainer.clipsToBounds = true
-        CustomImageButton.buttonsArray.insert(changeImageButton)
-        changeImageButton.pulseAnimation()
-    }
-    
-    // this closure will setup all pageViewController pages once we receive weather data
-    func setupWeatherUpdaterWith(loadPages: (() -> Void)?) {
-        weatherDataFetcher.setup(loadPages: loadPages)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         animateLabels()
         super.viewDidAppear(animated)
-        CustomImageButton.buttonsArray.forEach { $0.isHidden = AppSettings.hideCameras }
         recreateMenusIfNotVisible()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        
-        UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseInOut, animations: {
-            [unowned self] in
-            self.lastUpdated.alpha = 0
-            }, completion: nil)
+        lastUpdated.animate(.fade(direction: .fadeOut), duration: 0.4)
         super.viewWillDisappear(animated)
     }
+    
+    
+    // MARK - Setup Components
+    
+    func setupStoryboard() {
+        addAllShadows()
+        backgroundContainer.clipsToBounds = true
+        changeImageButton.pulseAnimation()
+    }
+    
+    func setupWeatherUpdaterWith(loadPages: (() -> Void)?) {
+        // setup all pageViewController pages, executed once we receive weather data
+        weatherDataFetcher.setup(loadPages: loadPages)
+    }
+    
+    func evaluateSegment(onStartup: Bool = false) {
+        let index = segmentedControl.selectedSegmentIndex
+        weatherDataModel.toggleScale(to: index)
+        if !onStartup {
+            updateWeatherLabels(with: self.weatherDataModel, dataType: .scaleChange)
+        }
+        ScaleManagement.saveScale(index: index)
+    }
+    
+    func animateLabels() {
+        let duration: TimeInterval = 0.2
+        let scale: CGFloat = 1.03
         
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "changeCity" {
-            AnalyticsEvents.logEvent(.changeCity)
-            if let destination = segue.destination as? ChangeCityViewController {
-                destination.delegate = self
-            }
+        lastUpdated.animate(.fade(direction: .fadeIn), duration: duration)
+        conditionImage.animate(.scale(endScale: scale), duration: duration) { [weak self] _ in
+            self?.conditionImage.animate(.scale(endScale: 1.0), duration: duration)
+        }
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func changeCityTapped(_ sender: UIButton) {
+        AnalyticsEvents.logEvent(.changeCity)
+        if let changeCityController = storyboard?.instantiateViewController(withIdentifier: "Change") as? ChangeCityViewController {
+            changeCityController.delegate = self
+            present(changeCityController, animated: true)
         }
     }
     
@@ -129,85 +138,50 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
         evaluateSegment()
     }
     
-    func evaluateSegment(onStartup: Bool = false) {
-        let index = segmentedControl.selectedSegmentIndex
-        weatherDataModel.toggleScale(to: index)
-        if !onStartup {
-            updateWeatherLabels(with: self.weatherDataModel)
-        }
-        ScaleManagement.saveScale(index: index)
-    }
-    
-    func lastUpdateWasUpdated() {
-        let date = Date()
-        weatherDataModel.lastUpdated = date
-        updateLastLabel(withDate: date)
-    }
-    
-    func updateLastLabel(withDate date: Date) {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        let dateString = formatter.string(from: date)
-        lastUpdated.text = "Last update: \(dateString)"
-    }
-    
-    func deactivateTimer() {
-        weatherDataFetcher.deactivateTimer()
-    }
-    
-    func backgroundWasResetInImageMenu() {
-        dismissImageMenu()
-    }
-    
-    func animateLabels() {
-        let conditionScale:CGFloat = 1.03
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-            [weak self] in
-            self?.lastUpdated.alpha = 1
-            self?.conditionImage.transform = CGAffineTransform(scaleX: conditionScale, y: conditionScale)
-            }, completion: { _ in
-                UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
-                    [weak self] in
-                    self?.conditionImage.transform = CGAffineTransform(scaleX: 1, y: 1)
-                    }, completion: nil)
-        })
-    }
-}
-
-// MARK: - Image menu
-extension WeatherViewController: DashboardDelegate {
-    
-    func resetBackgroundImage() {
-        updateBackgroundWithForecastImage()
-    }
-    
     @IBAction func imageChangePressed(_ sender: Any) {
         AnalyticsEvents.logEvent(.dashboardTapped)
         showDashboard()
+    }
+    
+    @IBAction func exportButtonPressed(_ sender: UIButton) {
+        exportBy(sender, anchorSide: .top)
+    }
+}
+
+// MARK: - Customization
+
+extension WeatherViewController: DashboardDelegate {
+    
+    var viewsToColor: [UIView] {
+        return [conditionImage, tempLabel, maxTempLabel, minTempLabel, windIcon,
+                windLabel, cityLabel, segmentedControl, changeCityButton,
+                humidityLabel, exportButton, memoriesButton, changeImageButton]
+    }
+    
+    var viewsWithFullShadow: [UIView] {
+        return viewsToColor + [lastUpdated]
+    }
+    
+    var viewsWithFadedShadow: [UIView] {
+        return [changeImageButton, exportButton, memoriesButton]
+    }
+    
+    func resetBackgroundImage() {
+        updateBackgroundWithForecastImage()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         handleTouch(by: touches)
     }
     
-    func pickedNewTextColor(_ color: UIColor) {
-        viewsToColor.forEach { $0.tintColor = color }
-        _ = viewsToColor.map { $0 as? UILabel }.compactMap { $0?.textColor = color }
-        _ = viewsToColor.map { $0 as? UIButton }.compactMap { $0?.setTitleColor(color, for: .normal) }
-    }
-    
     func addAllShadows() {
-        addShadow(segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon, lastUpdated)
-        addShadow(opacity: 0.3, changeImageButton, exportButton, memoriesButton)
+        addShadow(opacity: 0.5, viewsWithFullShadow)
+        addShadow(opacity: 0.3, viewsWithFadedShadow)
     }
     
     func removeAllShadows() {
-        let shadowsToRemove = [segmentedControl, conditionImage, changeCityButton, cityLabel, tempLabel, maxTempLabel, minTempLabel, windLabel, humidityLabel, windIcon, lastUpdated, changeImageButton, exportButton, memoriesButton]
-        
-        shadowsToRemove.forEach {
-            $0?.layer.shadowOpacity = 0
-        }
+        let shadowsToRemove = viewsWithFullShadow + viewsWithFadedShadow
+        shadowsToRemove.forEach { $0.layer.shadowOpacity = 0 }
     }
 }
 
@@ -218,10 +192,6 @@ extension WeatherViewController: ExportHost {
     var viewsExcludedFromScreenshot: [UIView] {
         return [exportButton, memoriesButton, changeCityButton, segmentedControl, changeImageButton]
     }
-    
-    @IBAction func exportButtonPressed(_ sender: UIButton) {
-        exportBy(sender, anchorSide: .top)
-    }
 }
 
 // MARK: - Memories
@@ -229,38 +199,21 @@ extension WeatherViewController: ExportHost {
 extension WeatherViewController {
     
     @IBAction func memoriesPressed(_ sender: UIButton) {
-        
-        let count = String(MemoriesCacheManager.loadAllMemories().count)
-        AnalyticsEvents.logEvent(.memoriesTapped, parameters: ["memories" : count])
-        
-        var snapshots = MemoriesCacheManager.loadAllMemories()
-        var demo = false
-        if snapshots.count < 3 {
-            demo = true
-            snapshots.append(contentsOf: memoriesDemoImages)
-        }
-        
         let background = view.imageRepresentation()
-        MemoriesViewController.createBy(self, snapshots: snapshots, background: background, demo: demo)
-    }
-    
-    func addMemory() {
-        if let image = getExportImage() {
-            MemoriesSnapshot.addNewSnapshot(image)
-        }
+        MemoriesViewController.presentBy(self, background: background, demos: memoriesDemoImages)
     }
     
     func generateDemoSnapshots() {
-        if memoriesDemoImages.isEmpty {
-            let concurrentQueue = DispatchQueue(label: "demos-queue", qos: .userInteractive, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil)
-            concurrentQueue.async { [weak self] in
-                guard let self = self else { return }
-                self.memoriesDemoImages = DemoGenerator.generateDemoSnapshots(concurrentQueue: concurrentQueue,
-                                                                              backgroundImage: self.backgroundImage,
-                                                                              mainView: self.view,
-                                                                              hideViews: { [weak self] in self?.hideViews(self?.viewsExcludedFromScreenshot) },
-                                                                              unhideViews: { [weak self] in self?.unHideViews(self?.viewsExcludedFromScreenshot) })
-            }
+        guard memoriesDemoImages.isEmpty else { return }
+        let concurrentQueue = DispatchQueue(label: "demos-queue", qos: .userInteractive, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil)
+        concurrentQueue.async { [weak self] in
+            guard let self = self else { return }
+            self.memoriesDemoImages = DemoGenerator.generateDemoSnapshots(
+                concurrentQueue: concurrentQueue,
+                backgroundImage: self.backgroundImage,
+                mainView: self.view,
+                hideViews: { [weak self] in self?.hideViews(self?.viewsExcludedFromScreenshot) },
+                unhideViews: { [weak self] in self?.unHideViews(self?.viewsExcludedFromScreenshot) })
         }
     }
 }

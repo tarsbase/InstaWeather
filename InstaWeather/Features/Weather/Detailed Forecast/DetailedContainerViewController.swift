@@ -38,9 +38,7 @@ class DetailedContainerViewController: ParallaxViewController {
 
         // Do any additional setup after loading the view.
         loadBackgroundImage()
-        ImageMenu.imageMenusArray.append(imageMenu)
         backgroundContainer.clipsToBounds = true
-        CustomImageButton.buttonsArray.insert(changeImageButton)
     }
     
     override func viewDidAppear(_ animated: Bool) {
