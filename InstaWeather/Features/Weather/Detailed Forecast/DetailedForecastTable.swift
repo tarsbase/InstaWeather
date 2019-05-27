@@ -11,8 +11,9 @@ import UIKit
 class DetailedForecastTable: UITableViewController {
     
     var model: WeatherDataModel?
-    var cellsColor: UIColor = .red
-    var cellsShadow: Bool = false
+    weak var imageMenu: ImageMenu?
+    private var cellsColor: UIColor = .red
+    private var cellsShadow: Bool = false
     let backgroundAlpha: CGFloat = 0.5
     
     override func viewWillAppear(_ animated: Bool) {
@@ -26,30 +27,26 @@ class DetailedForecastTable: UITableViewController {
         // inset parameters
         self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 40, right: 0)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            var counter = 0
-            func animateRow() {
-                guard counter < self.tableView.visibleCells.count else { return }
-                for (index, cell) in self.tableView.visibleCells.enumerated() {
-                    if counter == index {
-                        counter += 1
-                        UIView.animate(withDuration: 0.17, delay: 0, options: [.curveEaseInOut, .allowUserInteraction], animations: {
-                            cell.transform = CGAffineTransform(translationX: 12, y: 0)
-                        }, completion: {
-                            boolean in
-                            UIView.animate(withDuration: 0.17, delay: 0, options: .allowUserInteraction, animations: {
-                                cell.transform = CGAffineTransform.identity
-                            }, completion: nil)
-                        })
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.055) {
-                            animateRow()
-                        }
-                        break
-                    }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            guard let self = self else { return }
+            
+            let interval = 0.055
+            let translation = CGPoint(x: 12, y: 0)
+            let duration = 0.17
+            
+            for (index, cell) in self.tableView.visibleCells.enumerated() {
+                let delay = interval * Double(index)
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                    cell.animate(Animation.translate(by: translation, duration: duration),
+                                 Animation.reset(duration: duration))
                 }
             }
-            animateRow()
         }
+    }
+    
+    func setup(with model: WeatherDataModel, imageMenu: ImageMenu) {
+        self.model = model
+        self.imageMenu = imageMenu
     }
     
     override func viewDidLoad() {
@@ -85,49 +82,17 @@ class DetailedForecastTable: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let section = model?.forecastSections[indexPath.section], var currentModel = model else { fatalError() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "DetailedForecastCell", for: indexPath)
+            as? DetailedForecastCell else { fatalError() }
         
-        let time = section.forecastChunks[indexPath.row].time
-        let icon = section.forecastChunks[indexPath.row].condition
-        let minTemp = currentModel.minTempForSection(indexPath.section, row: indexPath.row)
-        let maxTemp = currentModel.maxTempForSection(indexPath.section, row: indexPath.row)
-        let timeDigits = section.forecastChunks[indexPath.row].timeDigits
-        let sunrise = section.forecastChunks[indexPath.row].sunrise
-        let sunset = section.forecastChunks[indexPath.row].sunset
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = UIColor.clear
-        for case let imageView as UIImageView in cell.contentView.subviews {
-            let iconName = model?.updateOpenWeatherIcon(condition: icon, objectTime: timeDigits, objectSunrise: sunrise, objectSunset: sunset) ?? ""
-            imageView.image = UIImage(named: iconName)
-            imageView.tintColor = cellsColor
-            if cellsShadow { addShadow(imageView) }
-        }
-        for case let label as UILabel in cell.contentView.subviews {
-            label.textColor = cellsColor
-            if cellsShadow { addShadow(label) }
-            
-            if label.tag == 0 {
-                label.text = time
-            } else {
-                var temp = 0
-                if (minTemp + maxTemp) != 0 {
-                    temp = Int((minTemp + maxTemp) / 2)
-                }
-                label.text = "\(String(temp))°"
-            }
-        }
+        cell.setup(with: model, indexPath: indexPath)
+        cell.applyStyling(with: cellsColor, addShadow: cellsShadow)
         return cell
     }
     
     func changeCellsColorTo(_ color: UIColor) {
         self.cellsColor = color
-        for cell in tableView.visibleCells {
-            let subviews = cell.contentView.subviews
-            subviews.forEach { $0.tintColor = color }
-            _ = subviews.map { $0 as? UILabel }.compactMap { $0?.textColor = color }
-            _ = subviews.map { $0 as? UIButton }.compactMap { $0?.setTitleColor(color, for: .normal) }
-        }
+        reloadData()
     }
     
     func getCellsToShade() -> [UIView] {
@@ -138,12 +103,14 @@ class DetailedForecastTable: UITableViewController {
         return cells
     }
     
-    func addShadow(opacity: Float = 0.5, _ views: UIView...) {
-        for view in views {
-            view.layer.shadowColor = UIColor.black.cgColor
-            view.layer.shadowOffset = CGSize(width: 0, height: 2)
-            view.layer.shadowOpacity = opacity
-            view.layer.shadowRadius = 1.0
+    func toggleShadows(to enabled: Bool) {
+        self.cellsShadow = enabled
+        reloadData()
+    }
+    
+    func reloadData() {
+        if imageMenu?.isVisible == true {
+            self.tableView.reloadData()
         }
     }
 }

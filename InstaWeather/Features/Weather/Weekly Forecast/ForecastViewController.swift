@@ -25,6 +25,10 @@ class ForecastViewController: ParallaxViewController {
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .weeklyForecast(.all))
     
+    var stackWasAnimated: Bool {
+        return stackBottomConstraint.constant != 500
+    }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -57,59 +61,42 @@ class ForecastViewController: ParallaxViewController {
         super.viewWillAppear(animated)
         parseForecast()
         
-        if stackBottomConstraint.constant != 500 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                var counter = 0
-                func animateRow() {
-                    guard counter < self.subStacks.count else { return }
-                    for (index, cell) in self.subStacks.enumerated() {
-                        if counter == index {
-                            counter += 1
-                            UIView.animate(withDuration: 0.17, delay: 0, options: .curveEaseInOut, animations: {
-                                cell.transform = CGAffineTransform(translationX: -12, y: 0)
-                            }, completion: {
-                                boolean in
-                                UIView.animate(withDuration: 0.17) {
-                                    cell.transform = CGAffineTransform.identity
-                                }
-                            })
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.06) {
-                                animateRow()
-                            }
-                            break
-                        }
+        if stackWasAnimated {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+                guard let self = self else { return }
+                
+                let interval = 0.055
+                let translation = CGPoint(x: -12, y: 0)
+                let duration = 0.17
+                
+                for (index, stack) in self.subStacks.enumerated() {
+                    let delay = interval * Double(index)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                        stack.animate(Animation.translate(by: translation, duration: duration),
+                                     Animation.reset(duration: duration))
                     }
                 }
-                animateRow()
             }
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
         if !preloading {
-            var tag = 0
-            func animateStack() {
-                guard tag < 5 else { return }
-                for stack in subStacks {
-                    if stack.tag == tag {
-                        tag += 1
-                        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut, animations: {
-                            [weak self] in
-                            stack.isHidden = false
-                            if ((self?.stackBottomConstraint.constant)! - 100) > 24 { self?.stackBottomConstraint.constant -= 100 } else {
-                                self?.stackBottomConstraint.constant = 24
-                            }
-                            self?.view.layoutIfNeeded()
-                            }, completion: {
-                                boolean in
-                                animateStack()
-                        })
-                        break
-                    }
+            let interval = 0.25
+            let duration = 0.25
+            for (index, stack) in subStacks.enumerated() {
+                let delay = interval * Double(index)
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+                    guard let self = self else { return }
+                    stack.animate(Animation.animate(handler: {
+                        stack.isHidden = false
+                        self.stackBottomConstraint.constant = self.stackBottomConstraint.constant > 124 ?
+                            self.stackBottomConstraint.constant - 100 : 24
+                        self.view.layoutIfNeeded()
+                    }, duration: duration)
+                    )
                 }
             }
-            animateStack()
         }
         super.viewDidAppear(animated)
         recreateMenusIfNotVisible()
@@ -204,8 +191,8 @@ extension ForecastViewController: ImageMenuDelegate {
         for case let subStack as UIStackView in mainStack.arrangedSubviews {
             let subviews = subStack.arrangedSubviews
             subviews.forEach { $0.tintColor = color }
-            _ = subviews.map { $0 as? UILabel }.compactMap { $0?.textColor = color }
-            _ = subviews.map { $0 as? UIButton }.compactMap { $0?.setTitleColor(color, for: .normal) }
+            subviews.compactMap { $0 as? UILabel }.forEach { $0.textColor = color }
+            subviews.compactMap { $0 as? UIButton }.forEach { $0.setTitleColor(color, for: .normal) }
             changeImageButton.tintColor = color
             exportButton.tintColor = color
         }

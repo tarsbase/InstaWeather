@@ -19,7 +19,17 @@ class DetailedContainerViewController: ParallaxViewController {
     lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
-    lazy var imageMenu: ImageMenu = createImageMenuFor(host: .detailedForecast(.all))
+    
+    var imageMenu: ImageMenu = {
+        let imageMenu = ImageMenu()
+        imageMenu.hostType = .detailedForecast(.all)
+        return imageMenu
+        }() {
+        didSet {
+            assignImageMenuToTable()
+        }
+    }
+    
     var socialExport: SocialExport?
     
     var detailedForecast: DetailedForecastTable?
@@ -47,14 +57,13 @@ class DetailedContainerViewController: ParallaxViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-     
         if detailedForecast == nil {
             detailedForecast = storyboard?.instantiateViewController(withIdentifier: "detailed") as? DetailedForecastTable
             if let detailed = detailedForecast {
                 add(detailed, frame: tableContainer.frame)
             }
         } 
-        detailedForecast?.model = weatherDataModel
+        assignImageMenuToTable()
         view.bringSubviewToFront(gestureView)
         view.bringSubviewToFront(changeImageButton)
         view.bringSubviewToFront(exportButton)
@@ -107,6 +116,10 @@ extension DetailedContainerViewController: ImageMenuDelegate {
         dismissImageMenu()
     }
     
+    func assignImageMenuToTable() {
+        detailedForecast?.setup(with: weatherDataModel, imageMenu: imageMenu)
+    }
+    
     func pickedNewTextColor(_ color: UIColor) {
         changeImageButton.tintColor = color
         exportButton.tintColor = color
@@ -115,19 +128,13 @@ extension DetailedContainerViewController: ImageMenuDelegate {
     
     func addAllShadows() {
         addShadow(opacity: 0.3, changeImageButton, exportButton)
-        if let cells = detailedForecast?.getCellsToShade() {
-            cells.forEach { addShadow($0) }
-        }
-        detailedForecast?.cellsShadow = true
+        detailedForecast?.toggleShadows(to: true)
     }
     
     func removeAllShadows() {
         changeImageButton.layer.shadowOpacity = 0
         exportButton.layer.shadowOpacity = 0
-        if let cells = detailedForecast?.getCellsToShade() {
-            cells.forEach { $0.layer.shadowOpacity = 0 }
-        }
-        detailedForecast?.cellsShadow = false
+        detailedForecast?.toggleShadows(to: false)
     }
 }
 

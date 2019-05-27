@@ -134,6 +134,7 @@
 		28F7659C2216679700114D2B /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F765942216679700114D2B /* Scheduler.swift */; };
 		28F7659E2216679700114D2B /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F765962216679700114D2B /* Direction.swift */; };
 		28FCE099229B403000CFBB54 /* UIView+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCE098229B403000CFBB54 /* UIView+Animation.swift */; };
+		28FCE09B229B472F00CFBB54 /* DetailedForecastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCE09A229B472F00CFBB54 /* DetailedForecastCell.swift */; };
 		28FE389C2291BEE6009158EC /* AppLaunch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE2C42164447F000F44C3 /* AppLaunch.swift */; };
 		28FE389D2291BEEF009158EC /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EEB910201C44300090D0D3 /* Secrets.swift */; };
 		28FE389F2291C03D009158EC /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FE389E2291C03D009158EC /* LocationManager.swift */; };
@@ -288,6 +289,7 @@
 		28F765942216679700114D2B /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
 		28F765962216679700114D2B /* Direction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
 		28FCE098229B403000CFBB54 /* UIView+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Animation.swift"; sourceTree = "<group>"; };
+		28FCE09A229B472F00CFBB54 /* DetailedForecastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedForecastCell.swift; sourceTree = "<group>"; };
 		28FE389E2291C03D009158EC /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		28FE38A02291C161009158EC /* LocationManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerDelegate.swift; sourceTree = "<group>"; };
 		4AD435CFE08D918C79564D93 /* Pods-InstaWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaWeather.release.xcconfig"; path = "Pods/Target Support Files/Pods-InstaWeather/Pods-InstaWeather.release.xcconfig"; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 			children = (
 				28A0619C20E004CD00BF9112 /* DetailedContainerViewController.swift */,
 				2885EE5E2023F62500CD4CC4 /* DetailedForecastTable.swift */,
+				28FCE09A229B472F00CFBB54 /* DetailedForecastCell.swift */,
 			);
 			path = "Detailed Forecast";
 			sourceTree = "<group>";
@@ -1118,6 +1121,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28FCE09B229B472F00CFBB54 /* DetailedForecastCell.swift in Sources */,
 				28CD21872169D1F700BBFA62 /* ImageManager.swift in Sources */,
 				28A0619D20E004CD00BF9112 /* DetailedContainerViewController.swift in Sources */,
 				2807A91F216A6CF3003DA8D6 /* ImageMenu.swift in Sources */,

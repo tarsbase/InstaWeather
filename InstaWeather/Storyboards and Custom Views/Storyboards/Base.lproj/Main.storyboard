@@ -304,7 +304,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="cell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="rgc-bY-V4F">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="cell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DetailedForecastCell" id="rgc-bY-V4F" customClass="DetailedForecastCell" customModule="InstaWeather" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="151" width="414" height="87"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rgc-bY-V4F" id="2f0-Kw-gV3">
@@ -342,6 +342,11 @@
                                         <constraint firstAttribute="trailingMargin" secondItem="aFd-yj-xhg" secondAttribute="trailing" constant="6.5" id="xU6-Zq-7rG"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="iconView" destination="3O6-yV-Yqg" id="zdF-KD-mZB"/>
+                                    <outlet property="tempLabel" destination="aFd-yj-xhg" id="xc1-5o-sv3"/>
+                                    <outlet property="timeLabel" destination="ijo-Uf-RYv" id="QBk-E9-vTe"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

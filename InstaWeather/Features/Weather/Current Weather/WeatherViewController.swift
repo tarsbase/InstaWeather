@@ -155,9 +155,8 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
 extension WeatherViewController: DashboardDelegate {
     
     var viewsToColor: [UIView] {
-        return [conditionImage, tempLabel, maxTempLabel, minTempLabel, windIcon,
-                windLabel, cityLabel, segmentedControl, changeCityButton,
-                humidityLabel, exportButton, memoriesButton, changeImageButton]
+        return [conditionImage, tempLabel, maxTempLabel, minTempLabel, windIcon, windLabel, cityLabel,
+                segmentedControl, changeCityButton, humidityLabel, exportButton, memoriesButton, changeImageButton]
     }
     
     var viewsWithFullShadow: [UIView] {

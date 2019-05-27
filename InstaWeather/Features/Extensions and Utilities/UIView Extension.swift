@@ -100,6 +100,16 @@ extension UIView {
         return floatAlpha
     }
     
+    func addShadow(opacity: Float = 0.5) {
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOffset = CGSize(width: 0, height: 2)
+        self.layer.shadowOpacity = opacity
+        self.layer.shadowRadius = 1.0
+    }
+    
+    func removeShadow() {
+        self.layer.shadowOpacity = 0.0
+    }
 }
 
 extension UIView {
@@ -127,12 +137,6 @@ extension Double {
         return (self * divisor).rounded() / divisor
     }
 }
-
-//public extension UIViewController {
-//    static var visibleViewController: UIViewController? {
-//        return UIApplication.shared.keyWindow?.visibleViewController
-//    }
-//}
 
 public extension UIWindow {
     public var visibleViewController: UIViewController? {

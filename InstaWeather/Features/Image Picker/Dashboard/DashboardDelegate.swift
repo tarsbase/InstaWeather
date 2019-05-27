@@ -149,8 +149,8 @@ extension DashboardDelegate where Self: ParallaxViewController {
 extension DashboardDelegate where Self: ParallaxViewController {
     func pickedNewTextColor(_ color: UIColor) {
         viewsToColor.forEach { $0.tintColor = color }
-        _ = viewsToColor.compactMap { $0 as? UILabel }.map { $0.textColor = color }
-        _ = viewsToColor.compactMap { $0 as? UIButton }.map { $0.setTitleColor(color, for: .normal) }
+        viewsToColor.compactMap { $0 as? UILabel }.forEach { $0.textColor = color }
+        viewsToColor.compactMap { $0 as? UIButton }.forEach { $0.setTitleColor(color, for: .normal) }
     }
     
     func addAllShadows() {

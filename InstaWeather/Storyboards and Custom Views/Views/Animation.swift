@@ -36,6 +36,19 @@ public extension Animation {
     static func scale(to scale: CGFloat, duration: TimeInterval = 0.3, completion: Completion? = nil) -> Animation {
         return Animation(duration: duration, closure: { $0.transform = CGAffineTransform(scaleX: scale, y: scale) }, completion: completion)
     }
+    
+    static func translate(by point: CGPoint, duration: TimeInterval = 0.3, completion: Completion? = nil) -> Animation {
+        return Animation(duration: duration, closure: { $0.transform = CGAffineTransform(translationX: point.x, y: point.y) }, completion: completion)
+    }
+    
+    static func reset(duration: TimeInterval = 0.3, completion: Completion? = nil) -> Animation {
+        return Animation(duration: duration, closure: { $0.transform = .identity }, completion: completion)
+    }
+    
+    // arbitrary animation
+    static func animate(handler: @escaping (() -> Void), duration: TimeInterval = 0.3, completion: Completion? = nil) -> Animation {
+        return Animation(duration: duration, closure: { _ in handler() }, completion: completion)
+    }
 }
 
 // We add an enum to describe in which mode we want to animate

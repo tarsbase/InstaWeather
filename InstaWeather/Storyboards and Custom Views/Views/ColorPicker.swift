@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ColorPickerDelegate {
+protocol ColorPickerDelegate: AnyObject {
     func hideColorPicker()
     func colorWasUpdatedTo(_ color: UIColor)
     func shadowsToggled(visible: Bool)
@@ -27,7 +27,7 @@ class ColorPicker: UIView {
     @IBOutlet weak var shadowsSwitch: UISwitch!
     var colorPickerView = ColorPickerView()
     
-    var delegate: ColorPickerDelegate?
+    weak var delegate: ColorPickerDelegate?
     
     var brightnessValue: CGFloat {
         let value = CGFloat(brightnessSlider.value)
