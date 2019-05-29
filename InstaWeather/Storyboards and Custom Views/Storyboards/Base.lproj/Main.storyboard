@@ -866,15 +866,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="go" smartDashesType="no"/>
                             </textField>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Rz-HY-ti4" customClass="LargeTapAreaButton" customModule="InstaWeather" customModuleProvider="target">
-                                <rect key="frame" x="91" y="333" width="138" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <state key="normal" title="Hide Camera Buttons"/>
-                                <connections>
-                                    <action selector="hideCameras:" destination="QY7-Dg-NX2" eventType="touchUpInside" id="RRV-eo-615"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6cx-98-g0U">
                                 <rect key="frame" x="125.5" y="156" width="163" height="45"/>
                                 <constraints>
@@ -989,7 +980,6 @@
                         <outlet property="cityField" destination="iv7-AE-zym" id="dIC-UI-SSd"/>
                         <outlet property="currentLocationButton" destination="Dns-ke-Cbg" id="jj0-hr-HyI"/>
                         <outlet property="exportButton" destination="0we-Pc-wWn" id="R0G-74-3LZ"/>
-                        <outlet property="hideCamerasButton" destination="2Rz-HY-ti4" id="tzO-U2-vft"/>
                         <outlet property="poweredByLabel" destination="mfS-IG-cKA" id="6Eo-Hw-RJH"/>
                         <outlet property="tableContainer" destination="WM6-xh-DAS" id="BuZ-mn-QbV"/>
                         <outlet property="tablePicksConstraint" destination="qMR-L4-oK4" id="xxw-hI-hSj"/>

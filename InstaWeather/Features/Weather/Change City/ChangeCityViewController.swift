@@ -9,16 +9,15 @@
 import UIKit
 import SVProgressHUD
 import CoreLocation
-import MapKit
 
-protocol ChangeCityDelegate {
+protocol ChangeCityDelegate: AnyObject {
     func getWeatherForCoordinates(latitude: String, longitude: String, location: CLLocation, city: String)
     var locationManager: LocationManager { get }
 }
 
 class ChangeCityViewController: ParallaxViewController, UITextFieldDelegate {
     
-    @IBOutlet weak var hideCamerasButton: LargeTapAreaButton!
+    // Properties
     @IBOutlet weak var changeImageButton: CustomImageButton!
     @IBOutlet weak var exportButton: CustomImageButton!
     @IBOutlet weak var backButton: UIButton!
@@ -32,7 +31,7 @@ class ChangeCityViewController: ParallaxViewController, UITextFieldDelegate {
     @IBOutlet weak var tablePicksConstraint: NSLayoutConstraint!
     @IBOutlet weak var checkBtn: UIButton!
     @IBOutlet weak var backgroundContainer: UIView!
-    var delegate: ChangeCityDelegate?
+    weak var delegate: ChangeCityDelegate?
     var picksTable: RecentPicksTable?
     var autoCompleteTable: AutoCompleterTable?
     var socialExport: SocialExport?
@@ -54,6 +53,8 @@ class ChangeCityViewController: ParallaxViewController, UITextFieldDelegate {
         get { return backgroundImage } set { }
     }
     
+    // ViewController Lifecycle
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         recreateMenus()
@@ -61,91 +62,54 @@ class ChangeCityViewController: ParallaxViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        initialSetup()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupPicksTable()
+        setupAutoComplete()
+        recreateMenusIfNotVisible()
+    }
+        
+    override func viewWillDisappear(_ animated: Bool) {
+        blurAnimator.stopAnimation(true)
+        picksTable?.remove()
+        autoCompleteTable?.remove()
+        super.viewWillDisappear(animated)
+    }
+    
+    func initialSetup() {
         self.cityField.delegate = self
         SVProgressHUD.setBackgroundColor(UIColor.white)
         SVProgressHUD.setDefaultMaskType(.gradient)
         loadBackgroundImage()
         backgroundContainer.clipsToBounds = true
-        let title = AppSettings.hideCameras ? "Show Camera Buttons" : "Hide Camera Buttons"
-        hideCamerasButton.setTitle(title, for: .normal)
-        changeImageButton.isHidden = AppSettings.hideCameras
     }
     
+    func setupPicksTable() {
+        guard let recentPicks = UserDefaults.standard.array(forKey: "recentPicks") as? [String],
+            recentPicks.isEmpty == false else { return }
+        self.recentPicks = recentPicks
+        picksTable = storyboard?.instantiateViewController(withIdentifier: "picks") as? RecentPicksTable
+        add(picksTable, parent: tableContainer)
+        picksTable?.tableView.reloadData()
+    }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if let loadObjet = UserDefaults.standard.array(forKey: "recentPicks") as? [String] {
-            recentPicks = loadObjet
-        }
-        if !recentPicks.isEmpty {
-            picksTable = storyboard?.instantiateViewController(withIdentifier: "picks") as? RecentPicksTable
-            if let picksTable = picksTable {
-                add(picksTable, parent: tableContainer)
-                picksTable.tableView.reloadData()
-            }
-        }
-        
+    func setupAutoComplete() {
         autoCompleteTable = storyboard?.instantiateViewController(withIdentifier: "autocomplete") as? AutoCompleterTable
         autoCompleteTable?.changeCityVC = self
-        if let autoCompleteTable = autoCompleteTable {
-            add(autoCompleteTable, parent: autoCompleteContainer)
-        }
+        add(autoCompleteTable, parent: autoCompleteContainer)
         autoCompleteConstraint.constant = 0
-        recreateMenusIfNotVisible()
-    }
-        
-    override func viewWillDisappear(_ animated: Bool) {
-        picksTable?.remove()
-        autoCompleteTable?.remove()
-        super.viewWillDisappear(animated)
     }
    
-    
+    // MARK: - Actions
     @IBAction func checkWeatherButton(_ sender: Any) {
         searchFirstResult()
     }
     
-    
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true)
-    }
-    
-    func checkWeatherFromAutocomplete(for result: String) {
-        SVProgressHUD.show()
-        UserDefaults.standard.set(result, forKey: "cityChosen")
-        let indexOfComma = result.index(of: ",")
-        var city = result
-        
-        if let index = indexOfComma {
-            city = String(result[result.startIndex..<index])
-        }
-        
-        let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = result
-        let search = MKLocalSearch(request: request)
-        search.start { [unowned self](response, error) in
-            guard let response = response, result.count > 1 else {
-                self.dismiss(animated: true) {
-                    SVProgressHUD.dismiss()
-                }
-                return }
-            if let coordinates = response.mapItems.first?.placemark.coordinate {
-                let latitude = coordinates.latitude
-                let longitude = coordinates.longitude
-                self.delegate?.getWeatherForCoordinates(latitude: String(latitude), longitude: String(longitude), location: CLLocation(latitude: latitude, longitude: longitude), city: city)
-                let name = result.lowercased().capitalized
-                if !self.recentPicks.contains(name) {
-                    self.recentPicks.insert(name, at: 0)
-                } else {
-                    if let index = self.recentPicks.index(of: name) {
-                        self.recentPicks.insert(self.recentPicks.remove(at: index), at: 0)
-                    }
-                }
-                self.dismiss(animated: true) {
-                    SVProgressHUD.dismiss()
-                }
-            }
-        }
     }
     
     @IBAction func currentLocationButton(_ sender: Any) {
@@ -154,6 +118,14 @@ class ChangeCityViewController: ParallaxViewController, UITextFieldDelegate {
         SVProgressHUD.show()
         dismiss(animated: true) {
             SVProgressHUD.dismiss()
+        }
+    }
+    
+    func checkWeatherFromAutocomplete(for result: String) {
+        AutocompleteHandler.checkWeather(for: result,
+                                         delegate: delegate,
+                                         picks: recentPicks) { (recentPicks) in
+                                            self.recentPicks = recentPicks ?? self.recentPicks
         }
     }
     

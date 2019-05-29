@@ -11,7 +11,8 @@ import MapKit
 
 class AutoCompleterTable: UITableViewController, MKLocalSearchCompleterDelegate {
 
-    var changeCityVC: ChangeCityViewController?
+    weak var changeCityVC: ChangeCityViewController?
+    
     let completer = MKLocalSearchCompleter()
     var completionResults = [String]() {
         didSet {

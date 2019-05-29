@@ -38,12 +38,7 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
     private var threeDaysBucket = [ForecastObject]()
     private var fourDaysBucket = [ForecastObject]()
     private var fiveDaysBucket = [ForecastObject]()
-    
-    private var tomorrowObject: ForecastObject?
-    private var twoDaysObject: ForecastObject?
-    private var threeDaysObject: ForecastObject?
-    private var fourDaysObject: ForecastObject?
-    private var fiveDaysObject: ForecastObject?
+    private var weeklyForecast = [(tag: Int, day: String, icon: Int, temperature: String)]()
     
     private var longFormatter: DateFormatter {
         return OptimizedDateFormatter.getFormatter(.long)
@@ -161,6 +156,7 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
         
         self.forecastDayTitles = createForecastDayTitles()
         self.forecastSections = createForecastSections()
+        self.weeklyForecast = WeatherParser.parseWeeklyData(model: self)
     }
     
     func updateOpenWeatherIcon(condition: Int, objectTime: Int, objectSunrise: Int = 0, objectSunset: Int = 0) -> String {
@@ -296,6 +292,10 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
     
     func maxTempForObject(_ object: Int) -> Int {
         return convertTempToCurrentScale(weekdayObjects[object].maxTempCelsius)
+    }
+    
+    func getWeeklyForecast() -> [(tag: Int, day: String, icon: Int, temperature: String)] {
+        return weeklyForecast
     }
     
     private func windDirectionFromDegrees(degrees : Double) -> String {

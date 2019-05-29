@@ -16,7 +16,6 @@ class ForecastViewController: ParallaxViewController {
     @IBOutlet weak var changeImageButton: CustomImageButton!
     @IBOutlet weak var exportButton: CustomImageButton!
     
-    var subStacks = [UIStackView]()
     var socialExport: SocialExport?
     var preloading = true // ensures no animation during preloading
     
@@ -27,6 +26,10 @@ class ForecastViewController: ParallaxViewController {
     
     var stackWasAnimated: Bool {
         return stackBottomConstraint.constant != 500
+    }
+    
+    var subStacks: [UIStackView] {
+        return mainStack.arrangedSubviews.compactMap { $0 as? UIStackView }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -43,61 +46,18 @@ class ForecastViewController: ParallaxViewController {
     }
     
     override func viewDidLoad() {
-       super.viewDidLoad()
-        for case let stack as UIStackView in mainStack.arrangedSubviews {
-            subStacks.append(stack)
-        }
-        addAllShadows()
-        for stack in subStacks {
-                stack.isHidden = true
-        }
-        stackBottomConstraint.constant = 500
-        
-        loadBackgroundImage()
-        backgroundContainer.clipsToBounds = true
+        super.viewDidLoad()
+        initialSetup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         parseForecast()
-        
-        if stackWasAnimated {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-                guard let self = self else { return }
-                
-                let interval = 0.055
-                let translation = CGPoint(x: -12, y: 0)
-                let duration = 0.17
-                
-                for (index, stack) in self.subStacks.enumerated() {
-                    let delay = interval * Double(index)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                        stack.animate(Animation.translate(by: translation, duration: duration),
-                                     Animation.reset(duration: duration))
-                    }
-                }
-            }
-        }
+        performWavyAnimation()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if !preloading {
-            let interval = 0.25
-            let duration = 0.25
-            for (index, stack) in subStacks.enumerated() {
-                let delay = interval * Double(index)
-                DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
-                    guard let self = self else { return }
-                    stack.animate(Animation.animate(handler: {
-                        stack.isHidden = false
-                        self.stackBottomConstraint.constant = self.stackBottomConstraint.constant > 124 ?
-                            self.stackBottomConstraint.constant - 100 : 24
-                        self.view.layoutIfNeeded()
-                    }, duration: duration)
-                    )
-                }
-            }
-        }
+        animateStackView()
         super.viewDidAppear(animated)
         recreateMenusIfNotVisible()
     }
@@ -107,39 +67,19 @@ class ForecastViewController: ParallaxViewController {
         super.viewDidDisappear(animated)
     }
     
-    func parseForecast() {
-        var tag = 0
-        let weekdayObjects = weatherDataModel.weekdayObjects
-        for (index, dayObject) in weekdayObjects.enumerated() {
-            parseDay(dayObject, tag: tag, model: weatherDataModel, index: index)
-            tag += 1
-        }
+    func initialSetup() {
+        addAllShadows()
+        subStacks.forEach { $0.isHidden = true }
+        stackBottomConstraint.constant = 500
+        loadBackgroundImage()
+        backgroundContainer.clipsToBounds = true
     }
-
-    func parseDay(_ object: ForecastObject, tag: Int, model: WeatherDataModel, index: Int) {
-        let dayObject = object
-        var dayOfWeek = ""
-        switch dayObject.dayOfWeek {
-        case 1: dayOfWeek = "SUN"
-        case 2: dayOfWeek = "MON"
-        case 3: dayOfWeek = "TUE"
-        case 4: dayOfWeek = "WED"
-        case 5: dayOfWeek = "THU"
-        case 6: dayOfWeek = "FRI"
-        default: dayOfWeek = "SAT"
+    
+    func parseForecast() {
+        let weeklyForecast = weatherDataModel.getWeeklyForecast()
+        for forecast in weeklyForecast {
+            populateStack(tag: forecast.tag, day: forecast.day, icon: forecast.icon, temperature: forecast.temperature)
         }
-        var temp = ""
-        
-        let minTemp = model.minTempForObject(index)
-        let maxTemp = model.maxTempForObject(index)
-        
-        
-        if minTemp == 99 {
-            temp = "N/A"
-        } else {
-            temp = "↑ \(maxTemp) ↓ \(minTemp)"
-        }
-        populateStack(tag: tag, day: dayOfWeek, icon: dayObject.condition, temperature: temp)
     }
     
     func populateStack(tag: Int, day: String, icon: Int, temperature: String) {
@@ -156,6 +96,47 @@ class ForecastViewController: ParallaxViewController {
                         label.text = temperature
                     }
                 }
+            }
+        }
+    }
+}
+
+// MARK: - Animations
+extension ForecastViewController {
+    
+    func performWavyAnimation() {
+        guard stackWasAnimated else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            guard let self = self else { return }
+            let interval = 0.055
+            let translation = CGPoint(x: -12, y: 0)
+            let duration = 0.17
+            
+            for (index, stack) in self.subStacks.enumerated() {
+                let delay = interval * Double(index)
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                    stack.animate(.translate(by: translation, duration: duration),
+                                  .reset(duration: duration))
+                }
+            }
+        }
+    }
+    
+    func animateStackView() {
+        guard preloading == false else { return }
+        let interval = 0.25
+        let duration = 0.25
+        for (index, stack) in subStacks.enumerated() {
+            let delay = interval * Double(index)
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+                guard let self = self else { return }
+                stack.animate(.animate(handler: {
+                    stack.isHidden = false
+                    self.stackBottomConstraint.constant = self.stackBottomConstraint.constant > 124 ?
+                        self.stackBottomConstraint.constant - 100 : 24
+                    self.view.layoutIfNeeded()
+                }, duration: duration)
+                )
             }
         }
     }
