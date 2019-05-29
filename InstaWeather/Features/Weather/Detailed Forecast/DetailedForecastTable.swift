@@ -19,8 +19,7 @@ class DetailedForecastTable: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
-            [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) { [weak self] in
             self?.tableView.flashScrollIndicators()
         }
         
@@ -84,7 +83,6 @@ class DetailedForecastTable: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "DetailedForecastCell", for: indexPath)
             as? DetailedForecastCell else { fatalError() }
-        
         cell.setup(with: model, indexPath: indexPath)
         cell.applyStyling(with: cellsColor, addShadow: cellsShadow)
         return cell

@@ -9,12 +9,32 @@
 import UIKit
 
 @nonobjc extension UIViewController {
-    func add(_ child: UIViewController, frame: CGRect? = nil) {
-        addChild(child)
+    func add(_ child: UIViewController?, parent: UIView? = nil) {
+        guard let child = child else { return }
+        let parentView: UIView = parent ?? self.view
         
-        if let frame = frame {
-            child.view.frame = frame
-        }
+        addChild(child)
+        child.view.frame = parentView.frame
+        parentView.addSubview(child.view)
+        child.view.bounds = parentView.bounds
+        child.view.frame.origin = .zero
+        child.didMove(toParent: self)
+    }
+    
+    func add(_ child: UIViewController?, frame: CGRect) {
+        guard let child = child else { return }
+        
+        addChild(child)
+        child.view.frame = frame
+        view.addSubview(child.view)
+        child.didMove(toParent: self)
+    }
+    
+    func addAnchored(_ child: UIViewController, frame: CGRect, centerX: NSLayoutXAxisAnchor, centerY: NSLayoutYAxisAnchor) {
+        addChild(child)
+        child.view.frame = frame
+        child.view.centerXAnchor.constraint(equalTo: centerX).isActive = true
+        child.view.centerYAnchor.constraint(equalTo: centerY).isActive = true
         
         view.addSubview(child.view)
         child.didMove(toParent: self)

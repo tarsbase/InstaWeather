@@ -10,46 +10,50 @@ import UIKit
 
 enum DemoGenerator {
     /// Generates demo cards for Memories screen if not enough memories had been created
-    static func generateDemoSnapshots(concurrentQueue: DispatchQueue,
+    static func generateDemoSnapshots(demoImages: [MemoriesSnapshot],
                                       backgroundImage: UIImageView,
                                       mainView: UIView,
                                       hideViews: @escaping () -> Void,
-                                      unhideViews: @escaping () -> Void) -> [MemoriesSnapshot] {
+                                      unhideViews: @escaping () -> Void,
+                                      completion: @escaping ([MemoriesSnapshot]) -> Void) {
+        guard demoImages.isEmpty else { return }
+        guard MemoriesCacheManager.loadAllMemories().count < 3 else { return }
         
-        guard MemoriesCacheManager.loadAllMemories().count < 3 else { return [MemoriesSnapshot]() }
+        let concurrentQueue = DispatchQueue(label: "demos-queue", qos: .userInteractive, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil)
         
-        var demosArray = [MemoriesSnapshot]()
-        let totalDuration: TimeInterval = 0.07
-        let numberOfDemos = ImageManager.potentialBackgrounds.count
-        let interval = totalDuration / Double(numberOfDemos)
-        
-        let semaphore = DispatchSemaphore(value: 0)
-        
-        for (index, background) in ImageManager.potentialBackgrounds.dropFirst(6).enumerated() {
-            concurrentQueue.asyncAfter(deadline: .now() + (Double(index) * interval)) {
-                
-                DispatchQueue.main.async {
-                    let originalBackground = backgroundImage.image
-                    backgroundImage.image = background
-                    let demoLabel = self.generateDemoLabel(mainView: mainView)
-                    if let demoSnap = self.getDemoImage(mainView: mainView,
-                                                        hideViews: hideViews,
-                                                        unhideViews: unhideViews) {
-                        
-                        let date = Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date()
-                        let demo = MemoriesSnapshot(image: demoSnap, date: date)
-                        demosArray.append(demo)
-                    }
+        concurrentQueue.async {
+            var demosArray = [MemoriesSnapshot]()
+            let totalDuration: TimeInterval = 0.07
+            let numberOfDemos = ImageManager.potentialBackgrounds.count
+            let interval = totalDuration / Double(numberOfDemos)
+            
+            let semaphore = DispatchSemaphore(value: 0)
+            
+            for (index, background) in ImageManager.potentialBackgrounds.dropFirst(6).enumerated() {
+                concurrentQueue.asyncAfter(deadline: .now() + (Double(index) * interval)) {
                     
-                    demoLabel.removeFromSuperview()
-                    backgroundImage.image = originalBackground
-                    semaphore.signal()
+                    DispatchQueue.main.async {
+                        let originalBackground = backgroundImage.image
+                        backgroundImage.image = background
+                        let demoLabel = self.generateDemoLabel(mainView: mainView)
+                        if let demoSnap = self.getDemoImage(mainView: mainView,
+                                                            hideViews: hideViews,
+                                                            unhideViews: unhideViews) {
+                            
+                            let date = Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date()
+                            let demo = MemoriesSnapshot(image: demoSnap, date: date)
+                            demosArray.append(demo)
+                        }
+                        
+                        demoLabel.removeFromSuperview()
+                        backgroundImage.image = originalBackground
+                        semaphore.signal()
+                    }
                 }
+                _ = semaphore.wait(timeout: .distantFuture)
             }
-            _ = semaphore.wait(timeout: .distantFuture)
+            completion(demosArray)
         }
-        
-        return demosArray
     }
     
     private static func getDemoImage(mainView: UIView, hideViews: () -> Void, unhideViews: () -> Void) -> UIImage? {

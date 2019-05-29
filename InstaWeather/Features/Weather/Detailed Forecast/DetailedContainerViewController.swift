@@ -59,9 +59,7 @@ class DetailedContainerViewController: ParallaxViewController {
     override func viewWillAppear(_ animated: Bool) {
         if detailedForecast == nil {
             detailedForecast = storyboard?.instantiateViewController(withIdentifier: "detailed") as? DetailedForecastTable
-            if let detailed = detailedForecast {
-                add(detailed, frame: tableContainer.frame)
-            }
+            add(detailedForecast, parent: tableContainer)
         } 
         assignImageMenuToTable()
         view.bringSubviewToFront(gestureView)
@@ -70,19 +68,6 @@ class DetailedContainerViewController: ParallaxViewController {
         view.bringSubviewToFront(imageMenu)
         super.viewWillAppear(animated)
     }
-    
-    // necessary for iPad layout, otherwise it's too small
-    override func viewDidLayoutSubviews() {
-        detailedForecast?.view.frame = tableContainer.frame
-        super.viewDidLayoutSubviews()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-//        detailedForecast?.remove()
-//        detailedForecast = nil
-        super.viewDidDisappear(animated)
-    }
-
 }
 
 extension DetailedContainerViewController: ImageMenuDelegate {

@@ -80,7 +80,7 @@ class ChangeCityViewController: ParallaxViewController, UITextFieldDelegate {
         if !recentPicks.isEmpty {
             picksTable = storyboard?.instantiateViewController(withIdentifier: "picks") as? RecentPicksTable
             if let picksTable = picksTable {
-                add(picksTable, frame: tableContainer.frame)
+                add(picksTable, parent: tableContainer)
                 picksTable.tableView.reloadData()
             }
         }
@@ -88,19 +88,11 @@ class ChangeCityViewController: ParallaxViewController, UITextFieldDelegate {
         autoCompleteTable = storyboard?.instantiateViewController(withIdentifier: "autocomplete") as? AutoCompleterTable
         autoCompleteTable?.changeCityVC = self
         if let autoCompleteTable = autoCompleteTable {
-            add(autoCompleteTable, frame: tableContainer.frame)
+            add(autoCompleteTable, parent: autoCompleteContainer)
         }
         autoCompleteConstraint.constant = 0
         recreateMenusIfNotVisible()
     }
-    
-    // necessary to line up the tableView properly
-    override func viewDidLayoutSubviews() {
-        picksTable?.view.frame = tableContainer.frame
-        autoCompleteTable?.view.frame = autoCompleteContainer.frame
-        super.viewDidLayoutSubviews()
-    }
-    
         
     override func viewWillDisappear(_ animated: Bool) {
         picksTable?.remove()

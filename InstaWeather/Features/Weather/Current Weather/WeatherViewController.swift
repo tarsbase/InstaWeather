@@ -205,16 +205,14 @@ extension WeatherViewController {
     }
     
     func generateDemoSnapshots() {
-        guard memoriesDemoImages.isEmpty else { return }
-        let concurrentQueue = DispatchQueue(label: "demos-queue", qos: .userInteractive, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil)
-        concurrentQueue.async { [weak self] in
-            guard let self = self else { return }
-            self.memoriesDemoImages = DemoGenerator.generateDemoSnapshots(
-                concurrentQueue: concurrentQueue,
-                backgroundImage: self.backgroundImage,
-                mainView: self.view,
-                hideViews: { [weak self] in self?.hideViews(self?.viewsExcludedFromScreenshot) },
-                unhideViews: { [weak self] in self?.unHideViews(self?.viewsExcludedFromScreenshot) })
+        DemoGenerator.generateDemoSnapshots(
+            demoImages: self.memoriesDemoImages,
+            backgroundImage: self.backgroundImage,
+            mainView: self.view,
+            hideViews: { [weak self] in self?.hideViews(self?.viewsExcludedFromScreenshot) },
+            unhideViews: { [weak self] in self?.unHideViews(self?.viewsExcludedFromScreenshot) })
+        { demos in
+            self.memoriesDemoImages = demos
         }
     }
 }
