@@ -130,7 +130,8 @@ class WeatherViewController: ParallaxViewController, AdHosting {
     
     @IBAction func changeCityTapped(_ sender: UIButton) {
         AnalyticsEvents.logEvent(.changeCity)
-        if let changeCityController = storyboard?.instantiateViewController(withIdentifier: "Change") as? ChangeCityViewController {
+        let storyboard = UIStoryboard(name: "ChangeCityStoryboard", bundle: Bundle.main)
+        if let changeCityController = storyboard.instantiateViewController(withIdentifier: "Change") as? ChangeCityViewController {
             changeCityController.weatherDelegate = self
             present(changeCityController, animated: true)
         }
