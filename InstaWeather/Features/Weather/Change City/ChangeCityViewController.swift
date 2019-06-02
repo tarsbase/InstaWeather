@@ -12,7 +12,7 @@ import CoreLocation
 
 class ChangeCityViewController: ParallaxViewController {
     
-    // Properties
+    // MARK: - Properties
     @IBOutlet weak var changeImageButton: CustomImageButton!
     @IBOutlet weak var exportButton: CustomImageButton!
     @IBOutlet weak var backButton: UIButton!
@@ -48,8 +48,7 @@ class ChangeCityViewController: ParallaxViewController {
         get { return backgroundImage } set { }
     }
     
-    // ViewController Lifecycle
-    
+    // MARK: - ViewController Lifecycle
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         recreateMenus()
@@ -79,6 +78,7 @@ class ChangeCityViewController: ParallaxViewController {
         SVProgressHUD.dismiss()
     }
     
+    // MARK: - Setup methods
     func initialSetup() {
         SVProgressHUD.setBackgroundColor(UIColor.white)
         SVProgressHUD.setDefaultMaskType(.gradient)
@@ -174,13 +174,8 @@ extension ChangeCityViewController: AutocompleteDelegate, RecentPicksDelegate {
     
     // MARK: - Animations
     
-    func updateConstraintsWith(autocomplete results: [String]) {
-        if results.count > 0 && cityField.text != "" {
-            showAutoComplete()
-        } else {
-            hideAutoComplete()
-            autoCompleteTable?.removeResults() // prevents crash
-        }
+    func toggleAutoComplete(visible: Bool) {
+        visible ? showAutoComplete() : hideAutoComplete()
     }
     
     func showAutoComplete() {

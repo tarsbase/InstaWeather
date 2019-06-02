@@ -17,9 +17,7 @@ class RecentPicksTable: UITableViewController {
     var cellsColor: UIColor = .red
     weak var delegate: RecentPicksDelegate?
     var recentPicks = [String]() {
-        didSet {
-            UserDefaults.standard.set(recentPicks, forKey: "recentPicks")
-        }
+        didSet { UserDefaults.standard.set(recentPicks, forKey: "recentPicks") }
     }
     
     override func viewDidLoad() {

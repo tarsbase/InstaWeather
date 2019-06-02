@@ -415,10 +415,10 @@
 			isa = PBXGroup;
 			children = (
 				287A5DD0201D62D1008E71CF /* ChangeCityViewController.swift */,
+				2864A68E22A43B0A001937A5 /* AutocompleteDelegate.swift */,
 				28481F17201E9199004A89B6 /* RecentPicksTable.swift */,
 				288F60D820FACD7100B91054 /* AutocompleteTable.swift */,
 				2865FCA1229E2475003EFEA3 /* AutocompleteHandler.swift */,
-				2864A68E22A43B0A001937A5 /* AutocompleteDelegate.swift */,
 			);
 			path = "Change City";
 			sourceTree = "<group>";

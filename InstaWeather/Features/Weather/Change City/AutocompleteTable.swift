@@ -23,15 +23,11 @@ class AutocompleteTable: UITableViewController, HandlerDelegate {
     
     var handler: AutocompleteHandler?
     weak var delegate: AutocompleteDelegate?
-
+    
     var completionResults = [String]() {
         // update constraints in ViewController
-        didSet {
-            if completionResults != oldValue {
-                delegate?.updateConstraintsWith(autocomplete: completionResults)
-                tableView.reloadData()
-            }
-        }
+        didSet { processCompletion(results: completionResults, oldValue: oldValue) }
+        
     }
     
     var firstAutocompleteResult: String? {
@@ -77,5 +73,19 @@ class AutocompleteTable: UITableViewController, HandlerDelegate {
     
     func searchFirstResult() {
         handler?.searchFirstResult()
+    }
+    
+    func processCompletion(results: [String], oldValue: [String]) {
+        if results != oldValue {
+            let city = delegate?.cityField.text ?? ""
+            
+            if results.count > 0 && city != "" {
+                delegate?.toggleAutoComplete(visible: true)
+            } else {
+                delegate?.toggleAutoComplete(visible: false)
+                removeResults() // prevents crash
+            }
+            tableView.reloadData()
+        }
     }
 }

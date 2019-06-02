@@ -15,7 +15,7 @@ protocol AutocompleteDelegate: RecentPicksDelegate {
     var recentPicks: [String] { get set }
     var cityField: UITextField! { get set }
     var weatherDelegate: WeatherRequestor? { get }
-    func updateConstraintsWith(autocomplete results: [String])
+    func toggleAutoComplete(visible: Bool)
 }
 
 extension AutocompleteDelegate where Self: UIViewController {
