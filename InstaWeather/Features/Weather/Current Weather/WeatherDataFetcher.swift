@@ -11,7 +11,12 @@ import Alamofire
 import SwiftyJSON
 import CoreLocation
 
-protocol WeatherDataFetcherDelegate: AnyObject {
+protocol WeatherRequestor: AnyObject {
+    func getWeatherForCoordinates(latitude: String, longitude: String, location: CLLocation, city: String)
+    func updateCurrentLocation() 
+}
+
+protocol WeatherDataFetcherDelegate: WeatherRequestor {
     func didReceiveWeatherData(data: (city: String, currentWeather: JSON, forecastWeather: JSON))
 }
 

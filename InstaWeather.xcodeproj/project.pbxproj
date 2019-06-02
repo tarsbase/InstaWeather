@@ -53,6 +53,7 @@
 		285D413420A133370040F6BE /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 285D413220A133370040F6BE /* MainInterface.storyboard */; };
 		285D413820A133370040F6BE /* InstaWeatherToday.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 285D412C20A133360040F6BE /* InstaWeatherToday.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		285D413E20A136F50040F6BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 285D413D20A136F40040F6BE /* Assets.xcassets */; };
+		2864A68F22A43B0A001937A5 /* AutocompleteDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2864A68E22A43B0A001937A5 /* AutocompleteDelegate.swift */; };
 		2865FC9D229E181F003EFEA3 /* WeatherParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2865FC9C229E181F003EFEA3 /* WeatherParser.swift */; };
 		2865FC9E229E1A42003EFEA3 /* WeatherParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2865FC9C229E181F003EFEA3 /* WeatherParser.swift */; };
 		2865FC9F229E1A42003EFEA3 /* WeatherParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2865FC9C229E181F003EFEA3 /* WeatherParser.swift */; };
@@ -91,7 +92,7 @@
 		28890DBC21FD47D7004C963A /* ImageDashboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28890DBB21FD47D7004C963A /* ImageDashboard.xib */; };
 		28890DC021FD5EF7004C963A /* UIView Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28890DBF21FD5EF7004C963A /* UIView Extension.swift */; };
 		28890DC521FE14F5004C963A /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28890DC421FE14F5004C963A /* ImageButton.swift */; };
-		288F60D920FACD7100B91054 /* AutoCompleterTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288F60D820FACD7100B91054 /* AutoCompleterTable.swift */; };
+		288F60D920FACD7100B91054 /* AutocompleteTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288F60D820FACD7100B91054 /* AutocompleteTable.swift */; };
 		289D1948215DA14F006339D9 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D1947215DA14F006339D9 /* PageViewController.swift */; };
 		289D194B215DA1AE006339D9 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D194A215DA1AE006339D9 /* AppSettings.swift */; };
 		289D194E215DA32C006339D9 /* AdHosting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D194D215DA32C006339D9 /* AdHosting.swift */; };
@@ -236,6 +237,7 @@
 		285D413320A133370040F6BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		285D413520A133370040F6BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		285D413D20A136F40040F6BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2864A68E22A43B0A001937A5 /* AutocompleteDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutocompleteDelegate.swift; sourceTree = "<group>"; };
 		2865FC9C229E181F003EFEA3 /* WeatherParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherParser.swift; sourceTree = "<group>"; };
 		2865FCA1229E2475003EFEA3 /* AutocompleteHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutocompleteHandler.swift; sourceTree = "<group>"; };
 		286A319B221A2D3C00298030 /* ImageCacheModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ImageCacheModel.xcdatamodel; sourceTree = "<group>"; };
@@ -262,7 +264,7 @@
 		28890DBB21FD47D7004C963A /* ImageDashboard.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageDashboard.xib; sourceTree = "<group>"; };
 		28890DBF21FD5EF7004C963A /* UIView Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView Extension.swift"; sourceTree = "<group>"; };
 		28890DC421FE14F5004C963A /* ImageButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
-		288F60D820FACD7100B91054 /* AutoCompleterTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCompleterTable.swift; sourceTree = "<group>"; };
+		288F60D820FACD7100B91054 /* AutocompleteTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutocompleteTable.swift; sourceTree = "<group>"; };
 		289D1947215DA14F006339D9 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		289D194A215DA1AE006339D9 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		289D194D215DA32C006339D9 /* AdHosting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdHosting.swift; sourceTree = "<group>"; };
@@ -414,8 +416,9 @@
 			children = (
 				287A5DD0201D62D1008E71CF /* ChangeCityViewController.swift */,
 				28481F17201E9199004A89B6 /* RecentPicksTable.swift */,
-				288F60D820FACD7100B91054 /* AutoCompleterTable.swift */,
+				288F60D820FACD7100B91054 /* AutocompleteTable.swift */,
 				2865FCA1229E2475003EFEA3 /* AutocompleteHandler.swift */,
+				2864A68E22A43B0A001937A5 /* AutocompleteDelegate.swift */,
 			);
 			path = "Change City";
 			sourceTree = "<group>";
@@ -1161,12 +1164,13 @@
 				28BB175E201D589D006E14A0 /* WeatherViewController+Updates.swift in Sources */,
 				28890DC521FE14F5004C963A /* ImageButton.swift in Sources */,
 				28FCE099229B403000CFBB54 /* UIView+Animation.swift in Sources */,
-				288F60D920FACD7100B91054 /* AutoCompleterTable.swift in Sources */,
+				288F60D920FACD7100B91054 /* AutocompleteTable.swift in Sources */,
 				287DFB0D217558D7005086A3 /* DisplaySizes.swift in Sources */,
 				286A31A6221A2EC900298030 /* MemoriesCacheManager.swift in Sources */,
 				28E58C062201681F006A67EF /* ConfirmBackgroundButton.swift in Sources */,
 				28F7659A2216679700114D2B /* ViewManager.swift in Sources */,
 				28291BCA229AF8AB00993C0B /* UpdateTimestamp.swift in Sources */,
+				2864A68F22A43B0A001937A5 /* AutocompleteDelegate.swift in Sources */,
 				2865FCA2229E2475003EFEA3 /* AutocompleteHandler.swift in Sources */,
 				28F7659C2216679700114D2B /* Scheduler.swift in Sources */,
 				2822A03A2021485F0007D9E9 /* ForecastObject.swift in Sources */,

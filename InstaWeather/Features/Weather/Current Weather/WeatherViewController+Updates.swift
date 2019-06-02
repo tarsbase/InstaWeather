@@ -76,8 +76,12 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
         if let city = UserDefaults.standard.string(forKey: "cityChosen") {
             locationManager.performMapSearch(for: city)
         } else {
-            locationManager.startUpdatingLocation()
+            updateCurrentLocation()
         }
+    }
+    
+    func updateCurrentLocation() {
+        locationManager.startUpdatingLocation()
     }
     
     func updateBackgroundWithForecastImage() {

@@ -10,12 +10,7 @@ import UIKit
 import SVProgressHUD
 import CoreLocation
 
-protocol ChangeCityDelegate: AnyObject {
-    func getWeatherForCoordinates(latitude: String, longitude: String, location: CLLocation, city: String)
-    var locationManager: LocationManager { get }
-}
-
-class ChangeCityViewController: ParallaxViewController, UITextFieldDelegate {
+class ChangeCityViewController: ParallaxViewController {
     
     // Properties
     @IBOutlet weak var changeImageButton: CustomImageButton!
@@ -31,20 +26,20 @@ class ChangeCityViewController: ParallaxViewController, UITextFieldDelegate {
     @IBOutlet weak var tablePicksConstraint: NSLayoutConstraint!
     @IBOutlet weak var checkBtn: UIButton!
     @IBOutlet weak var backgroundContainer: UIView!
-    weak var delegate: ChangeCityDelegate?
+    weak var weatherDelegate: WeatherRequestor?
     var picksTable: RecentPicksTable?
-    var autoCompleteTable: AutoCompleterTable?
+    var autoCompleteTable: AutocompleteTable?
     var socialExport: SocialExport?
-    var recentPicks = [String]() {
-        didSet {
-            UserDefaults.standard.set(recentPicks, forKey: "recentPicks")
-        }
-    }
     
     lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
     lazy var backgroundBrightness: UIView = setupBackgroundBrightness()
     lazy var blurAnimator: UIViewPropertyAnimator = setupBlurAnimator()
     lazy var imageMenu: ImageMenu = createImageMenuFor(host: .changeCity(.all))
+    
+    var recentPicks: [String] {
+        get { return picksTable?.recentPicks ?? [String]() }
+        set { picksTable?.recentPicks = newValue }
+    }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -79,8 +74,12 @@ class ChangeCityViewController: ParallaxViewController, UITextFieldDelegate {
         super.viewWillDisappear(animated)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        SVProgressHUD.dismiss()
+    }
+    
     func initialSetup() {
-        self.cityField.delegate = self
         SVProgressHUD.setBackgroundColor(UIColor.white)
         SVProgressHUD.setDefaultMaskType(.gradient)
         loadBackgroundImage()
@@ -88,24 +87,23 @@ class ChangeCityViewController: ParallaxViewController, UITextFieldDelegate {
     }
     
     func setupPicksTable() {
-        guard let recentPicks = UserDefaults.standard.array(forKey: "recentPicks") as? [String],
-            recentPicks.isEmpty == false else { return }
-        self.recentPicks = recentPicks
         picksTable = storyboard?.instantiateViewController(withIdentifier: "picks") as? RecentPicksTable
+        picksTable?.delegate = self
         add(picksTable, parent: tableContainer)
         picksTable?.tableView.reloadData()
     }
     
     func setupAutoComplete() {
-        autoCompleteTable = storyboard?.instantiateViewController(withIdentifier: "autocomplete") as? AutoCompleterTable
-        autoCompleteTable?.changeCityVC = self
+        autoCompleteTable = storyboard?.instantiateViewController(withIdentifier: "autocomplete") as? AutocompleteTable
+        autoCompleteTable?.setup(delegate: self)
+        cityField.delegate = autoCompleteTable?.handler
         add(autoCompleteTable, parent: autoCompleteContainer)
         autoCompleteConstraint.constant = 0
     }
    
     // MARK: - Actions
     @IBAction func checkWeatherButton(_ sender: Any) {
-        searchFirstResult()
+        autoCompleteTable?.searchFirstResult()
     }
     
     @IBAction func backButton(_ sender: Any) {
@@ -113,79 +111,10 @@ class ChangeCityViewController: ParallaxViewController, UITextFieldDelegate {
     }
     
     @IBAction func currentLocationButton(_ sender: Any) {
-        delegate?.locationManager.startUpdatingLocation()
+        weatherDelegate?.updateCurrentLocation()
         UserDefaults.standard.removeObject(forKey: "cityChosen")
         SVProgressHUD.show()
-        dismiss(animated: true) {
-            SVProgressHUD.dismiss()
-        }
-    }
-    
-    func checkWeatherFromAutocomplete(for result: String) {
-        AutocompleteHandler.checkWeather(for: result,
-                                         delegate: delegate,
-                                         picks: recentPicks) { (recentPicks) in
-                                            self.recentPicks = recentPicks ?? self.recentPicks
-        }
-    }
-    
-    func deleteCity(_ city: String) {
-        let cityToDelete = city.lowercased().capitalized
-        if let index = recentPicks.index(of: cityToDelete) {
-            recentPicks.remove(at: index)
-        }
-    }
-    
-    func removeLastRecentPick() {
-        recentPicks.removeFirst()
-        UserDefaults.standard.set(recentPicks, forKey: "recentPicks")
-    }
-    
-    // MARK: - UITextField Delegate methods
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        searchFirstResult()
-        return true
-    }
-    
-    func searchFirstResult() {
-        var cityName = cityField.text!
-        if let searchResult = autoCompleteTable?.completionResults.first {
-            cityName = searchResult
-        }
-        checkWeatherFromAutocomplete(for: cityName)
-    }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        autoCompleteTable?.startCompleter()
-        return true
-    }
-    
-    func showAutoComplete() {
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
-            [weak self] in
-            self?.autoCompleteConstraint.constant = 180
-            self?.tablePicksConstraint.constant = 20
-            self?.checkBtn.alpha = 0
-            self?.view.layoutIfNeeded()
-        })
-        
-    }
-    
-    func hideAutoComplete() {
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-            [weak self] in
-            self?.autoCompleteConstraint.constant = 0
-            self?.tablePicksConstraint.constant = 50
-            self?.view.layoutIfNeeded()
-            }, completion: {
-                [weak self] _ in
-                UIView.animate(withDuration: 0.2, animations: {
-                    [weak self] in
-                    self?.checkBtn.alpha = 1
-                })
-        })
+        dismiss(animated: true)
     }
 }
 
@@ -194,7 +123,6 @@ extension ChangeCityViewController: ImageMenuDelegate {
     var viewsToColor: [UIView] {
         return [changeImageButton, checkBtn, currentLocationButton, backButton, poweredByLabel, exportButton]
     }
-    
     
     func loadBackgroundImage() {
         let hostType: PickerHostType = .changeCity(.all)
@@ -239,5 +167,44 @@ extension ChangeCityViewController: ExportHost {
     
     @IBAction func exportButtonPressed(_ sender: UIButton) {
         exportBy(sender, anchorSide: .top)
+    }
+}
+
+extension ChangeCityViewController: AutocompleteDelegate, RecentPicksDelegate {
+    
+    // MARK: - Animations
+    
+    func updateConstraintsWith(autocomplete results: [String]) {
+        if results.count > 0 && cityField.text != "" {
+            showAutoComplete()
+        } else {
+            hideAutoComplete()
+            autoCompleteTable?.removeResults() // prevents crash
+        }
+    }
+    
+    func showAutoComplete() {
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
+            [weak self] in
+            self?.autoCompleteConstraint.constant = 180
+            self?.tablePicksConstraint.constant = 20
+            self?.checkBtn.alpha = 0
+            self?.view.layoutIfNeeded()
+        })
+    }
+    
+    func hideAutoComplete() {
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+            [weak self] in
+            self?.autoCompleteConstraint.constant = 0
+            self?.tablePicksConstraint.constant = 50
+            self?.view.layoutIfNeeded()
+            }, completion: {
+                [weak self] _ in
+                UIView.animate(withDuration: 0.2, animations: {
+                    [weak self] in
+                    self?.checkBtn.alpha = 1
+                })
+        })
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosting {
+class WeatherViewController: ParallaxViewController, AdHosting {
 
     // MARK - Properties
     
@@ -131,7 +131,7 @@ class WeatherViewController: ParallaxViewController, ChangeCityDelegate, AdHosti
     @IBAction func changeCityTapped(_ sender: UIButton) {
         AnalyticsEvents.logEvent(.changeCity)
         if let changeCityController = storyboard?.instantiateViewController(withIdentifier: "Change") as? ChangeCityViewController {
-            changeCityController.delegate = self
+            changeCityController.weatherDelegate = self
             present(changeCityController, animated: true)
         }
     }

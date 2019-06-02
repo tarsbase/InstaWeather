@@ -8,14 +8,24 @@
 
 import UIKit
 
+protocol RecentPicksDelegate: AnyObject {
+    func filterCityAndCheckWeather(for result: String)
+}
+
 class RecentPicksTable: UITableViewController {
     
     var cellsColor: UIColor = .red
+    weak var delegate: RecentPicksDelegate?
+    var recentPicks = [String]() {
+        didSet {
+            UserDefaults.standard.set(recentPicks, forKey: "recentPicks")
+        }
+    }
     
-    lazy var changeCityVC: ChangeCityViewController = {
-        guard let changeCityVC = parent as? ChangeCityViewController else { fatalError() }
-        return changeCityVC
-    }()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        loadRecentPicksFromDisk()
+    }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Recent Picks"
@@ -31,12 +41,12 @@ class RecentPicksTable: UITableViewController {
         }
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return changeCityVC.recentPicks.count
+        return recentPicks.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = changeCityVC.recentPicks[indexPath.row]
+        cell.textLabel?.text = recentPicks[indexPath.row]
         cell.textLabel?.textColor = cellsColor
         cell.backgroundColor = UIColor.clear
         return cell
@@ -44,15 +54,14 @@ class RecentPicksTable: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let city = changeCityVC.recentPicks[indexPath.row]
+        let city = recentPicks[indexPath.row]
         AnalyticsEvents.logEvent(.tappedPreviousCity)
-        changeCityVC.checkWeatherFromAutocomplete(for: city)
+        delegate?.filterCityAndCheckWeather(for: city)
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let delete = UITableViewRowAction(style: .destructive, title: "Delete") {
-            [unowned self] action, index in
-            self.changeCityVC.recentPicks.remove(at: index.row)
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { [weak self] _, index in
+            self?.recentPicks.remove(at: index.row)
             tableView.deleteRows(at: [index], with: .automatic)
         }
         return [delete]
@@ -68,4 +77,9 @@ class RecentPicksTable: UITableViewController {
         }
     }
     
+    func loadRecentPicksFromDisk() {
+        guard let recentPicks = UserDefaults.standard.array(forKey: "recentPicks") as? [String],
+            recentPicks.isEmpty == false else { return }
+        self.recentPicks = recentPicks
+    }
 }
