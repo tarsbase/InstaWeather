@@ -9,7 +9,7 @@
 import UIKit
 
 @nonobjc extension UIViewController {
-    func add(_ child: UIViewController?, parent: UIView? = nil) {
+    func add(_ child: UIViewController?, parent: UIView? = nil, hidden: Bool = false) {
         guard let child = child else { return }
         let parentView: UIView = parent ?? self.view
         
@@ -19,6 +19,10 @@ import UIKit
         child.view.bounds = parentView.bounds
         child.view.frame.origin = .zero
         child.didMove(toParent: self)
+        
+        if hidden {
+            parent?.sendSubviewToBack(child.view)
+        }
     }
     
     func add(_ child: UIViewController?, frame: CGRect) {

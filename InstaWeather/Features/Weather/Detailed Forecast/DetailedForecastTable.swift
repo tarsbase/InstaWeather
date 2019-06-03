@@ -36,8 +36,8 @@ class DetailedForecastTable: UITableViewController {
             for (index, cell) in self.tableView.visibleCells.enumerated() {
                 let delay = interval * Double(index)
                 DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                    cell.animate(Animation.translate(by: translation, duration: duration),
-                                 Animation.reset(duration: duration))
+                    cell.animate(.translate(by: translation, duration: duration),
+                                 .reset(duration: duration))
                 }
             }
         }

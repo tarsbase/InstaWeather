@@ -32,6 +32,7 @@ class WeatherViewController: ParallaxViewController, AdHosting {
     
     var socialExport: SocialExport? // holds reference to activity sheets
     var memoriesDemoImages = [MemoriesSnapshot]()
+    var isDemoMode = false // set to true when capturing snapshots
     
     lazy var locationManager = LocationManager(withDelegate: self)
     lazy var weatherDataFetcher = WeatherDataFetcher(manager: locationManager, alertPresenter: self, delegate: self)
@@ -62,7 +63,24 @@ class WeatherViewController: ParallaxViewController, AdHosting {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        initialSetup()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        animateLabels()
+        super.viewDidAppear(animated)
+        recreateMenusIfNotVisible()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        lastUpdated.animate(.fadeOut(duration: 0.4))
+        blurAnimator.stopAnimation(true) 
+        super.viewWillDisappear(animated)
+    }
+    
+    // MARK - Setup Components
+    
+    func initialSetup() {
         loadLastLocation()
         
         // load last used scale unit
@@ -78,21 +96,6 @@ class WeatherViewController: ParallaxViewController, AdHosting {
         setupStoryboard()
         ImageManager.preloadAllImages()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        animateLabels()
-        super.viewDidAppear(animated)
-        recreateMenusIfNotVisible()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        lastUpdated.animate(.fadeOut(duration: 0.4))
-        
-        super.viewWillDisappear(animated)
-    }
-    
-    
-    // MARK - Setup Components
     
     func setupStoryboard() {
         addAllShadows()
@@ -169,7 +172,8 @@ extension WeatherViewController: DashboardDelegate {
     }
     
     func resetBackgroundImage() {
-        updateBackgroundWithForecastImage()
+        guard isDemoMode == false else { return }
+        updateBackgroundWithForecastImage(with: weatherDataModel)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -205,15 +209,14 @@ extension WeatherViewController {
         MemoriesViewController.presentBy(self, background: background, demos: memoriesDemoImages)
     }
     
+    func getExportImage() -> UIImage? {
+        return SnapshotGenerator.generateMemorySnapshot(by: self, with: weatherDataModel)
+    }
+    
     func generateDemoSnapshots() {
-        DemoGenerator.generateDemoSnapshots(
-            demoImages: self.memoriesDemoImages,
-            backgroundImage: self.backgroundImage,
-            mainView: self.view,
-            hideViews: { [weak self] in self?.hideViews(self?.viewsExcludedFromScreenshot) },
-            unhideViews: { [weak self] in self?.unHideViews(self?.viewsExcludedFromScreenshot) })
-        { demos in
-            self.memoriesDemoImages = demos
+        guard memoriesDemoImages.isEmpty else { return }
+        SnapshotGenerator.generateDemoSnapshots(by: self, with: weatherDataModel) { [weak self] demos in
+            self?.memoriesDemoImages = demos
         }
     }
 }

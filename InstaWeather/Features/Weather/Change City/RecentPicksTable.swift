@@ -14,10 +14,10 @@ protocol RecentPicksDelegate: AnyObject {
 
 class RecentPicksTable: UITableViewController {
     
-    var cellsColor: UIColor = .red
+    private var cellsColor: UIColor = .red
     weak var delegate: RecentPicksDelegate?
     var recentPicks = [String]() {
-        didSet { UserDefaults.standard.set(recentPicks, forKey: "recentPicks") }
+        didSet { DataPersistor.setRecentPicks(recentPicks) }
     }
     
     override func viewDidLoad() {
@@ -41,7 +41,7 @@ class RecentPicksTable: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return recentPicks.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         cell.textLabel?.text = recentPicks[indexPath.row]
@@ -75,9 +75,9 @@ class RecentPicksTable: UITableViewController {
         }
     }
     
-    func loadRecentPicksFromDisk() {
-        guard let recentPicks = UserDefaults.standard.array(forKey: "recentPicks") as? [String],
-            recentPicks.isEmpty == false else { return }
+    private func loadRecentPicksFromDisk() {
+        let recentPicks = DataPersistor.getRecentPicks()
+        guard recentPicks.isEmpty == false else { return }
         self.recentPicks = recentPicks
     }
 }

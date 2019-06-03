@@ -11,9 +11,9 @@ import MapKit
 
 class AutocompleteHandler: NSObject, UITextFieldDelegate {
     
-    let completer = MKLocalSearchCompleter()
-    weak var delegate: AutocompleteDelegate?
-    weak var table: HandlerDelegate?
+    private let completer = MKLocalSearchCompleter()
+    private weak var delegate: AutocompleteDelegate?
+    private  weak var table: HandlerDelegate?
     
     init(delegate: AutocompleteDelegate, table: HandlerDelegate) {
         self.delegate = delegate
@@ -43,11 +43,11 @@ class AutocompleteHandler: NSObject, UITextFieldDelegate {
 
 extension AutocompleteHandler: MKLocalSearchCompleterDelegate {
     
-    func startCompleter() {
+    private func startCompleter() {
         completer.queryFragment = delegate?.cityField.text ?? ""
     }
     
-    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+    private func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         let results = completer.results.filter {
             let rangeOfDigits = $0.subtitle.rangeOfCharacter(from: .decimalDigits)
             return rangeOfDigits == nil

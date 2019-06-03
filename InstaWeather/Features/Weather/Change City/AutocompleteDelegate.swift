@@ -20,7 +20,7 @@ protocol AutocompleteDelegate: RecentPicksDelegate {
 
 extension AutocompleteDelegate where Self: UIViewController {
     func filterCityAndCheckWeather(for result: String) {
-        UserDefaults.standard.set(result, forKey: "cityChosen")
+        DataPersistor.saveCity(result)
         let indexOfComma = result.index(of: ",")
         var city = result
         

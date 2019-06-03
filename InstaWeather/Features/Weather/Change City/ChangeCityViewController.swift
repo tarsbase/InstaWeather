@@ -27,8 +27,8 @@ class ChangeCityViewController: ParallaxViewController {
     @IBOutlet weak var checkBtn: UIButton!
     @IBOutlet weak var backgroundContainer: UIView!
     weak var weatherDelegate: WeatherRequestor?
-    var picksTable: RecentPicksTable?
-    var autoCompleteTable: AutocompleteTable?
+    private var picksTable: RecentPicksTable?
+    private var autoCompleteTable: AutocompleteTable?
     var socialExport: SocialExport?
     
     lazy var backgroundBlur: UIVisualEffectView = setupBackgroundBlur()
@@ -79,21 +79,21 @@ class ChangeCityViewController: ParallaxViewController {
     }
     
     // MARK: - Setup methods
-    func initialSetup() {
+    private func initialSetup() {
         SVProgressHUD.setBackgroundColor(UIColor.white)
         SVProgressHUD.setDefaultMaskType(.gradient)
         loadBackgroundImage()
         backgroundContainer.clipsToBounds = true
     }
     
-    func setupPicksTable() {
+    private func setupPicksTable() {
         picksTable = storyboard?.instantiateViewController(withIdentifier: "picks") as? RecentPicksTable
         picksTable?.delegate = self
         add(picksTable, parent: tableContainer)
         picksTable?.tableView.reloadData()
     }
     
-    func setupAutoComplete() {
+    private func setupAutoComplete() {
         autoCompleteTable = storyboard?.instantiateViewController(withIdentifier: "autocomplete") as? AutocompleteTable
         autoCompleteTable?.setup(delegate: self)
         cityField.delegate = autoCompleteTable?.handler
@@ -112,7 +112,7 @@ class ChangeCityViewController: ParallaxViewController {
     
     @IBAction func currentLocationButton(_ sender: Any) {
         weatherDelegate?.updateCurrentLocation()
-        UserDefaults.standard.removeObject(forKey: "cityChosen")
+        DataPersistor.removeSavedCity()
         SVProgressHUD.show()
         dismiss(animated: true)
     }
@@ -178,7 +178,7 @@ extension ChangeCityViewController: AutocompleteDelegate, RecentPicksDelegate {
         visible ? showAutoComplete() : hideAutoComplete()
     }
     
-    func showAutoComplete() {
+    private func showAutoComplete() {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
             [weak self] in
             self?.autoCompleteConstraint.constant = 180
@@ -188,7 +188,7 @@ extension ChangeCityViewController: AutocompleteDelegate, RecentPicksDelegate {
         })
     }
     
-    func hideAutoComplete() {
+    private func hideAutoComplete() {
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
             [weak self] in
             self?.autoCompleteConstraint.constant = 0

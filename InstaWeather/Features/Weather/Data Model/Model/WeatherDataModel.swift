@@ -374,7 +374,7 @@ struct WeatherDataModel: ConvertibleToFahrenheit {
     }
     
     func saveToDisk() {
-        DataModelPersistor.saveDataModel(model: self)
+        DataPersistor.saveDataModel(model: self)
     }
     
 }

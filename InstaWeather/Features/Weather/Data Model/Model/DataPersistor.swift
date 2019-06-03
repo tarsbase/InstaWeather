@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum DataModelPersistor {
+enum DataPersistor {
     
     static let defaults = UserDefaults.standard
     
@@ -47,5 +47,21 @@ enum DataModelPersistor {
         if let data = try? encoder.encode(model) {
             defaults.set(data, forKey: "dataModel")
         }
+    }
+    
+    static func removeSavedCity() {
+        defaults.removeObject(forKey: "cityChosen")
+    }
+    
+    static func saveCity(_ city: String) {
+        defaults.set(city, forKey: "cityChosen")
+    }
+    
+    static func getRecentPicks() -> [String] {
+        return defaults.array(forKey: "recentPicks") as? [String] ?? [String]()
+    }
+    
+    static func setRecentPicks(_ picks: [String]) {
+        defaults.set(picks, forKey: "recentPicks")
     }
 }

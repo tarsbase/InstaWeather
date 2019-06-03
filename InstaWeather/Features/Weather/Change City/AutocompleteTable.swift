@@ -8,12 +8,6 @@
 
 import UIKit
 
-//protocol AutocompleteDelegate: AnyObject {
-//    func updateWith(autocomplete: [String])
-//    func getCityText() -> String?
-//    func checkWeatherFromAutocomplete(for result: String)
-//}
-
 protocol HandlerDelegate: AnyObject {
     var firstAutocompleteResult: String? { get }
     func updateTable(with results: [String])
@@ -21,10 +15,10 @@ protocol HandlerDelegate: AnyObject {
 
 class AutocompleteTable: UITableViewController, HandlerDelegate {
     
-    var handler: AutocompleteHandler?
-    weak var delegate: AutocompleteDelegate?
+    private(set) var handler: AutocompleteHandler?
+    private weak var delegate: AutocompleteDelegate?
     
-    var completionResults = [String]() {
+    private var completionResults = [String]() {
         // update constraints in ViewController
         didSet { processCompletion(results: completionResults, oldValue: oldValue) }
         
@@ -63,11 +57,11 @@ class AutocompleteTable: UITableViewController, HandlerDelegate {
         completionResults = results
     }
     
-    func removeResults() {
+    private func removeResults() {
         completionResults.removeAll()
     }
     
-    func checkWeatherFromAutocomplete(for result: String, recentPicks: [String]) {
+    private func checkWeatherFromAutocomplete(for result: String, recentPicks: [String]) {
         delegate?.filterCityAndCheckWeather(for: result)
     }
     
@@ -75,7 +69,7 @@ class AutocompleteTable: UITableViewController, HandlerDelegate {
         handler?.searchFirstResult()
     }
     
-    func processCompletion(results: [String], oldValue: [String]) {
+    private func processCompletion(results: [String], oldValue: [String]) {
         if results != oldValue {
             let city = delegate?.cityField.text ?? ""
             

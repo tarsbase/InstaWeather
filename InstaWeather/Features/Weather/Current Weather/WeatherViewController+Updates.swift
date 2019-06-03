@@ -14,6 +14,7 @@ import CoreLocation
 extension WeatherViewController: WeatherDataFetcherDelegate {
     
     func getWeatherForCoordinates(latitude: String, longitude: String, location: CLLocation, city: String = "") {
+        guard isDemoMode == false else { return }
         weatherDataFetcher.getWeatherData(latitude: latitude, longitude: longitude, location: location, city: city)
     }
     
@@ -45,7 +46,7 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
     
     func updateWeatherLabels(with model: WeatherDataModel, dataType: WeatherDataType) {
         conditionImage.image = ImageManager.loadImage(named: model.weatherIconName)
-        updateBackgroundWithForecastImage()
+        updateBackgroundWithForecastImage(with: model)
         cityLabel.text = model.city
         let scale = model.temperatureScale == .celsius ? "km/h" : "mph"
         let windSpeed = model.windSpeed
@@ -54,8 +55,8 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
         
         updateLabel(tempLabel, toValue: model.temperature, forLabelType: .mainTemperature, dataType: dataType)
         updateLabel(humidityLabel, toValue: model.humidity, forLabelType: .humidity, dataType: dataType)
-        updateLabel(minTempLabel, toValue: weatherDataModel.minTemp, forLabelType: .minTemp, dataType: dataType)
-        updateLabel(maxTempLabel, toValue: weatherDataModel.maxTemp, forLabelType: .maxTemp, dataType: dataType)
+        updateLabel(minTempLabel, toValue: model.minTemp, forLabelType: .minTemp, dataType: dataType)
+        updateLabel(maxTempLabel, toValue: model.maxTemp, forLabelType: .maxTemp, dataType: dataType)
         
         // we only refresh last updated label for live data
         if (dataType == .live) {
@@ -63,10 +64,10 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
         }
     }
     
-    func updateWeatherLabelsInstantly() {
-        self.weatherDataModel = DataModelPersistor.loadDataModel()
-        updateWeatherLabels(with: self.weatherDataModel, dataType: .fromDisk)
-        if let date = weatherDataModel.lastUpdated {
+    func updateWeatherLabelsInstantly(with model: WeatherDataModel = DataPersistor.loadDataModel()) {
+        self.weatherDataModel = model
+        updateWeatherLabels(with: model, dataType: .fromDisk)
+        if let date = model.lastUpdated {
             lastUpdated.updateLabel(withDate: date)
         }
     }
@@ -81,11 +82,12 @@ extension WeatherViewController: WeatherDataFetcherDelegate {
     }
     
     func updateCurrentLocation() {
+        guard isDemoMode == false else { return }
         locationManager.startUpdatingLocation()
     }
     
-    func updateBackgroundWithForecastImage() {
-        backgroundImage.image = weatherDataModel.getBackground()
+    func updateBackgroundWithForecastImage(with model: WeatherDataModel) {
+        backgroundImage.image = model.getBackground()
         updateBlurAndBrightness()
     }
     
